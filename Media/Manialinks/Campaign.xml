@@ -2,60 +2,121 @@
 	<quad z-index="-2" size="235 160" bgcolor="000A" style="Bgs1" substyle="BgCardList"/>
 	<quad z-index="-2" size="235 160" bgcolor="000A" style="Bgs1InRace" substyle="BgCardList"/>
 	<quad z-index="-1" size="235 160" bgcolor="FFFA" style="Bgs1InRace" substyle="BgGradV"/>
-	<frame z-index="0">
-		<frame pos="117.5 -12.5">
-			<quad z-index="0" size="225 15" bgcolor="FFFA" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center"/>
-			<label z-index="1" size="215 10" text="$o$iWHITE" halign="center" valign="center2" textsize="6" textfont="RajdhaniMono" pos="0 -0.4"/>
-		</frame>
-		<frame pos="0 -42.5">
-			<frame pos="27.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+	<frame z-index="0" clip="True" clipsizen="225 150" clipposn="117.5 -80">
+		<frame id="FRAME_CAMPAIGN_MENU">
+			<frame pos="0 0">
+				<frame pos="117.5 -12.5">
+					<quad z-index="0" size="225 15" bgcolor="FFFA" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center"/>
+					<label z-index="1" size="215 10" text="$o$iWHITE" halign="center" valign="center2" textsize="6" textfont="RajdhaniMono" pos="0 -0.4"/>
+				</frame>
+				<frame pos="0 -42.5">
+					<frame pos="27.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+					<frame pos="72.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+					<frame pos="117.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+					<frame pos="162.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+					<frame pos="207.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+				</frame>
+				<frame pos="0 -87.5">
+					<frame pos="27.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+					<frame pos="72.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+					<frame pos="117.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+					<frame pos="162.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+					<frame pos="207.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+				</frame>
+				<frame pos="0 -132.5">
+					<frame pos="27.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+					<frame pos="72.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+					<frame pos="117.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+					<frame pos="162.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+					<frame pos="207.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+					</frame>
+				</frame>
 			</frame>
-			<frame pos="72.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
-			</frame>
-			<frame pos="117.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
-			</frame>
-			<frame pos="162.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
-			</frame>
-			<frame pos="207.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
-			</frame>
-		</frame>
-		<frame pos="0 -87.5">
-			<frame pos="27.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
-			</frame>
-			<frame pos="72.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
-			</frame>
-			<frame pos="117.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
-			</frame>
-			<frame pos="162.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
-			</frame>
-			<frame pos="207.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
-			</frame>
-		</frame>
-		<frame pos="0 -132.5">
-			<frame pos="27.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
-			</frame>
-			<frame pos="72.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
-			</frame>
-			<frame pos="117.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
-			</frame>
-			<frame pos="162.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
-			</frame>
-			<frame pos="207.5 0">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/uzYz7bRgTpc8_FGXSHLISh7Nsu2"/>
+			<frame pos="225 0">
+				<frame pos="117.5 -12.5">
+					<quad z-index="0" size="225 15" bgcolor="FFFA" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center"/>
+					<label z-index="1" size="215 10" text="$o$iWHITE" halign="center" valign="center2" textsize="6" textfont="RajdhaniMono" pos="0 -0.4"/>
+				</frame>
+				<frame pos="0 -42.5">
+					<frame pos="27.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+					<frame pos="72.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+					<frame pos="117.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+					<frame pos="162.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+					<frame pos="207.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+				</frame>
+				<frame pos="0 -87.5">
+					<frame pos="27.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+					<frame pos="72.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+					<frame pos="117.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+					<frame pos="162.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+					<frame pos="207.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+				</frame>
+				<frame pos="0 -132.5">
+					<frame pos="27.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+					<frame pos="72.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+					<frame pos="117.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+					<frame pos="162.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+					<frame pos="207.5 0">
+						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/hGqPnucpepPFuR39zdpDgkm2Vx1"/>
+					</frame>
+				</frame>
 			</frame>
 		</frame>
 	</frame>

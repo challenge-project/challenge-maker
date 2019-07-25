@@ -1,0 +1,41 @@
+#Include "TextLib" as TextLib
+#Include "MathLib" as MathLib
+
+***Start***
+***
+declare Frame_Campaigns = (Page.GetFirstChild("FRAME_CAMPAIGNS") as CMlFrame);
+declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
+
+declare HoldItSteady = False;
+declare HoldItSteadyLoc = 0.;
+declare HoldItSteadyMouse = 0.;
+
+declare CampaignsSize = (Frame_Campaigns.Controls.count-1) * Frame_Campaigns.Controls[0].Size.X;
+***
+
+***Loop***
+***
+foreach(Event,PendingEvents) {
+	switch(Event.Type) {
+		case CMlScriptEvent::Type::MouseClick: {
+			if(Event.ControlId == "QUAD_CAMPAIGN") {
+				HoldItSteady = True;
+				HoldItSteadyLoc = Frame_Campaigns.RelativePosition_V3.X;
+				HoldItSteadyMouse = MouseX;
+			}
+		}
+	}
+}
+
+if(MouseLeftButton && HoldItSteady) {
+	AnimMgr.Flush(Frame_Campaigns);
+	Frame_Campaigns.RelativePosition_V3.X = MathLib::Clamp(HoldItSteadyLoc - (HoldItSteadyMouse - MouseX)*3,-CampaignsSize,0.);
+}
+else if(HoldItSteady) {
+	AnimMgr.Add(Frame_Campaigns, "<frame pos=\""^MathLib::NearestInteger(Frame_Campaigns.RelativePosition_V3.X / 45.)*45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+	HoldItSteady = False;
+}
+
+Frame_Campaign_Menu.RelativePosition_V3.X = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
+
+***
