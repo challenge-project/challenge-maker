@@ -1,0 +1,43 @@
+/*
+// Internet.Script.txt
+// by BigBang1112
+// part of Universe Library Set
+
+// Easy library to check if you're in Online or Offline mode.
+
+// This library does not depend on any other library from the Universe Library Set.
+// You can use this library independently, although it's recommended to use the whole set.
+*/
+
+/*
+// Compatible contexts:
+// - CManiaApp
+*/
+
+/*
+// Text[] GetZones()
+// Boolean IsOnline()
+// Boolean IsOffline()
+*/
+
+#Include "TextLib" as TextLib
+
+/*
+// Boolean IsOnline()
+// Checks if you launched Maniaplanet in online mode.
+
+// Returns True if you're in Online mode, otherwise False
+*/
+Boolean IsOnline() {
+	return LocalUser.ZonePath != "";
+}
+
+/*
+// Boolean IsOffline()
+// Checks if you launched Maniaplanet in offline mode.
+
+// Returns True if you're in Offline mode, otherwise False
+*/
+Boolean IsOffline() {
+	return !IsOnline();
+}

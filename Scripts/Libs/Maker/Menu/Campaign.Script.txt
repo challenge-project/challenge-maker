@@ -1,0 +1,27 @@
+#Include "Libs/BigBang1112/Layers.Script.txt" as Layers
+#Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
+#Include "Libs/BigBang1112/Settings.Script.txt" as Settings
+
+Void Start() {
+	Layers::Create("Campaign", Manialink::FromFile("Media/Manialinks/Campaign", True, [], Settings::Get().Theme), True, True);
+}
+
+Void Event(CManiaAppEvent _Event) {
+	declare Event <=> _Event;
+
+	if(Event.Type == CManiaAppEvent::EType::LayerCustomEvent) {
+		switch(Event.CustomEventType) {
+			case "Button_Exit": {
+				Menu_Quit();
+			}
+		}
+	}
+}
+
+Void Async() {
+	
+}
+
+Void Loop() {
+
+}

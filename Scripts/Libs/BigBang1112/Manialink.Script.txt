@@ -1,0 +1,135 @@
+/*
+// Manialink.Script.txt
+// by BigBang1112
+// part of Universe Library Set
+
+// Cleaner construction of manialinks by seperating markup and script into two files.
+
+// This library does depend on more libraries from the Universe Library Set:
+// - File.Script.txt
+// - Dictionary.Script.txt
+// You only need to use the libraries above, although it's recommended to use the whole set.
+*/
+
+/*
+// Compatible contexts:
+// - CManiaApp
+// - CMode
+// - CServerPlugin?
+*/
+
+/*
+// Text Construct(Text _Markup, Text _Script)
+// Text FromFile(Text _ManialinkName, Boolean _Translate)
+// Text FromFile(Text _ManialinkName)
+*/
+
+#Include "TextLib" as TextLib
+
+#Include "Libs/BigBang1112/File.Script.txt" as File
+#Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
+
+#Struct SThemeQuad {
+	Text[Text] Styles;
+}
+
+#Struct SThemeLabel {
+	Text[Text] Colors;
+}
+
+#Struct STheme {
+	SThemeQuad Quad;
+	SThemeLabel Label;
+}
+
+Text Construct(Text _Markup, Text _Script, Text[] _Extentions, Text _Theme) {
+	declare Text ExtensionDirectives;
+	declare Text ExtensionGlobals;
+	declare Text ExtensionStarts;
+	declare Text ExtensionLoops;
+	
+	foreach(Extension,_Extentions) {
+		ExtensionDirectives ^= File::Read("Media/Extensions/"^Extension^".Directives.Script.txt")^"\n\n";
+		ExtensionGlobals ^= File::Read("Media/Extensions/"^Extension^".Global.Script.txt")^"\n\n";
+		ExtensionStarts ^= File::Read("Media/Extensions/"^Extension^".Start.Script.txt")^"\n\n";
+		ExtensionLoops ^= File::Read("Media/Extensions/"^Extension^".Loop.Script.txt")^"\n\n";
+	}
+	
+	declare Markup = _Markup;
+	
+	if(_Theme != "") {
+		declare STheme Theme;
+		declare JsonSuccess = Theme.fromjson(File::Read("Media/Themes/"^_Theme^".json"));
+		log(Theme);
+		
+		declare Text[] AlreadyChanged;
+		foreach(Key=>Value,Theme.Quad.Styles) {
+			if(!AlreadyChanged.exists(Key)) {
+				Markup = TextLib::Replace(Markup,"\""^Key^"\"","\""^Value^"\"");
+				AlreadyChanged.add(Key);
+			}
+		}
+		foreach(Key=>Value,Theme.Label.Colors) {
+			if(!AlreadyChanged.exists(Key)) {
+				Markup = TextLib::Replace(Markup,"textcolor=\""^Key^"\"","textcolor=\""^Value^"\"");
+				AlreadyChanged.add(Key);
+			}
+		}
+	}
+
+	return """<manialink version="3">
+			{{{Markup}}}
+			<script><![CDATA[#Include "MathLib" as MathLib
+#Include "TextLib" as TextLib
+#Include "ColorLib" as ColorLib
+#Include "AnimLib" as AnimLib
+#Include "TimeLib" as TimeLib
+
+{{{ExtensionDirectives}}}
+
+{{{_Script}}}
+{{{ExtensionGlobals}}}
+
+Void Main() {
+	{{{ExtensionStarts}}}
+	+++Start+++
+	while(True) {
+		{{{ExtensionLoops}}}
+		+++Loop+++
+		yield;
+	}
+}
+
+main() {
+	Main();
+}]]></script>
+	</manialink>""";
+}
+
+Text Construct(Text _Markup, Text _Script, Text[] _Extentions) {
+	return Construct(_Markup, _Script, _Extentions, "");
+}
+
+Text Construct(Text _Markup, Text _Script) {
+	return Construct(_Markup, _Script, []);
+}
+
+Text FromFile(Text _ManialinkName, Boolean _Translate, Text[] _Extensions, Text _Theme) {
+	declare Markup = File::Read(_ManialinkName^".xml");
+	declare Script = File::Read(_ManialinkName^".Script.txt");
+	
+	if(_Translate) {
+		Markup = Dictionary::TranslateAllPhrases(Markup);
+		Script = Dictionary::TranslateAllPhrases(Script);
+	}
+
+	return Construct(Markup, Script, _Extensions, _Theme);
+}
+
+Text FromFile(Text _ManialinkName, Boolean _Translate, Text[] _Extensions) {
+	return FromFile(_ManialinkName, _Translate, _Extensions, "");
+}
+
+Text FromFile(Text _ManialinkName, Boolean _Translate) {
+	return FromFile(_ManialinkName, _Translate, []);
+}

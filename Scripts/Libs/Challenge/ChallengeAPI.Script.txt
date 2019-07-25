@@ -1,0 +1,32 @@
+#Include "Libs/BigBang1112/File.Script.txt" as File
+
+#Struct SAPIVariable {
+	Text Type;
+	Text Name;
+	Boolean IsArray;
+}
+
+#Struct SAPIParameter {
+	Text Type;
+	Text Name;
+	Boolean IsArray;
+}
+
+#Struct SAPIFunction {
+	Text Return;
+	Boolean ReturnsArray;
+	Text Kind;
+	SAPIParameter[][] Parameters;
+}
+
+#Struct SAPI {
+	SAPIVariable[][Text] Structs;
+	SAPIVariable[] Globals;
+	SAPIFunction[][Text] Functions;
+}
+
+SAPI FromFile(Text _FileName) {
+	declare SAPI API;
+	declare Success = API.fromjson(File::Read(_FileName));
+	return API;
+}

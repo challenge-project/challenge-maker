@@ -1,0 +1,65 @@
+/*
+// Rainbow.Script.txt
+// by BigBang1112
+// part of Universe Library Set
+
+// Generates color animation from hue shifts.
+
+// This library does not depend on any other library from the Universe Library Set.
+// You can use this library independently, although it's recommended to use the whole set.
+*/
+
+/*
+// Compatible contexts:
+// - CManiaApp
+// - CMode
+// - CServerPlugin
+*/
+
+/*
+// Void Start(Real _Frequency)
+// Void Stop()
+// Real GetValue()
+// Vec3 GetHSL()
+// Vec3 GetRGB()
+// Void Loop()
+*/
+
+#Include "ColorLib" as ColorLib
+
+declare Real Rainbow_Substract;
+declare Real Rainbow_Value;
+declare Real Rainbow_Frequency;
+declare Boolean Rainbow_Running;
+
+Void Start(Real _Frequency) {
+	Rainbow_Value = 0.0;
+	Rainbow_Substract = Now+.0;
+	Rainbow_Frequency = _Frequency;
+	Rainbow_Running = True;
+}
+
+Void Stop() {
+	Rainbow_Running = False;
+}
+
+Real GetValue() {
+	return Rainbow_Value;
+}
+
+Vec3 GetHSL() {
+	return <Rainbow_Value,1.0,0.5>;
+}
+
+Vec3 GetRGB() {
+	return ColorLib::HsvToRgb(GetHSL());
+}
+
+Void Loop() {
+	if(Rainbow_Running) {
+		declare FreqValue = 1/Rainbow_Frequency*1000;
+		if(Rainbow_Substract + FreqValue <= Now)
+			Rainbow_Substract += FreqValue;
+		Rainbow_Value = (Now - Rainbow_Substract) / FreqValue;
+	}
+}

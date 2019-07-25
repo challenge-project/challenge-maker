@@ -1,0 +1,100 @@
+/*
+// Dictionary.Script.txt
+// by BigBang1112
+// part of Universe Library Set
+
+// Manage list of terms for translation.
+
+// This library does depend on more libraries from the Universe Library Set:
+// - File.Script.txt
+// You only need to use the libraries above, although it's recommended to use the whole set.
+*/
+
+/*
+// Compatible contexts:
+// - CManiaApp
+// - CMode
+// - CServerPlugin?
+*/
+
+/*
+// Void SetTranslationFolder(Text _Folder)
+// Text GetTranslationFolder()
+// Text Get(Text _Definition, Text _Language)
+// Void Set(Text _Definition, Text _Language, Text _Translation)
+// Text TranslateAllPhrases(Text _Source)
+*/
+
+#Include "TextLib" as TextLib
+#Include "Libs/BigBang1112/File.Script.txt" as File
+
+declare Text[Text][Text] G_Dictionaries;
+declare Text G_TranslationFolder;
+declare Text G_Language;
+
+Void SetTranslationFolder(Text _Folder) {
+	G_TranslationFolder = _Folder;
+}
+
+Text GetTranslationFolder() {
+	return G_TranslationFolder;
+}
+
+Void SetTranslationLanguage(Text _Language) {
+	G_Language = _Language;
+}
+
+Text GetTranslationLanguage() {
+	return G_Language;
+}
+
+Text Get(Text _Definition, Text _Language) {
+	if(!G_Dictionaries.existskey(_Language)) {
+		declare Content = File::Read(G_TranslationFolder^"/"^_Language^".json");
+		declare Text[Text] Phrases;
+		declare JsonSuccess = Phrases.fromjson(Content);
+		G_Dictionaries[_Language] = Phrases;
+	}
+	
+	if(G_Dictionaries[_Language].existskey(_Definition)) {
+		return G_Dictionaries[_Language][_Definition];
+	}
+	
+	if(!G_Dictionaries.existskey("en")) {
+		declare Content = File::Read(G_TranslationFolder^"/en.json");
+		declare Text[Text] Phrases;
+		declare JsonSuccess = Phrases.fromjson(Content);
+		G_Dictionaries["en"] = Phrases;
+	}
+	
+	if(G_Dictionaries["en"].existskey(_Definition)) {
+		if(_Language == LocalUser.Language)
+			return TextLib::GetTranslatedText(G_Dictionaries["en"][_Definition]);
+		return G_Dictionaries["en"][_Definition];
+	}
+	
+	return _Definition;
+}
+
+Text Get(Text _Definition) {
+	return Get(_Definition, G_Language);
+}
+
+Void Set(Text _Definition, Text _Language, Text _Translation) {
+	G_Dictionaries[_Language][_Definition] = _Translation;
+}
+
+Text TranslateAllPhrases(Text _Source, Text _Language) {
+	declare Txt = _Source;
+	declare Phrases = TextLib::RegexFind("\\{\\{\\{\\{(.*?)\\}\\}\\}\\}", Txt, "gi");
+	foreach(P,Phrases) {
+		declare Phrase = TextLib::SubText(P,4,TextLib::Length(P)-8);
+		Phrase = Get(Phrase, _Language);
+		Txt = TextLib::Replace(Txt, P, Phrase);
+	}
+	return Txt;
+}
+
+Text TranslateAllPhrases(Text _Source) {
+	return TranslateAllPhrases(_Source, G_Language);
+}

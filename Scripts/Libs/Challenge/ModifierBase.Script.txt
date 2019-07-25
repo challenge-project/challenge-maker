@@ -1,0 +1,100 @@
+#Struct SChBlock {
+	Integer Id;
+	Text Name;
+	Int3 Coord;
+	Text Direction;
+	Boolean IsRoad; 
+	Boolean IsTerrain;
+	Boolean IsPodium;
+	Text Waypoint;  
+	Boolean NoRespawn;
+}
+
+#Struct SChMacroblock {
+	Boolean IsGround;
+	Boolean HasStart;
+	Boolean HasFinish;
+	Boolean HasCheckpoint;
+	Boolean HasMultilap;
+	Text Name;
+}
+
+#Struct SChItem {
+	Vec3 Position;
+}
+
+#Struct SChAnchor {
+	Text DefaultTag;
+	Integer DefaultOrder;
+	Text Tag;
+	Integer Order;
+
+	Boolean IsBlock;
+	SChBlock Block;
+	Boolean IsItem;
+	SChItem Item;
+}
+
+#Struct SChAnchorBlock {
+	Text DefaultTag;
+	Integer DefaultOrder;
+	Text Tag;
+	Integer Order;
+	SChBlock Block;
+}
+
+#Struct SChAnchorItem {
+	Text DefaultTag;
+	Integer DefaultOrder;
+	Text Tag;
+	Integer Order;
+	SChItem Item;
+}
+
+#Struct SChProblem {
+	Text Name;
+	SChAnchor Anchor;
+	SChAnchor[] Anchors;
+	SChBlock Block;
+	SChBlock[] Blocks;
+	SChItem Item;
+	SChItem[] Items;
+	Boolean IsUnsolvable;
+}
+
+#Struct SChNote {
+	Text Name;
+	SChAnchor Anchor;
+	SChAnchor[] Anchors;
+	SChBlock Block;
+	SChBlock[] Blocks;
+	SChItem Item;
+	SChItem[] Items;
+}
+
+#Struct SChMap {
+	Text MapUid;
+	Text Comments;
+	Integer CopperPrice;
+	Text CollectionName;
+	Text AuthorLogin;
+	Text AuthorNickName;
+	Text AuthorZonePath;
+	Text AuthorZoneFlagUrl;
+	Text AuthorCountryFlagUrl;
+	Text MapType;
+	Text MapStyle;
+	Boolean Unlocked;
+	Boolean IsPlayable;
+	Boolean CreatedWithSimpleEditor;
+	Boolean CreatedWithPartyEditor;
+	Integer TMObjective_AuthorTime;
+	Integer TMObjective_GoldTime;
+	Integer TMObjective_SilverTime;
+	Integer TMObjective_BronzeTime;
+	Integer TMObjective_NbLaps;
+	Boolean TMObjective_IsLapRace;
+	Text Name;
+	Text Path;
+	Text FileName;
+}

@@ -1,0 +1,268 @@
+#Include "TextLib" as TextLib
+
+#Include "Libs/BigBang1112/Map.Script.txt" as Map
+
+#Include "Libs/Challenge/ModifierBase.Script.txt" as ModifierBase
+
+Int3 ToInt3(Text _Text) {
+	declare Txt = TextLib::Replace(_Text,",","");
+	Txt = TextLib::Replace(Txt,"<","");
+	Txt = TextLib::Replace(Txt,">","");
+	declare Txts = TextLib::Split(" ",Txt);
+	
+	return <TextLib::ToInteger(Txts[0]),TextLib::ToInteger(Txts[1]),TextLib::ToInteger(Txts[2])>;
+}
+
+CMapEditorPlugin::CardinalDirections ToDirectionMap(Text _Direction) {
+	switch(_Direction) {
+		case "North": { return CMapEditorPlugin::CardinalDirections::North; }
+		case "South": { return CMapEditorPlugin::CardinalDirections::South; }
+		case "West": { return CMapEditorPlugin::CardinalDirections::West; }
+		case "East": { return CMapEditorPlugin::CardinalDirections::East; }
+	}
+	return CMapEditorPlugin::CardinalDirections::North;
+}
+
+CMapEditorPlugin::CardinalDirections ToDirectionMap(CBlock::CardinalDirections _Direction) {
+	switch(_Direction) {
+		case CBlock::CardinalDirections::North: { return CMapEditorPlugin::CardinalDirections::North; }
+		case CBlock::CardinalDirections::South: { return CMapEditorPlugin::CardinalDirections::South; }
+		case CBlock::CardinalDirections::West: { return CMapEditorPlugin::CardinalDirections::West; }
+		case CBlock::CardinalDirections::East: { return CMapEditorPlugin::CardinalDirections::East; }
+	}
+	return CMapEditorPlugin::CardinalDirections::North;
+}
+
+CBlock::CardinalDirections ToDirectionBlock(Text _Direction) {
+	switch(_Direction) {
+		case "North": { return CBlock::CardinalDirections::North; }
+		case "South": { return CBlock::CardinalDirections::South; }
+		case "West": { return CBlock::CardinalDirections::West; }
+		case "East": { return CBlock::CardinalDirections::East; }
+	}
+	return CBlock::CardinalDirections::North;
+}
+
+CBlock::CardinalDirections ToDirectionBlock(CMapEditorPlugin::CardinalDirections _Direction) {
+	switch(_Direction) {
+		case CMapEditorPlugin::CardinalDirections::North: { return CBlock::CardinalDirections::North; }
+		case CMapEditorPlugin::CardinalDirections::South: { return CBlock::CardinalDirections::South; }
+		case CMapEditorPlugin::CardinalDirections::West: { return CBlock::CardinalDirections::West; }
+		case CMapEditorPlugin::CardinalDirections::East: { return CBlock::CardinalDirections::East; }
+	}
+	return CBlock::CardinalDirections::North;
+}
+
+Text ToText(CMapEditorPlugin::CardinalDirections _Direction) {
+	switch(_Direction) {
+		case CMapEditorPlugin::CardinalDirections::North: { return "North"; }
+		case CMapEditorPlugin::CardinalDirections::South: { return "South"; }
+		case CMapEditorPlugin::CardinalDirections::West: { return "West"; }
+		case CMapEditorPlugin::CardinalDirections::East: { return "East"; }
+	}
+	return "";
+}
+
+Text ToText(CBlock::CardinalDirections _Direction) {
+	switch(_Direction) {
+		case CBlock::CardinalDirections::North: { return "North"; }
+		case CBlock::CardinalDirections::South: { return "South"; }
+		case CBlock::CardinalDirections::West: { return "West"; }
+		case CBlock::CardinalDirections::East: { return "East"; }
+	}
+	return "";
+}
+
+ModifierBase::SChBlock ToSChBlock(CBlock _Block) {
+	declare ModifierBase::SChBlock ChBlock;
+	if(_Block == Null) return ChBlock;
+	
+	ChBlock.Id = _Block.BlockScriptId;
+	ChBlock.Name = _Block.BlockModel.Name;
+	ChBlock.Coord = _Block.Coord;
+	ChBlock.Direction = ToText(_Block.Direction);
+	
+	switch(_Block.BlockModel.WaypointType) {
+		case CBlockModel::EWayPointType::Start: { ChBlock.Waypoint = "Start"; }
+		case CBlockModel::EWayPointType::Finish: { ChBlock.Waypoint = "Finish"; }
+		case CBlockModel::EWayPointType::Checkpoint: { ChBlock.Waypoint = "Checkpoint"; }
+		case CBlockModel::EWayPointType::None: { ChBlock.Waypoint = "None"; }
+		case CBlockModel::EWayPointType::StartFinish: { ChBlock.Waypoint = "Multilap"; }
+		case CBlockModel::EWayPointType::Dispenser: { ChBlock.Waypoint = "Dispenser"; }
+	}
+	
+	ChBlock.IsRoad = _Block.BlockModel.IsRoad;
+	ChBlock.IsTerrain = _Block.BlockModel.IsTerrain;
+	ChBlock.IsPodium = _Block.BlockModel.IsPodium;
+	
+	return ChBlock;
+}
+
+ModifierBase::SChItem ToSChItem(CItemAnchor _Item) {
+	declare ModifierBase::SChItem ChItem;
+	if(_Item == Null) return ChItem;
+
+	ChItem.Position = _Item.Position;
+	return ChItem;
+}
+
+ModifierBase::SChAnchor ToSChAnchor(CAnchorData _Anchor) {
+	declare ModifierBase::SChAnchor ChAnchor;
+	if(_Anchor == Null) return ChAnchor;
+	
+	ChAnchor.DefaultTag = _Anchor.DefaultTag;
+	ChAnchor.DefaultOrder = _Anchor.DefaultOrder;
+	ChAnchor.Tag = _Anchor.Tag;
+	ChAnchor.Order = _Anchor.Order;
+	
+	if(_Anchor.Block != Null) {
+		ChAnchor.IsBlock = True;
+		ChAnchor.Block = ToSChBlock(_Anchor.Block);
+	}
+	if(_Anchor.Item != Null) {
+		ChAnchor.IsItem = True;
+		ChAnchor.Item = ToSChItem(_Anchor.Item);
+	}
+	
+	return ChAnchor;
+}
+
+ModifierBase::SChAnchorBlock ToSChAnchorBlock(CAnchorData _Anchor) {
+	declare ModifierBase::SChAnchorBlock ChAnchor;
+	if(_Anchor == Null) return ChAnchor;
+	
+	ChAnchor.DefaultTag = _Anchor.DefaultTag;
+	ChAnchor.DefaultOrder = _Anchor.DefaultOrder;
+	ChAnchor.Tag = _Anchor.Tag;
+	ChAnchor.Order = _Anchor.Order;
+	
+	if(_Anchor.Block != Null && _Anchor.Item == Null) {
+		ChAnchor.Block = ToSChBlock(_Anchor.Block);
+	}
+	
+	return ChAnchor;
+}
+
+ModifierBase::SChAnchorBlock ToSChAnchorBlock(ModifierBase::SChAnchor _Anchor) {
+	declare ModifierBase::SChAnchorBlock ChAnchor;
+	
+	ChAnchor.DefaultTag = _Anchor.DefaultTag;
+	ChAnchor.DefaultOrder = _Anchor.DefaultOrder;
+	ChAnchor.Tag = _Anchor.Tag;
+	ChAnchor.Order = _Anchor.Order;
+	ChAnchor.Block = _Anchor.Block;
+	
+	return ChAnchor;
+}
+
+ModifierBase::SChAnchorItem ToSChAnchorItem(CAnchorData _Anchor) {
+	declare ModifierBase::SChAnchorItem ChAnchor;
+	if(_Anchor == Null) return ChAnchor;
+	
+	ChAnchor.DefaultTag = _Anchor.DefaultTag;
+	ChAnchor.DefaultOrder = _Anchor.DefaultOrder;
+	ChAnchor.Tag = _Anchor.Tag;
+	ChAnchor.Order = _Anchor.Order;
+	
+	if(_Anchor.Item != Null && _Anchor.Block == Null) {
+		ChAnchor.Item = ToSChItem(_Anchor.Item);
+	}
+	
+	return ChAnchor;
+}
+
+ModifierBase::SChAnchorItem ToSChAnchorItem(ModifierBase::SChAnchor _Anchor) {
+	declare ModifierBase::SChAnchorItem ChAnchor;
+	
+	ChAnchor.DefaultTag = _Anchor.DefaultTag;
+	ChAnchor.DefaultOrder = _Anchor.DefaultOrder;
+	ChAnchor.Tag = _Anchor.Tag;
+	ChAnchor.Order = _Anchor.Order;
+	ChAnchor.Item = _Anchor.Item;
+	
+	return ChAnchor;
+}
+
+ModifierBase::SChMap ToSChMap(CMapInfo _MapInfo) {
+	declare ModifierBase::SChMap ChMap;
+	declare JsonSuccess = ChMap.fromjson(Map::ToSMapInfo(_MapInfo).tojson());
+	return ChMap;
+}
+
+Boolean ToBoolean(Text _Boolean) {
+	return _Boolean == "True";
+}
+
+Boolean SChBlockEquals(ModifierBase::SChBlock _ChBlock, CBlock _Block) {
+	if(_Block == Null) return False;
+	
+	if(_ChBlock.Id != _Block.BlockScriptId) return False;
+	if(_ChBlock.Name != _Block.BlockModel.Name) return False;
+	if(_ChBlock.Coord != _Block.Coord) return False;
+	if(_ChBlock.Direction != ToText(_Block.Direction)) return False;
+	
+	declare Text Waypoint;
+	switch(_Block.BlockModel.WaypointType) {
+		case CBlockModel::EWayPointType::Start: { Waypoint = "Start"; }
+		case CBlockModel::EWayPointType::Finish: { Waypoint = "Finish"; }
+		case CBlockModel::EWayPointType::Checkpoint: { Waypoint = "Checkpoint"; }
+		case CBlockModel::EWayPointType::None: { Waypoint = "None"; }
+		case CBlockModel::EWayPointType::StartFinish: { Waypoint = "Multilap"; }
+		case CBlockModel::EWayPointType::Dispenser: { Waypoint = "Dispenser"; }
+	}
+	
+	if(_ChBlock.Waypoint != Waypoint) return False;
+	
+	if(_ChBlock.IsRoad != _Block.BlockModel.IsRoad) return False;
+	if(_ChBlock.IsTerrain != _Block.BlockModel.IsTerrain) return False;
+	if(_ChBlock.IsPodium != _Block.BlockModel.IsPodium) return False;
+	
+	return True;
+}
+
+Boolean SChItemEquals(ModifierBase::SChItem _ChAnchor, CItemAnchor _Item) {
+	if(_Item == Null) return False;
+	return _ChAnchor.Position == _Item.Position;
+}
+
+Boolean SChAnchorEquals(ModifierBase::SChAnchor _ChAnchor, CAnchorData _Anchor) {
+	if(_Anchor == Null) return False;
+
+	if(_ChAnchor.DefaultTag != _Anchor.DefaultTag) return False;
+	if(_ChAnchor.DefaultOrder != _Anchor.DefaultOrder) return False;
+	if(_ChAnchor.Tag != _Anchor.Tag) return False;
+	if(_ChAnchor.Order != _Anchor.Order) return False;
+	
+	if(SChItemEquals(_ChAnchor.Item, _Anchor.Item)) return True;
+	if(SChBlockEquals(_ChAnchor.Block, _Anchor.Block)) return True;
+	
+	return False;
+}
+
+Boolean SChAnchorItemEquals(ModifierBase::SChAnchorItem _ChAnchor, CAnchorData _Anchor) {
+	if(_Anchor == Null) return False;
+
+	if(_ChAnchor.DefaultTag != _Anchor.DefaultTag) return False;
+	if(_ChAnchor.DefaultOrder != _Anchor.DefaultOrder) return False;
+	if(_ChAnchor.Tag != _Anchor.Tag) return False;
+	if(_ChAnchor.Order != _Anchor.Order) return False;
+	
+	if(_Anchor.Item == Null) return False;
+	if(!SChItemEquals(_ChAnchor.Item, _Anchor.Item)) return False;
+	
+	return True;
+}
+
+Boolean SChAnchorBlockEquals(ModifierBase::SChAnchorBlock _ChAnchor, CAnchorData _Anchor) {
+	if(_Anchor == Null) return False;
+
+	if(_ChAnchor.DefaultTag != _Anchor.DefaultTag) return False;
+	if(_ChAnchor.DefaultOrder != _Anchor.DefaultOrder) return False;
+	if(_ChAnchor.Tag != _Anchor.Tag) return False;
+	if(_ChAnchor.Order != _Anchor.Order) return False;
+	
+	if(_Anchor.Block == Null) return False;
+	if(!SChBlockEquals(_ChAnchor.Block, _Anchor.Block)) return False;
+	
+	return True;
+}

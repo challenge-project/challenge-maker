@@ -1,0 +1,84 @@
+#Include "TextLib" as TextLib
+
+#Include "Libs/BigBang1112/Layers.Script.txt" as Layers
+#Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
+#Include "Libs/BigBang1112/File.Script.txt" as File
+#Include "Libs/BigBang1112/Http.Script.txt" as Http
+#Include "Libs/BigBang1112/Auth2.Script.txt" as Auth2
+#Include "Libs/BigBang1112/Internet.Script.txt" as Internet
+#Include "Libs/BigBang1112/Settings.Script.txt" as Settings
+
+#Include "Libs/Challenge/Backend.Script.txt" as Backend
+
+#Struct SAccess {
+	Boolean Pass;
+	Text Token;
+}
+
+declare Text AcceptUrl;
+declare SAccess Access;
+
+SAccess GetAccess() {
+	return Access;
+}
+
+Void Start() {
+	Layers::Create("AuthBeta", Manialink::FromFile("Media/Manialinks/AuthBeta", True, [], Settings::Get().Theme), True);
+	declare Success = Auth2::AsyncAuthorize("Authorize", "b1a3d10ba7", "basic maps", Backend::GetHost()^"/auth.php");
+}
+
+Void Event(CManiaAppEvent _Event) {
+	declare Event <=> _Event;
+
+	if(Event.Type == CManiaAppEvent::EType::LayerCustomEvent) {
+		switch(Event.CustomEventType) {
+			case "Authorize": {
+				if(AcceptUrl != "") {
+					declare Success = Auth2::AsyncAuthorize("Authorize", AcceptUrl);
+				}
+			}
+			default: {
+				
+			}
+		}
+	}
+}
+
+Void Async() {
+	if(Auth2::IsCompleted("Authorize")) {
+		if(Auth2::IsSuccessful("Authorize")) {
+			Layers::SendEvent("AuthBeta", "HideRequesting");
+			
+			declare Result = Auth2::GetAsyncAuthorizeResult("Authorize");
+			if(Result.AlreadyAccepted) {
+				declare Success = Http::AsyncGET("Redirect", Result.RedirectUrl);
+			}
+			else {
+				AcceptUrl = Result.AcceptUrl;
+				Layers::SendEvent("AuthBeta", "ShowAuthWindow");
+			}
+		}
+		else {
+			log("Authorize: " ^ Auth2::GetStatusCode("Authorize"));
+		}
+		Auth2::Destroy("Authorize");
+	}
+	if(Http::IsCompleted("Redirect")) {
+		if(Http::IsSuccessful("Redirect")) {
+			declare JsonSuccess = Access.fromjson(Http::GetResult("Redirect"));
+			if(!Access.Pass) Layers::SendEvent("AuthBeta", "ShowNoAccess");
+		}
+		else {
+			log("Redirect: " ^ Http::GetStatusCode("Authorize"));
+		}
+		Http::Destroy("Redirect");
+	}
+}
+
+Void Loop() {
+	
+}
+
+Void End() {
+	Layers::Destroy("AuthBeta");
+}
