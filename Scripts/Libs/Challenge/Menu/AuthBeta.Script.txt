@@ -69,7 +69,8 @@ Void Async() {
 			if(!Access.Pass) Layers::SendEvent("AuthBeta", "ShowNoAccess");
 		}
 		else {
-			log("Redirect: " ^ Http::GetStatusCode("Authorize"));
+			log("Redirect: " ^ Http::GetStatusCode("Redirect"));
+			Layers::SendEvent("AuthBeta", "ShowConnectionError", Http::GetStatusCode("Redirect")^"");
 		}
 		Http::Destroy("Redirect");
 	}

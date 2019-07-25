@@ -20,15 +20,26 @@ foreach(Event,PendingEvents) {
 		case CMlScriptEvent::Type::PluginCustomEvent: {
 			if(Event.CustomEventType == "HideRequesting") {
 				AnimMgr.Add(Page.GetFirstChild("FRAME_REQUESTING"), "<frame scale=\"0\" hidden=\"1\" />", 500, CAnimManager::EAnimManagerEasing::QuadIn);
+				Page.GetFirstChild("FRAME_CONNECTIONLONG").RelativeScale = 0.;
+				AnimMgr.Add(Page.GetFirstChild("FRAME_CONNECTIONLONG"), "<frame hidden=\"0\" scale=\"1\" />", Now+2000, 10000, CAnimManager::EAnimManagerEasing::QuadOut);
 			}
 			if(Event.CustomEventType == "ShowAuthWindow") {
 				Page.GetFirstChild("FRAME_AUTH").RelativeScale = 0.;
 				AnimMgr.Add(Page.GetFirstChild("FRAME_AUTH"), "<frame scale=\"1\" hidden=\"0\" />", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+				Page.GetFirstChild("FRAME_CONNECTIONLONG").Hide();
 			}
 			if(Event.CustomEventType == "ShowNoAccess") {
 				AnimMgr.Add(Page.GetFirstChild("FRAME_AUTH"), "<frame scale=\"0\" hidden=\"1\" />", 500, CAnimManager::EAnimManagerEasing::QuadOut);
 				Page.GetFirstChild("FRAME_NOACCESS").RelativeScale = 0.;
 				AnimMgr.Add(Page.GetFirstChild("FRAME_NOACCESS"), "<frame scale=\"1\" hidden=\"0\" />", 500, CAnimManager::EAnimManagerEasing::QuadIn);
+				Page.GetFirstChild("FRAME_CONNECTIONLONG").Hide();
+			}
+			if(Event.CustomEventType == "ShowConnectionError") {
+				AnimMgr.Add(Page.GetFirstChild("FRAME_AUTH"), "<frame scale=\"0\" hidden=\"1\" />", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+				((Page.GetFirstChild("FRAME_CONNECTIONERROR") as CMlFrame).Controls[0] as CMlLabel).SetText("{{{{AUTHBETA_CONNECTIONERROR}}}}: "^Event.CustomEventData[0]);
+				Page.GetFirstChild("FRAME_CONNECTIONERROR").RelativeScale = 0.;
+				AnimMgr.Add(Page.GetFirstChild("FRAME_CONNECTIONERROR"), "<frame scale=\"1\" hidden=\"0\" />", 500, CAnimManager::EAnimManagerEasing::QuadIn);
+				Page.GetFirstChild("FRAME_CONNECTIONLONG").Hide();
 			}
 		}
 	}

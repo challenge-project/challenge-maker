@@ -6,6 +6,12 @@
 	<frame id="FRAME_NOACCESS" hidden="1">
 		<label pos="0 -0.5" z-index="0" size="100 10" text="{{{{AUTHBETA_NOTPART}}}}" halign="center" valign="center2" textsize="6" textfont="RajdhaniMono" textemboss="1"/>
 	</frame>
+	<frame id="FRAME_CONNECTIONERROR" hidden="1">
+		<label pos="0 -0.5" z-index="0" size="100 10" text="{{{{AUTHBETA_CONNECTIONERROR}}}}: -1" halign="center" valign="center2" textsize="6" textfont="RajdhaniMono" textemboss="1"/>
+	</frame>
+	<frame id="FRAME_CONNECTIONLONG" hidden="1">
+		<label pos="0 -0.5" z-index="0" size="200 10" text="{{{{AUTHBETA_CONNECTIONLONG}}}}..." halign="center" valign="center2" textsize="6" textfont="RajdhaniMono" textemboss="1"/>
+	</frame>
 	<frame id="FRAME_AUTH" hidden="1" z-index="1">
 		<quad pos="0 0" z-index="-1" size="100 110" bgcolor="FFFA" halign="center" valign="center" style="Bgs1" substyle="BgCardList" class="opacity"/>
 		<quad pos="0 0" z-index="0" size="100 110" bgcolor="FFFA" halign="center" valign="center" style="Bgs1" substyle="BgGradV" class="opacity"/>
