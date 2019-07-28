@@ -1,6 +1,3 @@
-#Include "TextLib" as TextLib
-#Include "MathLib" as MathLib
-
 ***Start***
 ***
 declare Frame_Campaigns = (Page.GetFirstChild("FRAME_CAMPAIGNS") as CMlFrame);
@@ -10,11 +7,20 @@ declare HoldItSteady = False;
 declare HoldItSteadyLoc = 0.;
 declare HoldItSteadyMouse = 0.;
 
+declare CampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
+declare LastCampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
+
 declare CampaignsSize = (Frame_Campaigns.Controls.count-1) * Frame_Campaigns.Controls[0].Size.X;
+
+Frame_Campaign_Menu.ScrollActive = True;
+Frame_Campaign_Menu.ScrollGrid = <15.,15.>;
+Frame_Campaign_Menu.ScrollMax = <0.,Frame_Campaign_Menu.GetFirstChild("QUAD_CAMPAIGN_MENU").Size.Y-150>;
+Frame_Campaign_Menu.ScrollMin = <0.,0.>;
 ***
 
 ***Loop***
 ***
+log(Frame_Campaign_Menu.ScrollOffset);
 foreach(Event,PendingEvents) {
 	switch(Event.Type) {
 		case CMlScriptEvent::Type::MouseClick: {
@@ -36,6 +42,13 @@ else if(HoldItSteady) {
 	HoldItSteady = False;
 }
 
-Frame_Campaign_Menu.RelativePosition_V3.X = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
+CampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
+
+if(CampaignPosition != LastCampaignPosition) {
+	Frame_Campaign_Menu.RelativePosition_V3.X = CampaignPosition;
+	LastCampaignPosition = CampaignPosition;
+}
+
+
 
 ***
