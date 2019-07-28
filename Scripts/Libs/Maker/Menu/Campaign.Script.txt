@@ -30,7 +30,7 @@ Void Start() {
 		declare TotalMaps = 0;
 		for(J,0,Campaign.MapGroups.count-1) {
 			declare MapGroup <=> Campaign.MapGroups[J];
-			declare GroupPositionY = MathLib::FloorInteger(TotalMaps/5.)*(-45-5);
+			declare GroupPositionY = MathLib::FloorInteger(TotalMaps/5.)*(-45)-J*15;
 			TotalMaps += MapGroup.MapInfos.count;
 			
 			CampaignListBuild ^= "\n"^"""	<frame pos="0 {{{GroupPositionY}}}" z-index="2">

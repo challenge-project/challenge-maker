@@ -20,7 +20,6 @@ Frame_Campaign_Menu.ScrollMin = <0.,0.>;
 
 ***Loop***
 ***
-log(Frame_Campaign_Menu.ScrollOffset);
 foreach(Event,PendingEvents) {
 	switch(Event.Type) {
 		case CMlScriptEvent::Type::MouseClick: {
