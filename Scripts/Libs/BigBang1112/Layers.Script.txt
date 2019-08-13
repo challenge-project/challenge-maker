@@ -103,6 +103,12 @@ Void Create(Text _LayerName) {
 	Create(_LayerName, "", False);
 }
 
+Void Update(Text _LayerName, Text _LayerManialink) {
+	declare Layer <=> Get(_LayerName);
+	if(Layer == Null) return;
+	Layer.ManialinkPage = _LayerManialink;
+}
+
 Void SetType(Text _LayerName, CUILayer::EUILayerType _LayerType) {
 	declare Layer <=> Get(_LayerName);
 	if(Layer == Null) return;

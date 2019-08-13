@@ -1,0 +1,11 @@
+<frame pos="-60 -45" id="FRAME_WINDOW_CREATETITLE">
+	<frame id="FRAME_BACKGROUND" z-index="-1">
+		<quad z-index="-1" size="180 35" bgcolor="FFFA" halign="center" valign="top" style="Bgs1" substyle="BgCardList" class="opacity"/>
+		<quad z-index="0" size="180 35" bgcolor="FFFA" halign="center" valign="top" style="Bgs1" substyle="BgGradV" class="opacity"/>
+	</frame>
+	<entry pos="0 -10" z-index="0" size="170 12.5" default="" halign="center" valign="center"/>
+	<frame pos="0 -20" z-index="1">
+		<quad z-index="0" size="170 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="036" id="QUAD_BUTTON_CREATE" class="opacity" pos="0 0"/>
+		<label pos="0 -5.25" z-index="1" size="170 10" text="{{{{CREATE_NEW_CHALLENGE_TITLE}}}}" halign="center" valign="center2" textfont="RajdhaniMono"/>
+	</frame>
+</frame>

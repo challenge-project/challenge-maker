@@ -141,8 +141,8 @@ SAuthToken GetNewToken() {
 	
 	Auth_Token = Token;
 	
-	declare persistent SAuthToken PE_INGAME_TOKEN for LocalUser;
-	PE_INGAME_TOKEN = Token;
+	declare SAuthToken INGAME_TOKEN for LocalUser;
+	INGAME_TOKEN = Token;
 	
 	return Token;
 }

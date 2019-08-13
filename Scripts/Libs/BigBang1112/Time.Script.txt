@@ -32,6 +32,8 @@
 // Boolean Stamp_Reached(Text _StampName)
 */
 
+#Include "TextLib" as TextLib
+
 #Struct SPause {
 	Integer Start;
 	Integer Time;
@@ -131,4 +133,52 @@ Boolean Stamp_Reached(Text _StampName) {
 		return True;
 	}
 	return False;
+}
+
+declare Real H;
+
+Real[] GetTimeOpacities() {
+	declare Time = TextLib::Split(" ", System.CurrentLocalDateText)[1];
+	declare Hour = TextLib::ToReal(TextLib::Split(":",Time)[0]);
+	declare Minute = TextLib::ToReal(TextLib::Split(":",Time)[1]);
+	declare RealHour = Hour + Minute/60;
+	
+	declare Opacities = [0.,0.,0.,0.];
+	if(RealHour >= 4 && RealHour <= 8) {
+		Opacities[0] = (RealHour-4)/4.;
+		Opacities[1] = 0.;
+		Opacities[2] = 0.;
+		Opacities[3] = 1-(RealHour-4)/4.;
+	}
+	else if(RealHour >= 8 && RealHour <= 12) {
+		Opacities[0] = 1-(RealHour-8)/4.;
+		Opacities[1] = (RealHour-8)/4.;
+		Opacities[2] = 0.;
+		Opacities[3] = 0.;
+	}
+	else if(RealHour >= 12 && RealHour <= 14) {
+		Opacities[0] = 0.;
+		Opacities[1] = 1.;
+		Opacities[2] = 0.;
+		Opacities[3] = 0.;
+	}
+	else if(RealHour >= 14 && RealHour <= 18) {
+		Opacities[0] = 0.;
+		Opacities[1] = 1-(RealHour-14)/4.;
+		Opacities[2] = (RealHour-14)/4.;
+		Opacities[3] = 0.;
+	}
+	else if(RealHour >= 18 && RealHour <= 22) {
+		Opacities[0] = 0.;
+		Opacities[1] = 0.;
+		Opacities[2] = 1-(RealHour-18)/4.;
+		Opacities[3] = (RealHour-18)/4.;
+	}
+	else if(RealHour >= 22 || RealHour <= 4) {
+		Opacities[0] = 0.;
+		Opacities[1] = 0.;
+		Opacities[2] = 0.;
+		Opacities[3] = 1.;
+	}
+	return Opacities;
 }

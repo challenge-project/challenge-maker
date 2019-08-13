@@ -42,7 +42,7 @@
 	SThemeLabel Label;
 }
 
-Text Construct(Text _Markup, Text _Script, Text[] _Extentions, Text _Theme) {
+Text Construct(Text _Markup, Text _Script, Boolean _Translate, Text[] _Extentions, Text _Theme) {
 	declare Text ExtensionDirectives;
 	declare Text ExtensionGlobals;
 	declare Text ExtensionStarts;
@@ -56,11 +56,16 @@ Text Construct(Text _Markup, Text _Script, Text[] _Extentions, Text _Theme) {
 	}
 	
 	declare Markup = _Markup;
+	declare Script = _Script;
+	
+	if(_Translate) {
+		Markup = Dictionary::TranslateAllPhrases(Markup);
+		Script = Dictionary::TranslateAllPhrases(Script);
+	}
 	
 	if(_Theme != "") {
 		declare STheme Theme;
 		declare JsonSuccess = Theme.fromjson(File::Read("Media/Themes/"^_Theme^".json"));
-		log(Theme);
 		
 		declare Text[] AlreadyChanged;
 		foreach(Key=>Value,Theme.Quad.Styles) {
@@ -87,7 +92,7 @@ Text Construct(Text _Markup, Text _Script, Text[] _Extentions, Text _Theme) {
 
 {{{ExtensionDirectives}}}
 
-{{{_Script}}}
+{{{Script}}}
 {{{ExtensionGlobals}}}
 
 Void Main() {
@@ -106,24 +111,23 @@ main() {
 	</manialink>""";
 }
 
-Text Construct(Text _Markup, Text _Script, Text[] _Extentions) {
-	return Construct(_Markup, _Script, _Extentions, "");
+Text Construct(Text _Markup, Text _Script, Boolean _Translate, Text[] _Extentions) {
+	return Construct(_Markup, _Script, _Translate, _Extentions, "");
+}
+
+Text Construct(Text _Markup, Text _Script, Boolean _Translate) {
+	return Construct(_Markup, _Script, _Translate, []);
 }
 
 Text Construct(Text _Markup, Text _Script) {
-	return Construct(_Markup, _Script, []);
+	return Construct(_Markup, _Script, False);
 }
 
 Text FromFile(Text _ManialinkName, Boolean _Translate, Text[] _Extensions, Text _Theme) {
 	declare Markup = File::Read(_ManialinkName^".xml");
 	declare Script = File::Read(_ManialinkName^".Script.txt");
-	
-	if(_Translate) {
-		Markup = Dictionary::TranslateAllPhrases(Markup);
-		Script = Dictionary::TranslateAllPhrases(Script);
-	}
 
-	return Construct(Markup, Script, _Extensions, _Theme);
+	return Construct(Markup, Script, _Translate, _Extensions, _Theme);
 }
 
 Text FromFile(Text _ManialinkName, Boolean _Translate, Text[] _Extensions) {

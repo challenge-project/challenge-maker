@@ -1,0 +1,56 @@
+#RequireContext CManiaAppStation
+
+#Include "Libs/BigBang1112/Layers.Script.txt" as Layers
+#Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
+#Include "Libs/BigBang1112/Settings.Script.txt" as Settings
+#Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
+#Include "Libs/BigBang1112/Random.Script.txt" as Random
+
+#Include "MathLib" as MathLib
+#Include "TextLib" as TextLib
+
+#Struct SElement {
+	Text Name;
+	Integer Count;
+	Boolean Selected;
+	Boolean Selectable;
+}
+
+main() {
+	Dictionary::SetTranslationFolder("Media/Translations");
+	Dictionary::SetTranslationLanguage(Settings::Get().Language);
+
+	LayersDefaultManialinkVersion = 3;
+	Station.DisableQuickEnter = True;
+	Station.IsLogoVisible = False;
+
+	Layers::Create("Create", Manialink::FromFile("Media/Manialinks/StationCreateTitle", True, [], Settings::Get().Theme));
+
+	Layers::Create("Titles", Manialink::FromFile("Media/Manialinks/Window_List", True, [], Settings::Get().Theme));
+	Layers::SendEvent("Titles", "Title", Dictionary::Get("CREATED_TITLE_PACKS"));
+	Layers::SendEvent("Titles", "Title_Align", "left");
+	Layers::SendEvent("Titles", "Position", ["-60 20"]);
+	Layers::SendEvent("Titles", "Size", ["180 120"]);
+	Layers::SendEvent("Titles", "Animation_Out", ["200 0"]);
+	Layers::SendEvent("Titles", "Disable_InnerClip");
+	
+	declare SElement[] Elements;
+	for(I,0,25) {
+		declare SElement Element;
+		Element.Name = Random::String(20,100);
+		Element.Selectable = True;
+		Elements.add(Element);
+	}
+	
+	Layers::SendEvent("Titles", "Elements", [Elements.tojson()]);
+	
+	Layers::Show("Titles", True);
+	Layers::Show("Create", True);
+
+	while(True) {
+		foreach(Event, PendingEvents) {
+			
+		}
+		yield;
+	}
+}
