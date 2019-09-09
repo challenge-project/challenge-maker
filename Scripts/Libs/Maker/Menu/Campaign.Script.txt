@@ -4,8 +4,21 @@
 #Include "Libs/BigBang1112/Layers.Script.txt" as Layers
 #Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
 #Include "Libs/BigBang1112/Settings.Script.txt" as Settings
+#Include "Libs/BigBang1112/File.Script.txt" as File
+#Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
+
+#Struct SMapGroup {
+	Text Name;
+	Text TextColor;
+	Text BackgroundColor;
+	Text Image;
+}
+
+declare SMapGroup[Text] MapGroups;
 
 Void Start() {
+	declare JsonSuccess = MapGroups.fromjson(File::Read("Media/GroupName.json"));
+
 	declare Integer LargestCampaignHeight;
 	foreach(Campaign,DataFileMgr.Campaigns) {
 		declare Height = 0;
@@ -33,9 +46,18 @@ Void Start() {
 			declare GroupPositionY = MathLib::FloorInteger(TotalMaps/5.)*(-45)-J*15;
 			TotalMaps += MapGroup.MapInfos.count;
 			
+			declare GroupName = "MAPGROUP"^J;
+			declare GroupTextColor = "FFF";
+			declare GroupBackgroundColor = "000";
+			if(MapGroups.existskey(J^"")) {
+				GroupName = MapGroups[J^""].Name;
+				GroupTextColor = MapGroups[J^""].TextColor;
+				GroupBackgroundColor = MapGroups[J^""].BackgroundColor;
+			}
+			
 			CampaignListBuild ^= "\n"^"""	<frame pos="0 {{{GroupPositionY}}}" z-index="2">
-			<quad z-index="0" size="225 15" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" scriptevents="1"/>
-			<label z-index="1" size="215 10" text="$o$iMAPGROUP{{{J}}}" halign="center" valign="center2" textsize="6" textfont="RajdhaniMono" pos="0 -0.4"/>
+			<quad z-index="0" size="225 15" bgcolor="{{{GroupBackgroundColor}}}" halign="center" valign="center" scriptevents="1"/>
+			<label z-index="1" size="215 10" text="$o$i{{{GroupName}}}" halign="center" valign="center2" textsize="6" textfont="RajdhaniMono" pos="0 -0.4" textcolor="{{{GroupTextColor}}}"/>
 		</frame>""";
 		
 			CampaignListBuild ^= "\n"^"""		<frame pos="0 {{{GroupPositionY-30}}}">""";
@@ -45,8 +67,8 @@ Void Start() {
 				declare ThumbnailPositionX = -90+(K%5)*45;
 				
 				declare ThumbnailPositionY = MathLib::FloorInteger(K/5.)*-45;
-				CampaignListBuild ^= "\n"^"""			<frame pos="{{{ThumbnailPositionX}}} {{{ThumbnailPositionY}}}">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/{{{MapInfo.MapUid}}}" scriptevents="1"/>
+				CampaignListBuild ^= "\n"^"""			<frame pos="{{{ThumbnailPositionX}}} {{{ThumbnailPositionY}}}" id="FRAME_MAP" data-name="{{{MapInfo.Name}}}" data-author="{{{MapInfo.AuthorNickName}}}">
+				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/{{{MapInfo.MapUid}}}" scriptevents="1" id="QUAD_MAP"/>
 			</frame>""";
 			}
 			
@@ -57,6 +79,9 @@ Void Start() {
 
 	CampaignListBuild ^= "\n"^"""</frame>""";
 	CampaignPadBuild ^= "\n"^"""</frame>""";
+	
+	CampaignListBuild = Dictionary::TranslateAllPhrases(CampaignListBuild);
+	CampaignPadBuild = Dictionary::TranslateAllPhrases(CampaignPadBuild);
 	
 	declare CampaignUi = Manialink::FromFile("Media/Manialinks/Campaign", True, [], Settings::Get().Theme);
 	CampaignUi = TextLib::Replace(CampaignUi, """<frame id="FRAME_CAMPAIGN_MENU"/>""", CampaignListBuild);
