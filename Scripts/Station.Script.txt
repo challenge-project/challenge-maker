@@ -1,19 +1,30 @@
 #RequireContext CManiaAppStation
 
+#Include "MathLib" as MathLib
+#Include "TextLib" as TextLib
+
 #Include "Libs/BigBang1112/Layers.Script.txt" as Layers
 #Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
 #Include "Libs/BigBang1112/Settings.Script.txt" as Settings
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 #Include "Libs/BigBang1112/Random.Script.txt" as Random
 
-#Include "MathLib" as MathLib
-#Include "TextLib" as TextLib
-
 #Struct SElement {
 	Text Name;
 	Integer Count;
 	Boolean Selected;
 	Boolean Selectable;
+}
+
+Void UpdateEditedTitles() {
+	declare SElement[] Elements;
+	foreach(MakerTitle, Maker_EditedTitles) {
+		declare SElement Element;
+		Element.Name = MakerTitle.TitleId^"";
+		Element.Selectable = True;
+		Elements.add(Element);
+	}
+	Layers::SendEvent("Titles", "Elements", [Elements.tojson()]);
 }
 
 main() {
@@ -24,32 +35,58 @@ main() {
 	Station.DisableQuickEnter = True;
 	Station.IsLogoVisible = False;
 
-	Layers::Create("Create", Manialink::FromFile("Media/Manialinks/StationCreateTitle", True, [], Settings::Get().Theme));
+	Layers::Create("Create", Manialink::FromFile("Media/Manialinks/StationCreateTitle", True, ["Audio"], Settings::Get().Theme));
+	Layers::Create("Edit", Manialink::FromFile("Media/Manialinks/StationEditTitle", True, ["Audio"], Settings::Get().Theme));
 
-	Layers::Create("Titles", Manialink::FromFile("Media/Manialinks/Window_List", True, [], Settings::Get().Theme));
+	Layers::Create("Titles", Manialink::FromFile("Media/Manialinks/Window_List", True, ["Audio"], Settings::Get().Theme));
 	Layers::SendEvent("Titles", "Title", Dictionary::Get("CREATED_TITLE_PACKS"));
 	Layers::SendEvent("Titles", "Title_Align", "left");
 	Layers::SendEvent("Titles", "Position", ["-60 20"]);
 	Layers::SendEvent("Titles", "Size", ["180 120"]);
 	Layers::SendEvent("Titles", "Animation_Out", ["200 0"]);
-	Layers::SendEvent("Titles", "Disable_InnerClip");
-	
-	declare SElement[] Elements;
-	for(I,0,25) {
-		declare SElement Element;
-		Element.Name = Random::String(20,100);
-		Element.Selectable = True;
-		Elements.add(Element);
-	}
-	
-	Layers::SendEvent("Titles", "Elements", [Elements.tojson()]);
+	Layers::SendEvent("Titles", "InnerClip", "False");
 	
 	Layers::Show("Titles", True);
 	Layers::Show("Create", True);
 
+	UpdateEditedTitles();
+
+	declare SelectedId = -1;
+
 	while(True) {
 		foreach(Event, PendingEvents) {
-			
+			if(Event.Type == CManiaAppEvent::EType::LayerCustomEvent) {
+				switch(Event.CustomEventType) {
+					case "CreateTitle": {
+						Maker_EditNewTitle(Event.CustomEventData[0]);
+						UpdateEditedTitles();
+					}
+					case "EditTitle": {
+						if(SelectedId != -1)
+						Maker_EditTitle(Maker_EditedTitles[SelectedId].TitleId^"");
+					}
+					case "UpdateTitle": {
+						declare DisplayName = Event.CustomEventData[1];
+						declare Description = Event.CustomEventData[2];
+						declare InfoUrl = Event.CustomEventData[3];
+						declare DownloadUrl = Event.CustomEventData[4];
+
+						declare I = SelectedId;
+						Maker_EditedTitles[I].DisplayName = DisplayName;
+						Maker_EditedTitles[I].Description = Description;
+						Maker_EditedTitles[I].InfoUrl = InfoUrl;
+						Maker_EditedTitles[I].DownloadUrl = DownloadUrl;
+					}
+					case "Select": {
+						Layers::Show("Edit", True);
+
+						declare I = TextLib::ToInteger(Event.CustomEventData[0]);
+						Layers::SendEvent("Edit", "Change", [Maker_EditedTitles[I].TitleId^"", Maker_EditedTitles[I].DisplayName,
+						Maker_EditedTitles[I].Description, Maker_EditedTitles[I].InfoUrl, Maker_EditedTitles[I].DownloadUrl]);
+						SelectedId = I;
+					}
+				}
+			}
 		}
 		yield;
 	}
