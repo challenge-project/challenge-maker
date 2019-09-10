@@ -19,13 +19,16 @@
 		<entry pos="4.5 0" z-index="0" size="29 8" default="[AUTO]" valign="center" halign="center" textsize="2" scriptevents="1"/>
 		<entry pos="35.5 0" z-index="0" size="29 8" default="[LAST]" valign="center" halign="center" textsize="2" scriptevents="1"/>
 	</frame>
-	<frame pos="0 -115">
+	<frame pos="0 -102.5">
 		<quad pos="0 0" z-index="0" size="100 50" bgcolor="0004" halign="center" valign="center"/>
 		<label pos="0 1.5" z-index="1" size="100 50" text="{{{{PACKAGE}}}}" halign="center" valign="center" textfont="RajdhaniMono" textsize="10"/>
 	</frame>
-	<frame pos="0 -145" z-index="1">
-		<quad z-index="0" size="100 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="036" id="QUAD_BUTTON_EDIT" class="opacity" pos="0 0"/>
-		<label pos="0 -5.25" z-index="1" size="90 10" text="{{{{EDIT_THIS_CHALLENGE_TITLE}}}}" halign="center" valign="center2" textfont="RajdhaniMono"/>
+	<frame pos="0 -138" class="BUTTON">
+		<quad z-index="0" size="100 15" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="069" id="QUAD_BUTTON_BUILD" class="opacity" pos="0 0" valign="center"/>
+		<label z-index="1" size="100 15" text="{{{{BUILD_PACKAGE}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.4" textsize="5"/>
 	</frame>
-	<quad pos="0 -80" z-index="2" size="110 125" halign="center" valign="center" scriptevents="1"/>
+	<frame pos="0 -152" class="BUTTON">
+		<quad z-index="0" size="100 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="060" id="QUAD_BUTTON_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+		<label z-index="1" size="100 10" text=" {{{{PUBLISH}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.4" textsize="3"/>
+	</frame>
 </frame>

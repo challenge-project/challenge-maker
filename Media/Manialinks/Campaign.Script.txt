@@ -53,6 +53,9 @@ foreach(Event,PendingEvents) {
 				HoldItSteadyLoc = Frame_Campaigns.RelativePosition_V3.X;
 				HoldItSteadyMouse = MouseX;
 			}
+			if(Event.ControlId == "QUAD_BUTTON_EXIT") {
+				SendCustomEvent("Exit", []);
+			}
 		}
 		case CMlScriptEvent::Type::MouseOver: {
 			if(Event.ControlId == "QUAD_MAP") {

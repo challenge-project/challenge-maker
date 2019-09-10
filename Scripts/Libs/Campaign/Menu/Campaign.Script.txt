@@ -1,0 +1,113 @@
+#Include "MathLib" as MathLib
+#Include "TextLib" as TextLib
+
+#Include "Libs/BigBang1112/Layers.Script.txt" as Layers
+#Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
+#Include "Libs/BigBang1112/Settings.Script.txt" as Settings
+#Include "Libs/BigBang1112/File.Script.txt" as File
+#Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
+
+#Struct SMapGroup {
+	Text Name;
+	Text TextColor;
+	Text BackgroundColor;
+	Text Image;
+}
+
+declare SMapGroup[Text] MapGroups;
+
+Void Start() {
+	declare JsonSuccess = MapGroups.fromjson(File::Read("Media/GroupName.json"));
+
+	declare Integer LargestCampaignHeight;
+	foreach(Campaign,DataFileMgr.Campaigns) {
+		declare Height = 0;
+		foreach(MapGroup,Campaign.MapGroups) {
+			Height += 15;
+			Height += MathLib::FloorInteger(MapGroup.MapInfos.count/5.)*45;
+		}
+		
+		if(Height > LargestCampaignHeight) {
+			LargestCampaignHeight = Height;
+		}
+	}
+	
+	declare CampaignListBuild = """<frame id="FRAME_CAMPAIGN_MENU">""";
+	CampaignListBuild ^= """<quad id="QUAD_CAMPAIGN_MENU" pos="-112.5 7.5" size="{{{DataFileMgr.Campaigns.count*45*5}}} {{{LargestCampaignHeight}}}" z-index="-1" scriptevents="1"/>""";
+	declare CampaignPadBuild = """<frame id="FRAME_CAMPAIGNS">""";
+
+	for(I, 0, DataFileMgr.Campaigns.count-1) {
+		declare Campaign <=> DataFileMgr.Campaigns[I];
+		CampaignListBuild ^= "\n"^"""	<frame pos="{{{I*45*5}}} 0">""";
+		CampaignPadBuild ^= """<quad size="45 20" halign="center" valign="center" image="file://Media/Images/ScreenShot02.jpg" scriptevents="1" id="QUAD_CAMPAIGN" pos="{{{I*45}}}"/>""";
+		declare TotalMaps = 0;
+		for(J,0,Campaign.MapGroups.count-1) {
+			declare MapGroup <=> Campaign.MapGroups[J];
+			declare GroupPositionY = MathLib::FloorInteger(TotalMaps/5.)*(-45)-J*15;
+			TotalMaps += MapGroup.MapInfos.count;
+			
+			declare GroupName = "MAPGROUP"^J;
+			declare GroupTextColor = "FFF";
+			declare GroupBackgroundColor = "000";
+			if(MapGroups.existskey(J^"")) {
+				GroupName = MapGroups[J^""].Name;
+				GroupTextColor = MapGroups[J^""].TextColor;
+				GroupBackgroundColor = MapGroups[J^""].BackgroundColor;
+			}
+			
+			CampaignListBuild ^= "\n"^"""	<frame pos="0 {{{GroupPositionY}}}" z-index="2">
+			<quad z-index="0" size="225 15" bgcolor="{{{GroupBackgroundColor}}}" halign="center" valign="center" scriptevents="1"/>
+			<label z-index="1" size="215 10" text="$o$i{{{GroupName}}}" halign="center" valign="center2" textsize="6" textfont="RajdhaniMono" pos="0 -0.4" textcolor="{{{GroupTextColor}}}"/>
+		</frame>""";
+		
+			CampaignListBuild ^= "\n"^"""		<frame pos="0 {{{GroupPositionY-30}}}">""";
+			
+			for(K,0,MapGroup.MapInfos.count-1) {
+				declare MapInfo <=> MapGroup.MapInfos[K];
+				declare ThumbnailPositionX = -90+(K%5)*45;
+				
+				declare ThumbnailPositionY = MathLib::FloorInteger(K/5.)*-45;
+				CampaignListBuild ^= "\n"^"""			<frame pos="{{{ThumbnailPositionX}}} {{{ThumbnailPositionY}}}" id="FRAME_MAP" data-name="{{{MapInfo.Name}}}" data-author="{{{MapInfo.AuthorNickName}}}">
+				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/{{{MapInfo.MapUid}}}" scriptevents="1" id="QUAD_MAP"/>
+			</frame>""";
+			}
+			
+			CampaignListBuild ^= "\n"^"""		</frame>""";
+		}
+		CampaignListBuild ^= "\n"^"""	</frame>""";
+	}
+
+	CampaignListBuild ^= "\n"^"""</frame>""";
+	CampaignPadBuild ^= "\n"^"""</frame>""";
+	
+	CampaignListBuild = Dictionary::TranslateAllPhrases(CampaignListBuild);
+	CampaignPadBuild = Dictionary::TranslateAllPhrases(CampaignPadBuild);
+	
+	declare CampaignUi = Manialink::FromFile("Media/Manialinks/Campaign", True, [], Settings::Get().Theme);
+	CampaignUi = TextLib::Replace(CampaignUi, """<frame id="FRAME_CAMPAIGN_MENU"/>""", CampaignListBuild);
+	CampaignUi = TextLib::Replace(CampaignUi, """<frame id="FRAME_CAMPAIGNS"/>""", CampaignPadBuild);
+	Layers::Create("Campaign", CampaignUi);
+}
+
+Void Event(CManiaAppEvent _Event) {
+	declare Event <=> _Event;
+
+	if(Event.Type == CManiaAppEvent::EType::LayerCustomEvent) {
+		if(Event.CustomEventLayer == Layers::Get("Campaign"))
+		switch(Event.CustomEventType) {
+			case "Exit": {
+				Layers::Hide("Campaign", False);
+				Layers::Show("EditTitle", True);
+				Layers::Show("ManageTitle", True);
+			}
+		}
+	}
+}
+
+Void Async() {
+	
+}
+
+Void Loop() {
+
+}

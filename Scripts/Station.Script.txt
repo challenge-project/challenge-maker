@@ -65,18 +65,6 @@ main() {
 						if(SelectedId != -1)
 						Maker_EditTitle(Maker_EditedTitles[SelectedId].TitleId^"");
 					}
-					case "UpdateTitle": {
-						declare DisplayName = Event.CustomEventData[1];
-						declare Description = Event.CustomEventData[2];
-						declare InfoUrl = Event.CustomEventData[3];
-						declare DownloadUrl = Event.CustomEventData[4];
-
-						declare I = SelectedId;
-						Maker_EditedTitles[I].DisplayName = DisplayName;
-						Maker_EditedTitles[I].Description = Description;
-						Maker_EditedTitles[I].InfoUrl = InfoUrl;
-						Maker_EditedTitles[I].DownloadUrl = DownloadUrl;
-					}
 					case "Select": {
 						Layers::Show("Edit", True);
 

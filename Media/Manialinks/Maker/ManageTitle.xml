@@ -1,0 +1,40 @@
+<frame pos="-110">
+	<frame z-index="-1">
+		<quad z-index="0" size="80 160" valign="center" halign="center" style="Bgs1" substyle="BgCardList"/>
+		<quad z-index="1" size="80 160" valign="center" halign="center" style="Bgs1" substyle="BgGradV"/>
+	</frame>
+	<frame pos="0 72">
+		<frame class="BUTTON">
+			<quad z-index="0" size="72.5 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="036" id="QUAD_BUTTON_CAMPAIGN" class="opacity" pos="0 0" valign="center"/>
+			<label z-index="1" size="72.5 10" text=" {{{{CAMPAIGN_BUILDER}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.4" textsize="3"/>
+		</frame>
+		<quad pos="0 -15" z-index="0" size="72.5 18" halign="center" style="Bgs1" substyle="BgCardList" valign="center"/>
+	</frame>
+	<frame pos="0 42.1">
+		<frame class="BUTTON">
+			<quad z-index="0" size="72.5 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="036" id="QUAD_BUTTON_MODIFIER" class="opacity" pos="0 0" valign="center"/>
+			<label z-index="1" size="72.5 10" text=" {{{{MODIFY_IN_BULK}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.4" textsize="3"/>
+		</frame>
+		<quad pos="0 -26.5" z-index="0" size="72.5 41" halign="center" style="Bgs1" substyle="BgCardList" valign="center"/>
+	</frame>
+	<frame class="BUTTON" pos="0 -11">
+		<quad z-index="0" size="72.5 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="D90" id="QUAD_BUTTON_UPDATE" class="opacity" pos="0 0" valign="center"/>
+		<label z-index="1" size="72.5 10" text=" {{{{UPDATE_CORE_FILES}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.4" textsize="3"/>
+	</frame>
+	<frame class="BUTTON" pos="0 -22">
+		<quad z-index="0" size="72.5 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="036" id="QUAD_BUTTON_EXPLORER" class="opacity" pos="0 0" valign="center"/>
+		<label z-index="1" size="72.5 10" text=" {{{{OPEN_IN_EXPLORER}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.4" textsize="3"/>
+	</frame>
+	<frame class="BUTTON" pos="0 -33">
+		<quad z-index="0" size="72.5 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="036" id="QUAD_BUTTON_IMPORT" class="opacity" pos="0 0" valign="center"/>
+		<label z-index="1" size="72.5 10" text=" {{{{IMPORT_FILE}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.4" textsize="3"/>
+	</frame>
+	<frame pos="0 -44" class="BUTTON">
+		<quad z-index="0" size="72.5 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="036" id="QUAD_BUTTON_PREVIEW" class="opacity" pos="0 0" valign="center"/>
+		<label z-index="1" size="72.5 10" text=" {{{{PREVIEW}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.4" textsize="3"/>
+	</frame>
+	<frame pos="0 -72" class="BUTTON">
+		<quad z-index="0" size="72.5 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="600" id="QUAD_BUTTON_EXIT" class="opacity" pos="0 0" valign="center"/>
+		<label z-index="1" size="72.5 10" text="{{{{EXIT}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.4" textsize="3"/>
+	</frame>
+</frame>

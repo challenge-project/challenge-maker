@@ -47,10 +47,30 @@
 			</frame>
 		</frame>
 		<frame pos="0 -57.5">
-			<quad z-index="-1" size="55 40" bgcolor="FFFA" halign="center" style="Bgs1" substyle="BgListLine" opacity=".75"/>
+			<quad z-index="-1" size="55 30" bgcolor="FFFA" halign="center" style="Bgs1" substyle="BgListLine" opacity=".75"/>
 		</frame>
-		<frame pos="0 -100">
-			<quad z-index="-1" size="55 55" bgcolor="FFFA" halign="center" style="Bgs1" substyle="BgListLine" opacity=".75"/>
+		<frame pos="0 -90">
+			<quad z-index="-1" size="55 52.5" bgcolor="FFFA" halign="center" style="Bgs1" substyle="BgListLine" opacity=".75"/>
+		</frame>
+		<frame pos="-22.5 -150">
+			<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="222" id="QUAD_BUTTON_EXIT"/>
+			<label pos="0 0.1" z-index="1" size="10 10" text="" halign="center" textfont="Oswald" valign="center"/>
+		</frame>
+		<frame pos="-11.25 -150">
+			<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="222" id="QUAD_BUTTON_EXIT"/>
+			<label pos="0 0.1" z-index="1" size="10 10" text="" halign="center" textfont="Oswald" valign="center"/>
+		</frame>
+		<frame pos="0 -150">
+			<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="222" id="QUAD_BUTTON_EXIT"/>
+			<label pos="0 0.1" z-index="1" size="10 10" text="" halign="center" textfont="Oswald" valign="center"/>
+		</frame>
+		<frame pos="11.25 -150">
+			<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="222" id="QUAD_BUTTON_EXIT"/>
+			<label pos="0 0.1" z-index="1" size="10 10" text="" halign="center" textfont="Oswald" valign="center"/>
+		</frame>
+		<frame pos="22.5 -150">
+			<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="600" id="QUAD_BUTTON_EXIT"/>
+			<label pos="0 0.1" z-index="1" size="10 10" text="" halign="center" textfont="Oswald" valign="center"/>
 		</frame>
 	</frame>
 </frame>
@@ -61,8 +81,8 @@
 		<label pos="-20 20" z-index="1" size="40 10" text="" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
 		<label pos="-20 10" z-index="1" size="40 5" text="" textsize="2" textfont="BiryaniDemiBold" id="LABEL_AUTHOR" textemboss="1" textprefix="{{{{by}}}} "/>
 		<label pos="0 0" z-index="1" size="40 10" text="CHECKPOINTLESS" halign="center" valign="center" textfont="OswaldMono" textprefix="$o$000" opacity=".3"/>
-		<label pos="-20 -15" z-index="1" size="40 5" text="1/23215" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1"/>
-		<label pos="-20 -20" z-index="1" size="40 4" text="35540" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1"/>
+		<label pos="-20 -15" z-index="1" size="40 5" text="?/00000" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1"/>
+		<label pos="-20 -20" z-index="1" size="40 4" text="00000" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1"/>
 		<quad pos="14 -15" z-index="1" size="10 10" image="file://ZoneFlags/Path/World" halign="center" valign="center" opacity=".9"/>
 		<quad pos="-27.5 0" z-index="-2" size="100 55" style="Bgs1" substyle="BgGradV" valign="center"/>
 		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center"/>

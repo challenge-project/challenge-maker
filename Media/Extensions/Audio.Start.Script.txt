@@ -1,0 +1,7 @@
+Sound_Click = Audio.CreateSound("file://Media/Sounds/Click.ogg");
+Sound_ClickSoft = Audio.CreateSound("file://Media/Sounds/ClickSoft.ogg");
+Sound_Hover = Audio.CreateSound("file://Media/Sounds/Hover.ogg");
+Sound_TimeChange = Audio.CreateSound("file://Media/Sounds/TimeChange.ogg");
+Sound_TimeReset = Audio.CreateSound("file://Media/Sounds/TimeReset.ogg");
+Sound_Swish = Audio.CreateSound("file://Media/Sounds/Swish.ogg");
+Sound_NumberChange = Audio.CreateSound("file://Media/Sounds/NumberChange.ogg");

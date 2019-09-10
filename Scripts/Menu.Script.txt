@@ -9,7 +9,8 @@
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 #Include "Libs/BigBang1112/Settings.Script.txt" as Settings
 
-#Include "Libs/Maker/Menu/Campaign.Script.txt" as Menu_Campaign
+#Include "Libs/Campaign/Menu/Campaign.Script.txt" as Menu_Campaign
+#Include "Libs/Maker/Menu/Title.Script.txt" as Menu_Title
 
 #Include "Libs/Challenge/Menu/AuthBeta.Script.txt" as Menu_AuthBeta
 #Include "Libs/Challenge/Devmode.Script.txt" as Devmode
@@ -19,6 +20,9 @@
 main() {
 	while(True) { // Restart mechanism
 		Settings::Restart(False);
+		
+		//wait(False);
+		TitleControl.OpenEditor(CTitleControl::EEditorType::InterfaceDesigner);
 		
 		Layers::Create("Background", "file://Media/Manialinks/Background.xml", True, False);
 		Layers::Create("Loading", "file://Media/Manialinks/Loading.xml", True, False, CUILayer::EUILayerType::LoadingScreen);
@@ -44,6 +48,7 @@ main() {
 		}
 		Menu_AuthBeta::End();
 		
+		Menu_Title::Start();
 		Menu_Campaign::Start();
 		
 		if(S_Devmode) {
@@ -55,9 +60,13 @@ main() {
 		while(!Settings::IsRestarting()) {
 			foreach(Event,PendingEvents) {
 				Layers::Event(Event);
+				Menu_Title::Event(Event);
+				Menu_Campaign::Event(Event);
 			}
 	
 			Auth::Loop();
+			Menu_Title::Loop();
+			Menu_Campaign::Loop();
 		
 			yield;
 		}

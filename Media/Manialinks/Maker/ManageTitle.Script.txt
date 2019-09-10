@@ -1,0 +1,50 @@
+***Loop***
+***
+foreach(Event,PendingEvents) {
+	switch(Event.Type) {
+		case CMlScriptEvent::Type::MouseClick: {
+			switch(Event.ControlId) {
+				case "QUAD_BUTTON_CAMPAIGN": {
+
+				}
+				case "QUAD_BUTTON_MODIFIER": {
+					
+				}
+				case "QUAD_BUTTON_UPDATE": {
+					
+				}
+				case "QUAD_BUTTON_EXPLORER": {
+					SendCustomEvent("OpenExplorer", []);
+				}
+				case "QUAD_BUTTON_IMPORT": {
+					SendCustomEvent("ImportFile", []);
+				}
+				case "QUAD_BUTTON_PREVIEW": {
+					SendCustomEvent("Preview", []);
+				}
+				case "QUAD_BUTTON_EXIT": {
+					SendCustomEvent("Exit", []);
+				}
+			}
+		}
+		case CMlScriptEvent::Type::PluginCustomEvent: {
+			switch(Event.CustomEventType) {
+				case "Change": {
+					declare TitleId = Event.CustomEventData[0];
+					declare DisplayName = Event.CustomEventData[1];
+					declare Description = Event.CustomEventData[2];
+					declare InfoUrl = Event.CustomEventData[3];
+					declare DownloadUrl = Event.CustomEventData[4];
+
+					(Page.GetFirstChild("LABEL_TITLEID") as CMlLabel).Value = TitleId;
+					(Page.GetFirstChild("ENTRY_DISPLAYNAME") as CMlEntry).Value = DisplayName;
+					(Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value = Description;
+					(Page.GetFirstChild("ENTRY_INFOURL") as CMlEntry).Value = InfoUrl;
+					(Page.GetFirstChild("ENTRY_DOWNLOADURL") as CMlEntry).Value = DownloadUrl;
+				}
+			}
+		}
+	}
+	
+}
+***

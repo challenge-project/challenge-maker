@@ -1,0 +1,70 @@
+#Include "MathLib" as MathLib
+#Include "TextLib" as TextLib
+
+#Include "Libs/BigBang1112/Layers.Script.txt" as Layers
+#Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
+#Include "Libs/BigBang1112/Settings.Script.txt" as Settings
+#Include "Libs/BigBang1112/File.Script.txt" as File
+#Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
+
+Void Start() {
+	Layers::Create("EditTitle", Manialink::FromFile("Media/Manialinks/Maker/EditTitle", True, ["Audio"], Settings::Get().Theme), True, True);
+	Layers::Create("ManageTitle", Manialink::FromFile("Media/Manialinks/Maker/ManageTitle", True, ["Audio"], Settings::Get().Theme), True, True);
+	
+	declare Title <=> TitleEdition.EditedTitleInfo;
+	Layers::SendEvent("EditTitle", "Change", [Title.TitleId^"", Title.DisplayName, Title.Description,
+		Title.InfoUrl, Title.DownloadUrl]);
+}
+
+Void Event(CManiaAppEvent _Event) {
+	declare Event <=> _Event;
+
+	if(Event.Type == CManiaAppEvent::EType::LayerCustomEvent) {
+		switch(Event.CustomEventLayer) {
+			case Layers::Get("ManageTitle"): {
+				switch(Event.CustomEventType) {
+					case "Exit": {
+						Menu_Quit();
+					}
+					case "OpenExplorer": {
+						TitleEdition.OpenTitleFolderInExplorer();
+					}
+					case "ImportFile": {
+						TitleEdition.Dialog_ImportFiles();
+					}
+					case "Preview": {
+						Layers::Show("Campaign", True);
+						Layers::Hide("EditTitle", False);
+						Layers::Hide("ManageTitle", False);
+					}
+				}
+			}
+			case Layers::Get("EditTitle"): {
+				switch(Event.CustomEventType) {
+					case "UpdateTitle": {
+						if(TitleEdition == Null) return;
+						declare DisplayName = Event.CustomEventData[1];
+						declare Description = Event.CustomEventData[2];
+						declare InfoUrl = Event.CustomEventData[3];
+						declare DownloadUrl = Event.CustomEventData[4];
+
+						TitleEdition.EditedTitleInfo.DisplayName = DisplayName;
+						TitleEdition.EditedTitleInfo.Description = Description;
+						TitleEdition.EditedTitleInfo.InfoUrl = InfoUrl;
+						TitleEdition.EditedTitleInfo.DownloadUrl = DownloadUrl;
+						
+						TitleEdition.SaveTitleDesc();
+					}
+				}
+			}
+		}
+	}
+}
+
+Void Async() {
+	
+}
+
+Void Loop() {
+
+}
