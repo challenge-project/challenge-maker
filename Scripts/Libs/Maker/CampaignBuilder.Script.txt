@@ -1,0 +1,12 @@
+#Struct SGroup {
+	Text Name;
+	Text TextColor;
+	Text BackgroundColor;
+	Text Image;
+}
+
+#Struct SCampaign {
+	Text Name;
+	Text Folder;
+	SGroup[] Groups;
+}

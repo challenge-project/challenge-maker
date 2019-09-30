@@ -4,14 +4,14 @@ foreach(Event,PendingEvents) {
 	switch(Event.Type) {
 		case CMlScriptEvent::Type::MouseClick: {
 			switch(Event.ControlId) {
-				case "QUAD_BUTTON_CAMPAIGN": {
-
+				case "QUAD_BUTTON_BUILDER": {
+					SendCustomEvent("Builder", []);
 				}
 				case "QUAD_BUTTON_MODIFIER": {
-					
+					SendCustomEvent("Modifier", []);
 				}
 				case "QUAD_BUTTON_UPDATE": {
-					
+					SendCustomEvent("UpdateFiles", []);
 				}
 				case "QUAD_BUTTON_EXPLORER": {
 					SendCustomEvent("OpenExplorer", []);

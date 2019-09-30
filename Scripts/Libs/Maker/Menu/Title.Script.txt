@@ -27,10 +27,17 @@ Void Event(CManiaAppEvent _Event) {
 						Menu_Quit();
 					}
 					case "OpenExplorer": {
+						TitleEdition.SetTitleCampaign(6, "ValleyCar","Campaigns\\Valley\\", True);
+						TitleEdition.SaveTitleDesc();
 						TitleEdition.OpenTitleFolderInExplorer();
 					}
 					case "ImportFile": {
 						TitleEdition.Dialog_ImportFiles();
+					}
+					case "Builder": {
+						Layers::Show("Builder", True);
+						Layers::Hide("EditTitle", False);
+						Layers::Hide("ManageTitle", False);
 					}
 					case "Preview": {
 						Layers::Show("Campaign", True);

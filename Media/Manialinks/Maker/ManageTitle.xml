@@ -1,11 +1,12 @@
 <frame pos="-110">
 	<frame z-index="-1">
 		<quad z-index="0" size="80 160" valign="center" halign="center" style="Bgs1" substyle="BgCardList"/>
+		<quad z-index="0" size="80 160" valign="center" halign="center" style="Bgs1" substyle="BgCardList"/>
 		<quad z-index="1" size="80 160" valign="center" halign="center" style="Bgs1" substyle="BgGradV"/>
 	</frame>
 	<frame pos="0 72">
 		<frame class="BUTTON">
-			<quad z-index="0" size="72.5 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="036" id="QUAD_BUTTON_CAMPAIGN" class="opacity" pos="0 0" valign="center"/>
+			<quad z-index="0" size="72.5 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="036" id="QUAD_BUTTON_BUILDER" class="opacity" pos="0 0" valign="center"/>
 			<label z-index="1" size="72.5 10" text=" {{{{CAMPAIGN_BUILDER}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.4" textsize="3"/>
 		</frame>
 		<quad pos="0 -15" z-index="0" size="72.5 18" halign="center" style="Bgs1" substyle="BgCardList" valign="center"/>

@@ -1,27 +1,28 @@
 <frame pos="95 80" id="FRAME_WINDOW_EDITTITLE">
 	<frame id="FRAME_BACKGROUND" z-index="-1">
 		<quad z-index="-1" size="110 160" bgcolor="FFFA" halign="center" valign="top" style="Bgs1" substyle="BgCardList" class="opacity"/>
+		<quad z-index="-1" size="110 160" bgcolor="FFFA" halign="center" valign="top" style="Bgs1" substyle="BgCardList" class="opacity"/>
 		<quad z-index="0" size="110 160" bgcolor="FFFA" halign="center" valign="top" style="Bgs1" substyle="BgGradV" class="opacity"/>
 	</frame>
-	<label pos="0 -10" z-index="0" size="100 10" text="Challenge@bigbang1112" halign="center" textsize="4" textfont="RajdhaniMono" valign="center" id="LABEL_TITLEID"/>
-	<entry pos="0 -25" z-index="0" size="100 10" default="Challenge" valign="center" halign="center" textsize="4" id="ENTRY_DISPLAYNAME" scriptevents="1"/>
-	<textedit pos="-50 -31" z-index="0" size="100 12.5" textsize="2" id="TEXTEDIT_DESCRIPTION" scriptevents="1"/>
+	<label pos="0 -10" z-index="0" size="100 10" textprefix="$o$i$n" text="Challenge@bigbang1112" halign="center" textsize="6" textfont="Oswald" valign="center" id="LABEL_TITLEID"/>
+	<entry pos="0 -25" z-index="0" size="100 10" default="Challenge" valign="center" halign="center" textsize="4" id="ENTRY_DISPLAYNAME" scriptevents="1" selecttext="1" textfont="Oswald"/>
+	<textedit pos="-50 -31" z-index="0" size="100 12.5" textsize="2" id="TEXTEDIT_DESCRIPTION" scriptevents="1" textfont="Oswald"/>
 	<frame pos="0 -50">
 		<label pos="-12 0" z-index="0" size="38 8" text="{{{{INFO_URL}}}}:" valign="center2" textfont="RajdhaniMono" textsize="2" halign="right"/>
-		<entry pos="20 0" z-index="0" size="60 8" default="" valign="center" halign="center" textsize="2" id="ENTRY_INFOURL" scriptevents="1"/>
+		<entry pos="20 0" z-index="0" size="60 8" default="" valign="center" halign="center" textsize="1" id="ENTRY_INFOURL" scriptevents="1" selecttext="1" textfont="Oswald"/>
 	</frame>
 	<frame pos="0 -60">
 		<label pos="-12 0" z-index="0" size="38 8" text="{{{{DOWNLOAD_URL}}}}:" valign="center2" textfont="RajdhaniMono" textsize="2" halign="right"/>
-		<entry pos="20 0" z-index="0" size="60 8" default="" valign="center" halign="center" textsize="2" id="ENTRY_DOWNLOADURL" scriptevents="1"/>
+		<entry pos="20 0" z-index="0" size="60 8" default="" valign="center" halign="center" textsize="1" id="ENTRY_DOWNLOADURL" scriptevents="1" selecttext="1" textfont="Oswald"/>
 	</frame>
 	<frame pos="0 -70">
 		<label pos="-12 0" z-index="0" size="38 8" text="{{{{TITLE_VERSION}}}}:" valign="center2" textfont="RajdhaniMono" textsize="2" halign="right"/>
-		<entry pos="4.5 0" z-index="0" size="29 8" default="[AUTO]" valign="center" halign="center" textsize="2" scriptevents="1"/>
-		<entry pos="35.5 0" z-index="0" size="29 8" default="[LAST]" valign="center" halign="center" textsize="2" scriptevents="1"/>
+		<entry pos="4.5 0" z-index="0" size="29 8" default="" valign="center" halign="center" textsize="2" scriptevents="1" selecttext="1" textfont="Oswald"/>
+		<entry pos="35.5 0" z-index="0" size="29 8" default="" valign="center" halign="center" textsize="2" scriptevents="1" selecttext="1" textfont="Oswald"/>
 	</frame>
 	<frame pos="0 -102.5">
 		<quad pos="0 0" z-index="0" size="100 50" bgcolor="0004" halign="center" valign="center"/>
-		<label pos="0 1.5" z-index="1" size="100 50" text="{{{{PACKAGE}}}}" halign="center" valign="center" textfont="RajdhaniMono" textsize="10"/>
+		<quad pos="0 0" z-index="1" size="80 35" halign="center" valign="center" style="TitleLogos" substyle="Title"/>
 	</frame>
 	<frame pos="0 -138" class="BUTTON">
 		<quad z-index="0" size="100 15" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="069" id="QUAD_BUTTON_BUILD" class="opacity" pos="0 0" valign="center"/>
