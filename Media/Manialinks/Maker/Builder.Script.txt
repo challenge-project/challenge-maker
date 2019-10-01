@@ -47,10 +47,14 @@ foreach(Event,PendingEvents) {
 				case "LABEL_GROUP_REMOVE": {
 					declare CampaignId = Event.Control.DataAttributeGet("campaignid");
 					declare GroupId = Event.Control.DataAttributeGet("groupid");
+					SendCustomEvent("RemoveGroup", [Frame_Campaign_Menu.ScrollOffset.Y^"", CampaignId, GroupId]);
 				}
 				case "LABEL_MAP_REMOVE": {
 					declare CampaignId = Event.Control.DataAttributeGet("campaignid");
 					declare GroupId = Event.Control.DataAttributeGet("groupid");
+					declare MapId = Event.Control.DataAttributeGet("mapid");
+					declare MapFile = Event.Control.DataAttributeGet("mapfile");
+					SendCustomEvent("RemoveMap", [Frame_Campaign_Menu.ScrollOffset.Y^"", CampaignId, GroupId, MapFile]);
 				}
 				case "QUAD_ADDGROUP": {
 					declare CampaignId = Event.Control.DataAttributeGet("campaignid");
@@ -59,6 +63,7 @@ foreach(Event,PendingEvents) {
 				case "QUAD_ADDMAP": {
 					declare CampaignId = Event.Control.DataAttributeGet("campaignid");
 					declare GroupId = Event.Control.DataAttributeGet("groupid");
+					SendCustomEvent("AddMap", [Frame_Campaign_Menu.ScrollOffset.Y^"", CampaignId, GroupId]);
 				}
 			}
 		}

@@ -75,7 +75,7 @@ Void UpdateBuilder(Integer _Scroll) {
 						declare MapInfo = MapList.MapInfos[K];
 						CampaignListBuild ^= "\n"^"""			<frame pos="{{{ThumbnailPositionX}}} {{{ThumbnailPositionY}}}" id="FRAME_MAP" data-name="{{{MapInfo.Name}}}" data-author="{{{MapInfo.AuthorNickName}}}">
 						<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/{{{MapInfo.MapUid}}}" scriptevents="1" id="QUAD_MAP"/>
-						<label pos="17.5 17.5" z-index="2" size="10 10" text="" halign="center" valign="center" textcolor="C00" textsize="4" opacity=".9" textemboss="1" scriptevents="1" style="TextCardMedium" id="LABEL_MAP_REMOVE" data-campaignid="{{{I}}}" data-groupid="{{{J}}}"  data-mapid="{{{K}}}"/>
+						<label pos="17.5 17.5" z-index="2" size="10 10" text="" halign="center" valign="center" textcolor="C00" textsize="4" opacity=".9" textemboss="1" scriptevents="1" style="TextCardMedium" id="LABEL_MAP_REMOVE" data-campaignid="{{{I}}}" data-groupid="{{{J}}}" data-mapid="{{{K}}}" data-mapfile="{{{MapInfo.FileName}}}"/>
 						</frame>""";
 					}
 					
@@ -173,6 +173,36 @@ Void Event(CManiaAppEvent _Event) {
 						
 						if(!Campaigns.existskey(CampaignId)) return;
 						Campaigns[CampaignId].Groups.add(Group);
+						
+						LastScroll = Scroll;
+						Changed = True;
+					}
+					case "RemoveGroup": {
+						declare Scroll = TextLib::ToInteger(Event.CustomEventData[0]);
+						declare CampaignId = TextLib::ToInteger(Event.CustomEventData[1]);
+						declare GroupId = TextLib::ToInteger(Event.CustomEventData[2]);
+						
+						declare CampaignBuilder::SCampaign[] Campaigns for This;
+						
+						if(!Campaigns.existskey(CampaignId)) return;
+						declare Removed = Campaigns[CampaignId].Groups.removekey(GroupId);
+						
+						LastScroll = Scroll;
+						Changed = True;
+					}
+					case "AddMap": {
+						// some map file add to add here
+						
+						LastScroll = Scroll;
+						Changed = True;
+					}
+					case "RemoveMap": {
+						declare Scroll = TextLib::ToInteger(Event.CustomEventData[0]);
+						declare CampaignId = TextLib::ToInteger(Event.CustomEventData[1]);
+						declare GroupId = TextLib::ToInteger(Event.CustomEventData[2]);
+						declare MapFile = TextLib::ToInteger(Event.CustomEventData[3]);
+						
+						TitleEdition.File_Delete(MapFile);
 						
 						LastScroll = Scroll;
 						Changed = True;
