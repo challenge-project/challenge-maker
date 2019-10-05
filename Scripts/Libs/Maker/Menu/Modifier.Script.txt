@@ -197,11 +197,22 @@ Void Event(CManiaAppEvent _Event) {
 						declare SScriptInfo[][] Scripts for Layers::Page("Modifier");
 						CHALLENGE_SCRIPTS = Scripts[Challenge];
 						
+						declare Text[] Challenges;
+						foreach(Script, CHALLENGE_SCRIPTS) Challenges.add(Script.Metadata.Name);
+						
+						declare DeconstructedMapName = TextLib::Split("\\",MapInfo.FileName);
+						declare ChallengeMapName = "";
+						if(DeconstructedMapName.existskey(DeconstructedMapName.count-3)) {
+							DeconstructedMapName[DeconstructedMapName.count-3] = TextLib::Join("+", Challenges);
+							ChallengeMapName = TextLib::Join("\\", DeconstructedMapName);
+						}
+						
 						Loading::SetLoading(MapInfo.CollectionName, MapInfo);
 						
 		TitleControl.EditNewMapFromBaseMap(MapInfo.FileName, "", "", "Challenge.Script.txt", "Modifier.Script.txt", """<settings>
 		<setting name="S_Build" type="boolean" value="True"/>
 		<setting name="S_FastMode" type="boolean" value="True"/>
+		<setting name="S_FastMode_MapSave" type="text" value="{{{ChallengeMapName}}}"/>
 	</settings>""");
 					}
 				}
