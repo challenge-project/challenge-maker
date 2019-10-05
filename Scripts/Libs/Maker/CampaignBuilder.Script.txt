@@ -1,3 +1,7 @@
+#Include "Libs/BigBang1112/Task.Script.txt" as Task
+
+#Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
+
 #Struct SGroup {
 	Text Name;
 	Text TextColor;
@@ -8,5 +12,31 @@
 #Struct SCampaign {
 	Text Name;
 	Text Folder;
+	Text Image;
 	SGroup[] Groups;
+}
+
+Text GetCampaignsFile() {
+	declare MakerBase::SChallengeTitleSettings Settings for This;
+	if(Settings.Type == "Nadeo") return "Media/Campaigns_Nadeo.json";
+	return "Media/Campaigns.json";
+}
+
+declare CTaskResult_MapList MapList;
+
+CMapInfo[] GetAllCampaignMaps(SCampaign[] _Campaigns) {
+	declare CMapInfo[] MapInfos;
+
+	foreach(Campaign,_Campaigns) {
+		for(I,0,Campaign.Groups.count-1) {
+			declare Group = Campaign.Groups[I];
+			MapList = Task::SyncMapList(DataFileMgr.Map_GetFilteredGameList(2, Campaign.Folder^"/Default/"^I, False));
+			
+			foreach(MapInfo,MapList.MapInfos) {
+				MapInfos.add(MapInfo);
+			}
+		}
+	}
+	
+	return MapInfos;
 }

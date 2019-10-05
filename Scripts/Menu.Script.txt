@@ -11,6 +11,8 @@
 
 #Include "Libs/Campaign/Menu/Campaign.Script.txt" as Menu_Campaign
 #Include "Libs/Maker/Menu/Title.Script.txt" as Menu_Title
+#Include "Libs/Maker/Menu/Builder.Script.txt" as Menu_Builder
+#Include "Libs/Maker/Menu/Modifier.Script.txt" as Menu_Modifier
 
 #Include "Libs/Challenge/Menu/AuthBeta.Script.txt" as Menu_AuthBeta
 #Include "Libs/Challenge/Devmode.Script.txt" as Devmode
@@ -23,14 +25,16 @@ main() {
 		
 		//wait(False);
 		TitleControl.OpenEditor(CTitleControl::EEditorType::InterfaceDesigner);
+		//TitleControl.EditNewMap("Valley", "", "", "", "", "", "");
 		
-		Layers::Create("Background", "file://Media/Manialinks/Background.xml", True, False);
+		//Layers::Create("Background", "file://Media/Manialinks/Background.xml", True, False);
 		Layers::Create("Loading", "file://Media/Manialinks/Loading.xml", True, False, CUILayer::EUILayerType::LoadingScreen);
 		
 		//Auth::AuthorizeInManialink("b1a3d10ba7", "basic maps", "http://localhost/challenge/auth");
 		
 		Dictionary::SetTranslationFolder("Media/Translations");
-		Dictionary::SetTranslationLanguage(Settings::Get().Language);
+		//Dictionary::SetTranslationLanguage(Settings::Get().Language);
+		Dictionary::SetTranslationLanguage("en");
 		
 		Auth::Start();
 		
@@ -49,6 +53,8 @@ main() {
 		Menu_AuthBeta::End();
 		
 		Menu_Title::Start();
+		Menu_Builder::Start();
+		Menu_Modifier::Start();
 		Menu_Campaign::Start();
 		
 		if(S_Devmode) {
@@ -61,11 +67,15 @@ main() {
 			foreach(Event,PendingEvents) {
 				Layers::Event(Event);
 				Menu_Title::Event(Event);
+				Menu_Builder::Event(Event);
+				Menu_Modifier::Event(Event);
 				Menu_Campaign::Event(Event);
 			}
 	
 			Auth::Loop();
 			Menu_Title::Loop();
+			Menu_Builder::Loop();
+			Menu_Modifier::Loop();
 			Menu_Campaign::Loop();
 		
 			yield;

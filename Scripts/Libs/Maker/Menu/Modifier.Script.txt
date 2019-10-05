@@ -1,0 +1,219 @@
+#Include "MathLib" as MathLib
+#Include "TextLib" as TextLib
+
+#Include "Libs/BigBang1112/Layers.Script.txt" as Layers
+#Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
+#Include "Libs/BigBang1112/Settings.Script.txt" as Settings
+#Include "Libs/BigBang1112/File.Script.txt" as File
+#Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
+#Include "Libs/BigBang1112/Task.Script.txt" as Task
+#Include "Libs/BigBang1112/Map.Script.txt" as Map
+
+#Include "Libs/Challenge/Loading.Script.txt" as Loading
+#Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
+#Include "Libs/Maker/CampaignBuilder.Script.txt" as CampaignBuilder
+
+#Struct SMetadata {
+	Text Name;
+	Text AuthorLogin;
+	Text AuthorNickname;
+	Text Description;
+	Text CompatibleCollections;
+}
+
+#Struct SScriptInfo {
+	Text Name;
+	Text Type;
+	SMetadata Metadata;
+}
+
+#Struct SChallenge {
+	Text Name;
+	Text Type;
+}
+
+#Struct SMapProgress {
+	Boolean Modified;
+	Boolean Computed;
+	Integer Possible; // -1 - impossible, 0 - unknown, 1 - possible, 2 - solvable
+	Integer Time;
+}
+
+#Struct SProgress {
+	SMapProgress[Text] Maps;
+}
+
+#Struct SChallengeMapInfo {
+	Map::SMapInfo OriginalMap;
+	Map::SMapInfo ModifiedMap;
+	Integer Challenge;
+	SMapProgress Progress;
+}
+
+SScriptInfo SChallengeToSScriptInfo(SChallenge _Challenge) {
+	declare SScriptInfo Script;
+	
+	declare Text ScriptContent;
+	
+	Script.Name = _Challenge.Name;
+	Script.Type = _Challenge.Type;
+	if(_Challenge.Type == "Official") ScriptContent = File::Read("Media/Challenges/"^_Challenge.Name);
+				
+	declare LayerAPI = UILayerCreate();
+	LayerAPI.ManialinkPage = Manialink::Construct("",File::Read("Media/API_Base.Script.txt")^"""
+{{{Dictionary::TranslateAllPhrases(File::Read("Media/API.Script.txt"))}}}
+
+{{{Dictionary::TranslateAllPhrases(ScriptContent)}}}
+
+"""^File::Read("Media/API_Main_Metadata.Script.txt"));
+	
+	declare Received = False;
+	while(!Received) {
+		foreach(Event,PendingEvents) {
+			if(LayerAPI == Event.CustomEventLayer) {
+				declare SMetadata Metadata;
+				declare JsonSuccess = Metadata.fromjson(Event.CustomEventData[0]);
+				if(Metadata.AuthorLogin != "") {
+					Script.Metadata = Metadata;
+					Received = True;
+					break;
+				}
+			}
+		}
+		yield;
+	}
+	
+	UILayerDestroy(LayerAPI);
+	
+	return Script;
+}
+
+Void UpdateChallenges() {
+	declare SChallenge[][] Challenges for This;
+	declare SScriptInfo[][] Scripts for Layers::Page("Modifier");
+	Scripts.clear();
+	
+	foreach(Challenge, Challenges) {
+		declare SScriptInfo[] ChallengeScripts;
+		foreach(SubChallenge, Challenge) {
+			ChallengeScripts.add(SChallengeToSScriptInfo(SubChallenge));
+		}
+		Scripts.add(ChallengeScripts);
+	}
+}
+
+Void UpdateProgress() {
+	declare SChallenge[][] Challenges for This; // JSON-defined picked challenges
+	declare CMapInfo[] CampaignMaps for This;
+	declare SProgress Progress for This;
+	
+	declare SScriptInfo[][] Scripts for Layers::Page("Modifier"); // Actual challenge scripts
+	declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
+	ChallengeMaps.clear();
+	
+	declare AmountLeft = ["Modified" => 0, "Computed" => 0, "Possible" => 0];
+	
+	foreach(Map,CampaignMaps) {
+		declare ScriptId = 0;
+		foreach(Script,Scripts) {
+			declare SChallengeMapInfo MapInfo;
+			MapInfo.OriginalMap = Map::ToSMapInfo(Map);
+			MapInfo.Progress.Time = -1;
+				
+			if(Progress.Maps.existskey(MapInfo.ModifiedMap.MapUid)) {
+				MapInfo.Progress.Modified = Progress.Maps[Map.MapUid].Modified;
+				MapInfo.Progress.Computed = Progress.Maps[Map.MapUid].Computed;
+				MapInfo.Progress.Possible = Progress.Maps[Map.MapUid].Possible;
+				MapInfo.Progress.Time = Progress.Maps[Map.MapUid].Time;
+			}
+				
+			if(!MapInfo.Progress.Modified) AmountLeft["Modified"] += 1;
+			if(!MapInfo.Progress.Computed) AmountLeft["Computed"] += 1;
+			if(MapInfo.Progress.Possible == 0 || MapInfo.Progress.Possible == 2) AmountLeft["Possible"] += 1;
+		
+			MapInfo.Challenge = ScriptId;
+			ChallengeMaps.add(MapInfo);
+			
+			ScriptId+=1;
+		}
+	}
+	
+	Layers::SendEvent("Modifier", "UpdateAmountLeft", AmountLeft["Modified"]^"/"^AmountLeft["Computed"]^"/"^AmountLeft["Possible"]);
+	Layers::SendEvent("Modifier", "RefreshList");
+}
+
+Void UpdateFromFiles() {
+	declare MakerBase::SChallengeTitleSettings Settings for This;
+	declare JsonSettings = Settings.fromjson(File::Read("Media/Settings.json")); // Should be responsive
+	
+	declare SChallenge[][] Challenges for This;
+	declare JsonChallenges = Challenges.fromjson(File::Read("Media/Challenges.json")); // Should be responsive
+	
+	declare CampaignBuilder::SCampaign[] Campaigns for This;
+	declare JsonSuccess = Campaigns.fromjson(File::Read(CampaignBuilder::GetCampaignsFile())); // Should be responsive
+}
+
+Void Start() {
+	Layers::Create("Modifier", Manialink::FromFile("Media/Manialinks/Maker/Modifier", True, ["Audio"], Settings::Get().Theme));
+	
+	UpdateFromFiles();
+	
+	declare MakerBase::SChallengeTitleSettings Settings for This;
+	declare CampaignBuilder::SCampaign[] Campaigns for This;
+	
+	declare CMapInfo[] CampaignMaps for This;
+	CampaignMaps = CampaignBuilder::GetAllCampaignMaps(Campaigns);
+	
+	declare SProgress Progress for This;
+	declare JsonProgress = Progress.fromjson(File::Read("Media/Progress.json"));
+	
+	UpdateChallenges();
+}
+
+Void Event(CManiaAppEvent _Event) {
+	declare Event <=> _Event;
+
+	if(Event.Type == CManiaAppEvent::EType::LayerCustomEvent) {
+		switch(Event.CustomEventLayer) {
+			case Layers::Get("Modifier"): {
+				switch(Event.CustomEventType) {
+					case "Exit": {
+						Layers::Hide("Modifier", False);
+						Layers::Show("EditTitle", True);
+						Layers::Show("ManageTitle", True);
+					}
+					case "Show": {
+						UpdateFromFiles();
+						UpdateProgress();
+					}
+					case "ModifyMap": {
+						declare Map::SMapInfo MapInfo;
+						declare JsonSuccess = MapInfo.fromjson(Event.CustomEventData[0]);
+						declare Challenge = TextLib::ToInteger(Event.CustomEventData[1]);
+						
+						declare Map::SMapInfo OriginalMapInfo for LocalUser;
+						OriginalMapInfo = MapInfo;
+						declare SScriptInfo[] CHALLENGE_SCRIPTS for LocalUser;
+						declare SScriptInfo[][] Scripts for Layers::Page("Modifier");
+						CHALLENGE_SCRIPTS = Scripts[Challenge];
+						
+						Loading::SetLoading(MapInfo.CollectionName, MapInfo);
+						
+		TitleControl.EditNewMapFromBaseMap(MapInfo.FileName, "", "", "Challenge.Script.txt", "Modifier.Script.txt", """<settings>
+		<setting name="S_Build" type="boolean" value="True"/>
+		<setting name="S_FastMode" type="boolean" value="True"/>
+	</settings>""");
+					}
+				}
+			}
+		}
+	}
+}
+
+Void Async() {
+	
+}
+
+Void Loop() {
+	
+}

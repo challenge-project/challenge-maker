@@ -1,0 +1,252 @@
+#Struct SMetadata {
+	Text Name;
+	Text AuthorLogin;
+	Text AuthorNickname;
+	Text Description;
+	Text CompatibleCollections;
+}
+
+#Struct SScriptInfo {
+	Text Name;
+	Text Type;
+	SMetadata Metadata;
+}
+
+#Struct SChallenge {
+	Text Name;
+	Text Type;
+}
+
+#Struct SMapProgress {
+	Boolean Modified;
+	Boolean Computed;
+	Integer Possible; // -1 - impossible, 0 - unknown, 1 - possible, 2 - solvable
+	Integer Time;
+}
+
+#Struct SProgress {
+	SMapProgress[Text] Maps;
+}
+
+#Struct SMapInfo {
+	Text MapUid;
+	Text Comments;
+	Integer CopperPrice;
+	Text CollectionName;
+	Text AuthorLogin;
+	Text AuthorNickName;
+	Text AuthorZonePath;
+	Text AuthorZoneFlagUrl;
+	Text AuthorCountryFlagUrl;
+	Text MapType;
+	Text MapStyle;
+	Boolean Unlocked;
+	Boolean IsPlayable;
+	Boolean CreatedWithSimpleEditor;
+	Boolean CreatedWithPartyEditor;
+	Integer TMObjective_AuthorTime;
+	Integer TMObjective_GoldTime;
+	Integer TMObjective_SilverTime;
+	Integer TMObjective_BronzeTime;
+	Integer TMObjective_NbLaps;
+	Boolean TMObjective_IsLapRace;
+	Text Name;
+	Text Path;
+	Text FileName;
+}
+
+#Struct SChallengeMapInfo {
+	SMapInfo OriginalMap;
+	SMapInfo ModifiedMap;
+	Integer Challenge;
+	SMapProgress Progress;
+}
+
+Void UpdateList(SChallengeMapInfo[] ChallengeMaps, SScriptInfo[][] _Scripts) {
+	declare Frame_ChallengeList = (Page.GetFirstChild("FRAME_CHALLENGELIST") as CMlFrame);
+	declare Frame_Inner_ChallengeList = (Page.GetFirstChild("FRAME_INNER_CHALLENGELIST") as CMlFrame);
+	declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_LIST_SCROLLBAR") as CMlQuad);
+	if(ChallengeMaps.count > 13) {
+		Frame_ChallengeList.ScrollMax.Y = ChallengeMaps.count*10.-140;
+
+		declare VisibleRatio = 13./ChallengeMaps.count;
+		Quad_Scrollbar.Size.Y = 140*VisibleRatio;
+
+		Quad_Scrollbar.Show();
+	}
+	else {
+		Frame_ChallengeList.ScrollMax.Y = 0.;
+		Quad_Scrollbar.Hide();
+	}
+
+	declare Offset = MathLib::NearestInteger(Frame_ChallengeList.ScrollOffset.Y/10);
+	for(I,0,Frame_Inner_ChallengeList.Controls.count-1) {
+		declare Frame = (Frame_Inner_ChallengeList.Controls[I] as CMlFrame);
+		if(ChallengeMaps.existskey(I+Offset)) {
+			declare Map = ChallengeMaps[I+Offset];
+
+			Frame.DataAttributeSet("id", I+Offset^"");
+
+			declare Text[] Challenge;
+			foreach(Script,_Scripts[Map.Challenge]) {
+				Challenge.add(Script.Metadata.Name);
+			}
+
+			(Frame.GetFirstChild("LABEL_MAPNAME") as CMlLabel).SetText(Map.OriginalMap.Name);
+			(Frame.GetFirstChild("LABEL_CHALLENGE") as CMlLabel).SetText(TextLib::Join(" + ", Challenge));
+			if(Map.ModifiedMap.MapUid != "") (Frame.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Map.ModifiedMap.MapUid);
+			else (Frame.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Map.OriginalMap.MapUid);
+
+			if(Map.Progress.Modified) {
+				(Frame.GetFirstChild("QUAD_MODIFIED") as CMlQuad).Colorize = <0.,1.,0.>;
+				(Frame.GetFirstChild("LABEL_MODIFIED") as CMlLabel).Value = "{{{{YES}}}}";
+			}
+			else {
+				(Frame.GetFirstChild("QUAD_MODIFIED") as CMlQuad).Colorize = <1.,0.,0.>;
+				(Frame.GetFirstChild("LABEL_MODIFIED") as CMlLabel).Value = "{{{{NO}}}}";
+			}
+
+			if(Map.Progress.Computed) {
+				(Frame.GetFirstChild("QUAD_COMPUTED") as CMlQuad).Colorize = <0.,1.,0.>;
+				(Frame.GetFirstChild("LABEL_COMPUTED") as CMlLabel).Value = "{{{{YES}}}}";
+			}
+			else {
+				(Frame.GetFirstChild("QUAD_COMPUTED") as CMlQuad).Colorize = <1.,0.,0.>;
+				(Frame.GetFirstChild("LABEL_COMPUTED") as CMlLabel).Value = "{{{{NO}}}}";
+			}
+
+			switch(Map.Progress.Possible) {
+				case -1: {
+					(Frame.GetFirstChild("QUAD_POSSIBLE") as CMlQuad).Colorize = <1.,0.,0.>;
+					(Frame.GetFirstChild("LABEL_POSSIBLE") as CMlLabel).Value = "{{{{NO}}}}";
+				}
+				case 1: {
+					(Frame.GetFirstChild("QUAD_POSSIBLE") as CMlQuad).Colorize = <0.,1.,0.>;
+					(Frame.GetFirstChild("LABEL_POSSIBLE") as CMlLabel).Value = "{{{{YES}}}}";
+				}
+				case 2: {
+					(Frame.GetFirstChild("QUAD_POSSIBLE") as CMlQuad).Colorize = <1.,1.,0.>;
+					(Frame.GetFirstChild("LABEL_POSSIBLE") as CMlLabel).Value = "{{{{SOLVABLE}}}}";
+				}
+				default: {
+					(Frame.GetFirstChild("QUAD_POSSIBLE") as CMlQuad).Colorize = <0.1,0.1,0.1>;
+					(Frame.GetFirstChild("LABEL_POSSIBLE") as CMlLabel).Value = "{{{{UNKNOWN}}}}";
+				}
+			}
+
+			/*if(Ghost.IsAuthorMedal)
+				(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).SetText("$0f0●$z {{{{AUTHOR_MEDAL}}}}");
+			else if(Ghost.IsGoldMedal)
+				(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).SetText("$fc0●$z {{{{GOLD_MEDAL}}}}");
+			else if(Ghost.IsSilverMedal)
+				(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).SetText("$aaa●$z {{{{SILVER_MEDAL}}}}");
+			else if(Ghost.IsBronzeMedal)
+				(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).SetText("$730●$z {{{{BRONZE_MEDAL}}}}");
+			else
+				(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).SetText(Ghost.Nickname);
+
+			if(Ghost.Time == -1)
+				(Frame.GetFirstChild("LABEL_TIME") as CMlLabel).SetText("-:--.---");
+			else
+				(Frame.GetFirstChild("LABEL_TIME") as CMlLabel).SetText(TimeToTextWithMilli(Ghost.Time));
+
+			declare Quad_Ghost = (Frame.GetFirstChild("QUAD_GHOST") as CMlQuad);
+
+			Quad_Ghost.StyleSelected = SelectedGhostFiles.exists(Ghost.File);*/
+			
+			Frame.Show();
+		}
+		else {
+			Frame.Hide();
+		}
+	}
+}
+
+***Start***
+***
+declare Frame_ChallengeList = (Page.GetFirstChild("FRAME_CHALLENGELIST") as CMlFrame);
+declare Frame_Inner_ChallengeList = (Page.GetFirstChild("FRAME_INNER_CHALLENGELIST") as CMlFrame);
+declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_LIST_SCROLLBAR") as CMlQuad);
+
+Frame_ChallengeList.ScrollActive = True;
+Frame_ChallengeList.ScrollGrid = <10.,10.>;
+Frame_ChallengeList.ScrollMin = <0.,0.>;
+
+declare OldScrollOffset = Frame_ChallengeList.ScrollOffset;
+
+declare SChallengeMapInfo[] ChallengeMaps for Page;
+declare SScriptInfo[][] Scripts for Page;
+
+declare HoldScrollbar = False;
+declare HoldScrollbarPos = 0.;
+***
+
+***Loop***
+***
+foreach(Event,PendingEvents) {
+	switch(Event.Type) {
+		case CMlScriptEvent::Type::MouseClick: {
+			switch(Event.ControlId) {
+				case "QUAD_BUTTON_EXIT": {
+					SendCustomEvent("Exit", []);
+				}
+				case "QUAD_LIST_SCROLLBAR": {
+					HoldScrollbar = True;
+					HoldScrollbarPos = MouseY-Quad_Scrollbar.RelativePosition_V3.Y;
+				}
+				case "QUAD_SELECTOR": {
+					declare MapId = TextLib::ToInteger(Event.Control.Parent.DataAttributeGet("id"));
+					declare Map = ChallengeMaps[MapId];
+
+					if(Map.ModifiedMap.MapUid == "")
+						SendCustomEvent("ModifyMap", [Map.OriginalMap.tojson(), Map.Challenge^""]);
+				}
+			}
+		}
+		case CMlScriptEvent::Type::PluginCustomEvent: {
+			switch(Event.CustomEventType) {
+				case "UpdateTimeLeft": {
+					(Page.GetFirstChild("LABEL_TIME_LEFT") as CMlLabel).SetText(TextLib::TimeToText(TextLib::ToInteger(Event.CustomEventData[0]), False));
+				}
+				case "UpdateTimeSpent": {
+					(Page.GetFirstChild("LABEL_TIME_SPENT") as CMlLabel).SetText(TextLib::TimeToText(TextLib::ToInteger(Event.CustomEventData[0]), False));
+				}
+				case "UpdateAvgLength": {
+					(Page.GetFirstChild("LABEL_AVG_LENGTH") as CMlLabel).SetText(TextLib::TimeToText(TextLib::ToInteger(Event.CustomEventData[0]), False));
+				}
+				case "UpdateAmountLeft": {
+					(Page.GetFirstChild("LABEL_AMOUNT_LEFT") as CMlLabel).SetText(Event.CustomEventData[0]);
+				}
+				case "Show": {
+					SendCustomEvent("Show", []);
+				}
+				case "RefreshList": {
+					UpdateList(ChallengeMaps, Scripts);
+				}
+			}
+		}
+	}
+}
+
+if(HoldScrollbar && MouseLeftButton) {
+	Quad_Scrollbar.RelativePosition_V3.Y = MathLib::Clamp(MouseY-HoldScrollbarPos,Quad_Scrollbar.Size.Y-140,0.);
+	Frame_ChallengeList.ScrollOffset.Y = (MouseY-HoldScrollbarPos)/(Quad_Scrollbar.Size.Y-140)*Frame_ChallengeList.ScrollMax.Y;
+
+	Frame_Inner_ChallengeList.RelativePosition_V3 = -Frame_ChallengeList.ScrollOffset;
+	if(Frame_ChallengeList.ScrollOffset != OldScrollOffset) UpdateList(ChallengeMaps, Scripts);
+}
+else {
+	if(Frame_ChallengeList.ScrollOffset != OldScrollOffset) {
+		OldScrollOffset = Frame_ChallengeList.ScrollOffset;
+		Frame_Inner_ChallengeList.RelativePosition_V3 = -Frame_ChallengeList.ScrollOffset;
+		UpdateList(ChallengeMaps, Scripts);
+
+		declare ScrollRatio = 0.;
+		if(Frame_ChallengeList.ScrollMax.Y != 0)
+			ScrollRatio = Frame_ChallengeList.ScrollOffset.Y / Frame_ChallengeList.ScrollMax.Y;
+		Quad_Scrollbar.RelativePosition_V3.Y = -ScrollRatio*(140-Quad_Scrollbar.Size.Y);
+	}
+
+	HoldScrollbar = False;
+}
+***

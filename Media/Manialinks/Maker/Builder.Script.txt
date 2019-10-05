@@ -15,6 +15,7 @@ declare CampaignsSize = (Frame_Campaigns.Controls.count-1) * Frame_Campaigns.Con
 Frame_Campaign_Menu.ScrollActive = True;
 Frame_Campaign_Menu.ScrollGrid = <15.,15.>;
 Frame_Campaign_Menu.ScrollMax = <0.,Frame_Campaign_Menu.GetFirstChild("QUAD_CAMPAIGN_MENU").Size.Y-150>;
+if(Frame_Campaign_Menu.ScrollMax.Y < 0) Frame_Campaign_Menu.ScrollMax.Y = 0.;
 Frame_Campaign_Menu.ScrollMin = <0.,0.>;
 
 declare OldScrollOffset = Frame_Campaign_Menu.ScrollOffset;
@@ -24,8 +25,17 @@ declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_CAMPAIGN_SCROLL") as CMlQuad)
 
 declare WaitingToScroll = False;
 
+if(Frame_Campaign_Menu.ScrollMax.Y > 0) {
+	declare VisibleRatio = 150/(150+Frame_Campaign_Menu.ScrollMax.Y);
+	Quad_Scrollbar.Show();
+	Quad_Scrollbar.Size.Y = 150*VisibleRatio;
+	Quad_Scrollbar.RelativePosition_V3.Y = -TextLib::ToInteger(Frame_Campaign_Menu.DataAttributeGet("startscroll"))*(150-Quad_Scrollbar.Size.Y)-5;
+}
+
+declare Wat = Now;
 while(MathLib::NearestInteger(Frame_Campaign_Menu.ScrollOffset.Y) != TextLib::ToInteger(Frame_Campaign_Menu.DataAttributeGet("startscroll"))) {
 	Frame_Campaign_Menu.ScrollOffset.Y = TextLib::ToReal(Frame_Campaign_Menu.DataAttributeGet("startscroll"));
+	if(Now-Wat > 200) break;
 	yield;
 }
 ***
@@ -34,6 +44,15 @@ while(MathLib::NearestInteger(Frame_Campaign_Menu.ScrollOffset.Y) != TextLib::To
 ***
 foreach(Event,PendingEvents) {
 	switch(Event.Type) {
+		case CMlScriptEvent::Type::EntrySubmit: {
+			switch(Event.ControlId) {
+				case "ENTRY_GROUP": {
+					declare CampaignId = Event.Control.DataAttributeGet("campaignid");
+					declare GroupId = Event.Control.DataAttributeGet("groupid");
+					SendCustomEvent("UpdateGroup", [CampaignId, GroupId, (Event.Control as CMlEntry).Value]);
+				}
+			}
+		}
 		case CMlScriptEvent::Type::MouseClick: {
 			switch(Event.ControlId) {
 				case "QUAD_BUTTON_EXIT": {
@@ -65,6 +84,12 @@ foreach(Event,PendingEvents) {
 					declare GroupId = Event.Control.DataAttributeGet("groupid");
 					SendCustomEvent("AddMap", [Frame_Campaign_Menu.ScrollOffset.Y^"", CampaignId, GroupId]);
 				}
+				case "QUAD_BUTTON_NADEOCAMPAIGN": {
+					SendCustomEvent("ChangeType", ["Nadeo"]);
+				}
+				case "QUAD_BUTTON_CUSTOMCAMPAIGN": {
+					SendCustomEvent("ChangeType", ["Custom"]);
+				}
 			}
 		}
 		case CMlScriptEvent::Type::MouseOver: {
@@ -84,7 +109,16 @@ foreach(Event,PendingEvents) {
 			}
 		}
 		case CMlScriptEvent::Type::PluginCustomEvent: {
-			
+			switch(Event.CustomEventType) {
+				case "NadeoCampaign": {
+					(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
+					(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
+				}
+				case "CustomCampaign": {
+					(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
+					(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
+				}
+			}
 		}
 	}
 }

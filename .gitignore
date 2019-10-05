@@ -3,3 +3,12 @@
 *.Gbx
 *.zip
 *.pdn
+*.webm
+*.ogg
+Media/Manialinks/Base
+Media/Translations
+Media/Extensions
+Scripts/EditorPlugins
+Scripts/MapTypes
+Scripts/Libs/BigBang1112
+Scripts/Libs/Challenge

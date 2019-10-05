@@ -1,5 +1,0 @@
-#Const C_Host "http://server.bigbang1112.eu/challenge"
-
-Text GetHost() {
-	return C_Host;
-}

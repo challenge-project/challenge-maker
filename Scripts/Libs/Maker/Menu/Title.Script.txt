@@ -39,6 +39,11 @@ Void Event(CManiaAppEvent _Event) {
 						Layers::Hide("EditTitle", False);
 						Layers::Hide("ManageTitle", False);
 					}
+					case "Modifier": {
+						Layers::Show("Modifier", True);
+						Layers::Hide("EditTitle", False);
+						Layers::Hide("ManageTitle", False);
+					}
 					case "Preview": {
 						Layers::Show("Campaign", True);
 						Layers::Hide("EditTitle", False);
