@@ -200,8 +200,7 @@ foreach(Event,PendingEvents) {
 					declare MapId = TextLib::ToInteger(Event.Control.Parent.DataAttributeGet("id"));
 					declare Map = ChallengeMaps[MapId];
 
-					if(Map.ModifiedMap.MapUid == "")
-						SendCustomEvent("ModifyMap", [MapId^""]);
+					SendCustomEvent("ModifyMap", [MapId^""]);
 				}
 				case "QUAD_BUTTON_REFRESH": {
 					SendCustomEvent("Refresh", []);

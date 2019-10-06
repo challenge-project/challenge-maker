@@ -261,8 +261,32 @@ Void Event(CManiaAppEvent _Event) {
 					case "ModifyMap": {
 						declare MapId = TextLib::ToInteger(Event.CustomEventData[0]);
 						
-						declare Integer[] ModificationIds for This;
-						ModificationIds.add(MapId);
+						declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
+						declare Map = ChallengeMaps[MapId];
+						
+						if(Map.Progress.Modified) {
+							switch(Map.Progress.Possible) {
+								case -1: {
+									
+								}
+								case 1: {
+									log("play");
+								}
+								case 2: {
+									declare Boolean RepairMap for This;
+									declare Integer RepairMap_Id for This;
+									declare SChallengeMapInfo RepairMap_Map for This;
+									
+									RepairMap = True;
+									RepairMap_Id = MapId;
+									RepairMap_Map = Map;
+								}
+							}
+						}
+						else {
+							declare Integer[] ModificationIds for This;
+							ModificationIds.add(MapId);
+						}
 					}
 					case "Refresh": {
 						UpdateFromFiles();
@@ -403,5 +427,48 @@ Void Loop() {
 			IsReloaded = True;
 		}
 		IsUpdatingProgress = False;
+	}
+	
+	declare Boolean RepairMap for This;
+	if(RepairMap) {
+		declare Integer RepairMap_Id for This;
+		declare SChallengeMapInfo RepairMap_Map for This;
+		
+		Loading::SetLoading(RepairMap_Map.ModifiedMap.CollectionName, RepairMap_Map.ModifiedMap);
+		TitleControl.EditMap(RepairMap_Map.ModifiedMap.FileName, "Modifier.Script.txt", """<settings>
+	<setting name="S_Build" type="boolean" value="True"/>
+	<setting name="S_FastMode_MapSave" type="text" value="{{{RepairMap_Map.ModifiedMap.FileName}}}"/>
+</settings>""");
+		wait(TitleControl.IsReady);
+		RepairMap_Map.ModifiedMap = Map::MapInfo(RepairMap_Map.ModifiedMap.FileName);
+		
+		declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
+		
+		declare Integer ProblemResult for LocalUser;
+		
+		// define Possible
+		RepairMap_Map.Progress.Possible = ProblemResult; // wrong
+		
+		ChallengeMaps[RepairMap_Id] = RepairMap_Map;
+		
+		// set some progress.json
+		declare SProgress Progress for This;
+		if(!Progress.Maps.existskey(RepairMap_Map.OriginalMap.MapUid)) Progress.Maps[RepairMap_Map.OriginalMap.MapUid] = [];
+		Progress.Maps[RepairMap_Map.OriginalMap.MapUid][RepairMap_Map.ModifiedMap.MapUid] = RepairMap_Map.Progress;
+		TitleEdition.File_WriteText("Media/Progress.json",Progress.tojson());
+		
+		// Update all of the timings
+		UpdateTimings(ChallengeMaps.count);
+		
+		declare Integer[Text] AmountLeft for This;
+		if(RepairMap_Map.Progress.Modified) AmountLeft["Modified"] -= 1;
+		if(RepairMap_Map.Progress.Computed) AmountLeft["Computed"] -= 1;
+		if(RepairMap_Map.Progress.Possible == -1 || RepairMap_Map.Progress.Possible == 1) AmountLeft["Possible"] -= 1;
+		Layers::SendEvent("Modifier", "UpdateAmountLeft", AmountLeft["Modified"]^"/"^AmountLeft["Possible"]);
+		
+		// Refresh the look of the list
+		Layers::SendEvent("Modifier", "RefreshList");
+		
+		RepairMap = False;
 	}
 }
