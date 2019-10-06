@@ -269,6 +269,10 @@ Void Event(CManiaAppEvent _Event) {
 								case -1: {
 									
 								}
+								case 0: {
+									declare Integer[] ModificationIds for This;
+									ModificationIds.add(MapId);
+								}
 								case 1: {
 									log("play");
 								}
