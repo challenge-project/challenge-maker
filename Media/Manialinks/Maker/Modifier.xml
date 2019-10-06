@@ -40,24 +40,24 @@
 		</frame>
 		
 		<label pos="0 -67.5" z-index="0" size="55 5" text="TIME LEFT TO MODIFY THE REST" halign="center" textfont="Oswald" textprefix="$o" autonewline="1" textsize="1.5" valign="center"/>
-		<label pos="0 -70" z-index="0" size="55 7" text="-:--:--" halign="center" textfont="Oswald" autonewline="1" textsize="6" id="LABEL_TIME_LEFT"/>
+		<label pos="0 -70" z-index="0" size="55 7" text="???" halign="center" textfont="Oswald" autonewline="1" textsize="6" id="LABEL_TIME_LEFT"/>
 		
 		<label pos="0 -82.5" z-index="0" size="55 5" text="TIME SPENT MODIFYING" halign="center" textfont="Oswald" textprefix="$o" autonewline="1" textsize="1.5" valign="center"/>
-		<label pos="0 -85" z-index="0" size="55 7" text="-:--:--" halign="center" textfont="Oswald" autonewline="1" textsize="6" id="LABEL_TIME_SPENT"/>
+		<label pos="0 -85" z-index="0" size="55 7" text="???" halign="center" textfont="Oswald" autonewline="1" textsize="6" id="LABEL_TIME_SPENT"/>
 		
 		<label pos="0 -97.5" z-index="0" size="55 5" text="AVERAGE MODIFICATION LENGTH" halign="center" textfont="Oswald" textprefix="$o" autonewline="1" textsize="1.5" valign="center"/>
-		<label pos="0 -100" z-index="0" size="55 7" text="-:--:--" halign="center" textfont="Oswald" autonewline="1" textsize="6" id="LABEL_AVG_LENGTH"/>
+		<label pos="0 -100" z-index="0" size="55 7" text="???" halign="center" textfont="Oswald" autonewline="1" textsize="6" id="LABEL_AVG_LENGTH"/>
 		
 		<label pos="0 -112.5" z-index="0" size="55 5" text="MODIFICATIONS LEFT" halign="center" textfont="Oswald" textprefix="$o" autonewline="1" textsize="1.5" valign="center"/>
-		<label pos="0 -115" z-index="0" size="55 7" text="-" halign="center" textfont="Oswald" autonewline="1" textsize="6" id="LABEL_AMOUNT_LEFT"/>
+		<label pos="0 -115" z-index="0" size="55 7" text="?/?/?" halign="center" textfont="Oswald" autonewline="1" textsize="6" id="LABEL_AMOUNT_LEFT"/>
 		
 		<frame pos="0 -140">
 			<quad pos="0 0" z-index="0" size="60 12.5" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="060" id="QUAD_BUTTON_START"/>
-			<label pos="0 -0.4" z-index="1" size="50 12.5" text="START" halign="center" textfont="RajdhaniMono" valign="center2" textsize="4"/>
+			<label pos="0 -0.4" z-index="1" size="50 12.5" text="MODIFY" halign="center" textfont="RajdhaniMono" valign="center2" textsize="4"/>
 		</frame>
 		
 		<frame pos="15 -152.5">
-			<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="222" id="QUAD_BUTTON_REFRESH"/>
+			<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="036" id="QUAD_BUTTON_REFRESH"/>
 			<quad pos="0 0" z-index="1" size="9 9" valign="center" halign="center" style="UIConstruction_Buttons" substyle="Reload"/>
 		</frame>
 		<frame pos="25 -152.5">
@@ -82,277 +82,281 @@
 			<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
 			<label pos="112.5 -5.3" z-index="0" size="30 10" text="MODIFIED" textfont="RajdhaniMono" valign="center2" textsize="3"/>
 			<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-			<label pos="152.5 -5.3" z-index="0" size="30 10" text="COMPUTED" textfont="RajdhaniMono" valign="center2" textsize="3"/>
+			<label pos="152.5 -5.3" z-index="0" size="30 10" text="POSSIBLE" textfont="RajdhaniMono" valign="center2" textsize="3"/>
 			<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-			<label pos="192.5 -5.3" z-index="0" size="30 10" text="POSSIBLE" textfont="RajdhaniMono" valign="center2" textsize="3"/>
+			<label pos="192.5 -5.3" z-index="0" size="30 10" text="COMPUTED" textfont="RajdhaniMono" valign="center2" textsize="3"/>
+		</frame>
+		<frame pos="2.5 -12.5" z-index="2" id="FRAME_LOADING">
+			<quad pos="0 0" z-index="-1" size="227.5 140" style="Bgs1" substyle="BgCardList" scriptevents="1"/>
+			<gauge pos="115 -70" z-index="0" size="100 10" halign="center" valign="center" drawbg="0" id="GAUGE_LOADING"/>
 		</frame>
 		<frame pos="2.5 -12.5" clip="True" clipposn="113.75 -70" clipsizen="227.5 140" id="FRAME_CHALLENGELIST">
 			<frame id="FRAME_INNER_CHALLENGELIST">
-				<frame>
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+				<frame hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
 						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
 					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
 				</frame>
-				<frame pos="0 -10">
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+				<frame pos="0 -10" hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
 						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
 					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
 				</frame>
-				<frame pos="0 -20">
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+				<frame pos="0 -20" hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
 						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
 					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
 				</frame>
-				<frame pos="0 -30">
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+				<frame pos="0 -30" hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
 						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
 					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
 				</frame>
-				<frame pos="0 -40">
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+				<frame pos="0 -40" hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
 						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
 					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
 				</frame>
-				<frame pos="0 -50">
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+				<frame pos="0 -50" hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
 						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
 					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
 				</frame>
-				<frame pos="0 -60">
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+				<frame pos="0 -60" hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
 						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
 					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
 				</frame>
-				<frame pos="0 -70">
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+				<frame pos="0 -70" hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
 						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
 					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
 				</frame>
-				<frame pos="0 -80">
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+				<frame pos="0 -80" hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
 						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
 					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
 				</frame>
-				<frame pos="0 -90">
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+				<frame pos="0 -90" hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
 						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
 					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
 				</frame>
-				<frame pos="0 -100">
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
-						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4" opacity=".5"/>
-					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
-				</frame>
-				<frame pos="0 -110">
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+				<frame pos="0 -100" hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
 						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
 					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
 				</frame>
-				<frame pos="0 -120">
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+				<frame pos="0 -110" hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
 						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
 					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
 				</frame>
-				<frame pos="0 -130">
-					<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-					<frame pos="1 -1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+				<frame pos="0 -120" hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
 						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
 					</frame>
-					<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="107.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
-					<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="147.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
-					<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="187.5 0" z-index="2" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
-					<label pos="5 -5.3" z-index="1" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
-					<label pos="62.5 -5.3" z-index="1" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
-					<label pos="127.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
-					<label pos="167.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
-					<label pos="207.5 -5.3" z-index="3" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
-					<quad pos="0 0" z-index="1" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
+				</frame>
+				<frame pos="0 -130" hidden="1">
+					<quad pos="0 0" z-index="0" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
+					<frame pos="1 -1" z-index="1" clip="True" clipposn="27.75 -4" clipsizen="55.5 8">
+						<quad z-index="0" size="55.5 55.5" id="QUAD_THUMBNAIL" valign="center" pos="0 -4"/>
+					</frame>
+					<quad pos="57.5 0" z-index="0" size="50 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="107.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_MODIFIED"/>
+					<quad pos="147.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="147.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_POSSIBLE"/>
+					<quad pos="187.5 0" z-index="0" size="40 10" style="Bgs1" substyle="BgCardList"/>
+					<quad pos="187.5 0" z-index="3" size="40 10" style="Bgs1" substyle="BgWindow4" colorize="0F0" opacity=".75" id="QUAD_COMPUTED"/>
+					<label pos="5 -5.3" z-index="2" size="47.5 10" text="$o$f8fKEK" textfont="Oswald" valign="center2" textsize="3" id="LABEL_MAPNAME" textemboss="1"/>
+					<label pos="62.5 -5.3" z-index="2" size="40 10" text="fhsdfhfdshfdshsfd" textfont="OswaldMono" valign="center2" textsize="2" id="LABEL_CHALLENGE"/>
+					<label pos="127.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_MODIFIED"/>
+					<label pos="167.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_POSSIBLE"/>
+					<label pos="207.5 -5.3" z-index="4" size="30 10" text="YES" textfont="Oswald" valign="center2" textsize="3" halign="center" id="LABEL_COMPUTED"/>
+					<quad pos="0 0" z-index="2" size="227.5 10" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" opacity=".5" colorize="036" id="QUAD_SELECTOR"/>
 				</frame>
 			</frame>
 		</frame>

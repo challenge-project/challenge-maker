@@ -25,7 +25,7 @@
 }
 
 #Struct SProgress {
-	SMapProgress[Text] Maps;
+	SMapProgress[Text][Text] Maps;
 }
 
 #Struct SMapInfo {
@@ -126,7 +126,7 @@ Void UpdateList(SChallengeMapInfo[] ChallengeMaps, SScriptInfo[][] _Scripts) {
 				}
 				case 2: {
 					(Frame.GetFirstChild("QUAD_POSSIBLE") as CMlQuad).Colorize = <1.,1.,0.>;
-					(Frame.GetFirstChild("LABEL_POSSIBLE") as CMlLabel).Value = "{{{{SOLVABLE}}}}";
+					(Frame.GetFirstChild("LABEL_POSSIBLE") as CMlLabel).Value = "{{{{YES}}}}";
 				}
 				default: {
 					(Frame.GetFirstChild("QUAD_POSSIBLE") as CMlQuad).Colorize = <0.1,0.1,0.1>;
@@ -199,20 +199,29 @@ foreach(Event,PendingEvents) {
 					declare Map = ChallengeMaps[MapId];
 
 					if(Map.ModifiedMap.MapUid == "")
-						SendCustomEvent("ModifyMap", [Map.OriginalMap.tojson(), Map.Challenge^""]);
+						SendCustomEvent("ModifyMap", [MapId^""]);
+				}
+				case "QUAD_BUTTON_REFRESH": {
+					SendCustomEvent("Refresh", []);
 				}
 			}
 		}
 		case CMlScriptEvent::Type::PluginCustomEvent: {
 			switch(Event.CustomEventType) {
 				case "UpdateTimeLeft": {
-					(Page.GetFirstChild("LABEL_TIME_LEFT") as CMlLabel).SetText(TextLib::TimeToText(TextLib::ToInteger(Event.CustomEventData[0]), False));
+					declare Time = TextLib::ToInteger(Event.CustomEventData[0]);
+					if(Time == -1000) (Page.GetFirstChild("LABEL_TIME_LEFT") as CMlLabel).SetText("???");
+					else (Page.GetFirstChild("LABEL_TIME_LEFT") as CMlLabel).SetText(TextLib::TimeToText(Time, True));
 				}
 				case "UpdateTimeSpent": {
-					(Page.GetFirstChild("LABEL_TIME_SPENT") as CMlLabel).SetText(TextLib::TimeToText(TextLib::ToInteger(Event.CustomEventData[0]), False));
+					declare Time = TextLib::ToInteger(Event.CustomEventData[0]);
+					if(Time == -1000) (Page.GetFirstChild("LABEL_TIME_SPENT") as CMlLabel).SetText("???");
+					else (Page.GetFirstChild("LABEL_TIME_SPENT") as CMlLabel).SetText(TextLib::TimeToText(Time, True));
 				}
 				case "UpdateAvgLength": {
-					(Page.GetFirstChild("LABEL_AVG_LENGTH") as CMlLabel).SetText(TextLib::TimeToText(TextLib::ToInteger(Event.CustomEventData[0]), False));
+					declare Time = TextLib::ToInteger(Event.CustomEventData[0]);
+					if(Time == -1000) (Page.GetFirstChild("LABEL_AVG_LENGTH") as CMlLabel).SetText("???");
+					else (Page.GetFirstChild("LABEL_AVG_LENGTH") as CMlLabel).SetText(TextLib::TimeToText(Time, True));
 				}
 				case "UpdateAmountLeft": {
 					(Page.GetFirstChild("LABEL_AMOUNT_LEFT") as CMlLabel).SetText(Event.CustomEventData[0]);
@@ -222,6 +231,11 @@ foreach(Event,PendingEvents) {
 				}
 				case "RefreshList": {
 					UpdateList(ChallengeMaps, Scripts);
+					Page.GetFirstChild("FRAME_LOADING").Hide();
+				}
+				case "LoadingProgress": {
+					Page.GetFirstChild("FRAME_LOADING").Show();
+					(Page.GetFirstChild("GAUGE_LOADING") as CMlGauge).SetRatio(TextLib::ToReal(Event.CustomEventData[0]));
 				}
 			}
 		}
