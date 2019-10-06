@@ -8,7 +8,7 @@
 		<label pos="0 -12.5" z-index="1" size="60 15" text="MODIFY IN BULK" halign="center" valign="center2" textfont="RajdhaniMono" textsize="5" autonewline="1"/>
 		
 		<frame pos="0 -30">
-			<quad pos="0 0" z-index="0" size="60 12.5" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="036" id="QUAD_BUTTON_EXIT"/>
+			<quad pos="0 0" z-index="0" size="60 12.5" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="036" id="QUAD_BUTTON_MANAGE"/>
 			<label pos="0 -0.2" z-index="1" size="50 12.5" text="MANAGE CHALLENGES" halign="center" textfont="RajdhaniMono" valign="center2" autonewline="1"/>
 		</frame>
 		

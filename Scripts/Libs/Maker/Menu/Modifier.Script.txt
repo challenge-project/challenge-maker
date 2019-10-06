@@ -116,10 +116,16 @@ Void UpdateChallenges() {
 Void UpdateTimings(Integer _TotalMapCount) {
 	declare SProgress Progress for This;
 	
-	declare CompletedCount = 0;
-	declare TotalCount = _TotalMapCount;
+	declare Integer CompletedCount for This;
+	declare Integer TotalCount for This;
+	declare Real TimeSpent for This;
+	declare Real AvgLength for This;
+	declare Real TimeLeft for This;
 	
-	declare TimeSpent = 0.;
+	CompletedCount = 0;
+	TotalCount = _TotalMapCount;
+	
+	TimeSpent = 0.;
 	foreach(OriMapUid => ModifiedUids, Progress.Maps) {
 		foreach(ModifiedUid => ModifInfo, ModifiedUids) {
 			if(ModifInfo.Time != -1) {
@@ -131,11 +137,11 @@ Void UpdateTimings(Integer _TotalMapCount) {
 	
 	Layers::SendEvent("Modifier", "UpdateTimeSpent", (TimeSpent*1000)^"");
 	
-	declare AvgLength = -1.;
+	AvgLength = -1.;
 	if(CompletedCount > 0) AvgLength = TimeSpent/CompletedCount;
 	Layers::SendEvent("Modifier", "UpdateAvgLength", MathLib::NearestInteger(AvgLength*1000)^"");
 	
-	declare TimeLeft = -1.;
+	TimeLeft = -1.;
 	if(TotalCount > 0 && AvgLength != -1) TimeLeft = AvgLength*(TotalCount-CompletedCount);
 	Layers::SendEvent("Modifier", "UpdateTimeLeft", MathLib::NearestInteger(TimeLeft*1000)^"");
 }
@@ -214,6 +220,7 @@ Void UpdateFromFiles() {
 
 Void Start() {
 	Layers::Create("Modifier", Manialink::FromFile("Media/Manialinks/Maker/Modifier", True, ["Audio"], Settings::Get().Theme));
+	Layers::Create("StartModifier", Manialink::FromFile("Media/Manialinks/Maker/StartModifier", True, ["Audio"], Settings::Get().Theme));
 	
 	UpdateFromFiles();
 	
@@ -262,6 +269,48 @@ Void Event(CManiaAppEvent _Event) {
 						IsUpdatingProgress = True;
 						IsReloaded = False;
 					}
+					case "ModifyAll": {
+						declare Integer CompletedCount for This;
+						declare Integer TotalCount for This;
+						declare Real TimeSpent for This;
+						declare Real AvgLength for This;
+						declare Real TimeLeft for This;
+						
+						declare Integer ComplCount for Layers::Page("StartModifier");
+						declare Integer MaxCount for Layers::Page("StartModifier");
+						declare Real AverageLength for Layers::Page("StartModifier");
+						declare Integer UserComplCount for Layers::Page("StartModifier");
+						
+						ComplCount = CompletedCount;
+						MaxCount = TotalCount;
+						AverageLength = AvgLength;
+						UserComplCount = MaxCount-ComplCount;
+					
+						Layers::Show("StartModifier", True);
+					}
+				}
+			}
+			case Layers::Get("StartModifier"): {
+				switch(Event.CustomEventType) {
+					case "Exit": {
+						Layers::Hide("StartModifier", False);
+					}
+					case "Start": {
+						declare Count = TextLib::ToInteger(Event.CustomEventData[0]);
+						
+						declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
+						
+						declare Integer[] ModificationIds for This;
+						
+						declare Counter = 0;
+						for(I,0,ChallengeMaps.count-1) {
+							if(Counter == Count) break;
+							if(!ChallengeMaps[I].Progress.Modified) {
+								ModificationIds.add(I);
+								Counter += 1;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -276,7 +325,11 @@ Void Loop() {
 	declare Integer[] ModificationIds for This;
 	declare Boolean IsReloaded for This;
 	
+	declare ModificationCounter = 0;
 	foreach(ModifId, ModificationIds) {
+		if(ModificationCounter == 0)
+			Layers::Hide("StartModifier", False); // When modification starts
+	
 		declare Time_ModificationStart = TimeLib::GetCurrent();
 		
 		declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
@@ -334,6 +387,12 @@ Void Loop() {
 		
 		// Refresh the look of the list
 		Layers::SendEvent("Modifier", "RefreshList");
+			
+		ModificationCounter += 1;
+		
+		if(ModificationCounter == ModificationIds.count) {
+			// when modification ends
+		}
 	}
 	if(ModificationIds.count > 0) ModificationIds.clear();
 	

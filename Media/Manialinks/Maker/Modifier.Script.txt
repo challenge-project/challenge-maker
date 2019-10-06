@@ -119,6 +119,8 @@ Void UpdateList(SChallengeMapInfo[] ChallengeMaps, SScriptInfo[][] _Scripts) {
 				case -1: {
 					(Frame.GetFirstChild("QUAD_POSSIBLE") as CMlQuad).Colorize = <1.,0.,0.>;
 					(Frame.GetFirstChild("LABEL_POSSIBLE") as CMlLabel).Value = "{{{{NO}}}}";
+					(Frame.GetFirstChild("QUAD_COMPUTED") as CMlQuad).Colorize = <0.1,0.1,0.1>;
+					(Frame.GetFirstChild("LABEL_COMPUTED") as CMlLabel).Value = "{{{{UNNECESSARY}}}}";
 				}
 				case 1: {
 					(Frame.GetFirstChild("QUAD_POSSIBLE") as CMlQuad).Colorize = <0.,1.,0.>;
@@ -203,6 +205,9 @@ foreach(Event,PendingEvents) {
 				}
 				case "QUAD_BUTTON_REFRESH": {
 					SendCustomEvent("Refresh", []);
+				}
+				case "QUAD_BUTTON_START": {
+					SendCustomEvent("ModifyAll", []);
 				}
 			}
 		}
