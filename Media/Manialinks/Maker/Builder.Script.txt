@@ -118,6 +118,17 @@ foreach(Event,PendingEvents) {
 					(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
 					(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
 				}
+				case "Show": {
+					declare Text CampaignType for Page;
+					if(CampaignType == "Nadeo") {
+						(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
+						(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
+					}
+					else if(CampaignType == "Custom") {
+						(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
+						(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
+					}
+				}
 			}
 		}
 	}

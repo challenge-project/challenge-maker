@@ -147,6 +147,8 @@ Void UpdateBuilder(Integer _Scroll) {
 	
 	Layers::Update("Builder", Manialink);
 	
+	declare Text CampaignType for Layers::Page("Builder");
+	CampaignType = Settings.Type;
 	if(Settings.Type == "Nadeo")
 		Layers::SendEvent("Builder", "NadeoCampaign");
 	else if(Settings.Type == "Custom")
@@ -190,6 +192,9 @@ Void Event(CManiaAppEvent _Event) {
 						Layers::Hide("Builder", False);
 						Layers::Show("EditTitle", True);
 						Layers::Show("ManageTitle", True);
+						
+						declare Boolean IsReloaded for This;
+						IsReloaded = False;
 					}
 					case "AddGroup": {
 						if(Settings.Type == "Nadeo") return;
@@ -297,6 +302,7 @@ Void Loop() {
 	declare Boolean Changed for This;
 	declare Integer LastScroll for This;
 	declare Boolean SettingsChanged for This;
+	
 	if(Changed) {
 		UpdateBuilder(LastScroll);
 		Changed = False;

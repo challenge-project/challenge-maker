@@ -151,6 +151,11 @@ Void UpdateProgress() {
 	declare CMapInfo[] CampaignMaps for This;
 	declare SProgress Progress for This;
 	
+	Layers::SendEvent("Modifier", "LoadingProgress", "0");
+	
+	declare CampaignBuilder::SCampaign[] Campaigns for This;
+	CampaignMaps = CampaignBuilder::GetAllCampaignMaps(Campaigns);
+	
 	declare SScriptInfo[][] Scripts for Layers::Page("Modifier"); // Actual challenge scripts
 	declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
 	ChallengeMaps.clear();
@@ -227,9 +232,6 @@ Void Start() {
 	declare MakerBase::SChallengeTitleSettings Settings for This;
 	declare CampaignBuilder::SCampaign[] Campaigns for This;
 	
-	declare CMapInfo[] CampaignMaps for This;
-	CampaignMaps = CampaignBuilder::GetAllCampaignMaps(Campaigns);
-	
 	declare SProgress Progress for This;
 	declare JsonProgress = Progress.fromjson(File::Read("Media/Progress.json"));
 	
@@ -274,7 +276,7 @@ Void Event(CManiaAppEvent _Event) {
 									ModificationIds.add(MapId);
 								}
 								case 1: {
-									log("play");
+									// play
 								}
 								case 2: {
 									declare Boolean RepairMap for This;
