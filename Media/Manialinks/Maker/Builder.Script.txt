@@ -22,7 +22,7 @@ declare HoldItSteadyMouse = 0.;
 declare CampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
 declare LastCampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
 
-declare CampaignsSize = (Frame_Campaigns.Controls.count-1) * Frame_Campaigns.Controls[0].Size.X;
+declare CampaignsSize = (Frame_Campaigns.Controls.count-1) * 45.;
 
 Frame_Campaign_Menu.ScrollActive = True;
 Frame_Campaign_Menu.ScrollGrid = <15.,15.>;

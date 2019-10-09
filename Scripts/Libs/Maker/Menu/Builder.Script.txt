@@ -11,160 +11,12 @@
 #Include "Libs/Maker/CampaignBuilder.Script.txt" as CampaignBuilder
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 
-Text GetBuilderManialink() {
-	return Manialink::FromFile("Media/Manialinks/Maker/Builder", True, ["Audio"], Settings::Get().Theme);
-}
-
-Void UpdateBuilder(Integer _Scroll) {
-	declare OriginalManialink = GetBuilderManialink();
-
-	declare CampaignBuilder::SCampaign[] Campaigns for This;
-	declare MakerBase::SChallengeTitleSettings Settings for This;
-	declare NadeoCampaignMode = 0;
-	if(Settings.Type == "Nadeo") NadeoCampaignMode = 1;
-	
-	declare IncludeAdds = (Settings.Type != "Nadeo");
-	
-	declare CampaignListBuild = """<frame id="FRAME_CAMPAIGN_MENU" data-startscroll="{{{_Scroll}}}" data-type="{{{Settings.Type}}}">""";
-	declare CampaignPadBuild = """<frame id="FRAME_CAMPAIGNS">""";
-	
-	declare Integer LargestCampaignHeight;
-	for(I, 0, Campaigns.count-1) {
-		declare Campaign = Campaigns[I];
-		CampaignListBuild ^= "\n"^"""	<frame pos="{{{I*45*5}}} 0">""";
-		
-		CampaignPadBuild ^= """<quad size="45 18" halign="center" valign="center" image="file://Media/Images/ScreenShot02.jpg" scriptevents="1" id="QUAD_CAMPAIGN" pos="{{{I*45}}}"/>""";
-		
-		declare GroupList = Task::SyncMapList(DataFileMgr.Map_GetFilteredGameList(2, Campaign.Folder^"/Default", False));
-		
-		declare Height = 0; // Height for scrollbar scrollability
-		declare TotalMaps = 0; // Total maps for group positioning
-		
-		declare GroupPositionY = 0;
-		
-		declare AddGroup = 1-NadeoCampaignMode;
-		
-		for(J, 0, Campaign.Groups.count-1+AddGroup) {
-			declare GroupName = "GROUP"^J;
-			declare GroupTextColor = "FFF";
-			declare GroupBackgroundColor = "000";
-			if(Campaign.Groups.existskey(J)) {
-				GroupName = Campaign.Groups[J].Name;
-				GroupTextColor = Campaign.Groups[J].TextColor;
-				GroupBackgroundColor = Campaign.Groups[J].BackgroundColor;
-			}
-			
-			if(J < Campaign.Groups.count) {
-				CampaignListBuild ^= "\n"^"""	<frame pos="0 {{{GroupPositionY}}}" z-index="2">
-					<quad z-index="0" size="225 15" bgcolor="{{{GroupBackgroundColor}}}" halign="center" valign="center" scriptevents="1"/>
-					<entry z-index="1" size="200 10" textprefix="$o$i" default="{{{GroupName}}}" halign="center" valign="center2" textsize="6" textfont="RajdhaniMono" pos="0 -0.4" textcolor="{{{GroupTextColor}}}" id="ENTRY_GROUP" data-campaignid="{{{I}}}" data-groupid="{{{J}}}" hidden="{{{NadeoCampaignMode}}}"/>
-					<label z-index="1" size="200 10" textprefix="$o$i" text="{{{GroupName}}}" halign="center" valign="center2" textsize="6" textfont="RajdhaniMono" pos="0 -0.4" textcolor="{{{GroupTextColor}}}" id="LABEL_GROUP" data-campaignid="{{{I}}}" data-groupid="{{{J}}}" hidden="{{{1-NadeoCampaignMode}}}"/>
-					<label pos="107.5 2.5" z-index="2" size="10 10" text="" halign="center" valign="center" textcolor="C00" textsize="4" opacity=".9" textemboss="1" scriptevents="1" style="TextCardMedium" id="LABEL_GROUP_REMOVE" data-campaignid="{{{I}}}" data-groupid="{{{J}}}" hidden="{{{NadeoCampaignMode}}}"/>
-				</frame>""";
-				
-				declare LastBoxPos = 0;
-				
-				CampaignListBuild ^= "\n"^"""		<frame pos="0 {{{GroupPositionY-30}}}">""";
-					
-				if(J < GroupList.SubFolders.count) {
-					declare GroupFolder = GroupList.SubFolders[J];
-					
-					declare MapList = Task::SyncMapList(DataFileMgr.Map_GetFilteredGameList(2, GroupFolder, False));
-					
-					if(IncludeAdds)
-						Height += MathLib::CeilingInteger(MapList.MapInfos.count/5.)*45;
-					else
-						Height += MathLib::FloorInteger(MapList.MapInfos.count/5.)*45;
-					
-					LastBoxPos = MapList.MapInfos.count;
-						
-					for(K, 0, MapList.MapInfos.count-1) {
-						declare ThumbnailPositionX = -90+(K%5)*45;
-						declare ThumbnailPositionY = MathLib::FloorInteger(K/5.)*-45;
-						
-						declare MapInfo <=> MapList.MapInfos[K];
-						CampaignListBuild ^= "\n"^"""			<frame pos="{{{ThumbnailPositionX}}} {{{ThumbnailPositionY}}}" id="FRAME_MAP" data-name="{{{MapInfo.Name}}}" data-author="{{{MapInfo.AuthorNickName}}}">
-						<quad z-index="1" size="45 45" halign="center" valign="center" bgcolor="FFF" image="file://Thumbnails/MapUid/{{{MapInfo.MapUid}}}" id="QUAD_MAP"/>
-						<label pos="17.5 17.5" z-index="2" size="10 10" text="" halign="center" valign="center" textcolor="C00" textsize="4" opacity=".9" textemboss="1" scriptevents="1" style="TextCardMedium" id="LABEL_MAP_REMOVE" data-campaignid="{{{I}}}" data-groupid="{{{J}}}" data-mapid="{{{K}}}" data-mapfile="{{{MapInfo.FileName}}}" hidden="{{{NadeoCampaignMode}}}"/>
-						</frame>""";
-					}
-					
-					GroupPositionY += MathLib::CeilingInteger((MapList.MapInfos.count+AddGroup-NadeoCampaignMode)/5.)*(-45);
-					
-					DataFileMgr.TaskResult_Release(MapList.Id);
-				}
-				
-				if(IncludeAdds) {
-					declare PlusPos = LastBoxPos;
-					declare PlusPositionX = -90+(PlusPos%5)*45;
-					declare PlusPositionY = MathLib::FloorInteger(PlusPos/5.)*-45;
-						
-					CampaignListBuild ^= "\n"^"""			<frame pos="{{{PlusPositionX}}} {{{PlusPositionY}}}" id="FRAME_CONSTRUCT_MAP">
-						<quad pos="0 0" z-index="0" size="45 45" halign="center" style="UIConstruction_Buttons" substyle="BgTools" valign="center"/>
-						<label pos="0 0" z-index="1" size="45 45" text="" halign="center" valign="center" textcolor="333" textsize="9" opacity=".9"/>
-						<label pos="20 20" z-index="1" size="40 10" text="{{{Dictionary::Get("MAP")}}}" textcolor="333" textsize="3" opacity=".9" textfont="RajdhaniMono" halign="right"/>
-						<quad pos="0 0" z-index="2" size="45 45" halign="center" style="Bgs1InRace" substyle="BgCardInventoryItem" scriptevents="1" valign="center" colorize="FFF" opacity=".5" id="QUAD_ADDMAP" data-campaignid="{{{I}}}" data-groupid="{{{J}}}"/>
-					</frame>""";
-					
-					if(PlusPos == 0) { // Should be defined only in Builder mode xd
-						GroupPositionY -= 45;
-						Height += 45;
-					}
-				}
-					
-				CampaignListBuild ^= "\n"^"""		</frame>""";
-			
-				Height += 15;
-				GroupPositionY -= 15;
-			}
-			else if(IncludeAdds) {
-				CampaignListBuild ^= "\n"^"""			<frame pos="0 {{{GroupPositionY}}}" id="FRAME_CONSTRUCT_GROUP">
-					<quad pos="0 0" z-index="0" size="225 15" halign="center" style="UIConstruction_Buttons" substyle="BgEditors" valign="center"/>
-					<label pos="0 0" z-index="1" size="225 15" text="" halign="center" valign="center" textcolor="333" textsize="6" opacity=".9"/>
-					<label pos="110 5" z-index="1" size="80 15" text="{{{Dictionary::Get("GROUP")}}}" textcolor="333" textsize="3" opacity=".9" textfont="RajdhaniMono" halign="right"/>
-					<quad pos="0 0" z-index="2" size="225 15" halign="center" style="Bgs1InRace" substyle="BgCardInventoryItem" scriptevents="1" valign="center" colorize="FA0" opacity=".5" data-campaignid="{{{I}}}" id="QUAD_ADDGROUP"/>
-				</frame>""";
-				Height += 15;
-			}
-		}
-		
-		CampaignListBuild ^= "</frame>";
-		
-		if(Height > LargestCampaignHeight) {
-			LargestCampaignHeight = Height;
-		}
-		
-		DataFileMgr.TaskResult_Release(GroupList.Id);
-	}
-	
-	CampaignListBuild ^= """<quad id="QUAD_CAMPAIGN_MENU" pos="-112.5 7.5" size="{{{Campaigns.count*45*5}}} {{{LargestCampaignHeight}}}" z-index="-1" scriptevents="1"/>""";
-	
-	CampaignListBuild ^= "</frame>";
-	CampaignPadBuild ^= "\n"^"""</frame>""";
-	
-	CampaignListBuild = Dictionary::TranslateAllPhrases(CampaignListBuild);
-	CampaignPadBuild = Dictionary::TranslateAllPhrases(CampaignPadBuild);
-	
-	declare Manialink = TextLib::Replace(OriginalManialink, """<frame id="FRAME_CAMPAIGN_MENU"/>""", CampaignListBuild);
-	Manialink = TextLib::Replace(Manialink, """<frame id="FRAME_CAMPAIGNS"/>""", CampaignPadBuild);
-	
-	Layers::Update("Builder", Manialink);
-	
-	declare Text CampaignType for Layers::Page("Builder");
-	CampaignType = Settings.Type;
-	if(Settings.Type == "Nadeo")
-		Layers::SendEvent("Builder", "NadeoCampaign");
-	else if(Settings.Type == "Custom")
-		Layers::SendEvent("Builder", "CustomCampaign");
-	
-	TitleEdition.File_WriteText(CampaignBuilder::GetCampaignsFile(), Campaigns.tojson());
-}
-
 Void UpdateSettings(Integer _Scroll) {
 	declare MakerBase::SChallengeTitleSettings Settings for This;
 	TitleEdition.File_WriteText("Media/Settings.json", Settings.tojson());
 	
-	UpdateBuilder(_Scroll);
+	CampaignBuilder::UpdateBuilder("Builder", "Media/Manialinks/Maker/Builder", _Scroll, Settings.Type == "Custom");
+	CampaignBuilder::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, False);
 }
 
 Void Init() {
@@ -176,7 +28,7 @@ Void Init() {
 	declare CampaignBuilder::SCampaign[] Campaigns for This;
 	declare JsonSuccess = Campaigns.fromjson(File::Read(CampaignBuilder::GetCampaignsFile())); // Should be responsive
 
-	UpdateBuilder(0);
+	CampaignBuilder::UpdateBuilder("Builder", "Media/Manialinks/Maker/Builder", 0, Settings.Type == "Custom");
 }
 
 Void Start() {
@@ -309,9 +161,10 @@ Void Loop() {
 	declare Boolean Changed for This;
 	declare Integer LastScroll for This;
 	declare Boolean SettingsChanged for This;
+	declare MakerBase::SChallengeTitleSettings Settings for This;
 	
 	if(Changed) {
-		UpdateBuilder(LastScroll);
+		CampaignBuilder::UpdateBuilder("Builder", "Media/Manialinks/Maker/Builder", LastScroll, Settings.Type == "Custom");
 		Changed = False;
 	}
 	if(SettingsChanged) {

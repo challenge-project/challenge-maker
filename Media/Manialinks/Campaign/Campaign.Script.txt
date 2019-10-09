@@ -12,7 +12,6 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 		Frame_QuickMapInfo.RelativePosition_V3 = _QuadMap.AbsolutePosition_V3;
 		(Frame_QuickMapInfo.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl(_QuadMap.ImageUrl);
 		(Frame_QuickMapInfo.GetFirstChild("LABEL_NAME") as CMlLabel).SetText(Name);
-		(Frame_QuickMapInfo.GetFirstChild("LABEL_AUTHOR") as CMlLabel).SetText(Author);
 		Frame_QuickMapInfo.Show();
 	}
 }
@@ -22,6 +21,7 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 declare Frame_Campaigns = (Page.GetFirstChild("FRAME_CAMPAIGNS") as CMlFrame);
 declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
 declare Frame_QuickMapInfo = (Page.GetFirstChild("FRAME_QUICKMAPINFO") as CMlFrame);
+declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_CAMPAIGN_SCROLL") as CMlQuad);
 
 declare HoldItSteady = False;
 declare HoldItSteadyLoc = 0.;
@@ -30,7 +30,7 @@ declare HoldItSteadyMouse = 0.;
 declare CampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
 declare LastCampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
 
-declare CampaignsSize = (Frame_Campaigns.Controls.count-1) * Frame_Campaigns.Controls[0].Size.X;
+declare CampaignsSize = (Frame_Campaigns.Controls.count-1) * 45.;
 
 Frame_Campaign_Menu.ScrollActive = True;
 Frame_Campaign_Menu.ScrollGrid = <15.,15.>;
@@ -39,6 +39,13 @@ Frame_Campaign_Menu.ScrollMin = <0.,0.>;
 
 declare OldScrollOffset = Frame_Campaign_Menu.ScrollOffset;
 declare OldScrollAnimOffset = Frame_Campaign_Menu.ScrollAnimOffset;
+
+if(Frame_Campaign_Menu.ScrollMax.Y > 0) {
+	declare VisibleRatio = 150/(150+Frame_Campaign_Menu.ScrollMax.Y);
+	Quad_Scrollbar.Show();
+	Quad_Scrollbar.Size.Y = 150*VisibleRatio;
+	Quad_Scrollbar.RelativePosition_V3.Y = -TextLib::ToInteger(Frame_Campaign_Menu.DataAttributeGet("startscroll"))*(150-Quad_Scrollbar.Size.Y)-5;
+}
 
 declare RevealMapInfoTime = 0;
 ***
@@ -94,6 +101,9 @@ else if(HoldItSteady) {
 
 CampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
 
+declare VisibleRatio = 150/(150+Frame_Campaign_Menu.ScrollMax.Y);
+Quad_Scrollbar.Size.Y = 150*VisibleRatio;
+
 if(CampaignPosition != LastCampaignPosition) {
 	Frame_Campaign_Menu.RelativePosition_V3.X = CampaignPosition;
 	LastCampaignPosition = CampaignPosition;
@@ -101,7 +111,6 @@ if(CampaignPosition != LastCampaignPosition) {
 
 if(Frame_Campaign_Menu.ScrollOffset != OldScrollOffset) {
 	OldScrollOffset = Frame_Campaign_Menu.ScrollOffset;
-	declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_CAMPAIGN_SCROLL") as CMlQuad);
 
 	declare ScrollRatio = 0.;
 	if(Frame_Campaign_Menu.ScrollMax.Y != 0)
@@ -114,14 +123,9 @@ if(Frame_Campaign_Menu.ScrollAnimOffset != OldScrollAnimOffset) {
 	OldScrollAnimOffset = Frame_Campaign_Menu.ScrollAnimOffset;
 }
 
-
 UpdateQuickMapInfo(CurrentMapFocused);
 
 declare ClipSize = AnimLib::EaseOutQuad(Now - RevealMapInfoTime, 0., 145., 500);
 Frame_QuickMapInfo.ClipWindowSize = <ClipSize,ClipSize>;
 //Frame_QuickMapInfo.ClipWindowRelativePosition.X = AnimLib::EaseOutQuad(Now - RevealMapInfoTime, -100., 122.5, 300);
-
-if(Frame_Campaign_Menu.ScrollOffset != OldScrollOffset) {
-}
-
 ***

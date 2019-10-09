@@ -7,6 +7,8 @@
 #Include "Libs/BigBang1112/File.Script.txt" as File
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 
+#Include "Libs/Maker/CampaignBuilder.Script.txt" as CampaignBuilder
+
 #Struct SMapGroup {
 	Text Name;
 	Text TextColor;
@@ -16,8 +18,8 @@
 
 declare SMapGroup[Text] MapGroups;
 
-Void Start() {
-	declare JsonSuccess = MapGroups.fromjson(File::Read("Media/GroupName.json"));
+Void Init() {
+	/*declare JsonSuccess = MapGroups.fromjson(File::Read("Media/GroupName.json"));
 
 	declare Integer LargestCampaignHeight;
 	foreach(Campaign,DataFileMgr.Campaigns) {
@@ -86,7 +88,13 @@ Void Start() {
 	declare CampaignUi = Manialink::FromFile("Media/Manialinks/Campaign", True, [], Settings::Get().Theme);
 	CampaignUi = TextLib::Replace(CampaignUi, """<frame id="FRAME_CAMPAIGN_MENU"/>""", CampaignListBuild);
 	CampaignUi = TextLib::Replace(CampaignUi, """<frame id="FRAME_CAMPAIGNS"/>""", CampaignPadBuild);
-	Layers::Create("Campaign", CampaignUi);
+	Layers::Create("Campaign", CampaignUi);*/
+	Layers::Create("Campaign", "");
+	CampaignBuilder::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, False);
+}
+
+Void Start() {
+	
 }
 
 Void Event(CManiaAppEvent _Event) {

@@ -48,36 +48,6 @@
 				
 				<frame pos="0 -12">
 					<quad pos="0 0" z-index="0" size="60 50" bgcolor="FFFA" halign="center" style="Bgs1" substyle="BgCardList"/>
-					<label pos="0 -5.5" z-index="1" size="55 10" text="CAMPAIGN" halign="center" textfont="RajdhaniMono" textsize="4" valign="center"/>
-					<frame pos="-25 -12.5" z-index="1">
-						<label size="50 5" text="DISPLAY NAME:" textfont="RajdhaniMono" valign="center" textsize="2"/>
-						<entry pos="0 -6" z-index="1" size="50 6" textfont="RajdhaniMono" valign="center" textsize="2"/>
-					</frame>
-					<frame pos="-25 -25" z-index="1">
-						<label size="50 5" text="MAP FOLDER:" textfont="RajdhaniMono" valign="center" textsize="2"/>
-						<entry pos="0 -6" z-index="1" size="50 6" textfont="RajdhaniMono" valign="center" textsize="2"/>
-					</frame>
-					<frame pos="-25 -37.5" z-index="1">
-						<label size="50 5" text="IMAGE:" textfont="RajdhaniMono" valign="center" textsize="2"/>
-						<entry pos="0 -6" z-index="1" size="50 6" textfont="RajdhaniMono" valign="center" textsize="2"/>
-					</frame>
-				</frame>
-				<frame pos="0 -62">
-					<quad z-index="0" size="60 30" bgcolor="FFFA" halign="center" style="Bgs1" substyle="BgCardList"/>
-					<label pos="0 -5" z-index="1" size="55 10" text="ADD A NEW CAMPAIGN" halign="center" textfont="RajdhaniMono" textsize="2.5" valign="center"/>
-					<entry pos="0 -12.5" z-index="1" size="55 6" halign="center" textfont="RajdhaniMono" textsize="2.5" valign="center" id="ENTRY_CUSTOMCAMPAIGN"/>
-					<frame pos="0 -22.5" z-index="1">
-						<quad pos="0 0" z-index="0" size="55 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="036" id="QUAD_BUTTON_CUSTOMCAMPAIGN_ADD"/>
-						<label pos="0 0.3" z-index="1" size="55 10" text="ADD" halign="center" textfont="RajdhaniMono" valign="center"/>
-					</frame>
-				</frame>
-				<frame pos="0 -97.5">
-					<quad pos="0 0" z-index="0" size="60 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="333" id="QUAD_BUTTON_NADEOCAMPAIGN"/>
-					<label pos="0 0.5" z-index="1" size="60 10" text="NADEO CAMPAIGN" halign="center" textfont="RajdhaniMono" valign="center"/>
-				</frame>
-				<frame pos="0 -107.5" z-index="1">
-					<quad pos="0 0" z-index="0" size="60 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="333" id="QUAD_BUTTON_CUSTOMCAMPAIGN"/>
-					<label pos="0 0.5" z-index="1" size="60 10" text="CUSTOM CAMPAIGN" halign="center" textfont="RajdhaniMono" valign="center"/>
 				</frame>
 				<frame z-index="2" clip="True" clipsizen="45 20">
 					<frame id="FRAME_CAMPAIGNS"/>
@@ -97,20 +67,20 @@
 			</frame>
 		</frame>
 	</frame>
-	<frame z-index="10" hidden="1">
-		<frame clip="True" clipsizen="120 55" clipposn="0 0" id="FRAME_QUICKMAPINFO">
-			<quad pos="0 0" z-index="-1" size="50 50" style="Bgs1" substyle="BgWindow4" halign="center" valign="center"/>
-			<quad pos="0 0" z-index="0" size="46 46" bgcolor="2228" halign="center" valign="center" id="QUAD_THUMBNAIL"/>
-			<label pos="-20 20" z-index="1" size="40 10" text="" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
-			<label pos="0 0" z-index="1" size="40 10" text="CHECKPOINTLESS" halign="center" valign="center" textfont="OswaldMono" textprefix="$o$000" opacity=".3"/>
-			<label pos="-20 -15" z-index="1" size="40 5" text="?/00000" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1"/>
-			<label pos="-20 -20" z-index="1" size="40 4" text="00000" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1"/>
-			<quad pos="14 -15" z-index="1" size="10 10" image="file://ZoneFlags/Path/World" halign="center" valign="center" opacity=".9"/>
-			<quad pos="-27.5 0" z-index="-2" size="100 55" style="Bgs1" substyle="BgGradV" valign="center"/>
-			<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center"/>
-			<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center"/>
-			<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center"/>
-			<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center"/>
-		</frame>
+</frame>
+<frame z-index="10" hidden="0">
+	<frame clip="True" clipsizen="120 55" clipposn="0 0" id="FRAME_QUICKMAPINFO">
+		<quad pos="0 0" z-index="-1" size="50 50" style="Bgs1" substyle="BgWindow4" halign="center" valign="center"/>
+		<quad pos="0 0" z-index="0" size="46 46" bgcolor="2228" halign="center" valign="center" id="QUAD_THUMBNAIL"/>
+		<label pos="-20 20" z-index="1" size="40 10" text="" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
+		<label pos="0 0" z-index="1" size="40 10" text="CHECKPOINTLESS" halign="center" valign="center" textfont="OswaldMono" textprefix="$o$000" opacity=".3"/>
+		<label pos="-20 -15" z-index="1" size="40 5" text="?/00000" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1"/>
+		<label pos="-20 -20" z-index="1" size="40 4" text="00000" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1"/>
+		<quad pos="14 -15" z-index="1" size="10 10" image="file://ZoneFlags/Path/World" halign="center" valign="center" opacity=".9"/>
+		<quad pos="-27.5 0" z-index="-2" size="100 55" style="Bgs1" substyle="BgGradV" valign="center"/>
+		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center"/>
+		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center"/>
+		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center"/>
+		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center"/>
 	</frame>
 </frame>
