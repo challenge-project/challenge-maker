@@ -7,13 +7,18 @@
 #Include "Libs/BigBang1112/File.Script.txt" as File
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 
-Void Start() {
-	Layers::Create("EditTitle", Manialink::FromFile("Media/Manialinks/Maker/EditTitle", True, ["Audio"], Settings::Get().Theme), True, True);
-	Layers::Create("ManageTitle", Manialink::FromFile("Media/Manialinks/Maker/ManageTitle", True, ["Audio"], Settings::Get().Theme), True, True);
+Void Init() {
+	Layers::Create("EditTitle", Manialink::FromFile("Media/Manialinks/Maker/EditTitle", True, ["Audio"], Settings::Get().Theme));
+	Layers::Create("ManageTitle", Manialink::FromFile("Media/Manialinks/Maker/ManageTitle", True, ["Audio"], Settings::Get().Theme));
 	
 	declare Title <=> TitleEdition.EditedTitleInfo;
 	Layers::SendEvent("EditTitle", "Change", [Title.TitleId^"", Title.DisplayName, Title.Description,
 		Title.InfoUrl, Title.DownloadUrl]);
+}
+
+Void Start() {
+	Layers::Show("EditTitle",True);
+	Layers::Show("ManageTitle",True);
 }
 
 Void Event(CManiaAppEvent _Event) {

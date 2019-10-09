@@ -47,11 +47,11 @@
 				<quad z-index="0" size="60 20" style="Bgs1" substyle="BgListLine" scriptevents="1" valign="center" halign="center" opacity=".75"/>
 				
 				<frame pos="0 -17.5">
-					<quad pos="0 0" z-index="0" size="60 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="222" id="QUAD_BUTTON_NADEOCAMPAIGN"/>
+					<quad pos="0 0" z-index="0" size="60 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="333" id="QUAD_BUTTON_NADEOCAMPAIGN"/>
 					<label pos="0 0.3" z-index="1" size="60 10" text="NADEO CAMPAIGN" halign="center" textfont="Oswald" valign="center"/>
 				</frame>
 				<frame pos="0 -27.5" z-index="1">
-					<quad pos="0 0" z-index="0" size="60 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="036" id="QUAD_BUTTON_CUSTOMCAMPAIGN"/>
+					<quad pos="0 0" z-index="0" size="60 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="333" id="QUAD_BUTTON_CUSTOMCAMPAIGN"/>
 					<label pos="0 0.3" z-index="1" size="60 10" text="CUSTOM CAMPAIGN" halign="center" textfont="Oswald" valign="center"/>
 				</frame>
 				<frame>

@@ -33,7 +33,7 @@ Void UpdateBuilder(Integer _Scroll) {
 		declare Campaign = Campaigns[I];
 		CampaignListBuild ^= "\n"^"""	<frame pos="{{{I*45*5}}} 0">""";
 		
-		CampaignPadBuild ^= """<quad size="45 20" halign="center" valign="center" image="file://Media/Images/ScreenShot02.jpg" scriptevents="1" id="QUAD_CAMPAIGN" pos="{{{I*45}}}"/>""";
+		CampaignPadBuild ^= """<quad size="45 18" halign="center" valign="center" image="file://Media/Images/ScreenShot02.jpg" scriptevents="1" id="QUAD_CAMPAIGN" pos="{{{I*45}}}"/>""";
 		
 		declare GroupList = Task::SyncMapList(DataFileMgr.Map_GetFilteredGameList(2, Campaign.Folder^"/Default", False));
 		
@@ -71,7 +71,10 @@ Void UpdateBuilder(Integer _Scroll) {
 					
 					declare MapList = Task::SyncMapList(DataFileMgr.Map_GetFilteredGameList(2, GroupFolder, False));
 					
-					Height += MathLib::CeilingInteger(MapList.MapInfos.count/5.)*45;
+					if(IncludeAdds)
+						Height += MathLib::CeilingInteger(MapList.MapInfos.count/5.)*45;
+					else
+						Height += MathLib::FloorInteger(MapList.MapInfos.count/5.)*45;
 					
 					LastBoxPos = MapList.MapInfos.count;
 						
@@ -164,7 +167,7 @@ Void UpdateSettings(Integer _Scroll) {
 	UpdateBuilder(_Scroll);
 }
 
-Void Start() {
+Void Init() {
 	Layers::Create("Builder", "");
 	
 	declare MakerBase::SChallengeTitleSettings Settings for This;
@@ -174,6 +177,10 @@ Void Start() {
 	declare JsonSuccess = Campaigns.fromjson(File::Read(CampaignBuilder::GetCampaignsFile())); // Should be responsive
 
 	UpdateBuilder(0);
+}
+
+Void Start() {
+
 }
 
 Void Event(CManiaAppEvent _Event) {

@@ -1,3 +1,15 @@
+Void UpdateCampaignType() {
+	declare Text CampaignType for Page;
+	if(CampaignType == "Nadeo") {
+		(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
+		(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
+	}
+	else if(CampaignType == "Custom") {
+		(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
+		(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
+	}
+}
+
 ***Start***
 ***
 declare Frame_Campaigns = (Page.GetFirstChild("FRAME_CAMPAIGNS") as CMlFrame);
@@ -38,6 +50,8 @@ while(MathLib::NearestInteger(Frame_Campaign_Menu.ScrollOffset.Y) != TextLib::To
 	if(Now-Wat > 200) break;
 	yield;
 }
+
+UpdateCampaignType();
 ***
 
 ***Loop***
@@ -119,15 +133,7 @@ foreach(Event,PendingEvents) {
 					(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
 				}
 				case "Show": {
-					declare Text CampaignType for Page;
-					if(CampaignType == "Nadeo") {
-						(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
-						(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
-					}
-					else if(CampaignType == "Custom") {
-						(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
-						(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
-					}
+					UpdateCampaignType();
 				}
 			}
 		}

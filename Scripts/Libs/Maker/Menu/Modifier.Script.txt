@@ -223,7 +223,7 @@ Void UpdateFromFiles() {
 	declare JsonSuccess = Campaigns.fromjson(File::Read(CampaignBuilder::GetCampaignsFile())); // Should be responsive
 }
 
-Void Start() {
+Void Init() {
 	Layers::Create("Modifier", Manialink::FromFile("Media/Manialinks/Maker/Modifier", True, ["Audio"], Settings::Get().Theme));
 	Layers::Create("StartModifier", Manialink::FromFile("Media/Manialinks/Maker/StartModifier", True, ["Audio"], Settings::Get().Theme));
 	
@@ -239,6 +239,10 @@ Void Start() {
 	IsReloaded = False;
 	
 	UpdateChallenges();
+}
+
+Void Start() {
+
 }
 
 Void Event(CManiaAppEvent _Event) {
