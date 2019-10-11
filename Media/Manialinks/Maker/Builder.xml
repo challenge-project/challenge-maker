@@ -25,8 +25,10 @@
 				</frame>
 			</frame>
 		</frame>
-		<quad z-index="0" size="2.5 150" style="Bgs1" substyle="BgMetalBar" pos="232 -5" modulatecolor="222" opacity=".5" halign="center"/>
-		<quad z-index="1" size="2.5 20" style="Bgs1" substyle="BgWindow4" pos="232 -5" id="QUAD_CAMPAIGN_SCROLL" halign="center" hidden="1"/>
+		<frame pos="232 -5">
+			<quad z-index="0" size="2.5 150" style="Bgs1" substyle="BgMetalBar" modulatecolor="222" opacity=".5" halign="center"/>
+			<quad z-index="1" size="2.5 20" style="Bgs1" substyle="BgWindow4" id="QUAD_CAMPAIGN_SCROLL" halign="center" hidden="1" scriptevents="1"/>
+		</frame>
 	</frame>
 	<frame pos="117.5 80">
 		<quad z-index="-3" size="65 160" bgcolor="000A" style="Bgs1" substyle="BgCardList" halign="center" pos="0 0" class="WindowBackground1"/>

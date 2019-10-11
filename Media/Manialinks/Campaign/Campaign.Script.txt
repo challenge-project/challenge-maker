@@ -46,13 +46,16 @@ if(Frame_Campaign_Menu.ScrollMax.Y > 0) {
 	declare VisibleRatio = 150/(150+Frame_Campaign_Menu.ScrollMax.Y);
 	Quad_Scrollbar.Show();
 	Quad_Scrollbar.Size.Y = 150*VisibleRatio;
-	Quad_Scrollbar.RelativePosition_V3.Y = -TextLib::ToInteger(Frame_Campaign_Menu.DataAttributeGet("startscroll"))*(150-Quad_Scrollbar.Size.Y)-5;
+	Quad_Scrollbar.RelativePosition_V3.Y = -TextLib::ToInteger(Frame_Campaign_Menu.DataAttributeGet("startscroll"))*(150-Quad_Scrollbar.Size.Y);
 }
 
 declare RevealMapInfoTime = 0;
 
 declare CurrentCampaign = 0;
 declare LastCampaign = 0;
+
+declare HoldScrollbar = False;
+declare HoldScrollbarPos = 0.;
 ***
 
 ***Loop***
@@ -84,6 +87,10 @@ foreach(Event,PendingEvents) {
 					if(Event.Control.Parent.Parent.ControlId == "FRAME_CAMPAIGN_CONTROL" && CurrentCampaign+1 < Frame_Campaigns.Controls.count) {
 						AnimMgr.Add(Frame_Campaigns, "<frame pos=\""^(CurrentCampaign+1)*-45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
 					}
+				}
+				case "QUAD_CAMPAIGN_SCROLL": {
+					HoldScrollbar = True;
+					HoldScrollbarPos = MouseY-Quad_Scrollbar.RelativePosition_V3.Y;
 				}
 			}
 		}
@@ -136,13 +143,21 @@ if(CampaignPosition != LastCampaignPosition) {
 	LastCampaignPosition = CampaignPosition;
 }
 
-if(Frame_Campaign_Menu.ScrollOffset != OldScrollOffset) {
-	OldScrollOffset = Frame_Campaign_Menu.ScrollOffset;
+if(HoldScrollbar && MouseLeftButton) {
+	Quad_Scrollbar.RelativePosition_V3.Y = MathLib::Clamp(MouseY-HoldScrollbarPos,Quad_Scrollbar.Size.Y-150,0.);
+	Frame_Campaign_Menu.ScrollOffset.Y = (MouseY-HoldScrollbarPos)/(Quad_Scrollbar.Size.Y-150)*Frame_Campaign_Menu.ScrollMax.Y;
+}
+else {
+	if(Frame_Campaign_Menu.ScrollOffset != OldScrollOffset) {
+		OldScrollOffset = Frame_Campaign_Menu.ScrollOffset;
 
-	declare ScrollRatio = 0.;
-	if(Frame_Campaign_Menu.ScrollMax.Y != 0)
-		ScrollRatio = Frame_Campaign_Menu.ScrollOffset.Y / Frame_Campaign_Menu.ScrollMax.Y;
-	Quad_Scrollbar.RelativePosition_V3.Y = -ScrollRatio*(150-Quad_Scrollbar.Size.Y)-5;
+		declare ScrollRatio = 0.;
+		if(Frame_Campaign_Menu.ScrollMax.Y != 0)
+			ScrollRatio = Frame_Campaign_Menu.ScrollOffset.Y / Frame_Campaign_Menu.ScrollMax.Y;
+		Quad_Scrollbar.RelativePosition_V3.Y = -ScrollRatio*(150-Quad_Scrollbar.Size.Y);
+	}
+
+	HoldScrollbar = False;
 }
 
 if(Frame_Campaign_Menu.ScrollAnimOffset != OldScrollAnimOffset) {
