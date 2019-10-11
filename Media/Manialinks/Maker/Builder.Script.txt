@@ -1,12 +1,35 @@
+Void CampaignChanged(Text[] _Data) {
+	if(_Data.count > 0) {
+		(Page.GetFirstChild("ENTRY_DISPLAYNAME") as CMlEntry).SetText(_Data[0], False);
+		(Page.GetFirstChild("ENTRY_MAPFOLDER") as CMlEntry).SetText(_Data[1], False);
+		(Page.GetFirstChild("ENTRY_IMAGE") as CMlEntry).SetText(_Data[2], False);
+		(Page.GetFirstChild("FRAME_LOADING_CAMPAIGNINFO") as CMlFrame).Hide();
+		(Page.GetFirstChild("FRAME_LOADING_ADDCAMPAIGN") as CMlFrame).Hide();
+	}
+	else {
+		(Page.GetFirstChild("ENTRY_DISPLAYNAME") as CMlEntry).SetText("", False);
+		(Page.GetFirstChild("ENTRY_MAPFOLDER") as CMlEntry).SetText("", False);
+		(Page.GetFirstChild("ENTRY_IMAGE") as CMlEntry).SetText("", False);
+		(Page.GetFirstChild("QUAD_BLOCK_CAMPAIGNINFO") as CMlQuad).Show();
+		(Page.GetFirstChild("QUAD_BLOCK_ADDCAMPAIGN") as CMlQuad).Hide();
+		(Page.GetFirstChild("FRAME_LOADING_CAMPAIGNINFO") as CMlFrame).Hide();
+		(Page.GetFirstChild("FRAME_LOADING_ADDCAMPAIGN") as CMlFrame).Hide();
+	}
+}
+
 Void UpdateCampaignType() {
 	declare Text CampaignType for Page;
 	if(CampaignType == "Nadeo") {
 		(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
 		(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
+		(Page.GetFirstChild("QUAD_BLOCK_CAMPAIGNINFO") as CMlQuad).Show();
+		(Page.GetFirstChild("QUAD_BLOCK_ADDCAMPAIGN") as CMlQuad).Show();
 	}
 	else if(CampaignType == "Custom") {
 		(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
 		(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
+		(Page.GetFirstChild("QUAD_BLOCK_CAMPAIGNINFO") as CMlQuad).Hide();
+		(Page.GetFirstChild("QUAD_BLOCK_ADDCAMPAIGN") as CMlQuad).Hide();
 	}
 }
 
@@ -14,6 +37,10 @@ Void UpdateCampaignType() {
 ***
 declare Frame_Campaigns = (Page.GetFirstChild("FRAME_CAMPAIGNS") as CMlFrame);
 declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
+declare Quad_Block_CampaignInfo = (Page.GetFirstChild("QUAD_BLOCK_CAMPAIGNINFO") as CMlQuad);
+declare Quad_Block_AddCampaign = (Page.GetFirstChild("QUAD_BLOCK_ADDCAMPAIGN") as CMlQuad);
+declare Frame_Loading_CampaignInfo = (Page.GetFirstChild("FRAME_LOADING_CAMPAIGNINFO") as CMlFrame);
+declare Frame_Loading_AddCampaign = (Page.GetFirstChild("FRAME_LOADING_ADDCAMPAIGN") as CMlFrame);
 
 declare HoldItSteady = False;
 declare HoldItSteadyLoc = 0.;
@@ -44,6 +71,10 @@ if(Frame_Campaign_Menu.ScrollMax.Y > 0) {
 	Quad_Scrollbar.RelativePosition_V3.Y = -TextLib::ToInteger(Frame_Campaign_Menu.DataAttributeGet("startscroll"))*(150-Quad_Scrollbar.Size.Y)-5;
 }
 
+declare Integer CurrentCampaign for Page;
+CurrentCampaign = TextLib::ToInteger(Frame_Campaign_Menu.DataAttributeGet("startcampaign"));
+declare LastCampaign = CurrentCampaign;
+
 declare Wat = Now;
 while(MathLib::NearestInteger(Frame_Campaign_Menu.ScrollOffset.Y) != TextLib::ToInteger(Frame_Campaign_Menu.DataAttributeGet("startscroll"))) {
 	Frame_Campaign_Menu.ScrollOffset.Y = TextLib::ToReal(Frame_Campaign_Menu.DataAttributeGet("startscroll"));
@@ -51,7 +82,12 @@ while(MathLib::NearestInteger(Frame_Campaign_Menu.ScrollOffset.Y) != TextLib::To
 	yield;
 }
 
+Frame_Campaigns.RelativePosition_V3.X = CurrentCampaign*-45.;
+
 UpdateCampaignType();
+CampaignChanged([Frame_Campaign_Menu.DataAttributeGet("startcampaignname"),
+				Frame_Campaign_Menu.DataAttributeGet("startcampaignfolder"),
+				Frame_Campaign_Menu.DataAttributeGet("startcampaignimage")]);
 ***
 
 ***Loop***
@@ -64,6 +100,24 @@ foreach(Event,PendingEvents) {
 					declare CampaignId = Event.Control.DataAttributeGet("campaignid");
 					declare GroupId = Event.Control.DataAttributeGet("groupid");
 					SendCustomEvent("UpdateGroup", [CampaignId, GroupId, (Event.Control as CMlEntry).Value]);
+				}
+				case "ENTRY_DISPLAYNAME": {
+					SendCustomEvent("Campaign_DisplayName", [CurrentCampaign^"", (Event.Control as CMlEntry).Value]);
+					Frame_Loading_CampaignInfo.Show();
+					Frame_Loading_AddCampaign.Show();
+				}
+				case "ENTRY_MAPFOLDER": {
+					SendCustomEvent("Campaign_MapFolder", [CurrentCampaign^"", (Event.Control as CMlEntry).Value]);
+					Frame_Loading_CampaignInfo.Show();
+					Frame_Loading_AddCampaign.Show();
+				}
+				case "ENTRY_IMAGE": {
+					SendCustomEvent("Campaign_Image", [CurrentCampaign^"", (Event.Control as CMlEntry).Value]);
+					Frame_Loading_CampaignInfo.Show();
+					Frame_Loading_AddCampaign.Show();
+				}
+				case "ENTRY_CUSTOMCAMPAIGN": {
+
 				}
 			}
 		}
@@ -100,9 +154,33 @@ foreach(Event,PendingEvents) {
 				}
 				case "QUAD_BUTTON_NADEOCAMPAIGN": {
 					SendCustomEvent("ChangeType", ["Nadeo"]);
+					Frame_Loading_CampaignInfo.Show();
+					Frame_Loading_AddCampaign.Show();
 				}
 				case "QUAD_BUTTON_CUSTOMCAMPAIGN": {
 					SendCustomEvent("ChangeType", ["Custom"]);
+					Frame_Loading_CampaignInfo.Show();
+					Frame_Loading_AddCampaign.Show();
+				}
+				case "QUAD_BACK": {
+					if(Event.Control.Parent.Parent.ControlId == "FRAME_CAMPAIGN_CONTROL" && CurrentCampaign-1 >= 0) {
+						AnimMgr.Add(Frame_Campaigns, "<frame pos=\""^(CurrentCampaign-1)*-45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					}
+				}
+				case "QUAD_NEXT": {
+					if(Event.Control.Parent.Parent.ControlId == "FRAME_CAMPAIGN_CONTROL" && CurrentCampaign+1 < Frame_Campaigns.Controls.count) {
+						AnimMgr.Add(Frame_Campaigns, "<frame pos=\""^(CurrentCampaign+1)*-45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					}
+				}
+				case "QUAD_BUTTON_CUSTOMCAMPAIGN_ADD": {
+					declare CampaignName = (Page.GetFirstChild("ENTRY_CUSTOMCAMPAIGN") as CMlEntry).Value;
+					if(CampaignName == "") continue;
+					SendCustomEvent("AddCampaign", [CampaignName]);
+					(Page.GetFirstChild("ENTRY_CUSTOMCAMPAIGN") as CMlEntry).Value = "";
+				}
+				case "LABEL_CAMPAIGN_REMOVE": {
+					declare CampaignId = Event.Control.Parent.DataAttributeGet("campaignid");
+					SendCustomEvent("RemoveCampaign", [CampaignId]);
 				}
 			}
 		}
@@ -125,19 +203,39 @@ foreach(Event,PendingEvents) {
 		case CMlScriptEvent::Type::PluginCustomEvent: {
 			switch(Event.CustomEventType) {
 				case "NadeoCampaign": {
-					(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
-					(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
+					Quad_Block_CampaignInfo.Show();
+					Quad_Block_AddCampaign.Show();
+					Frame_Campaigns.RelativePosition_V3.X = 0.;
+					//(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
+					//(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
 				}
 				case "CustomCampaign": {
-					(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
-					(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
+					Quad_Block_CampaignInfo.Hide();
+					Quad_Block_AddCampaign.Hide();
+					Frame_Campaigns.RelativePosition_V3.X = 0.;
+					//(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
+					//(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
 				}
 				case "Show": {
 					UpdateCampaignType();
 				}
+				case "CampaignChanged": {
+					declare Text[] Data;
+					foreach(D, Event.CustomEventData) Data.add(D);
+					CampaignChanged(Data);
+				}
+				case "ChangeCampaign": {
+					Frame_Campaigns.RelativePosition_V3.X = TextLib::ToInteger(Event.CustomEventData[0])*-45.;
+				}
 			}
 		}
 	}
+}
+
+CurrentCampaign = MathLib::NearestInteger(Frame_Campaigns.RelativePosition_V3.X / -45.);
+if(CurrentCampaign != LastCampaign) {
+	LastCampaign = CurrentCampaign;
+	SendCustomEvent("CampaignChanged", [CurrentCampaign^""]);
 }
 
 if(MouseLeftButton && HoldItSteady) {
@@ -145,7 +243,7 @@ if(MouseLeftButton && HoldItSteady) {
 	Frame_Campaigns.RelativePosition_V3.X = MathLib::Clamp(HoldItSteadyLoc - (HoldItSteadyMouse - MouseX)*3,-CampaignsSize,0.);
 }
 else if(HoldItSteady) {
-	AnimMgr.Add(Frame_Campaigns, "<frame pos=\""^MathLib::NearestInteger(Frame_Campaigns.RelativePosition_V3.X / 45.)*45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+	AnimMgr.Add(Frame_Campaigns, "<frame pos=\""^CurrentCampaign*-45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
 	HoldItSteady = False;
 }
 

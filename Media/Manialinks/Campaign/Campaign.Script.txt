@@ -34,7 +34,9 @@ declare CampaignsSize = (Frame_Campaigns.Controls.count-1) * 45.;
 
 Frame_Campaign_Menu.ScrollActive = True;
 Frame_Campaign_Menu.ScrollGrid = <15.,15.>;
-Frame_Campaign_Menu.ScrollMax = <0.,Frame_Campaign_Menu.GetFirstChild("QUAD_CAMPAIGN_MENU").Size.Y-150>;
+if(Frame_Campaign_Menu.GetFirstChild("QUAD_CAMPAIGN_MENU").Size.Y >= 150)
+	Frame_Campaign_Menu.ScrollMax = <0.,Frame_Campaign_Menu.GetFirstChild("QUAD_CAMPAIGN_MENU").Size.Y-150>;
+else Frame_Campaign_Menu.ScrollMax.Y = 0.;
 Frame_Campaign_Menu.ScrollMin = <0.,0.>;
 
 declare OldScrollOffset = Frame_Campaign_Menu.ScrollOffset;
@@ -48,6 +50,9 @@ if(Frame_Campaign_Menu.ScrollMax.Y > 0) {
 }
 
 declare RevealMapInfoTime = 0;
+
+declare CurrentCampaign = 0;
+declare LastCampaign = 0;
 ***
 
 ***Loop***
@@ -55,13 +60,31 @@ declare RevealMapInfoTime = 0;
 foreach(Event,PendingEvents) {
 	switch(Event.Type) {
 		case CMlScriptEvent::Type::MouseClick: {
-			if(Event.ControlId == "QUAD_CAMPAIGN") {
-				HoldItSteady = True;
-				HoldItSteadyLoc = Frame_Campaigns.RelativePosition_V3.X;
-				HoldItSteadyMouse = MouseX;
-			}
-			if(Event.ControlId == "QUAD_BUTTON_EXIT") {
-				SendCustomEvent("Exit", []);
+			switch(Event.ControlId) {
+				case "QUAD_CAMPAIGN": {
+					HoldItSteady = True;
+					HoldItSteadyLoc = Frame_Campaigns.RelativePosition_V3.X;
+					HoldItSteadyMouse = MouseX;
+				}
+				case "QUAD_BUTTON_EXIT": {
+					SendCustomEvent("Exit", []);
+				}
+				case "QUAD_MAP": {
+					SendCustomEvent("Map", [Event.Control.Parent.DataAttributeGet("name"),
+					Event.Control.Parent.DataAttributeGet("author"),
+					Event.Control.Parent.DataAttributeGet("uid"),
+					Event.Control.Parent.DataAttributeGet("style")]);
+				}
+				case "QUAD_BACK": {
+					if(Event.Control.Parent.Parent.ControlId == "FRAME_CAMPAIGN_CONTROL" && CurrentCampaign-1 >= 0) {
+						AnimMgr.Add(Frame_Campaigns, "<frame pos=\""^(CurrentCampaign-1)*-45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					}
+				}
+				case "QUAD_NEXT": {
+					if(Event.Control.Parent.Parent.ControlId == "FRAME_CAMPAIGN_CONTROL" && CurrentCampaign+1 < Frame_Campaigns.Controls.count) {
+						AnimMgr.Add(Frame_Campaigns, "<frame pos=\""^(CurrentCampaign+1)*-45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					}
+				}
 			}
 		}
 		case CMlScriptEvent::Type::MouseOver: {
@@ -87,7 +110,11 @@ foreach(Event,PendingEvents) {
 			}
 		}
 	}
-	
+}
+
+CurrentCampaign = MathLib::NearestInteger(Frame_Campaigns.RelativePosition_V3.X / -45.);
+if(CurrentCampaign != LastCampaign) {
+	LastCampaign = CurrentCampaign;
 }
 
 if(MouseLeftButton && HoldItSteady) {
@@ -95,7 +122,7 @@ if(MouseLeftButton && HoldItSteady) {
 	Frame_Campaigns.RelativePosition_V3.X = MathLib::Clamp(HoldItSteadyLoc - (HoldItSteadyMouse - MouseX)*3,-CampaignsSize,0.);
 }
 else if(HoldItSteady) {
-	AnimMgr.Add(Frame_Campaigns, "<frame pos=\""^MathLib::NearestInteger(Frame_Campaigns.RelativePosition_V3.X / 45.)*45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+	AnimMgr.Add(Frame_Campaigns, "<frame pos=\""^CurrentCampaign*-45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
 	HoldItSteady = False;
 }
 

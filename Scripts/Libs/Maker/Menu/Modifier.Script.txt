@@ -14,25 +14,6 @@
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 #Include "Libs/Maker/CampaignBuilder.Script.txt" as CampaignBuilder
 
-#Struct SMetadata {
-	Text Name;
-	Text AuthorLogin;
-	Text AuthorNickname;
-	Text Description;
-	Text CompatibleCollections;
-}
-
-#Struct SScriptInfo {
-	Text Name;
-	Text Type;
-	SMetadata Metadata;
-}
-
-#Struct SChallenge {
-	Text Name;
-	Text Type;
-}
-
 #Struct SMapProgress {
 	Boolean Modified;
 	Boolean Computed;
@@ -61,53 +42,15 @@ Text ToDifferentChallengeMapName(Text _MapFileName, Text[] _Challenge) {
 	return ChallengeMapName;
 }
 
-SScriptInfo SChallengeToSScriptInfo(SChallenge _Challenge) {
-	declare SScriptInfo Script;
-	
-	declare Text ScriptContent;
-	
-	Script.Name = _Challenge.Name;
-	Script.Type = _Challenge.Type;
-	if(_Challenge.Type == "Official") ScriptContent = File::Read("Media/Challenges/"^_Challenge.Name);
-				
-	declare LayerAPI = UILayerCreate();
-	LayerAPI.ManialinkPage = Manialink::Construct("",File::Read("Media/API_Base.Script.txt")^"""
-{{{Dictionary::TranslateAllPhrases(File::Read("Media/API.Script.txt"))}}}
-
-{{{Dictionary::TranslateAllPhrases(ScriptContent)}}}
-
-"""^File::Read("Media/API_Main_Metadata.Script.txt"));
-	
-	declare Received = False;
-	while(!Received) {
-		foreach(Event,PendingEvents) {
-			if(LayerAPI == Event.CustomEventLayer) {
-				declare SMetadata Metadata;
-				declare JsonSuccess = Metadata.fromjson(Event.CustomEventData[0]);
-				if(Metadata.AuthorLogin != "") {
-					Script.Metadata = Metadata;
-					Received = True;
-					break;
-				}
-			}
-		}
-		yield;
-	}
-	
-	UILayerDestroy(LayerAPI);
-	
-	return Script;
-}
-
 Void UpdateChallenges() {
-	declare SChallenge[][] Challenges for This;
-	declare SScriptInfo[][] Scripts for Layers::Page("Modifier");
+	declare CampaignBuilder::SChallenge[][] Challenges for This;
+	declare CampaignBuilder::SScriptInfo[][] Scripts for Layers::Page("Modifier");
 	Scripts.clear();
 	
 	foreach(Challenge, Challenges) {
-		declare SScriptInfo[] ChallengeScripts;
+		declare CampaignBuilder::SScriptInfo[] ChallengeScripts;
 		foreach(SubChallenge, Challenge) {
-			ChallengeScripts.add(SChallengeToSScriptInfo(SubChallenge));
+			ChallengeScripts.add(CampaignBuilder::SChallengeToSScriptInfo(SubChallenge));
 		}
 		Scripts.add(ChallengeScripts);
 	}
@@ -147,7 +90,7 @@ Void UpdateTimings(Integer _TotalMapCount) {
 }
 
 Void UpdateProgress() {
-	declare SChallenge[][] Challenges for This; // JSON-defined picked challenges
+	declare CampaignBuilder::SChallenge[][] Challenges for This; // JSON-defined picked challenges
 	declare CMapInfo[] CampaignMaps for This;
 	declare SProgress Progress for This;
 	
@@ -156,7 +99,7 @@ Void UpdateProgress() {
 	declare CampaignBuilder::SCampaign[] Campaigns for This;
 	CampaignMaps = CampaignBuilder::GetAllCampaignMaps(Campaigns);
 	
-	declare SScriptInfo[][] Scripts for Layers::Page("Modifier"); // Actual challenge scripts
+	declare CampaignBuilder::SScriptInfo[][] Scripts for Layers::Page("Modifier"); // Actual challenge scripts
 	declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
 	ChallengeMaps.clear();
 	
@@ -216,7 +159,7 @@ Void UpdateFromFiles() {
 	declare MakerBase::SChallengeTitleSettings Settings for This;
 	declare JsonSettings = Settings.fromjson(File::Read("Media/Settings.json")); // Should be responsive
 	
-	declare SChallenge[][] Challenges for This;
+	declare CampaignBuilder::SChallenge[][] Challenges for This;
 	declare JsonChallenges = Challenges.fromjson(File::Read("Media/Challenges.json")); // Should be responsive
 	
 	declare CampaignBuilder::SCampaign[] Campaigns for This;
@@ -372,8 +315,8 @@ Void Loop() {
 		
 		declare Map::SMapInfo OriginalMapInfo for LocalUser;
 		OriginalMapInfo = ChallengeMap.OriginalMap;
-		declare SScriptInfo[] CHALLENGE_SCRIPTS for LocalUser;
-		declare SScriptInfo[][] Scripts for Layers::Page("Modifier");
+		declare CampaignBuilder::SScriptInfo[] CHALLENGE_SCRIPTS for LocalUser;
+		declare CampaignBuilder::SScriptInfo[][] Scripts for Layers::Page("Modifier");
 		CHALLENGE_SCRIPTS = Scripts[ChallengeMap.Challenge];
 					
 		declare Text[] Challenges;

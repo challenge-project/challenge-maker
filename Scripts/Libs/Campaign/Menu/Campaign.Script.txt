@@ -9,14 +9,41 @@
 
 #Include "Libs/Maker/CampaignBuilder.Script.txt" as CampaignBuilder
 
-#Struct SMapGroup {
+#Struct SMetadata {
 	Text Name;
-	Text TextColor;
-	Text BackgroundColor;
-	Text Image;
+	Text AuthorLogin;
+	Text AuthorNickname;
+	Text Description;
+	Text CompatibleCollections;
 }
 
-declare SMapGroup[Text] MapGroups;
+#Struct SScriptInfo {
+	Text Name;
+	Text Type;
+	SMetadata Metadata;
+}
+
+#Struct SChallenge {
+	Text Name;
+	Text Type;
+}
+
+Void UpdateChallenges() {
+	declare SChallenge[][] Challenges for This;
+	declare SScriptInfo[][] Scripts_Campaign for Layers::Page("Campaign");
+	declare SScriptInfo[][] Scripts_MapMenu for Layers::Page("MapMenu");
+	Scripts_Campaign.clear();
+	Scripts_MapMenu.clear();
+	
+	foreach(Challenge, Challenges) {
+		declare SScriptInfo[] ChallengeScripts;
+		foreach(SubChallenge, Challenge) {
+			ChallengeScripts.add(CampaignBuilder::SChallengeToSScriptInfo(SubChallenge));
+		}
+		Scripts_Campaign.add(ChallengeScripts);
+		Scripts_MapMenu.add(ChallengeScripts);
+	}
+}
 
 Void Init() {
 	/*declare JsonSuccess = MapGroups.fromjson(File::Read("Media/GroupName.json"));
@@ -90,23 +117,42 @@ Void Init() {
 	CampaignUi = TextLib::Replace(CampaignUi, """<frame id="FRAME_CAMPAIGNS"/>""", CampaignPadBuild);
 	Layers::Create("Campaign", CampaignUi);*/
 	Layers::Create("Campaign", "");
-	CampaignBuilder::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, False);
+	CampaignBuilder::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False);
+	yield;
+	Layers::Create("MapMenu", Manialink::FromFile("Media/Manialinks/Campaign/MapMenu", True, ["Audio","SlideText"], Settings::Get().Theme));
 }
 
 Void Start() {
-	
+	UpdateChallenges();
 }
 
 Void Event(CManiaAppEvent _Event) {
 	declare Event <=> _Event;
 
 	if(Event.Type == CManiaAppEvent::EType::LayerCustomEvent) {
-		if(Event.CustomEventLayer == Layers::Get("Campaign"))
-		switch(Event.CustomEventType) {
-			case "Exit": {
-				Layers::Hide("Campaign", False);
-				Layers::Show("EditTitle", True);
-				Layers::Show("ManageTitle", True);
+		switch(Event.CustomEventLayer) {
+			case Layers::Get("Campaign"): {
+				switch(Event.CustomEventType) {
+					case "Exit": {
+						Layers::Hide("Campaign", False);
+						Layers::Show("EditTitle", True);
+						Layers::Show("ManageTitle", True);
+					}
+					case "Map": {
+						Layers::Show("MapMenu", True);
+						
+						declare Text[] Data;
+						foreach(D,Event.CustomEventData) Data.add(D);
+						Layers::SendEvent("MapMenu", "Map", Data);
+					}
+				}
+			}
+			case Layers::Get("MapMenu"): {
+				switch(Event.CustomEventType) {
+					case "Exit": {
+						Layers::Hide("MapMenu");
+					}
+				}
 			}
 		}
 	}

@@ -6,8 +6,28 @@
 #Include "Libs/BigBang1112/Settings.Script.txt" as Settings
 #Include "Libs/BigBang1112/Task.Script.txt" as Task
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
+#Include "Libs/BigBang1112/File.Script.txt" as File
 
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
+
+#Struct SMetadata {
+	Text Name;
+	Text AuthorLogin;
+	Text AuthorNickname;
+	Text Description;
+	Text CompatibleCollections;
+}
+
+#Struct SScriptInfo {
+	Text Name;
+	Text Type;
+	SMetadata Metadata;
+}
+
+#Struct SChallenge {
+	Text Name;
+	Text Type;
+}
 
 #Struct SGroup {
 	Text Name;
@@ -48,25 +68,89 @@ CMapInfo[] GetAllCampaignMaps(SCampaign[] _Campaigns) {
 	return MapInfos;
 }
 
-Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Boolean _IsEditMode) {
+SScriptInfo SChallengeToSScriptInfo(SChallenge _Challenge) {
+	declare SScriptInfo Script;
+	
+	declare Text ScriptContent;
+	
+	Script.Name = _Challenge.Name;
+	Script.Type = _Challenge.Type;
+	if(_Challenge.Type == "Official") ScriptContent = File::Read("Media/Challenges/"^_Challenge.Name);
+				
+	declare LayerAPI = UILayerCreate();
+	LayerAPI.ManialinkPage = Manialink::Construct("",File::Read("Media/API_Base.Script.txt")^"""
+{{{Dictionary::TranslateAllPhrases(File::Read("Media/API.Script.txt"))}}}
+
+{{{Dictionary::TranslateAllPhrases(ScriptContent)}}}
+
+"""^File::Read("Media/API_Main_Metadata.Script.txt"));
+	
+	declare Received = False;
+	while(!Received) {
+		foreach(Event,PendingEvents) {
+			if(Event.Type == CManiaAppEvent::EType::LayerCustomEvent)
+			if(LayerAPI == Event.CustomEventLayer) {
+				declare SMetadata Metadata;
+				declare JsonSuccess = Metadata.fromjson(Event.CustomEventData[0]);
+				if(Metadata.AuthorLogin != "") {
+					Script.Metadata = Metadata;
+					Received = True;
+					break;
+				}
+			}
+		}
+		yield;
+	}
+	
+	UILayerDestroy(LayerAPI);
+	
+	return Script;
+}
+
+Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Integer _Campaign, Boolean _IsEditMode) {
 	declare OriginalManialink = Manialink::FromFile(_ManialinkFile, True, ["Audio"], Settings::Get().Theme);
 
 	declare SCampaign[] Campaigns for This;
+	declare SChallenge[][] Challenges for This;
+	declare SScriptInfo[][] Scripts;
 	declare MakerBase::SChallengeTitleSettings Settings for This;
 	declare NadeoCampaignMode = 0;
 	if(!_IsEditMode) NadeoCampaignMode = 1;
 	
 	declare IncludeAdds = _IsEditMode;
 	
-	declare CampaignListBuild = """<frame id="FRAME_CAMPAIGN_MENU" data-startscroll="{{{_Scroll}}}" data-type="{{{Settings.Type}}}">""";
+	declare CampaignListBuild = """<frame id="FRAME_CAMPAIGN_MENU" data-startscroll="{{{_Scroll}}}" data-startcampaign="{{{_Campaign}}}" data-type="{{{Settings.Type}}}" """;
+	if(Campaigns.existskey(_Campaign))
+		CampaignListBuild ^= """data-startcampaignname="{{{Campaigns[_Campaign].Name}}}" data-startcampaignfolder="{{{Campaigns[_Campaign].Folder}}}" data-startcampaignimage="{{{Campaigns[_Campaign].Image}}}" """;
+	CampaignListBuild ^= ">";
+	
 	declare CampaignPadBuild = """<frame id="FRAME_CAMPAIGNS">""";
+	
+	declare CampaignChallengeBuild = """<frame id="FRAME_CHALLENGES">""";
+	for(I,0,Challenges.count-1) {
+		declare Challenge = Challenges[I];
+		declare SScriptInfo[] Ss;
+		declare Text[] Chs;
+		foreach(C,Challenge) {
+			declare Sc = SChallengeToSScriptInfo(C);
+			Ss.add(Sc);
+			Chs.add(Sc.Metadata.Name);
+		}
+		Scripts.add(Ss);
+		
+		CampaignChallengeBuild ^= """<frame pos="{{{I*45}}}">
+		<quad z-index="0" size="45 8" bgcolor="024" halign="center" valign="center" scriptevents="1" id="QUAD_CHALLENGE_HOLD"/>
+		<label pos="0 0.3" z-index="1" size="45 8" halign="center" valign="center" text="{{{TextLib::Join(" + ", Chs)}}}" id="LABEL_CHALLENGE" textfont="RajdhaniMono"/>
+		</frame>""";
+	}
+	CampaignChallengeBuild ^= """</frame>""";
 	
 	declare Integer LargestCampaignHeight;
 	for(I, 0, Campaigns.count-1) {
 		declare Campaign = Campaigns[I];
 		CampaignListBuild ^= "\n"^"""	<frame pos="{{{I*45*5}}} 0">""";
 		
-		CampaignPadBuild ^= """<frame pos="{{{I*45}}}">
+		CampaignPadBuild ^= """<frame pos="{{{I*45}}}" data-campaignid="{{{I}}}">
 			<quad size="45 18" halign="center" valign="center" bgcolor="F0F" image="file://{{{Campaign.Image}}}" scriptevents="1" id="QUAD_CAMPAIGN"/>
 			<label pos="17.5 4" z-index="2" size="10 10" text="" halign="center" valign="center" textcolor="C00" textsize="4" opacity=".9" textemboss="1" scriptevents="1" style="TextCardMedium" id="LABEL_CAMPAIGN_REMOVE" hidden="{{{NadeoCampaignMode}}}"/>
 		</frame>""";
@@ -119,8 +203,9 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Boolea
 						declare ThumbnailPositionY = MathLib::FloorInteger(K/5.)*-45;
 						
 						declare MapInfo <=> MapList.MapInfos[K];
-						CampaignListBuild ^= "\n"^"""			<frame pos="{{{ThumbnailPositionX}}} {{{ThumbnailPositionY}}}" id="FRAME_MAP" data-name="{{{MapInfo.Name}}}" data-author="{{{MapInfo.AuthorNickName}}}">
+						CampaignListBuild ^= "\n"^"""			<frame pos="{{{ThumbnailPositionX}}} {{{ThumbnailPositionY}}}" id="FRAME_MAP" data-name="{{{MapInfo.Name}}}" data-author="{{{MapInfo.AuthorNickName}}}" data-uid="{{{MapInfo.MapUid}}}" data-style="{{{MapInfo.MapStyle}}}">
 						<quad z-index="1" size="45 45" halign="center" valign="center" bgcolor="FFF" image="file://Thumbnails/MapUid/{{{MapInfo.MapUid}}}" id="QUAD_MAP" scriptevents="1"/>
+						<label pos="-19.5 19.5" z-index="1" size="39 10" text="{{{MapInfo.Name}}}" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
 						<label pos="17.5 17.5" z-index="2" size="10 10" text="" halign="center" valign="center" textcolor="C00" textsize="4" opacity=".9" textemboss="1" scriptevents="1" style="TextCardMedium" id="LABEL_MAP_REMOVE" data-campaignid="{{{I}}}" data-groupid="{{{J}}}" data-mapid="{{{K}}}" data-mapfile="{{{MapInfo.FileName}}}" hidden="{{{NadeoCampaignMode}}}"/>
 						</frame>""";
 					}
@@ -180,9 +265,11 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Boolea
 	
 	CampaignListBuild = Dictionary::TranslateAllPhrases(CampaignListBuild);
 	CampaignPadBuild = Dictionary::TranslateAllPhrases(CampaignPadBuild);
+	CampaignChallengeBuild = Dictionary::TranslateAllPhrases(CampaignChallengeBuild);
 	
 	declare Manialink = TextLib::Replace(OriginalManialink, """<frame id="FRAME_CAMPAIGN_MENU"/>""", CampaignListBuild);
 	Manialink = TextLib::Replace(Manialink, """<frame id="FRAME_CAMPAIGNS"/>""", CampaignPadBuild);
+	Manialink = TextLib::Replace(Manialink, """<frame id="FRAME_CHALLENGES"/>""", CampaignChallengeBuild);
 	
 	Layers::Update(_LayerName, Manialink);
 	
@@ -192,6 +279,24 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Boolea
 		Layers::SendEvent(_LayerName, "NadeoCampaign");
 	else if(Settings.Type == "Custom")
 		Layers::SendEvent(_LayerName, "CustomCampaign");
+	
+	declare CampaignNum = _Campaign;
+	if(Campaigns.count > 0) {
+		if(CampaignNum < Campaigns.count) {
+			declare Campaign = Campaigns[CampaignNum];
+			Layers::SendEvent(_LayerName, "ChangeCampaign", CampaignNum);
+			Layers::SendEvent(_LayerName, "CampaignChanged", [Campaign.Name, Campaign.Folder, Campaign.Image]);
+		}
+		else {
+			while(CampaignNum > Campaigns.count-1) {
+				CampaignNum -= 1;
+			}
+			declare Campaign = Campaigns[CampaignNum];
+			Layers::SendEvent(_LayerName, "ChangeCampaign", CampaignNum);
+			Layers::SendEvent(_LayerName, "CampaignChanged", [Campaign.Name, Campaign.Folder, Campaign.Image]);
+		}
+	}
+	else Layers::SendEvent(_LayerName, "CampaignChanged", []);
 	
 	TitleEdition.File_WriteText(GetCampaignsFile(), Campaigns.tojson());
 }
