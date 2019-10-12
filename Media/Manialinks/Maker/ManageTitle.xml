@@ -10,6 +10,7 @@
 			<label z-index="1" size="72.5 10" text=" {{{{CAMPAIGN_BUILDER}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.4" textsize="3"/>
 		</frame>
 		<quad pos="0 -15" z-index="0" size="72.5 18" halign="center" style="Bgs1" substyle="BgCardList" valign="center"/>
+		<label pos="-33 -9" z-index="1" size="60 5" text="5 CAMPAIGNS" textsize="3" textfont="Oswald" textprefix="$o" id="LABEL_CAMPAIGN_COUNT"/>
 	</frame>
 	<frame pos="0 42.1">
 		<frame class="BUTTON">

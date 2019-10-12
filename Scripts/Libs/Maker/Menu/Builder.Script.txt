@@ -8,15 +8,16 @@
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 #Include "Libs/BigBang1112/Task.Script.txt" as Task
 
-#Include "Libs/Maker/CampaignBuilder.Script.txt" as CampaignBuilder
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 
 Void UpdateSettings(Integer _Scroll, Integer _Campaign) {
 	declare MakerBase::SChallengeTitleSettings Settings for This;
 	TitleEdition.File_WriteText("Media/Settings.json", Settings.tojson());
 	
-	CampaignBuilder::UpdateBuilder("Builder", "Media/Manialinks/Maker/Builder", _Scroll, _Campaign, Settings.Type == "Custom");
-	CampaignBuilder::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False);
+	MakerBase::UpdateBuilder("Builder", "Media/Manialinks/Maker/Builder", _Scroll, _Campaign, Settings.Type == "Custom", []);
+	
+	declare MakerBase::SScriptInfo[][] Scripts_Campaign for Layers::Page("Campaign");
+	MakerBase::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False, MakerBase::ChallengesToTextArray(Scripts_Campaign));
 }
 
 Void Init() {
@@ -25,10 +26,10 @@ Void Init() {
 	declare MakerBase::SChallengeTitleSettings Settings for This;
 	declare JsonSuccess2 = Settings.fromjson(File::Read("Media/Settings.json")); // Should be responsive
 	
-	declare CampaignBuilder::SCampaign[] Campaigns for This;
-	declare JsonSuccess = Campaigns.fromjson(File::Read(CampaignBuilder::GetCampaignsFile())); // Should be responsive
+	declare MakerBase::SCampaign[] Campaigns for This;
+	declare JsonSuccess = Campaigns.fromjson(File::Read(MakerBase::GetCampaignsFile())); // Should be responsive
 
-	CampaignBuilder::UpdateBuilder("Builder", "Media/Manialinks/Maker/Builder", 0, 0, Settings.Type == "Custom");
+	MakerBase::UpdateBuilder("Builder", "Media/Manialinks/Maker/Builder", 0, 0, Settings.Type == "Custom", []);
 }
 
 Void Start() {
@@ -53,6 +54,8 @@ Void Event(CManiaAppEvent _Event) {
 						Layers::Show("EditTitle", True);
 						Layers::Show("ManageTitle", True);
 						
+						MakerBase::UpdateStats();
+						
 						declare Boolean IsReloaded for This;
 						IsReloaded = False;
 					}
@@ -62,8 +65,8 @@ Void Event(CManiaAppEvent _Event) {
 						declare Scroll = TextLib::ToInteger(Event.CustomEventData[0]);
 						declare CampaignId = TextLib::ToInteger(Event.CustomEventData[1]);
 						
-						declare CampaignBuilder::SCampaign[] Campaigns for This;
-						declare CampaignBuilder::SGroup Group;
+						declare MakerBase::SCampaign[] Campaigns for This;
+						declare MakerBase::SGroup Group;
 						Group.BackgroundColor = "000";
 						
 						if(!Campaigns.existskey(CampaignId)) return;
@@ -79,7 +82,7 @@ Void Event(CManiaAppEvent _Event) {
 						declare CampaignId = TextLib::ToInteger(Event.CustomEventData[1]);
 						declare GroupId = TextLib::ToInteger(Event.CustomEventData[2]);
 						
-						declare CampaignBuilder::SCampaign[] Campaigns for This;
+						declare MakerBase::SCampaign[] Campaigns for This;
 						
 						if(!Campaigns.existskey(CampaignId)) return;
 						declare Removed = Campaigns[CampaignId].Groups.removekey(GroupId);
@@ -111,9 +114,9 @@ Void Event(CManiaAppEvent _Event) {
 						Changed = True;
 					}
 					case "AddCampaign": {
-						declare CampaignBuilder::SCampaign[] Campaigns for This;
+						declare MakerBase::SCampaign[] Campaigns for This;
 						
-						declare CampaignBuilder::SCampaign Campaign;
+						declare MakerBase::SCampaign Campaign;
 						Campaign.Name = Event.CustomEventData[0];
 						if(Campaign.Name == "") return;
 						Campaigns.add(Campaign);
@@ -124,7 +127,7 @@ Void Event(CManiaAppEvent _Event) {
 					case "RemoveCampaign": {
 						declare CampaignId = TextLib::ToInteger(Event.CustomEventData[0]);
 						
-						declare CampaignBuilder::SCampaign[] Campaigns for This;
+						declare MakerBase::SCampaign[] Campaigns for This;
 						if(CampaignId == -1 || !Campaigns.existskey(CampaignId)) return;
 						declare Removed = Campaigns.removekey(CampaignId);
 						
@@ -136,8 +139,8 @@ Void Event(CManiaAppEvent _Event) {
 					case "UpdateCampaignFile": {
 						if(Settings.Type == "Nadeo") return;
 						
-						declare CampaignBuilder::SCampaign[] Campaigns for This;
-						TitleEdition.File_WriteText(CampaignBuilder::GetCampaignsFile(), Campaigns.tojson());
+						declare MakerBase::SCampaign[] Campaigns for This;
+						TitleEdition.File_WriteText(MakerBase::GetCampaignsFile(), Campaigns.tojson());
 					}
 					case "UpdateGroup": {
 						if(Settings.Type == "Nadeo") return;
@@ -146,12 +149,12 @@ Void Event(CManiaAppEvent _Event) {
 						declare GroupId = TextLib::ToInteger(Event.CustomEventData[1]);
 						declare Value = Event.CustomEventData[2];
 						
-						declare CampaignBuilder::SCampaign[] Campaigns for This;
+						declare MakerBase::SCampaign[] Campaigns for This;
 						if(!Campaigns.existskey(CampaignId)) return;
 						if(!Campaigns[CampaignId].Groups.existskey(GroupId)) return;
 						Campaigns[CampaignId].Groups[GroupId].Name = Value;
 						
-						TitleEdition.File_WriteText(CampaignBuilder::GetCampaignsFile(), Campaigns.tojson());
+						TitleEdition.File_WriteText(MakerBase::GetCampaignsFile(), Campaigns.tojson());
 					}
 					case "ChangeType": {
 						declare Type = Event.CustomEventData[0];
@@ -168,13 +171,13 @@ Void Event(CManiaAppEvent _Event) {
 							Layers::SendEvent("Builder", "CustomCampaign");
 						}
 						
-						declare CampaignBuilder::SCampaign[] Campaigns for This;
-						declare JsonSuccess = Campaigns.fromjson(File::Read(CampaignBuilder::GetCampaignsFile())); // Should be responsive
+						declare MakerBase::SCampaign[] Campaigns for This;
+						declare JsonSuccess = Campaigns.fromjson(File::Read(MakerBase::GetCampaignsFile())); // Should be responsive
 					}
 					case "CampaignChanged": {
 						declare CampaignId = TextLib::ToInteger(Event.CustomEventData[0]);
 						
-						declare CampaignBuilder::SCampaign[] Campaigns for This;
+						declare MakerBase::SCampaign[] Campaigns for This;
 						if(CampaignId >= 0 && Campaigns.count > 0) {
 							declare Campaign = Campaigns[CampaignId];
 							Layers::SendEvent("Builder", "CampaignChanged", [Campaign.Name, Campaign.Folder, Campaign.Image]);
@@ -183,7 +186,7 @@ Void Event(CManiaAppEvent _Event) {
 							Layers::SendEvent("Builder", "CampaignChanged", []);
 					}
 					case "Campaign_DisplayName": {
-						declare CampaignBuilder::SCampaign[] Campaigns for This;
+						declare MakerBase::SCampaign[] Campaigns for This;
 						declare Index = TextLib::ToInteger(Event.CustomEventData[0]);
 						declare Campaign = Campaigns[Index];
 						Campaign.Name = Event.CustomEventData[1];
@@ -191,7 +194,7 @@ Void Event(CManiaAppEvent _Event) {
 						Changed = True;
 					}
 					case "Campaign_MapFolder": {
-						declare CampaignBuilder::SCampaign[] Campaigns for This;
+						declare MakerBase::SCampaign[] Campaigns for This;
 						declare Index = TextLib::ToInteger(Event.CustomEventData[0]);
 						declare Campaign = Campaigns[Index];
 						Campaign.Folder = Event.CustomEventData[1];
@@ -199,7 +202,7 @@ Void Event(CManiaAppEvent _Event) {
 						Changed = True;
 					}
 					case "Campaign_Image": {
-						declare CampaignBuilder::SCampaign[] Campaigns for This;
+						declare MakerBase::SCampaign[] Campaigns for This;
 						declare Index = TextLib::ToInteger(Event.CustomEventData[0]);
 						declare Campaign = Campaigns[Index];
 						Campaign.Image = Event.CustomEventData[1];
@@ -220,7 +223,7 @@ Void Loop() {
 	declare Boolean Changed for This;
 	declare Integer LastScroll for This;
 	declare Boolean SettingsChanged for This;
-	declare CampaignBuilder::SCampaign[] Campaigns for This;
+	declare MakerBase::SCampaign[] Campaigns for This;
 	declare MakerBase::SChallengeTitleSettings Settings for This;
 	declare Integer CurrentCampaign for Layers::Page("Builder");
 	
@@ -228,8 +231,8 @@ Void Loop() {
 	
 	if(Changed) {
 		if(GoToLast) CurrentCampaign = Campaigns.count-1;
-		CampaignBuilder::UpdateBuilder("Builder", "Media/Manialinks/Maker/Builder", LastScroll, CurrentCampaign, Settings.Type == "Custom");
-		CampaignBuilder::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", LastScroll, CurrentCampaign, False);
+		MakerBase::UpdateBuilder("Builder", "Media/Manialinks/Maker/Builder", LastScroll, CurrentCampaign, Settings.Type == "Custom", []);
+		MakerBase::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", LastScroll, CurrentCampaign, False, ["Reverse", "Checkpointless", "Reverse+Checkpointless"]);
 		Changed = False;
 	}
 	if(SettingsChanged) {

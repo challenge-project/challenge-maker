@@ -1,0 +1,49 @@
+***Start***
+***
+declare Frame_MapName_Bg = (Page.GetFirstChild("FRAME_MAPNAME_BG") as CMlFrame);
+declare Frame_Label_MapName = (Page.GetFirstChild("FRAME_LABEL_MAPNAME") as CMlFrame);
+declare Label_MapName = (Page.GetFirstChild("LABEL_MAPNAME") as CMlLabel);
+declare Label_MapName2 = (Page.GetFirstChild("LABEL_MAPNAME_2") as CMlLabel);
+
+declare Frame_Challenge_Bg = (Page.GetFirstChild("FRAME_CHALLENGE_BG") as CMlFrame);
+declare Frame_Label_Challenge = (Page.GetFirstChild("FRAME_LABEL_CHALLENGE") as CMlFrame);
+declare Label_Challenge = (Page.GetFirstChild("LABEL_CHALLENGE") as CMlLabel);
+declare Label_Challenge2 = (Page.GetFirstChild("LABEL_CHALLENGE_2") as CMlLabel);
+
+declare LabelDistance = 15;
+***
+
+***Loop***
+***
+foreach(Event,PendingEvents) {
+	switch(Event.Type) {
+		case CMlScriptEvent::Type::MouseClick: {
+			if(Event.ControlId == "QUAD_BUTTON_EXIT") {
+				SendCustomEvent("Exit", []);
+			}
+		}
+		case CMlScriptEvent::Type::PluginCustomEvent: {
+			switch(Event.CustomEventType) {
+				case "Map": {
+					declare Name = Event.CustomEventData[0];
+					declare Author = Event.CustomEventData[1];
+					declare Uid = Event.CustomEventData[2];
+					declare Style = Event.CustomEventData[3];
+					Style = TextLib::Join(" + ", TextLib::Split("+", Style));
+
+					SlideText_Set(Label_MapName, Label_MapName2, Name, LabelDistance);
+					SlideText_Set(Label_Challenge, Label_Challenge2, Style, LabelDistance);
+
+					(Page.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Uid);
+				}
+				case "Show": {
+					
+				}
+			}
+		}
+	}
+}
+
+SlideText_Loop(Frame_Label_MapName, Label_MapName, Label_MapName2, LabelDistance, -.01);
+SlideText_Loop(Frame_Label_Challenge, Label_Challenge, Label_Challenge2, LabelDistance, .01);
+***

@@ -5,11 +5,11 @@
 		<quad z-index="-2" size="65 160" bgcolor="000A" style="Bgs1" substyle="BgCardList" halign="center"/>
 		<quad z-index="-1" size="65 160" bgcolor="FFFA" style="Bgs1InRace" substyle="BgGradV" halign="center"/>
 		<quad pos="0 -12.5" z-index="0" size="60 20" halign="center" valign="center" style="Bgs1" substyle="BgCardList"/>
-		<label pos="0 -12.5" z-index="1" size="60 15" text="MODIFY IN BULK" halign="center" valign="center2" textfont="RajdhaniMono" textsize="5" autonewline="1"/>
+		<label pos="0 -12.5" z-index="1" size="60 15" text="{{{{MODIFY_IN_BULK}}}}" halign="center" valign="center2" textfont="RajdhaniMono" textsize="5" autonewline="1"/>
 		
 		<frame pos="0 -30">
 			<quad pos="0 0" z-index="0" size="60 12.5" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="036" id="QUAD_BUTTON_MANAGE"/>
-			<label pos="0 -0.2" z-index="1" size="50 12.5" text="MANAGE CHALLENGES" halign="center" textfont="RajdhaniMono" valign="center2" autonewline="1"/>
+			<label pos="0 -0.2" z-index="1" size="50 12.5" text="{{{{MANAGE_CHALLENGES}}}}" halign="center" textfont="RajdhaniMono" valign="center2" autonewline="1"/>
 		</frame>
 		
 		<frame pos="0 -37.5">
@@ -39,21 +39,21 @@
 			</frame>
 		</frame>
 		
-		<label pos="0 -67.5" z-index="0" size="55 5" text="TIME LEFT TO MODIFY THE REST" halign="center" textfont="Oswald" textprefix="$o" autonewline="1" textsize="1.5" valign="center"/>
+		<label pos="0 -67.5" z-index="0" size="55 5" text="{{{{MODIFY_TIME_LEFT}}}}" halign="center" textfont="Oswald" textprefix="$o" autonewline="1" textsize="1.5" valign="center"/>
 		<label pos="0 -70" z-index="0" size="55 7" text="???" halign="center" textfont="Oswald" autonewline="1" textsize="6" id="LABEL_TIME_LEFT"/>
 		
-		<label pos="0 -82.5" z-index="0" size="55 5" text="TIME SPENT MODIFYING" halign="center" textfont="Oswald" textprefix="$o" autonewline="1" textsize="1.5" valign="center"/>
+		<label pos="0 -82.5" z-index="0" size="55 5" text="{{{{MODIFY_TIME_SPENT}}}}" halign="center" textfont="Oswald" textprefix="$o" autonewline="1" textsize="1.5" valign="center"/>
 		<label pos="0 -85" z-index="0" size="55 7" text="???" halign="center" textfont="Oswald" autonewline="1" textsize="6" id="LABEL_TIME_SPENT"/>
 		
-		<label pos="0 -97.5" z-index="0" size="55 5" text="AVERAGE MODIFICATION LENGTH" halign="center" textfont="Oswald" textprefix="$o" autonewline="1" textsize="1.5" valign="center"/>
+		<label pos="0 -97.5" z-index="0" size="55 5" text="{{{{MODIFY_TIME_AVERAGE}}}}" halign="center" textfont="Oswald" textprefix="$o" autonewline="1" textsize="1.5" valign="center"/>
 		<label pos="0 -100" z-index="0" size="55 7" text="???" halign="center" textfont="Oswald" autonewline="1" textsize="6" id="LABEL_AVG_LENGTH"/>
 		
-		<label pos="0 -112.5" z-index="0" size="55 5" text="MODIFICATIONS LEFT" halign="center" textfont="Oswald" textprefix="$o" autonewline="1" textsize="1.5" valign="center"/>
+		<label pos="0 -112.5" z-index="0" size="55 5" text="{{{{MODIFY_LEFT}}}}" halign="center" textfont="Oswald" textprefix="$o" autonewline="1" textsize="1.5" valign="center"/>
 		<label pos="0 -115" z-index="0" size="55 7" text="?/?/?" halign="center" textfont="Oswald" autonewline="1" textsize="6" id="LABEL_AMOUNT_LEFT"/>
 		
 		<frame pos="0 -140">
 			<quad pos="0 0" z-index="0" size="60 12.5" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="060" id="QUAD_BUTTON_START"/>
-			<label pos="0 -0.4" z-index="1" size="50 12.5" text="MODIFY" halign="center" textfont="RajdhaniMono" valign="center2" textsize="4"/>
+			<label pos="0 -0.4" z-index="1" size="50 12.5" text="{{{{MODIFY}}}}" halign="center" textfont="RajdhaniMono" valign="center2" textsize="4"/>
 		</frame>
 		
 		<frame pos="15 -152.5">
@@ -76,15 +76,15 @@
 		<quad z-index="-1" size="235 160" bgcolor="FFFA" style="Bgs1InRace" substyle="BgGradV"/>
 		<frame pos="2.5 -2.5">
 			<quad pos="0 0" z-index="-1" size="57.5 10" style="Bgs1" substyle="BgCardList"/>
-			<label pos="5 -5.3" z-index="0" size="47.5 10" text="MAP NAME" textfont="RajdhaniMono" valign="center2" textsize="3"/>
+			<label pos="5 -5.3" z-index="0" size="47.5 10" text="{{{{MAP_NAME}}}}" textfont="RajdhaniMono" valign="center2" textsize="3"/>
 			<quad pos="57.5 0" z-index="-1" size="50 10" style="Bgs1" substyle="BgCardList"/>
-			<label pos="62.5 -5.3" z-index="0" size="40 10" text="CHALLENGE" textfont="RajdhaniMono" valign="center2" textsize="3"/>
+			<label pos="62.5 -5.3" z-index="0" size="40 10" text="{{{{CHALLENGE}}}}" textfont="RajdhaniMono" valign="center2" textsize="3"/>
 			<quad pos="107.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-			<label pos="112.5 -5.3" z-index="0" size="30 10" text="MODIFIED" textfont="RajdhaniMono" valign="center2" textsize="3"/>
+			<label pos="112.5 -5.3" z-index="0" size="30 10" text="{{{{MODIFIED}}}}" textfont="RajdhaniMono" valign="center2" textsize="3"/>
 			<quad pos="147.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-			<label pos="152.5 -5.3" z-index="0" size="30 10" text="POSSIBLE" textfont="RajdhaniMono" valign="center2" textsize="3"/>
+			<label pos="152.5 -5.3" z-index="0" size="30 10" text="{{{{POSSIBLE}}}}" textfont="RajdhaniMono" valign="center2" textsize="3"/>
 			<quad pos="187.5 0" z-index="-1" size="40 10" style="Bgs1" substyle="BgCardList"/>
-			<label pos="192.5 -5.3" z-index="0" size="30 10" text="COMPUTED" textfont="RajdhaniMono" valign="center2" textsize="3"/>
+			<label pos="192.5 -5.3" z-index="0" size="30 10" text="{{{{COMPUTED}}}}" textfont="RajdhaniMono" valign="center2" textsize="3"/>
 		</frame>
 		<frame pos="2.5 -12.5" z-index="2" id="FRAME_LOADING">
 			<quad pos="0 0" z-index="-1" size="227.5 140" style="Bgs1" substyle="BgCardList" scriptevents="1"/>

@@ -7,6 +7,8 @@
 #Include "Libs/BigBang1112/File.Script.txt" as File
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 
+#Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
+
 Void Init() {
 	Layers::Create("EditTitle", Manialink::FromFile("Media/Manialinks/Maker/EditTitle", True, ["Audio"], Settings::Get().Theme));
 	Layers::Create("ManageTitle", Manialink::FromFile("Media/Manialinks/Maker/ManageTitle", True, ["Audio"], Settings::Get().Theme));
@@ -19,6 +21,8 @@ Void Init() {
 Void Start() {
 	Layers::Show("EditTitle",True);
 	Layers::Show("ManageTitle",True);
+	
+	MakerBase::UpdateStats();
 }
 
 Void Event(CManiaAppEvent _Event) {
@@ -32,7 +36,7 @@ Void Event(CManiaAppEvent _Event) {
 						Menu_Quit();
 					}
 					case "OpenExplorer": {
-						TitleEdition.SetTitleCampaign(6, "ValleyCar","Campaigns\\Valley\\", True);
+						//TitleEdition.SetTitleCampaign(6, "ValleyCar","Campaigns\\Valley\\", True, True);
 						TitleEdition.SaveTitleDesc();
 						TitleEdition.OpenTitleFolderInExplorer();
 					}

@@ -7,7 +7,7 @@
 #Include "Libs/BigBang1112/File.Script.txt" as File
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 
-#Include "Libs/Maker/CampaignBuilder.Script.txt" as CampaignBuilder
+#Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 
 #Struct SMetadata {
 	Text Name;
@@ -38,7 +38,7 @@ Void UpdateChallenges() {
 	foreach(Challenge, Challenges) {
 		declare SScriptInfo[] ChallengeScripts;
 		foreach(SubChallenge, Challenge) {
-			ChallengeScripts.add(CampaignBuilder::SChallengeToSScriptInfo(SubChallenge));
+			ChallengeScripts.add(MakerBase::SChallengeToSScriptInfo(SubChallenge));
 		}
 		Scripts_Campaign.add(ChallengeScripts);
 		Scripts_MapMenu.add(ChallengeScripts);
@@ -117,13 +117,15 @@ Void Init() {
 	CampaignUi = TextLib::Replace(CampaignUi, """<frame id="FRAME_CAMPAIGNS"/>""", CampaignPadBuild);
 	Layers::Create("Campaign", CampaignUi);*/
 	Layers::Create("Campaign", "");
-	CampaignBuilder::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False);
+	MakerBase::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False, []);
 	yield;
 	Layers::Create("MapMenu", Manialink::FromFile("Media/Manialinks/Campaign/MapMenu", True, ["Audio","SlideText"], Settings::Get().Theme));
 }
 
 Void Start() {
 	UpdateChallenges();
+	declare SScriptInfo[][] Scripts_Campaign for Layers::Page("Campaign");
+	MakerBase::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False, MakerBase::ChallengesToTextArray(Scripts_Campaign));
 }
 
 Void Event(CManiaAppEvent _Event) {
@@ -163,5 +165,15 @@ Void Async() {
 }
 
 Void Loop() {
-
+	declare Boolean IsReloaded for This;
+	declare Boolean IsUpdating for Layers::Page("Campaign");
+	if(IsUpdating) {
+		if(!IsReloaded) {
+			declare SScriptInfo[][] Scripts_Campaign for Layers::Page("Campaign");
+			
+			MakerBase::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False, MakerBase::ChallengesToTextArray(Scripts_Campaign));
+			IsReloaded = True;
+		}
+		IsUpdating = False;
+	}
 }

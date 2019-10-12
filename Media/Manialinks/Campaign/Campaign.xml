@@ -77,7 +77,7 @@
 					<quad pos="28.5 0" z-index="0" size="2.5 50" halign="center" style="Bgs1" substyle="BgCardList"/>
 					<quad pos="28.5 0" z-index="1" size="2 30" halign="center" style="Bgs1" substyle="BgWindow4"/>
 				</frame>
-				<label pos="0 5" z-index="1" size="55 5" text="NOW PLAYING" halign="center" valign="center" textfont="RajdhaniMono"/>
+				<label pos="0 5" z-index="1" size="55 5" text="{{{{NOW_PLAYING}}}}" halign="center" valign="center" textfont="RajdhaniMono"/>
 				<frame z-index="1" pos="-30 -5" clip="True" clipposn="28.5 -20" clipsizen="57 50">
 					<frame>
 						<frame>
@@ -148,7 +148,7 @@
 		<quad pos="0 0" z-index="-1" size="50 50" style="Bgs1" substyle="BgWindow4" halign="center" valign="center"/>
 		<quad pos="0 0" z-index="0" size="46 46" bgcolor="2228" halign="center" valign="center" id="QUAD_THUMBNAIL"/>
 		<label pos="-20 20" z-index="1" size="40 10" text="" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
-		<label pos="0 0" z-index="1" size="40 10" text="REVERSE + CHECKPOINTLESS" halign="center" valign="center" textfont="OswaldMono" textprefix="$o$000" opacity=".3" autonewline="1"/>
+		<label pos="0 0" z-index="1" size="40 10" text="REVERSE + CHECKPOINTLESS" halign="center" valign="center" textfont="OswaldMono" textprefix="$o$000" opacity=".3" autonewline="1" id="LABEL_CHALLENGE"/>
 		<label pos="-20 -15" z-index="1" size="40 5" text="?/00000" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1"/>
 		<label pos="-20 -20" z-index="1" size="40 4" text="00000" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1"/>
 		<quad pos="14 -15" z-index="1" size="10 10" image="file://ZoneFlags/Path/World" halign="center" valign="center" opacity=".9"/>

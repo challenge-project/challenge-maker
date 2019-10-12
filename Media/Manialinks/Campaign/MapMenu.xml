@@ -1,10 +1,12 @@
-<frame>
-	<quad pos="0 0" z-index="-2" size="320 180" bgcolor="FFFA" halign="center" valign="center" style="Bgs1" substyle="BgEmpty" id="QUAD_BACKGROUND"/>
+<frame z-index="20">
+	<quad pos="0 0" z-index="-2" size="320 180" bgcolor="000C" halign="center" valign="center" id="QUAD_BACKGROUND" scriptevents="1"/>
 	<frame z-index="-1" pos="-110">
+		<quad z-index="-2" size="80 160" valign="center" halign="center" style="Bgs1" substyle="BgCardList"/>
+		<quad z-index="-1" size="80 160" valign="center" halign="center" style="Bgs1" substyle="BgCardList"/>
 		<quad z-index="0" size="80 160" valign="center" halign="center" style="Bgs1" substyle="BgCardList"/>
 		<quad z-index="1" size="80 160" valign="center" halign="center" style="Bgs1" substyle="BgGradV"/>
 	</frame>
-	<quad pos="-110 40" z-index="0" size="70 70" bgcolor="FFFA" halign="center" valign="center"/>
+	<quad pos="-110 40" z-index="0" size="70 70" bgcolor="222A" halign="center" valign="center" id="QUAD_THUMBNAIL"/>
 	<frame pos="-140 70" clip="True" clipposn="31 -6" clipsizen="60 17" id="FRAME_LABEL_MAPNAME" z-index="1">
 		<label z-index="0" size="600 15" text="AAAAAAAAAAA" textsize="16" textfont="Oswald" valign="top" id="LABEL_MAPNAME" textemboss="1"/>
 		<label z-index="0" size="600 15" text="AAAAAAAAAAA" textsize="16" textfont="Oswald" valign="top" id="LABEL_MAPNAME_2" textemboss="1"/>
@@ -29,7 +31,7 @@
 			</frame>
 			<frame pos="0 -10">
 				<frame clip="True" clipsizen="70 6" pos="0 0.6">
-					<label size="200 5" text="VALIDATED BY [UNKNOWN]" halign="center" valign="center2" textsize="2" translate="1" id="LABEL_GHOSTSECTION" textfont="RajdhaniMono"/>
+					<label size="200 5" text="{{{{VALIDATED_BY}}}} [UNKNOWN]" halign="center" valign="center2" textsize="2" translate="1" id="LABEL_GHOSTSECTION" textfont="RajdhaniMono"/>
 				</frame>
 				<quad pos="0 5" z-index="-1" size="78 8" halign="center" style="Bgs1" substyle="BgCardList" scriptevents="1" opacity=".5"/>
 			</frame>

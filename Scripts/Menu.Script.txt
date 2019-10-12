@@ -37,8 +37,8 @@ main() {
 		//TitleControl.EditNewMap("Valley", "", "", "", "", "", "");
 		
 		Dictionary::SetTranslationFolder("Media/Translations");
-		//Dictionary::SetTranslationLanguage(Settings::Get().Language);
-		Dictionary::SetTranslationLanguage("en");
+		Dictionary::SetTranslationLanguage(Settings::Get().Language);
+		//Dictionary::SetTranslationLanguage("en");
 		
 		Auth::Start();
 		

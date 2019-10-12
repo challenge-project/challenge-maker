@@ -1,7 +1,43 @@
 declare CMlQuad CurrentMapFocused;
 
+Void UpdateMapThumbnails(Text _Challenge) {
+	declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
+	foreach(Control, Frame_Campaign_Menu.Controls) {
+		if(Control.ControlId == "FRAME_CAMPAIGN") {
+			declare Frame_Campaign = (Control as CMlFrame);
+			foreach(Control2, Frame_Campaign.Controls) {
+				declare Frame_Group = (Control2 as CMlFrame);
+				foreach(Control3, Frame_Group.Controls) {
+					if(Control3.ControlId == "FRAME_MAP") {
+						declare Frame_Map = (Control3 as CMlFrame);
+						foreach(Control,Frame_Map.Controls) {
+							if(Control.ControlId == "FRAME_CHALLENGE_INFO") {
+								if(Control.DataAttributeGet("challenge") == _Challenge) {
+									if(Control.DataAttributeGet("valid") == "False") {
+										(Frame_Map.GetFirstChild("QUAD_MAP") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Control.DataAttributeGet("uid"));
+										(Frame_Map.GetFirstChild("QUAD_MAP_BLOCK") as CMlQuad).Hide();
+										(Frame_Map.GetFirstChild("LABEL_NAME") as CMlLabel).Opacity = 1.;
+									}
+									else {
+										(Frame_Map.GetFirstChild("QUAD_MAP") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Frame_Map.DataAttributeGet("uid"));
+										(Frame_Map.GetFirstChild("QUAD_MAP_BLOCK") as CMlQuad).Show();
+										(Frame_Map.GetFirstChild("LABEL_NAME") as CMlLabel).Opacity = .5;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 	declare Frame_QuickMapInfo = (Page.GetFirstChild("FRAME_QUICKMAPINFO") as CMlFrame);
+
+	declare Text[] Challenges for Page;
+	declare Integer CurrentChallenge for This;
 
 	if(_QuadMap == Null) {
 		Frame_QuickMapInfo.Hide();
@@ -12,6 +48,7 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 		Frame_QuickMapInfo.RelativePosition_V3 = _QuadMap.AbsolutePosition_V3;
 		(Frame_QuickMapInfo.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl(_QuadMap.ImageUrl);
 		(Frame_QuickMapInfo.GetFirstChild("LABEL_NAME") as CMlLabel).SetText(Name);
+		(Frame_QuickMapInfo.GetFirstChild("LABEL_CHALLENGE") as CMlLabel).SetText(TextLib::ToUpperCase(TextLib::Replace(Challenges[CurrentChallenge], "+", " + ")));
 		Frame_QuickMapInfo.Show();
 	}
 }
@@ -22,10 +59,15 @@ declare Frame_Campaigns = (Page.GetFirstChild("FRAME_CAMPAIGNS") as CMlFrame);
 declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
 declare Frame_QuickMapInfo = (Page.GetFirstChild("FRAME_QUICKMAPINFO") as CMlFrame);
 declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_CAMPAIGN_SCROLL") as CMlQuad);
+declare Frame_Challenges = (Page.GetFirstChild("FRAME_CHALLENGES") as CMlFrame);
 
 declare HoldItSteady = False;
 declare HoldItSteadyLoc = 0.;
 declare HoldItSteadyMouse = 0.;
+
+declare HoldItSteadyChallenge = False;
+declare HoldItSteadyChallengeLoc = 0.;
+declare HoldItSteadyChallengeMouse = 0.;
 
 declare CampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
 declare LastCampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
@@ -53,9 +95,18 @@ declare RevealMapInfoTime = 0;
 
 declare CurrentCampaign = 0;
 declare LastCampaign = 0;
+declare Integer CurrentChallenge for This;
+declare LastChallenge = 0;
 
 declare HoldScrollbar = False;
 declare HoldScrollbarPos = 0.;
+
+declare Text[] Challenges for Page;
+
+foreach(Control,Frame_Challenges.Controls) {
+	Challenges.add(Control.DataAttributeGet("challenge"));
+}
+UpdateMapThumbnails(Challenges[0]);
 ***
 
 ***Loop***
@@ -73,24 +124,46 @@ foreach(Event,PendingEvents) {
 					SendCustomEvent("Exit", []);
 				}
 				case "QUAD_MAP": {
+					declare ChallengeMapUid = Event.Control.Parent.DataAttributeGet("uid");
+					declare Challenge = "";
+					foreach(Control,Event.Control.Parent.Controls) {
+						if(Control.ControlId == "FRAME_CHALLENGE_INFO") {
+							if(Control.DataAttributeGet("challenge") == Challenges[CurrentChallenge]) {
+								Challenge = Control.DataAttributeGet("challenge");
+								ChallengeMapUid = Control.DataAttributeGet("uid");
+							}
+						}
+					}
+
 					SendCustomEvent("Map", [Event.Control.Parent.DataAttributeGet("name"),
 					Event.Control.Parent.DataAttributeGet("author"),
-					Event.Control.Parent.DataAttributeGet("uid"),
-					Event.Control.Parent.DataAttributeGet("style")]);
+					ChallengeMapUid,
+					Challenge]);
 				}
 				case "QUAD_BACK": {
 					if(Event.Control.Parent.Parent.ControlId == "FRAME_CAMPAIGN_CONTROL" && CurrentCampaign-1 >= 0) {
 						AnimMgr.Add(Frame_Campaigns, "<frame pos=\""^(CurrentCampaign-1)*-45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					}
+					else if(Event.Control.Parent.Parent.ControlId == "FRAME_CHALLENGE_CONTROL" && CurrentChallenge-1 >= 0) {
+						AnimMgr.Add(Frame_Challenges, "<frame pos=\""^(CurrentChallenge-1)*-45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
 					}
 				}
 				case "QUAD_NEXT": {
 					if(Event.Control.Parent.Parent.ControlId == "FRAME_CAMPAIGN_CONTROL" && CurrentCampaign+1 < Frame_Campaigns.Controls.count) {
 						AnimMgr.Add(Frame_Campaigns, "<frame pos=\""^(CurrentCampaign+1)*-45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
 					}
+					else if(Event.Control.Parent.Parent.ControlId == "FRAME_CHALLENGE_CONTROL" && CurrentChallenge+1 < Frame_Challenges.Controls.count) {
+						AnimMgr.Add(Frame_Challenges, "<frame pos=\""^(CurrentChallenge+1)*-45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					}
 				}
 				case "QUAD_CAMPAIGN_SCROLL": {
 					HoldScrollbar = True;
 					HoldScrollbarPos = MouseY-Quad_Scrollbar.RelativePosition_V3.Y;
+				}
+				case "QUAD_CHALLENGE_HOLD": {
+					HoldItSteadyChallenge = True;
+					HoldItSteadyChallengeLoc = Frame_Challenges.RelativePosition_V3.X;
+					HoldItSteadyChallengeMouse = MouseX;
 				}
 			}
 		}
@@ -131,6 +204,21 @@ if(MouseLeftButton && HoldItSteady) {
 else if(HoldItSteady) {
 	AnimMgr.Add(Frame_Campaigns, "<frame pos=\""^CurrentCampaign*-45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
 	HoldItSteady = False;
+}
+
+CurrentChallenge = MathLib::NearestInteger(Frame_Challenges.RelativePosition_V3.X / -45.);
+if(CurrentChallenge != LastChallenge) {
+	LastChallenge = CurrentChallenge;
+	UpdateMapThumbnails(Challenges[CurrentChallenge]);
+}
+
+if(MouseLeftButton && HoldItSteadyChallenge) {
+	AnimMgr.Flush(Frame_Challenges);
+	Frame_Challenges.RelativePosition_V3.X = MathLib::Clamp(HoldItSteadyChallengeLoc - (HoldItSteadyChallengeMouse - MouseX)*3,-(Frame_Challenges.Controls.count-1)*45.,0.);
+}
+else if(HoldItSteadyChallenge) {
+	AnimMgr.Add(Frame_Challenges, "<frame pos=\""^MathLib::NearestInteger(Frame_Challenges.RelativePosition_V3.X / -45.)*-45.^" 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+	HoldItSteadyChallenge = False;
 }
 
 CampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;

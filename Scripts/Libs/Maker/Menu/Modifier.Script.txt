@@ -12,7 +12,6 @@
 
 #Include "Libs/Challenge/Loading.Script.txt" as Loading
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
-#Include "Libs/Maker/CampaignBuilder.Script.txt" as CampaignBuilder
 
 #Struct SMapProgress {
 	Boolean Modified;
@@ -43,14 +42,14 @@ Text ToDifferentChallengeMapName(Text _MapFileName, Text[] _Challenge) {
 }
 
 Void UpdateChallenges() {
-	declare CampaignBuilder::SChallenge[][] Challenges for This;
-	declare CampaignBuilder::SScriptInfo[][] Scripts for Layers::Page("Modifier");
+	declare MakerBase::SChallenge[][] Challenges for This;
+	declare MakerBase::SScriptInfo[][] Scripts for Layers::Page("Modifier");
 	Scripts.clear();
 	
 	foreach(Challenge, Challenges) {
-		declare CampaignBuilder::SScriptInfo[] ChallengeScripts;
+		declare MakerBase::SScriptInfo[] ChallengeScripts;
 		foreach(SubChallenge, Challenge) {
-			ChallengeScripts.add(CampaignBuilder::SChallengeToSScriptInfo(SubChallenge));
+			ChallengeScripts.add(MakerBase::SChallengeToSScriptInfo(SubChallenge));
 		}
 		Scripts.add(ChallengeScripts);
 	}
@@ -90,16 +89,16 @@ Void UpdateTimings(Integer _TotalMapCount) {
 }
 
 Void UpdateProgress() {
-	declare CampaignBuilder::SChallenge[][] Challenges for This; // JSON-defined picked challenges
+	declare MakerBase::SChallenge[][] Challenges for This; // JSON-defined picked challenges
 	declare CMapInfo[] CampaignMaps for This;
 	declare SProgress Progress for This;
 	
 	Layers::SendEvent("Modifier", "LoadingProgress", "0");
 	
-	declare CampaignBuilder::SCampaign[] Campaigns for This;
-	CampaignMaps = CampaignBuilder::GetAllCampaignMaps(Campaigns);
+	declare MakerBase::SCampaign[] Campaigns for This;
+	CampaignMaps = MakerBase::GetAllCampaignMaps(Campaigns);
 	
-	declare CampaignBuilder::SScriptInfo[][] Scripts for Layers::Page("Modifier"); // Actual challenge scripts
+	declare MakerBase::SScriptInfo[][] Scripts for Layers::Page("Modifier"); // Actual challenge scripts
 	declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
 	ChallengeMaps.clear();
 	
@@ -159,11 +158,11 @@ Void UpdateFromFiles() {
 	declare MakerBase::SChallengeTitleSettings Settings for This;
 	declare JsonSettings = Settings.fromjson(File::Read("Media/Settings.json")); // Should be responsive
 	
-	declare CampaignBuilder::SChallenge[][] Challenges for This;
+	declare MakerBase::SChallenge[][] Challenges for This;
 	declare JsonChallenges = Challenges.fromjson(File::Read("Media/Challenges.json")); // Should be responsive
 	
-	declare CampaignBuilder::SCampaign[] Campaigns for This;
-	declare JsonSuccess = Campaigns.fromjson(File::Read(CampaignBuilder::GetCampaignsFile())); // Should be responsive
+	declare MakerBase::SCampaign[] Campaigns for This;
+	declare JsonSuccess = Campaigns.fromjson(File::Read(MakerBase::GetCampaignsFile())); // Should be responsive
 }
 
 Void Init() {
@@ -173,7 +172,7 @@ Void Init() {
 	UpdateFromFiles();
 	
 	declare MakerBase::SChallengeTitleSettings Settings for This;
-	declare CampaignBuilder::SCampaign[] Campaigns for This;
+	declare MakerBase::SCampaign[] Campaigns for This;
 	
 	declare SProgress Progress for This;
 	declare JsonProgress = Progress.fromjson(File::Read("Media/Progress.json"));
@@ -315,8 +314,8 @@ Void Loop() {
 		
 		declare Map::SMapInfo OriginalMapInfo for LocalUser;
 		OriginalMapInfo = ChallengeMap.OriginalMap;
-		declare CampaignBuilder::SScriptInfo[] CHALLENGE_SCRIPTS for LocalUser;
-		declare CampaignBuilder::SScriptInfo[][] Scripts for Layers::Page("Modifier");
+		declare MakerBase::SScriptInfo[] CHALLENGE_SCRIPTS for LocalUser;
+		declare MakerBase::SScriptInfo[][] Scripts for Layers::Page("Modifier");
 		CHALLENGE_SCRIPTS = Scripts[ChallengeMap.Challenge];
 					
 		declare Text[] Challenges;

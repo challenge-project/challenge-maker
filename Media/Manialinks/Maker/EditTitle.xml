@@ -6,7 +6,7 @@
 	</frame>
 	<label pos="0 -10" z-index="0" size="100 10" textprefix="$o$i$n" text="Challenge@bigbang1112" halign="center" textsize="6" textfont="Oswald" valign="center" id="LABEL_TITLEID"/>
 	<entry pos="0 -25" z-index="0" size="100 10" default="Challenge" valign="center" halign="center" textsize="4" id="ENTRY_DISPLAYNAME" scriptevents="1" selecttext="1" textfont="Oswald"/>
-	<textedit pos="-50 -31" z-index="0" size="100 12.5" textsize="2" id="TEXTEDIT_DESCRIPTION" scriptevents="1" textfont="Oswald"/>
+	<textedit pos="-50 -31" z-index="0" size="100 12.5" textsize="2" id="TEXTEDIT_DESCRIPTION" scriptevents="1" textfont="Oswald" autonewline="1"/>
 	<frame pos="0 -50">
 		<label pos="-12 0" z-index="0" size="38 8" text="{{{{INFO_URL}}}}:" valign="center2" textfont="RajdhaniMono" textsize="2" halign="right"/>
 		<entry pos="20 0" z-index="0" size="60 8" default="" valign="center" halign="center" textsize="1" id="ENTRY_INFOURL" scriptevents="1" selecttext="1" textfont="Oswald"/>
