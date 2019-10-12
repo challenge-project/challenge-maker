@@ -53,17 +53,17 @@
 			</frame>
 			<frame pos="0 -44.5">
 				<quad pos="0 0" z-index="0" size="60 50" bgcolor="FFFA" halign="center" style="Bgs1" substyle="BgCardList"/>
-				<label pos="0 -5.5" z-index="1" size="55 10" text="CAMPAIGN" halign="center" textfont="RajdhaniMono" textsize="4" valign="center"/>
+				<label pos="0 -5.5" z-index="1" size="55 10" text="{{{{CAMPAIGN}}}}" halign="center" textfont="RajdhaniMono" textsize="4" valign="center"/>
 				<frame pos="-25 -12.5" z-index="1">
-					<label size="50 5" text="DISPLAY NAME:" textfont="RajdhaniMono" valign="center" textsize="2"/>
+					<label size="50 5" text="{{{{DISPLAY_NAME}}}}:" textfont="RajdhaniMono" valign="center" textsize="2"/>
 					<entry pos="0 -6" z-index="1" size="50 6" textfont="RajdhaniMono" valign="center" textsize="2" id="ENTRY_DISPLAYNAME"/>
 				</frame>
 				<frame pos="-25 -25" z-index="1">
-					<label size="50 5" text="MAP FOLDER:" textfont="RajdhaniMono" valign="center" textsize="2"/>
+					<label size="50 5" text="{{{{MAP_FOLDER}}}}:" textfont="RajdhaniMono" valign="center" textsize="2"/>
 					<entry pos="0 -6" z-index="1" size="50 6" textfont="RajdhaniMono" valign="center" textsize="2" id="ENTRY_MAPFOLDER"/>
 				</frame>
 				<frame pos="-25 -37.5" z-index="1">
-					<label size="50 5" text="IMAGE:" textfont="RajdhaniMono" valign="center" textsize="2"/>
+					<label size="50 5" text="{{{{IMAGE}}}}:" textfont="RajdhaniMono" valign="center" textsize="2"/>
 					<entry pos="0 -6" z-index="1" size="50 6" textfont="RajdhaniMono" valign="center" textsize="2" id="ENTRY_IMAGE"/>
 				</frame>
 				<quad pos="0 0" z-index="2" size="60 50" halign="center" scriptevents="1" id="QUAD_BLOCK_CAMPAIGNINFO" hidden="1"/>
@@ -74,11 +74,11 @@
 			</frame>
 			<frame pos="0 -94.5">
 				<quad z-index="0" size="60 30" halign="center" style="Bgs1" substyle="BgCardList"/>
-				<label pos="0 -5" z-index="1" size="55 10" text="ADD A NEW CAMPAIGN" halign="center" textfont="RajdhaniMono" textsize="2.5" valign="center"/>
+				<label pos="0 -5" z-index="1" size="55 10" text="{{{{ADD_NEW_CAMPAIGN}}}}" halign="center" textfont="RajdhaniMono" textsize="2.5" valign="center"/>
 				<entry pos="0 -12.5" z-index="1" size="55 6" halign="center" textfont="RajdhaniMono" textsize="2.5" valign="center" id="ENTRY_CUSTOMCAMPAIGN"/>
 				<frame pos="0 -22.5" z-index="1">
 					<quad pos="0 0" z-index="0" size="55 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="036" id="QUAD_BUTTON_CUSTOMCAMPAIGN_ADD"/>
-					<label pos="0 0.3" z-index="1" size="55 10" text="ADD" halign="center" textfont="RajdhaniMono" valign="center"/>
+					<label pos="0 0.3" z-index="1" size="55 10" text="{{{{ADD}}}}" halign="center" textfont="RajdhaniMono" valign="center"/>
 				</frame>
 				<quad z-index="2" size="60 30" halign="center" scriptevents="1" id="QUAD_BLOCK_ADDCAMPAIGN"/>
 				<frame z-index="2" id="FRAME_LOADING_ADDCAMPAIGN">
@@ -88,11 +88,11 @@
 			</frame>
 			<frame pos="0 -130">
 				<quad pos="0 0" z-index="0" size="60 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="333" id="QUAD_BUTTON_NADEOCAMPAIGN"/>
-				<label pos="0 0.5" z-index="1" size="60 10" text="NADEO CAMPAIGN" halign="center" textfont="RajdhaniMono" valign="center"/>
+				<label pos="0 0.5" z-index="1" size="60 10" text="{{{{NADEO_CAMPAIGN}}}}" halign="center" textfont="RajdhaniMono" valign="center"/>
 			</frame>
 			<frame pos="0 -140" z-index="1">
 				<quad pos="0 0" z-index="0" size="60 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="333" id="QUAD_BUTTON_CUSTOMCAMPAIGN"/>
-				<label pos="0 0.5" z-index="1" size="60 10" text="CUSTOM CAMPAIGN" halign="center" textfont="RajdhaniMono" valign="center"/>
+				<label pos="0 0.5" z-index="1" size="60 10" text="{{{{CUSTOM_CAMPAIGN}}}}" halign="center" textfont="RajdhaniMono" valign="center"/>
 			</frame>
 			<frame pos="-25 -152.5">
 				<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="222" id="QUAD_BUTTON_REFRESH"/>

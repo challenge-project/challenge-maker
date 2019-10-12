@@ -95,12 +95,12 @@ SScriptInfo SChallengeToSScriptInfo(SChallenge _Challenge) {
 	if(_Challenge.Type == "Official") ScriptContent = File::Read("Media/Challenges/"^_Challenge.Name);
 				
 	declare LayerAPI = UILayerCreate();
-	LayerAPI.ManialinkPage = Manialink::Construct("",File::Read("Media/API_Base.Script.txt")^"""
-{{{Dictionary::TranslateAllPhrases(File::Read("Media/API.Script.txt"))}}}
+	LayerAPI.ManialinkPage = Manialink::Construct("",File::Read("Media/Base/API_Base.Script.txt")^"""
+{{{Dictionary::TranslateAllPhrases(File::Read("Media/Base/API.Script.txt"))}}}
 
 {{{Dictionary::TranslateAllPhrases(ScriptContent)}}}
 
-"""^File::Read("Media/API_Main_Metadata.Script.txt"));
+"""^File::Read("Media/Base/API_Main_Metadata.Script.txt"));
 	
 	declare Received = False;
 	while(!Received) {

@@ -9,6 +9,16 @@ foreach(Event,PendingEvents) {
 				(Page.GetFirstChild("ENTRY_INFOURL") as CMlEntry).Value,
 				(Page.GetFirstChild("ENTRY_DOWNLOADURL") as CMlEntry).Value]);
 		}
+		case CMlScriptEvent::Type::MouseClick: {
+			switch(Event.ControlId) {
+				case "QUAD_BUTTON_BUILD": {
+					SendCustomEvent("BuildTitle", []);
+				}
+				case "QUAD_BUTTON_PUBLISH": {
+					SendCustomEvent("PublishTitle", []);
+				}
+			}
+		}
 		case CMlScriptEvent::Type::PluginCustomEvent: {
 			switch(Event.CustomEventType) {
 				case "Change": {

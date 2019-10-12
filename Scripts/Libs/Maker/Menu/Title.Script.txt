@@ -8,6 +8,7 @@
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
+#Include "Libs/Challenge/Vehicle.Script.txt" as Vehicle
 
 Void Init() {
 	Layers::Create("EditTitle", Manialink::FromFile("Media/Manialinks/Maker/EditTitle", True, ["Audio"], Settings::Get().Theme));
@@ -21,6 +22,9 @@ Void Init() {
 Void Start() {
 	Layers::Show("EditTitle",True);
 	Layers::Show("ManageTitle",True);
+	
+	declare Boolean StartBuildTitle for This;
+	StartBuildTitle = False;
 	
 	MakerBase::UpdateStats();
 }
@@ -76,6 +80,10 @@ Void Event(CManiaAppEvent _Event) {
 						
 						TitleEdition.SaveTitleDesc();
 					}
+					case "BuildTitle": {
+						declare Boolean StartBuildTitle for This;
+						StartBuildTitle = True;
+					}
 				}
 			}
 		}
@@ -86,6 +94,48 @@ Void Async() {
 	
 }
 
-Void Loop() {
+Void BuildPackage() {
+	declare MakerBase::SCampaign[] Campaigns;
+	declare JsonSuccess = Campaigns.fromjson(File::Read(MakerBase::GetCampaignsFile()));
+	
+	declare Vehicles = Vehicle::FromFile("Media/Vehicle.json");
+	declare Counter = 0;
+	for(I,0,Campaigns.count-1) {
+		for(J,0,Vehicles.count-1) {
+			TitleEdition.SetTitleCampaign(Counter, Vehicles[J].Name, Campaigns[I].Folder, True, True);
+			Counter += 1;
+		}
+	}
+	
+	declare PckCr <=> TitleEdition.PackCreator;
+	
+	if(PckCr.CurrentPack == Null) {
+		PckCr.RegisterPackForEditedTitle();
+		wait(!PckCr.RegisterPack_IsInProgess);
+	}
+	if(PckCr.CurrentPack == Null) {
+		Dialog_Message(_("Could not register the pack"));
+		return;
+	}
+	if(TitleEdition.EditedTitleInfo.DisplayName == "")
+		TitleEdition.EditedTitleInfo.DisplayName = TitleEdition.EditedTitleId;
+	if(TitleEdition.EditedTitleInfo.Description == "")
+		TitleEdition.EditedTitleInfo.Description = TextLib::Compose(_("Made in maker '%1'."), LoadedTitle.Name);
+	
+	declare Pack = PckCr.Build_Begin(PckCr.CurrentPack, TitleEdition.EditedTitleInfo);
+	PckCr.Build_Generate(Pack, False);
+	wait(PckCr.Build_IsGenerated(Pack));
+	declare Success = (PckCr.Build_ErrorMessage(Pack) == "");
+	declare ErrorMessage = PckCr.Build_ErrorMessage(Pack);
+	PckCr.Build_End(Pack);
+	
+	TitleEdition.SaveTitleDesc();
+}
 
+Void Loop() {
+	declare Boolean StartBuildTitle for This;
+	if(StartBuildTitle && TitleEdition.TitleMaker != Null) {
+		BuildPackage();
+		StartBuildTitle = False;
+	}
 }

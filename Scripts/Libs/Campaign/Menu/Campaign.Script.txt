@@ -120,12 +120,14 @@ Void Init() {
 	MakerBase::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False, []);
 	yield;
 	Layers::Create("MapMenu", Manialink::FromFile("Media/Manialinks/Campaign/MapMenu", True, ["Audio","SlideText"], Settings::Get().Theme));
-}
-
-Void Start() {
+	
 	UpdateChallenges();
 	declare SScriptInfo[][] Scripts_Campaign for Layers::Page("Campaign");
 	MakerBase::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False, MakerBase::ChallengesToTextArray(Scripts_Campaign));
+}
+
+Void Start() {
+	
 }
 
 Void Event(CManiaAppEvent _Event) {
