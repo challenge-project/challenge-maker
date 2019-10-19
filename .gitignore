@@ -5,7 +5,10 @@
 *.pdn
 *.webm
 *.ogg
+*.dds
+*.wav
 Media/Manialinks/Base
+Media/Manialinks/Sandbox
 Media/Translations
 Media/Extensions
 Media/Challenges

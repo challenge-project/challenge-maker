@@ -13,7 +13,7 @@ Void UpdateMapThumbnails(Text _Challenge) {
 						foreach(Control,Frame_Map.Controls) {
 							if(Control.ControlId == "FRAME_CHALLENGE_INFO") {
 								if(Control.DataAttributeGet("challenge") == _Challenge) {
-									if(Control.DataAttributeGet("valid") == "False") {
+									if(Control.DataAttributeGet("valid") == "True") {
 										(Frame_Map.GetFirstChild("QUAD_MAP") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Control.DataAttributeGet("uid"));
 										(Frame_Map.GetFirstChild("QUAD_MAP_BLOCK") as CMlQuad).Hide();
 										(Frame_Map.GetFirstChild("LABEL_NAME") as CMlLabel).Opacity = 1.;
@@ -125,12 +125,16 @@ foreach(Event,PendingEvents) {
 				}
 				case "QUAD_MAP": {
 					declare ChallengeMapUid = Event.Control.Parent.DataAttributeGet("uid");
+					declare ChallengeFileName = Event.Control.Parent.DataAttributeGet("filename");
+					
 					declare Challenge = "";
 					foreach(Control,Event.Control.Parent.Controls) {
 						if(Control.ControlId == "FRAME_CHALLENGE_INFO") {
 							if(Control.DataAttributeGet("challenge") == Challenges[CurrentChallenge]) {
 								Challenge = Control.DataAttributeGet("challenge");
 								ChallengeMapUid = Control.DataAttributeGet("uid");
+								ChallengeFileName = Control.DataAttributeGet("filename");
+								log(Control.DataAttributeGet("valid"));
 							}
 						}
 					}
@@ -138,7 +142,9 @@ foreach(Event,PendingEvents) {
 					SendCustomEvent("Map", [Event.Control.Parent.DataAttributeGet("name"),
 					Event.Control.Parent.DataAttributeGet("author"),
 					ChallengeMapUid,
-					Challenge]);
+					Challenge,
+					ChallengeFileName,
+					Event.Control.Parent.DataAttributeGet("env")]);
 				}
 				case "QUAD_BACK": {
 					if(Event.Control.Parent.Parent.ControlId == "FRAME_CAMPAIGN_CONTROL" && CurrentCampaign-1 >= 0) {
@@ -186,6 +192,14 @@ foreach(Event,PendingEvents) {
 				}
 				case CMlScriptEvent::EMenuNavAction::ScrollDown: {
 					
+				}
+			}
+		}
+		case CMlScriptEvent::Type::PluginCustomEvent: {
+			switch(Event.CustomEventType) {
+				case "Suggest": {
+					Frame_Campaigns.RelativePosition_V3.X = TextLib::ToInteger(Event.CustomEventData[0])*-45.;
+					Frame_Challenges.RelativePosition_V3.X = TextLib::ToInteger(Event.CustomEventData[1])*-45.;
 				}
 			}
 		}

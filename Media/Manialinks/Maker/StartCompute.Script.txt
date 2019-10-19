@@ -1,0 +1,52 @@
+***Loop***
+***
+foreach(Event,PendingEvents) {
+	switch(Event.Type) {
+		case CMlScriptEvent::Type::EntrySubmit: {
+			switch(Event.ControlId) {
+				case "ENTRY_AMOUNT": {
+					declare Integer ComputCount for Page;
+					declare Integer UserComputCount for Page;
+					//declare Integer MaxCount for Page;
+					//declare Integer UserComplCount for Page;
+					declare Real AverageLength for Page;
+
+					declare Back = UserComputCount;
+					UserComputCount = TextLib::ToInteger((Page.GetFirstChild("ENTRY_AMOUNT") as CMlEntry).Value);
+
+					if(UserComputCount < 1) UserComputCount = Back;
+					if(UserComputCount > ComputCount) UserComputCount = ComputCount;
+
+					(Page.GetFirstChild("ENTRY_AMOUNT") as CMlEntry).SetText(UserComputCount^"", False);
+					(Page.GetFirstChild("LABEL_AMOUNT") as CMlLabel).SetText(UserComputCount^"");
+					if(AverageLength == -1)
+						(Page.GetFirstChild("LABEL_APPROX") as CMlLabel).SetText("???");
+					else
+						(Page.GetFirstChild("LABEL_APPROX") as CMlLabel).SetText(TextLib::TimeToText(MathLib::NearestInteger(AverageLength*UserComputCount*1000), True));
+				}
+			}
+		}
+		case CMlScriptEvent::Type::MouseClick: {
+			switch(Event.ControlId) {
+				case "QUAD_BUTTON_EXIT": {
+					SendCustomEvent("Exit", []);
+				}
+				case "QUAD_BUTTON_START": {
+					declare Integer ComputCount for Page;
+					declare Integer UserComputCount for Page;
+					SendCustomEvent("Start", [UserComputCount^""]);
+				}
+			}
+		}
+		case CMlScriptEvent::Type::PluginCustomEvent: {
+			switch(Event.CustomEventType) {
+				case "Show": {
+					declare Integer UserComputCount for Page;
+					declare Real AverageLength for Page;
+					(Page.GetFirstChild("ENTRY_AMOUNT") as CMlEntry).SetText(UserComputCount^"", True);
+				}
+			}
+		}
+	}
+}
+***

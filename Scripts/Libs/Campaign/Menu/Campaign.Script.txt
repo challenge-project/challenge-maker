@@ -1,11 +1,18 @@
 #Include "MathLib" as MathLib
 #Include "TextLib" as TextLib
 
+#Include "Libs/BigBang1112/Http.Script.txt" as Http
 #Include "Libs/BigBang1112/Layers.Script.txt" as Layers
 #Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
 #Include "Libs/BigBang1112/Settings.Script.txt" as Settings
 #Include "Libs/BigBang1112/File.Script.txt" as File
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
+#Include "Libs/BigBang1112/Map.Script.txt" as Map
+
+#Include "Libs/Challenge/Vehicle.Script.txt" as Vehicle
+#Include "Libs/Challenge/Loading.Script.txt" as Loading
+
+#Include "Libs/Challenge/Service/Status.Script.txt" as Service_Status
 
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 
@@ -28,6 +35,15 @@
 	Text Type;
 }
 
+#Struct SRecord {
+	Text Login;
+	Text Nickname;
+	Integer Time;
+	Real Distance;
+	Integer Stunts;
+	Text Driven;
+}
+
 Void UpdateChallenges() {
 	declare SChallenge[][] Challenges for This;
 	declare SScriptInfo[][] Scripts_Campaign for Layers::Page("Campaign");
@@ -46,80 +62,15 @@ Void UpdateChallenges() {
 }
 
 Void Init() {
-	/*declare JsonSuccess = MapGroups.fromjson(File::Read("Media/GroupName.json"));
-
-	declare Integer LargestCampaignHeight;
-	foreach(Campaign,DataFileMgr.Campaigns) {
-		declare Height = 0;
-		foreach(MapGroup,Campaign.MapGroups) {
-			Height += 15;
-			Height += MathLib::FloorInteger(MapGroup.MapInfos.count/5.)*45;
-		}
-		
-		if(Height > LargestCampaignHeight) {
-			LargestCampaignHeight = Height;
-		}
-	}
-	
-	declare CampaignListBuild = """<frame id="FRAME_CAMPAIGN_MENU">""";
-	CampaignListBuild ^= """<quad id="QUAD_CAMPAIGN_MENU" pos="-112.5 7.5" size="{{{DataFileMgr.Campaigns.count*45*5}}} {{{LargestCampaignHeight}}}" z-index="-1" scriptevents="1"/>""";
-	declare CampaignPadBuild = """<frame id="FRAME_CAMPAIGNS">""";
-
-	for(I, 0, DataFileMgr.Campaigns.count-1) {
-		declare Campaign <=> DataFileMgr.Campaigns[I];
-		CampaignListBuild ^= "\n"^"""	<frame pos="{{{I*45*5}}} 0">""";
-		CampaignPadBuild ^= """<quad size="45 20" halign="center" valign="center" image="file://Media/Images/ScreenShot02.jpg" scriptevents="1" id="QUAD_CAMPAIGN" pos="{{{I*45}}}"/>""";
-		declare TotalMaps = 0;
-		for(J,0,Campaign.MapGroups.count-1) {
-			declare MapGroup <=> Campaign.MapGroups[J];
-			declare GroupPositionY = MathLib::FloorInteger(TotalMaps/5.)*(-45)-J*15;
-			TotalMaps += MapGroup.MapInfos.count;
-			
-			declare GroupName = "MAPGROUP"^J;
-			declare GroupTextColor = "FFF";
-			declare GroupBackgroundColor = "000";
-			if(MapGroups.existskey(J^"")) {
-				GroupName = MapGroups[J^""].Name;
-				GroupTextColor = MapGroups[J^""].TextColor;
-				GroupBackgroundColor = MapGroups[J^""].BackgroundColor;
-			}
-			
-			CampaignListBuild ^= "\n"^"""	<frame pos="0 {{{GroupPositionY}}}" z-index="2">
-			<quad z-index="0" size="225 15" bgcolor="{{{GroupBackgroundColor}}}" halign="center" valign="center" scriptevents="1"/>
-			<label z-index="1" size="215 10" text="$o$i{{{GroupName}}}" halign="center" valign="center2" textsize="6" textfont="RajdhaniMono" pos="0 -0.4" textcolor="{{{GroupTextColor}}}"/>
-		</frame>""";
-		
-			CampaignListBuild ^= "\n"^"""		<frame pos="0 {{{GroupPositionY-30}}}">""";
-			
-			for(K,0,MapGroup.MapInfos.count-1) {
-				declare MapInfo <=> MapGroup.MapInfos[K];
-				declare ThumbnailPositionX = -90+(K%5)*45;
-				
-				declare ThumbnailPositionY = MathLib::FloorInteger(K/5.)*-45;
-				CampaignListBuild ^= "\n"^"""			<frame pos="{{{ThumbnailPositionX}}} {{{ThumbnailPositionY}}}" id="FRAME_MAP" data-name="{{{MapInfo.Name}}}" data-author="{{{MapInfo.AuthorNickName}}}">
-				<quad z-index="0" size="45 45" style="Bgs1" substyle="BgMetalBar" halign="center" valign="center" image="file://Thumbnails/MapUid/{{{MapInfo.MapUid}}}" scriptevents="1" id="QUAD_MAP"/>
-			</frame>""";
-			}
-			
-			CampaignListBuild ^= "\n"^"""		</frame>""";
-		}
-		CampaignListBuild ^= "\n"^"""	</frame>""";
-	}
-
-	CampaignListBuild ^= "\n"^"""</frame>""";
-	CampaignPadBuild ^= "\n"^"""</frame>""";
-	
-	CampaignListBuild = Dictionary::TranslateAllPhrases(CampaignListBuild);
-	CampaignPadBuild = Dictionary::TranslateAllPhrases(CampaignPadBuild);
-	
-	declare CampaignUi = Manialink::FromFile("Media/Manialinks/Campaign", True, [], Settings::Get().Theme);
-	CampaignUi = TextLib::Replace(CampaignUi, """<frame id="FRAME_CAMPAIGN_MENU"/>""", CampaignListBuild);
-	CampaignUi = TextLib::Replace(CampaignUi, """<frame id="FRAME_CAMPAIGNS"/>""", CampaignPadBuild);
-	Layers::Create("Campaign", CampaignUi);*/
 	Layers::Create("Campaign", "");
-	MakerBase::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False, []);
+	//MakerBase::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False, []);
 	yield;
 	Layers::Create("MapMenu", Manialink::FromFile("Media/Manialinks/Campaign/MapMenu", True, ["Audio","SlideText"], Settings::Get().Theme));
+	
+	declare Vehicle::SVehicle[] Vehicles for This;
+	Vehicles = Vehicle::FromFile("Media/Vehicle.json");
+	declare Text[] Cars for Layers::Page("MapMenu");
+	foreach(Vehicle,Vehicles) Cars.add(Vehicle.Name);
 	
 	UpdateChallenges();
 	declare SScriptInfo[][] Scripts_Campaign for Layers::Page("Campaign");
@@ -129,6 +80,8 @@ Void Init() {
 Void Start() {
 	
 }
+
+declare Text MapFileToStart;
 
 Void Event(CManiaAppEvent _Event) {
 	declare Event <=> _Event;
@@ -145,6 +98,16 @@ Void Event(CManiaAppEvent _Event) {
 					case "Map": {
 						Layers::Show("MapMenu", True);
 						
+						declare Vehicle::SVehicle[] Vehicles for This;
+						declare Text[] VehicleNames;
+						
+						foreach(Vehicle,Vehicles) {
+							VehicleNames.add(Vehicle.Name);
+						}
+						
+						declare Success = Http::AsyncGET("VALIDATION", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/validation.php?uid={{{Event.CustomEventData[2]}}}&car={{{TextLib::Join(",",VehicleNames)}}}""");
+						declare Success2 = Http::AsyncGET("RECORDS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/records.php?uid={{{Event.CustomEventData[2]}}}&car={{{TextLib::Join(",",VehicleNames)}}}&zone=World""");
+						
 						declare Text[] Data;
 						foreach(D,Event.CustomEventData) Data.add(D);
 						Layers::SendEvent("MapMenu", "Map", Data);
@@ -153,6 +116,10 @@ Void Event(CManiaAppEvent _Event) {
 			}
 			case Layers::Get("MapMenu"): {
 				switch(Event.CustomEventType) {
+					case "Start": {
+						declare FileName = Event.CustomEventData[0];
+						MapFileToStart = FileName;
+					}
 					case "Exit": {
 						Layers::Hide("MapMenu");
 					}
@@ -163,7 +130,30 @@ Void Event(CManiaAppEvent _Event) {
 }
 
 Void Async() {
-	
+	if(Http::IsCompleted("VALIDATION")) {
+		if(Http::IsSuccessful("VALIDATION")) {
+			declare SRecord[Text] Validations for Layers::Page("MapMenu");
+			declare Success = Validations.fromjson(Http::GetResult("VALIDATION"));
+			
+			Layers::SendEvent("MapMenu", "Validation");
+		}
+		else {
+			
+		}
+		Http::Destroy("VALIDATION");
+	}
+	if(Http::IsCompleted("RECORDS")) {
+		if(Http::IsSuccessful("RECORDS")) {
+			declare SRecord[][Text] Records for Layers::Page("MapMenu");
+			declare Success = Records.fromjson(Http::GetResult("RECORDS"));
+			
+			Layers::SendEvent("MapMenu", "Records");
+		}
+		else {
+			
+		}
+		Http::Destroy("RECORDS");
+	}
 }
 
 Void Loop() {
@@ -177,5 +167,14 @@ Void Loop() {
 			IsReloaded = True;
 		}
 		IsUpdating = False;
+	}
+	if(MapFileToStart != "") {
+		declare Map = Map::MapInfo(MapFileToStart);
+		Loading::SetLoading(Map.CollectionName, Map);
+		wait(TitleControl.IsReady);
+		TitleControl.PlayMap(MapFileToStart, "Modes/TrackMania/ChallengeSolo.Script.txt", "");
+			
+		Layers::Hide("MapMenu");
+		MapFileToStart = "";
 	}
 }

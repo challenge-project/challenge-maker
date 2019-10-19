@@ -71,7 +71,6 @@ CMapInfo[] GetAllCampaignMaps(SCampaign[] _Campaigns) {
 			}
 		}
 	}
-	
 	return MapInfos;
 }
 
@@ -125,7 +124,7 @@ SScriptInfo SChallengeToSScriptInfo(SChallenge _Challenge) {
 }
 
 Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Integer _Campaign, Boolean _IsEditMode, Text[] _Challenges) {
-	declare OriginalManialink = Manialink::FromFile(_ManialinkFile, True, ["Audio"], Settings::Get().Theme);
+	declare OriginalManialink = Manialink::FromFile(_ManialinkFile, True, ["Audio", "SlideText"], Settings::Get().Theme);
 
 	declare SCampaign[] Campaigns for This;
 	declare SChallenge[][] Challenges for This;
@@ -157,7 +156,9 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 		
 		CampaignChallengeBuild ^= """<frame pos="{{{I*45}}}" data-challenge="{{{TextLib::Join("+", Chs)}}}">
 		<quad z-index="0" size="45 8" bgcolor="024" halign="center" valign="center" scriptevents="1" id="QUAD_CHALLENGE_HOLD"/>
-		<label pos="0 0.3" z-index="1" size="40 8" halign="center" valign="center" text="{{{TextLib::Join(" + ", Chs)}}}" id="LABEL_CHALLENGE" textfont="RajdhaniMono"/>
+		<frame z-index="1" clip="True" clipsizen="40 8">
+			<label pos="0 0.3" size="200 8" halign="center" valign="center" text="{{{TextLib::Join(" + ", Chs)}}}" id="LABEL_CHALLENGE" textfont="RajdhaniMono"/>
+		</frame>
 		</frame>""";
 	}
 	CampaignChallengeBuild ^= """</frame>""";
@@ -226,7 +227,7 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 				if(J < GroupList.SubFolders.count) {
 					declare GroupFolder = GroupList.SubFolders[J];
 					
-					declare MapList = Task::SyncMapList(DataFileMgr.Map_GetFilteredGameList(2, GroupFolder, False));
+					declare MapList = Task::SyncMapList(DataFileMgr.Map_GetGameList(GroupFolder, False));
 					
 					if(IncludeAdds)
 						Height += MathLib::CeilingInteger(MapList.MapInfos.count/5.)*45;
@@ -240,7 +241,7 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 						declare ThumbnailPositionY = MathLib::FloorInteger(K/5.)*-45;
 						
 						declare MapInfo <=> MapList.MapInfos[K];
-						CampaignListBuild ^= "\n"^"""			<frame pos="{{{ThumbnailPositionX}}} {{{ThumbnailPositionY}}}" id="FRAME_MAP" data-name="{{{MapInfo.Name}}}" data-author="{{{MapInfo.AuthorNickName}}}" data-uid="{{{MapInfo.MapUid}}}" data-style="{{{MapInfo.MapStyle}}}">""";
+						CampaignListBuild ^= "\n"^"""			<frame pos="{{{ThumbnailPositionX}}} {{{ThumbnailPositionY}}}" id="FRAME_MAP" data-name="{{{MapInfo.Name}}}" data-author="{{{MapInfo.AuthorNickName}}}" data-uid="{{{MapInfo.MapUid}}}" data-filename="{{{MapInfo.FileName}}}" data-style="{{{MapInfo.MapStyle}}}" data-env="{{{MapInfo.CollectionName}}}">""";
 						
 						declare File = TextLib::Split("\\", MapInfo.FileName);		
 						
@@ -249,14 +250,16 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 							CampaignListBuild ^= """<frame id="FRAME_CHALLENGE_INFO" data-challenge="{{{Ch}}}" """;
 							if(MapSet.existskey(File[File.count-1])) {
 								declare DatChallMap <=> MapSet[File[File.count-1]];
-								CampaignListBuild ^= """data-uid="{{{DatChallMap.MapUid}}}" data-valid="{{{DatChallMap.IsPlayable}}}" """;
+								CampaignListBuild ^= """data-uid="{{{DatChallMap.MapUid}}}" data-filename="{{{DatChallMap.FileName}}}" data-valid="{{{DatChallMap.IsPlayable}}}" """;
 							} 
 							CampaignListBuild ^= "/>";
 						}
 						//
 						
 						CampaignListBuild ^= """<quad z-index="0" size="45 45" halign="center" valign="center" bgcolor="FFF" image="file://Thumbnails/MapUid/{{{MapInfo.MapUid}}}" id="QUAD_MAP" scriptevents="1"/>
-						<label pos="-19.5 19.5" z-index="1" size="39 10" text="{{{MapInfo.Name}}}" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
+						<frame z-index="1" pos="-19.5 19.5" id="FRAME_NAME" clip="True" clipposn="19.5 -5" clipsizen="39 10">
+							<label size="200 10" text="{{{MapInfo.Name}}}" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
+						</frame>
 						<label pos="17.5 17.5" z-index="2" size="10 10" text="" halign="center" valign="center" textcolor="C00" textsize="4" opacity=".9" textemboss="1" scriptevents="1" style="TextCardMedium" id="LABEL_MAP_REMOVE" data-campaignid="{{{I}}}" data-groupid="{{{J}}}" data-mapid="{{{K}}}" data-mapfile="{{{MapInfo.FileName}}}" hidden="{{{NadeoCampaignMode}}}"/>
 						<quad z-index="4" size="45 45" halign="center" valign="center" bgcolor="111C" id="QUAD_MAP_BLOCK" scriptevents="1" hidden="1"/>
 						</frame>""";
@@ -352,5 +355,6 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 	}
 	else Layers::SendEvent(_LayerName, "CampaignChanged", []);
 	
-	TitleEdition.File_WriteText(GetCampaignsFile(), Campaigns.tojson());
+	if(_IsEditMode)
+		TitleEdition.File_WriteText(GetCampaignsFile(), Campaigns.tojson());
 }

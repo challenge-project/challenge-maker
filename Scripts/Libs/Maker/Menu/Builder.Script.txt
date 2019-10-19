@@ -24,10 +24,10 @@ Void Init() {
 	Layers::Create("Builder", "");
 	
 	declare MakerBase::SChallengeTitleSettings Settings for This;
-	declare JsonSuccess2 = Settings.fromjson(File::Read("Media/Settings.json")); // Should be responsive
+	declare JsonSuccess2 = Settings.fromjson(TitleEdition.File_ReadText("Media/Settings.json")); // Should be responsive
 	
 	declare MakerBase::SCampaign[] Campaigns for This;
-	declare JsonSuccess = Campaigns.fromjson(File::Read(MakerBase::GetCampaignsFile())); // Should be responsive
+	declare JsonSuccess = Campaigns.fromjson(TitleEdition.File_ReadText(MakerBase::GetCampaignsFile())); // Should be responsive
 
 	MakerBase::UpdateBuilder("Builder", "Media/Manialinks/Maker/Builder", 0, 0, Settings.Type == "Custom", []);
 }
@@ -172,7 +172,7 @@ Void Event(CManiaAppEvent _Event) {
 						}
 						
 						declare MakerBase::SCampaign[] Campaigns for This;
-						declare JsonSuccess = Campaigns.fromjson(File::Read(MakerBase::GetCampaignsFile())); // Should be responsive
+						declare JsonSuccess = Campaigns.fromjson(TitleEdition.File_ReadText(MakerBase::GetCampaignsFile())); // Should be responsive
 					}
 					case "CampaignChanged": {
 						declare CampaignId = TextLib::ToInteger(Event.CustomEventData[0]);

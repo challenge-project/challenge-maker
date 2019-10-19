@@ -1,0 +1,200 @@
+#Include "MathLib" as MathLib
+#Include "TextLib" as TextLib
+
+#Include "Libs/BigBang1112/Layers.Script.txt" as Layers
+#Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
+#Include "Libs/BigBang1112/Settings.Script.txt" as Settings
+#Include "Libs/BigBang1112/File.Script.txt" as File
+#Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
+#Include "Libs/BigBang1112/Map.Script.txt" as Map
+
+#Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
+#Include "Libs/Challenge/Loading.Script.txt" as Loading
+
+declare Boolean VisitMap;
+declare CTaskResult_MapList Quickplay;
+
+Void Init() {
+	Layers::Create("Bottom", Manialink::FromFile("Media/Manialinks/Campaign/Bottom", True, ["TextAnimation", "Audio"], Settings::Get().Theme));
+	Layers::Create("Authors", Manialink::FromFile("Media/Manialinks/Base/Authors", True, ["TextAnimation", "Audio"], Settings::Get().Theme));
+
+	declare MakerBase::SCampaign[] Campaigns for This;
+	declare MakerBase::SChallenge[][] Challenges for This;
+
+	declare MakerBase::SScriptInfo[][] Scripts;
+	foreach(Challenge,Challenges) {
+		declare MakerBase::SScriptInfo[] ScriptSet;
+		foreach(Ch,Challenge)
+			ScriptSet.add(MakerBase::SChallengeToSScriptInfo(Ch));
+		Scripts.add(ScriptSet);
+	}
+	declare PreCampaignML = """<frame id="FRAME_PRECAMPAIGN">""";
+	PreCampaignML ^= """<frame id="FRAME_CLIP_PRECAMPAIGN" clip="True" clipsizen="290 120" scroll="True" scrollmax="{{{-Campaigns.count*80+290}}} 0">""";
+	
+	for(I, 0, Campaigns.count-1) {
+		declare Campaign = Campaigns[I];
+		
+		PreCampaignML ^= """<frame pos="{{{I*80-MathLib::Min(Campaigns.count-1.,2.625)*80/2}}}" data-campaignid="{{{I}}}">
+			<frame z-index="-1">
+				<quad z-index="-2" size="80 120" valign="center" halign="center" style="Bgs1" substyle="BgCardList"/>
+				<quad z-index="-1" size="80 120" valign="center" halign="center" style="Bgs1" substyle="BgCardList"/>
+				<quad z-index="0" size="80 120" valign="center" halign="center" style="Bgs1" substyle="BgCardList"/>
+				<quad z-index="1" size="80 120" valign="center" halign="center" style="Bgs1" substyle="BgGradV"/>
+			</frame>
+			<quad pos="0 42.5" z-index="0" size="75 30" bgcolor="000A" halign="center" valign="center" image="file://{{{Campaign.Image}}}"/>
+			<frame pos="0 25">""";
+		for(I,0,Scripts.count-1) {
+			declare Script = Scripts[I];
+			
+			declare Text[] ScriptNames;
+			foreach(S,Script) ScriptNames.add(S.Metadata.Name);
+			
+			PreCampaignML ^= """<frame pos="0 {{{I*-10}}}" data-challengeid="{{{I}}}">
+				<quad z-index="0" size="80 10" style="Bgs1InRace" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="036" opacity=".5" id="QUAD_BUTTON_CHALLENGE" halign="center"/>
+				<label pos="0 -5.25" z-index="1" size="70 10" text="{{{TextLib::ToUpperCase(TextLib::Join(" + ", ScriptNames))}}}" valign="center2" textfont="RajdhaniMono" id="LABEL_BUTTON" textcolor="EEE" halign="center"/>
+				<quad z-index="0" size="80 9.5" style="Bgs1InRace" substyle="BgGradV" halign="center" pos="0 -0.25"/>
+			</frame>""";
+		}
+		PreCampaignML ^= """</frame>
+			<frame pos="0 -49">
+				<quad z-index="0" size="72.5 15" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="060" id="QUAD_BUTTON_QUICKPLAY" class="opacity" pos="0 0" valign="center"/>
+				<label z-index="1" size="72.5 15" text="{{{Dictionary::Get("QUICK_PLAY")}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.4" textsize="5"/>
+			</frame>
+		</frame>""";
+	}
+
+	PreCampaignML ^= "</frame>";
+	PreCampaignML ^= """<frame pos="-145 -62.5">
+			<quad z-index="0" size="290 2.5" style="Bgs1" substyle="BgMetalBar" modulatecolor="222" opacity=".5" valign="center"/>
+			<quad z-index="1" size="{{{290./(Campaigns.count*80)*290}}} 2.5" style="Bgs1" substyle="BgWindow4" id="QUAD_SCROLL" valign="center" hidden="0" scriptevents="1"/>
+		</frame>""";
+	PreCampaignML ^= "</frame>";
+
+	Layers::Create("PreCampaign", Manialink::Construct(PreCampaignML, File::Read("Media/Manialinks/Campaign/PreCampaign.Script.txt"), True));
+}
+
+Void Start() {
+	Layers::Show("Top", True);
+	Layers::Show("Bottom", True);
+	Layers::Show("PreCampaign");
+}
+
+Void Event(CManiaAppEvent _Event) {
+	declare Event <=> _Event;
+
+	if(Event.Type == CManiaAppEvent::EType::LayerCustomEvent) {
+		switch(Event.CustomEventLayer) {
+			case Layers::Get("PreCampaign"): {
+				switch(Event.CustomEventType) {
+					case "Campaign": {
+						declare CampaignId = Event.CustomEventData[0];
+						declare ChallengeId = Event.CustomEventData[1];
+						Layers::Hide("Top");
+						Layers::Hide("Bottom");
+						Layers::Hide("PreCampaign");
+						Layers::Show("Campaign", True);
+						Layers::SendEvent("Campaign", "Suggest", [CampaignId, ChallengeId]);
+
+					}
+					case "Quickplay": {
+						declare CampaignId = TextLib::ToInteger(Event.CustomEventData[0]);
+						declare MakerBase::SCampaign[] Campaigns for This;
+						declare Campaign = Campaigns[CampaignId];
+						Quickplay = DataFileMgr.Map_GetFilteredGameList(2, Campaign.Folder, True);
+					}
+				}
+			}
+			case Layers::Get("Bottom"): {
+				switch(Event.CustomEventType) {
+					case "Button_Exit": {
+						Menu_Quit();
+					}
+				}
+			}
+			case Layers::Get("Top"): {
+				switch(Event.CustomEventType) {
+					case "Button_Skins": {
+						VisitMap = True;
+					}
+					case "Button_Authorize": {
+						Layers::Hide("Top", True);
+						Layers::Hide("Bottom", True);
+						Layers::Hide("PreCampaign", False);
+						Layers::Show("AuthBeta", True);
+					}
+					case "Button_Authors": {
+						Layers::Hide("Top", True);
+						Layers::Hide("PreCampaign", False);
+						Layers::Hide("Bottom", True);
+						Layers::Show("Authors", True);
+					}
+				}
+			}
+			case Layers::Get("Authors"): {
+				switch(Event.CustomEventType) {
+					case "Button_Exit": {
+						Layers::Show("Top", True);
+						Layers::Show("PreCampaign", True);
+						Layers::Show("Bottom", True);
+						Layers::Hide("Authors", False);
+					}
+				}
+			}
+			case Layers::Get("AuthBeta"): {
+				switch(Event.CustomEventType) {
+					case "Back": {
+						Layers::Show("Top", True);
+						Layers::Show("PreCampaign", True);
+						Layers::Show("Bottom", True);
+						Layers::Hide("AuthBeta", False);
+					}
+				}
+			}
+			case Layers::Get("Campaign"): {
+				switch(Event.CustomEventType) {
+					case "Exit": {
+						Layers::Show("Top", True);
+						Layers::Show("Bottom", True);
+						Layers::Show("PreCampaign", True);
+					}
+				}
+			}
+		}
+	}
+}
+
+Void Async() {
+	
+}
+
+Void Loop() {
+	if(VisitMap) {
+		wait(TitleControl.IsReady);
+		declare Map = Map::MapInfo("THE SKIN SELECT.Map.Gbx");
+		Loading::SetLoading(Map.CollectionName, Map);
+		TitleControl.PlayMap(Map.FileName, "TrackMania/SkinSelect.Script.txt", "");
+		VisitMap = False;
+	}
+	if(Quickplay != Null) {
+		wait(!Quickplay.IsProcessing);
+		if(Quickplay.HasSucceeded) {
+			declare RandomMap <=> Quickplay.MapInfos[MathLib::Rand(0, Quickplay.MapInfos.count-1)];
+			
+			while(RandomMap.MapType != "Challenge" && RandomMap.MapType != "TrackMania\\Challenge") {
+				RandomMap <=> Quickplay.MapInfos[MathLib::Rand(0, Quickplay.MapInfos.count-1)];
+				yield;
+			}
+			
+			Loading::SetLoading(RandomMap.CollectionName, Map::ToSMapInfo(RandomMap));
+			wait(TitleControl.IsReady);
+			TitleControl.PlayMap(RandomMap.FileName, "Modes/TrackMania/ChallengeSolo.Script.txt", "");
+				
+			Layers::Hide("MapMenu");
+		}
+		else {
+			
+		}
+		DataFileMgr.TaskResult_Release(Quickplay.Id);
+		Quickplay = Null;
+	}
+}

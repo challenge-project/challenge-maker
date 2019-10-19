@@ -96,18 +96,34 @@ Void Async() {
 
 Void BuildPackage() {
 	declare MakerBase::SCampaign[] Campaigns;
-	declare JsonSuccess = Campaigns.fromjson(File::Read(MakerBase::GetCampaignsFile()));
+	declare JsonSuccess = Campaigns.fromjson(TitleEdition.File_ReadText(MakerBase::GetCampaignsFile()));
+	
+	declare MakerBase::SChallenge[][] Challenges for This;
+	declare JsonChallenges = Challenges.fromjson(TitleEdition.File_ReadText("Media/Challenges.json"));
 	
 	declare Vehicles = Vehicle::FromFile("Media/Vehicle.json");
 	declare Counter = 0;
-	for(I,0,Campaigns.count-1) {
-		for(J,0,Vehicles.count-1) {
-			TitleEdition.SetTitleCampaign(Counter, Vehicles[J].Name, Campaigns[I].Folder, True, True);
-			Counter += 1;
+	/*for(I,0,Campaigns.count-1) {
+		for(J,0, Challenges.count-1) {
+			declare MakerBase::SScriptInfo[] Chs;
+			foreach(Ch,Challenges)
+				foreach(C,Ch) Chs.add(MakerBase::SChallengeToSScriptInfo(C));
+				
+			declare Text[] Chalangs;
+			foreach(C, Chs)
+				Chalangs.add(C.Metadata.Name);
+			log(Campaigns[I].Folder^"/"^TextLib::Join("+", Chalangs));
+			for(K,0,Vehicles.count-1) {
+				TitleEdition.SetTitleCampaign(Counter, Vehicles[K].Name, Campaigns[I].Folder^"/"^TextLib::Join("+", Chalangs), True, True);
+				Counter += 1;
+			}
 		}
-	}
+	}*/
+	//for(I,0,Vehicles.count-1)
+	//	TitleEdition.SetTitleCampaign(I, Vehicles[I].Name, "Maps/Campaigns/", True, True);
 	
 	declare PckCr <=> TitleEdition.PackCreator;
+	declare TitleInfo <=> TitleEdition.EditedTitleInfo;
 	
 	if(PckCr.CurrentPack == Null) {
 		PckCr.RegisterPackForEditedTitle();
@@ -117,19 +133,28 @@ Void BuildPackage() {
 		Dialog_Message(_("Could not register the pack"));
 		return;
 	}
-	if(TitleEdition.EditedTitleInfo.DisplayName == "")
-		TitleEdition.EditedTitleInfo.DisplayName = TitleEdition.EditedTitleId;
-	if(TitleEdition.EditedTitleInfo.Description == "")
-		TitleEdition.EditedTitleInfo.Description = TextLib::Compose(_("Made in maker '%1'."), LoadedTitle.Name);
+	if(TitleInfo.DisplayName == "")
+		TitleInfo.DisplayName = TitleEdition.EditedTitleId;
+	if(TitleInfo.Description == "")
+		TitleInfo.Description = TextLib::Compose(_("Made in maker '%1'."), LoadedTitle.Name);
+		
+	TitleInfo.Menus_ManiaAppFileName = "Media/Apps/Menu_Campaign.Script.txt";
+	TitleEdition.SaveTitleDesc();
 	
-	declare Pack = PckCr.Build_Begin(PckCr.CurrentPack, TitleEdition.EditedTitleInfo);
+	declare Pack = PckCr.Build_Begin(PckCr.CurrentPack, TitleInfo);
+	PckCr.Build_AddFolder(Pack, "Media/");
+	PckCr.Build_AddFolder(Pack, "Maps/Campaigns/");
+	PckCr.Build_AddFolder(Pack, "Scripts/");
+	PckCr.Build_AddFolder(Pack, "Blocks/");
+	PckCr.Build_AddFolder(Pack, "Items/");
+	PckCr.Build_AddFolder(Pack, "Skins/");
+	PckCr.Build_AddFolder(Pack, "Maps/", False, True, False, False);
+	PckCr.Build_AddFolder(Pack, "Scripts/");
 	PckCr.Build_Generate(Pack, False);
 	wait(PckCr.Build_IsGenerated(Pack));
 	declare Success = (PckCr.Build_ErrorMessage(Pack) == "");
 	declare ErrorMessage = PckCr.Build_ErrorMessage(Pack);
 	PckCr.Build_End(Pack);
-	
-	TitleEdition.SaveTitleDesc();
 }
 
 Void Loop() {

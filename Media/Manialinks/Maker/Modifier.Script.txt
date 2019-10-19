@@ -129,10 +129,14 @@ Void UpdateList(SChallengeMapInfo[] ChallengeMaps, SScriptInfo[][] _Scripts) {
 				case 2: {
 					(Frame.GetFirstChild("QUAD_POSSIBLE") as CMlQuad).Colorize = <1.,1.,0.>;
 					(Frame.GetFirstChild("LABEL_POSSIBLE") as CMlLabel).Value = "{{{{YES}}}}";
+					(Frame.GetFirstChild("QUAD_COMPUTED") as CMlQuad).Colorize = <0.1,0.1,0.1>;
+					(Frame.GetFirstChild("LABEL_COMPUTED") as CMlLabel).Value = "{{{{UNNECESSARY}}}}";
 				}
 				default: {
 					(Frame.GetFirstChild("QUAD_POSSIBLE") as CMlQuad).Colorize = <0.1,0.1,0.1>;
 					(Frame.GetFirstChild("LABEL_POSSIBLE") as CMlLabel).Value = "{{{{UNKNOWN}}}}";
+					(Frame.GetFirstChild("QUAD_COMPUTED") as CMlQuad).Colorize = <0.1,0.1,0.1>;
+					(Frame.GetFirstChild("LABEL_COMPUTED") as CMlLabel).Value = "{{{{UNNECESSARY}}}}";
 				}
 			}
 
@@ -181,6 +185,8 @@ declare SScriptInfo[][] Scripts for Page;
 
 declare HoldScrollbar = False;
 declare HoldScrollbarPos = 0.;
+
+declare Mode = "";
 ***
 
 ***Loop***
@@ -206,7 +212,10 @@ foreach(Event,PendingEvents) {
 					SendCustomEvent("Refresh", []);
 				}
 				case "QUAD_BUTTON_START": {
-					SendCustomEvent("ModifyAll", []);
+					SendCustomEvent("ModifyAll", [Mode]);
+				}
+				case "QUAD_BUTTON_COMPUTE": {
+					SendCustomEvent("ModifyAll", ["Compute"]);
 				}
 			}
 		}
@@ -240,6 +249,21 @@ foreach(Event,PendingEvents) {
 				case "LoadingProgress": {
 					Page.GetFirstChild("FRAME_LOADING").Show();
 					(Page.GetFirstChild("GAUGE_LOADING") as CMlGauge).SetRatio(TextLib::ToReal(Event.CustomEventData[0]));
+				}
+				case "ModifyMode": {
+					(Page.GetFirstChild("QUAD_BUTTON_START") as CMlQuad).Colorize = <0.,.4,0.>;
+					(Page.GetFirstChild("LABEL_BUTTON_START") as CMlLabel).SetText("{{{{MODIFY}}}}");
+					Mode = "Modify";
+				}
+				case "SolveMode": {
+					(Page.GetFirstChild("QUAD_BUTTON_START") as CMlQuad).Colorize = <.6,.4,0.>;
+					(Page.GetFirstChild("LABEL_BUTTON_START") as CMlLabel).SetText("{{{{SOLVE}}}}");
+					Mode = "Solve";
+				}
+				case "ComputeMode": {
+					(Page.GetFirstChild("QUAD_BUTTON_START") as CMlQuad).Colorize = <0.,.2,.4>;
+					(Page.GetFirstChild("LABEL_BUTTON_START") as CMlLabel).SetText("{{{{COMPUTE}}}}");
+					Mode = "Compute";
 				}
 			}
 		}

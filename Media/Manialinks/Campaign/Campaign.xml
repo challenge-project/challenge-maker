@@ -67,20 +67,19 @@
 			</frame>
 			<frame pos="0 -55">
 				<quad pos="0 0" z-index="0" size="60 27.5" halign="center" style="Bgs1" substyle="BgCardList"/>
-				<frame clip="True" clipposn="0 -13.75" clipsizen="55 22.5" z-index="1">
-					<label pos="0 -7.5" z-index="0" size="55 7.5" text="0000000" textfont="Gotham/Gotham-Bold" halign="center" textsize="4" valign="center2" textprefix="$0F0"/>
-				</frame>
+				<label pos="0 -8" z-index="1" size="55 7.5" text="0" textfont="Gotham/Gotham-Bold" halign="center" textsize="4" valign="center2" textprefix="$0F0"/>
+				<label pos="0 -19" z-index="1" size="55 7.5" text="0" textfont="Gotham/Gotham-Bold" halign="center" textsize="4" valign="center2" textprefix="$0FF"/>
 			</frame>
 			<frame pos="0 -95">
 				<quad pos="0 10" z-index="0" size="60 60" halign="center" style="Bgs1" substyle="BgCardList"/>
 				<frame z-index="1">
 					<quad pos="28.5 0" z-index="0" size="2.5 50" halign="center" style="Bgs1" substyle="BgCardList"/>
-					<quad pos="28.5 0" z-index="1" size="2 30" halign="center" style="Bgs1" substyle="BgWindow4"/>
+					<quad pos="28.5 0" z-index="1" size="2 30" halign="center" style="Bgs1" substyle="BgWindow4" hidden="1"/>
 				</frame>
 				<label pos="0 5" z-index="1" size="55 5" text="{{{{NOW_PLAYING}}}}" halign="center" valign="center" textfont="RajdhaniMono"/>
 				<frame z-index="1" pos="-30 -5" clip="True" clipposn="28.5 -20" clipsizen="57 50">
 					<frame>
-						<frame>
+						<frame hidden="1">
 							<quad z-index="0" size="57 10" style="Bgs1" substyle="BgCardList" valign="center"/>
 							<frame z-index="1" pos="1 0" clip="True" clipposn="28.5" clipsizen="55 8">
 								<quad z-index="0" size="55 55" valign="center" id="QUAD_THUMBNAIL"/>
@@ -89,7 +88,7 @@
 							<label pos="4 -.2" z-index="3" size="38 5" text="A06" valign="center2" textfont="RajdhaniMono" id="LABEL_MAP"/>
 							<label pos="53 -0.2" z-index="3" size="10 5" text="100" valign="center2" textfont="RajdhaniMono" id="LABEL_COUNT" halign="right"/>
 						</frame>
-						<frame pos="0 -10">
+						<frame pos="0 -10" hidden="1">
 							<quad z-index="0" size="57 10" style="Bgs1" substyle="BgCardList" valign="center"/>
 							<frame z-index="1" pos="1 0" clip="True" clipposn="28.5" clipsizen="55 8">
 								<quad z-index="0" size="55 55" valign="center" id="QUAD_THUMBNAIL"/>
@@ -98,7 +97,7 @@
 							<label pos="4 -.2" z-index="3" size="38 5" text="A06" valign="center2" textfont="RajdhaniMono" id="LABEL_MAP"/>
 							<label pos="53 -0.2" z-index="3" size="10 5" text="100" valign="center2" textfont="RajdhaniMono" id="LABEL_COUNT" halign="right"/>
 						</frame>
-						<frame pos="0 -20">
+						<frame pos="0 -20" hidden="1">
 							<quad z-index="0" size="57 10" style="Bgs1" substyle="BgCardList" valign="center"/>
 							<frame z-index="1" pos="1 0" clip="True" clipposn="28.5" clipsizen="55 8">
 								<quad z-index="0" size="55 55" valign="center" id="QUAD_THUMBNAIL"/>
@@ -107,7 +106,7 @@
 							<label pos="4 -.2" z-index="3" size="38 5" text="A06" valign="center2" textfont="RajdhaniMono" id="LABEL_MAP"/>
 							<label pos="53 -0.2" z-index="3" size="10 5" text="100" valign="center2" textfont="RajdhaniMono" id="LABEL_COUNT" halign="right"/>
 						</frame>
-						<frame pos="0 -30">
+						<frame pos="0 -30" hidden="1">
 							<quad z-index="0" size="57 10" style="Bgs1" substyle="BgCardList" valign="center"/>
 							<frame z-index="1" pos="1 0" clip="True" clipposn="28.5" clipsizen="55 8">
 								<quad z-index="0" size="55 55" valign="center" id="QUAD_THUMBNAIL"/>
@@ -116,7 +115,7 @@
 							<label pos="4 -.2" z-index="3" size="38 5" text="A06" valign="center2" textfont="RajdhaniMono" id="LABEL_MAP"/>
 							<label pos="53 -0.2" z-index="3" size="10 5" text="100" valign="center2" textfont="RajdhaniMono" id="LABEL_COUNT" halign="right"/>
 						</frame>
-						<frame pos="0 -40">
+						<frame pos="0 -40" hidden="1">
 							<quad z-index="0" size="57 10" style="Bgs1" substyle="BgCardList" valign="center"/>
 							<frame z-index="1" pos="1 0" clip="True" clipposn="28.5" clipsizen="55 8">
 								<quad z-index="0" size="55 55" valign="center" id="QUAD_THUMBNAIL"/>
@@ -149,13 +148,18 @@
 		<quad pos="0 0" z-index="0" size="46 46" bgcolor="2228" halign="center" valign="center" id="QUAD_THUMBNAIL"/>
 		<label pos="-20 20" z-index="1" size="40 10" text="" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
 		<label pos="0 0" z-index="1" size="40 10" text="REVERSE + CHECKPOINTLESS" halign="center" valign="center" textfont="OswaldMono" textprefix="$o$000" opacity=".3" autonewline="1" id="LABEL_CHALLENGE"/>
-		<label pos="-20 -15" z-index="1" size="40 5" text="?/00000" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1"/>
-		<label pos="-20 -20" z-index="1" size="40 4" text="00000" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1"/>
+		<label pos="-20 -15" z-index="1" size="40 5" text="?/0" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1" hidden="1"/>
+		<label pos="-20 -20" z-index="1" size="40 4" text="0" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1" hidden="1"/>
 		<quad pos="14 -15" z-index="1" size="10 10" image="file://ZoneFlags/Path/World" halign="center" valign="center" opacity=".9"/>
-		<quad pos="-27.5 0" z-index="-2" size="100 55" style="Bgs1" substyle="BgGradV" valign="center"/>
-		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center"/>
-		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center"/>
-		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center"/>
-		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center"/>
+		<quad pos="-27.5 0" z-index="-2" size="100 55" style="Bgs1" substyle="BgGradV" valign="center" hidden="1"/>
+		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="1"/>
+		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="1"/>
+		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="1"/>
+		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="1"/>
+		<quad pos="-27.5 0" z-index="-2" size="55 55" style="Bgs1" substyle="BgGradV" valign="center" hidden="0"/>
+		<quad pos="-27.5 0" z-index="-3" size="55 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="0"/>
+		<quad pos="-27.5 0" z-index="-3" size="55 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="0"/>
+		<quad pos="-27.5 0" z-index="-3" size="55 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="0"/>
+		<quad pos="-27.5 0" z-index="-3" size="55 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="0"/>
 	</frame>
 </frame>

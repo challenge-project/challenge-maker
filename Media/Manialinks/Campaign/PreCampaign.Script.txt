@@ -1,0 +1,41 @@
+***Start***
+***
+declare HoldScrollbar = False;
+declare HoldScrollbarPos = 0.;
+
+declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_SCROLL") as CMlQuad);
+declare Frame_Clip_PreCampaign = (Page.GetFirstChild("FRAME_CLIP_PRECAMPAIGN") as CMlFrame);
+***
+
+***Loop***
+***
+foreach(Event,PendingEvents) {
+	switch(Event.Type) {
+		case CMlScriptEvent::Type::MouseClick: {
+			switch(Event.ControlId) {
+				case "QUAD_BUTTON_CHALLENGE": {
+					declare CampaignId = Event.Control.Parent.Parent.Parent.DataAttributeGet("campaignid");
+					declare ChallengeId = Event.Control.Parent.DataAttributeGet("challengeid");
+					SendCustomEvent("Campaign", [CampaignId, ChallengeId]);
+				}
+				case "QUAD_BUTTON_QUICKPLAY": {
+					declare CampaignId = Event.Control.Parent.Parent.DataAttributeGet("campaignid");
+					SendCustomEvent("Quickplay", [CampaignId]);
+				}
+				case "QUAD_SCROLL": {
+					HoldScrollbar = True;
+					HoldScrollbarPos = MouseX-Quad_Scrollbar.RelativePosition_V3.X;
+				}
+			}
+		}
+	}
+}
+
+if(HoldScrollbar && MouseLeftButton) {
+	Quad_Scrollbar.RelativePosition_V3.X = MathLib::Clamp(MouseX-HoldScrollbarPos,0.,290.-Quad_Scrollbar.Size.X);
+	Frame_Clip_PreCampaign.ScrollOffset.X = (MouseX-HoldScrollbarPos)/(290-Quad_Scrollbar.Size.X)*Frame_Clip_PreCampaign.ScrollMax.X;
+}
+else {
+	HoldScrollbar = False;
+}
+***

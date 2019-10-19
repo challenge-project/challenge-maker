@@ -1,0 +1,24 @@
+[
+	[
+		{
+			"Name": "Reverse.Script.txt",
+			"Type": "Official"
+		}
+	],
+	[
+		{
+			"Name": "Checkpointless.Script.txt",
+			"Type": "Official"
+		}
+	],
+	[
+		{
+			"Name": "Reverse.Script.txt",
+			"Type": "Official"
+		},
+		{
+			"Name": "Checkpointless.Script.txt",
+			"Type": "Official"
+		}
+	]
+]

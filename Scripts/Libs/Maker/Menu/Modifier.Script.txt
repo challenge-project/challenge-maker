@@ -58,23 +58,35 @@ Void UpdateChallenges() {
 Void UpdateTimings(Integer _TotalMapCount) {
 	declare SProgress Progress for This;
 	
+	declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
+	
 	declare Integer CompletedCount for This;
 	declare Integer TotalCount for This;
 	declare Real TimeSpent for This;
 	declare Real AvgLength for This;
 	declare Real TimeLeft for This;
 	
+	declare Integer ComputeCount for This;
+	ComputeCount = 0;
+	
 	CompletedCount = 0;
 	TotalCount = _TotalMapCount;
 	
 	TimeSpent = 0.;
 	foreach(OriMapUid => ModifiedUids, Progress.Maps) {
-		foreach(ModifiedUid => ModifInfo, ModifiedUids) {
-			if(ModifInfo.Time != -1) {
-				TimeSpent += ModifInfo.Time;
-				CompletedCount += 1;
-			}
-		}
+		//foreach(M,ChallengeMaps) {
+			//if(M.OriginalMap.MapUid == OriMapUid) {
+				foreach(ModifiedUid => ModifInfo, ModifiedUids) {
+					if(ModifInfo.Time != -1) {
+						TimeSpent += ModifInfo.Time;
+						CompletedCount += 1;
+					}
+					if(ModifInfo.Possible == 1 && !ModifInfo.Computed)
+						ComputeCount += 1;
+				}
+				//break;
+			//} doenst count maps that are part of progress but not campaign
+		//} though this really lags bulk modification, it will be better to remove progress completely on campaign change
 	}
 	
 	Layers::SendEvent("Modifier", "UpdateTimeSpent", (TimeSpent*1000)^"");
@@ -128,9 +140,15 @@ Void UpdateProgress() {
 					MapInfo.Progress.Possible = Progress.Maps[Map.MapUid][MapInfo.ModifiedMap.MapUid].Possible;
 					MapInfo.Progress.Time = Progress.Maps[Map.MapUid][MapInfo.ModifiedMap.MapUid].Time;
 				}
+				else {
+					// if map not modified
+				}
+			}
+			else {
+				// if map not touched
 			}
 			
-			if(!MapInfo.Progress.Modified) AmountLeft["Modified"] += 1;
+			if(!MapInfo.Progress.Modified) {AmountLeft["Modified"] += 1; }
 			if(!MapInfo.Progress.Computed) AmountLeft["Computed"] += 1;
 			if(MapInfo.Progress.Possible == 0 || MapInfo.Progress.Possible == 2) AmountLeft["Possible"] += 1;
 		
@@ -152,22 +170,30 @@ Void UpdateProgress() {
 	UpdateTimings(ChallengeMaps.count);
 	Layers::SendEvent("Modifier", "UpdateAmountLeft", AmountLeft["Modified"]^"/"^AmountLeft["Possible"]);
 	Layers::SendEvent("Modifier", "RefreshList");
+	
+	if(AmountLeft["Possible"] == 0)
+		Layers::SendEvent("Modifier", "ComputeMode");
+	else if(AmountLeft["Modified"] == 0)
+		Layers::SendEvent("Modifier", "SolveMode");
+	else
+		Layers::SendEvent("Modifier", "ModifyMode");
 }
 
 Void UpdateFromFiles() {
 	declare MakerBase::SChallengeTitleSettings Settings for This;
-	declare JsonSettings = Settings.fromjson(File::Read("Media/Settings.json")); // Should be responsive
+	declare JsonSettings = Settings.fromjson(TitleEdition.File_ReadText("Media/Settings.json")); // Should be responsive
 	
 	declare MakerBase::SChallenge[][] Challenges for This;
-	declare JsonChallenges = Challenges.fromjson(File::Read("Media/Challenges.json")); // Should be responsive
+	declare JsonChallenges = Challenges.fromjson(TitleEdition.File_ReadText("Media/Challenges.json")); // Should be responsive
 	
 	declare MakerBase::SCampaign[] Campaigns for This;
-	declare JsonSuccess = Campaigns.fromjson(File::Read(MakerBase::GetCampaignsFile())); // Should be responsive
+	declare JsonSuccess = Campaigns.fromjson(TitleEdition.File_ReadText(MakerBase::GetCampaignsFile())); // Should be responsive
 }
 
 Void Init() {
 	Layers::Create("Modifier", Manialink::FromFile("Media/Manialinks/Maker/Modifier", True, ["Audio"], Settings::Get().Theme));
 	Layers::Create("StartModifier", Manialink::FromFile("Media/Manialinks/Maker/StartModifier", True, ["Audio"], Settings::Get().Theme));
+	Layers::Create("StartCompute", Manialink::FromFile("Media/Manialinks/Maker/StartCompute", True, ["Audio"], Settings::Get().Theme));
 	
 	UpdateFromFiles();
 	
@@ -175,7 +201,7 @@ Void Init() {
 	declare MakerBase::SCampaign[] Campaigns for This;
 	
 	declare SProgress Progress for This;
-	declare JsonProgress = Progress.fromjson(File::Read("Media/Progress.json"));
+	declare JsonProgress = Progress.fromjson(TitleEdition.File_ReadText("Media/Progress.json"));
 	
 	declare Boolean IsReloaded for This;
 	IsReloaded = False;
@@ -227,11 +253,9 @@ Void Event(CManiaAppEvent _Event) {
 								case 2: {
 									declare Boolean RepairMap for This;
 									declare Integer RepairMap_Id for This;
-									declare SChallengeMapInfo RepairMap_Map for This;
 									
 									RepairMap = True;
 									RepairMap_Id = MapId;
-									RepairMap_Map = Map;
 								}
 							}
 						}
@@ -246,23 +270,50 @@ Void Event(CManiaAppEvent _Event) {
 						IsReloaded = False;
 					}
 					case "ModifyAll": {
-						declare Integer CompletedCount for This;
-						declare Integer TotalCount for This;
-						declare Real TimeSpent for This;
-						declare Real AvgLength for This;
-						declare Real TimeLeft for This;
-						
-						declare Integer ComplCount for Layers::Page("StartModifier");
-						declare Integer MaxCount for Layers::Page("StartModifier");
-						declare Real AverageLength for Layers::Page("StartModifier");
-						declare Integer UserComplCount for Layers::Page("StartModifier");
-						
-						ComplCount = CompletedCount;
-						MaxCount = TotalCount;
-						AverageLength = AvgLength;
-						UserComplCount = MaxCount-ComplCount;
-					
-						Layers::Show("StartModifier", True);
+						switch(Event.CustomEventData[0]) {
+							case "Modify": {
+								declare Integer CompletedCount for This;
+								declare Integer TotalCount for This;
+								declare Real TimeSpent for This;
+								declare Real AvgLength for This;
+								declare Real TimeLeft for This;
+								
+								declare Integer ComplCount for Layers::Page("StartModifier");
+								declare Integer MaxCount for Layers::Page("StartModifier");
+								declare Real AverageLength for Layers::Page("StartModifier");
+								declare Integer UserComplCount for Layers::Page("StartModifier");
+								
+								ComplCount = CompletedCount;
+								MaxCount = TotalCount;
+								AverageLength = AvgLength;
+								UserComplCount = TotalCount-CompletedCount;
+							
+								Layers::Show("StartModifier", True);
+							}
+							case "Solve": {
+								declare Boolean RepairMap for This;
+								declare Integer RepairMap_Id for This;
+								
+								declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
+								for(I,0,ChallengeMaps.count-1) {
+									declare Map = ChallengeMaps[I];
+									if(Map.Progress.Possible == 2) {
+										RepairMap = True;
+										RepairMap_Id = I;
+										break;
+									}
+								}
+							}
+							case "Compute": {
+								declare Integer ComputeCount for This;
+								declare Integer ComputCount for Layers::Page("StartCompute");
+								declare Integer UserComputCount for Layers::Page("StartCompute");
+								
+								ComputCount = ComputeCount;
+								UserComputCount = ComputCount;
+								Layers::Show("StartCompute", True);
+							}
+						}
 					}
 				}
 			}
@@ -283,6 +334,29 @@ Void Event(CManiaAppEvent _Event) {
 							if(Counter == Count) break;
 							if(!ChallengeMaps[I].Progress.Modified) {
 								ModificationIds.add(I);
+								Counter += 1;
+							}
+						}
+					}
+				}
+			}
+			case Layers::Get("StartCompute"): {
+				switch(Event.CustomEventType) {
+					case "Exit": {
+						Layers::Hide("StartCompute", False);
+					}
+					case "Start": {
+						declare Count = TextLib::ToInteger(Event.CustomEventData[0]);
+						
+						declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
+						
+						declare Integer[] ComputationIds for This;
+						
+						declare Counter = 0;
+						for(I,0,ChallengeMaps.count-1) {
+							if(Counter == Count) break;
+							if(ChallengeMaps[I].Progress.Possible == 1 && !ChallengeMaps[I].Progress.Computed) {
+								ComputationIds.add(I);
 								Counter += 1;
 							}
 						}
@@ -317,7 +391,9 @@ Void Loop() {
 		declare MakerBase::SScriptInfo[] CHALLENGE_SCRIPTS for LocalUser;
 		declare MakerBase::SScriptInfo[][] Scripts for Layers::Page("Modifier");
 		CHALLENGE_SCRIPTS = Scripts[ChallengeMap.Challenge];
-					
+		
+		declare OldMapUid = ChallengeMap.ModifiedMap.MapUid; // Cuz MapUID changed in map editor
+		
 		declare Text[] Challenges;
 		foreach(Script, CHALLENGE_SCRIPTS) Challenges.add(Script.Metadata.Name);
 		
@@ -349,6 +425,7 @@ Void Loop() {
 		// set some progress.json
 		declare SProgress Progress for This;
 		if(!Progress.Maps.existskey(ChallengeMap.OriginalMap.MapUid)) Progress.Maps[ChallengeMap.OriginalMap.MapUid] = [];
+		else declare Removed = Progress.Maps[ChallengeMap.OriginalMap.MapUid].removekey(OldMapUid);
 		Progress.Maps[ChallengeMap.OriginalMap.MapUid][ChallengeMap.ModifiedMap.MapUid] = ChallengeMap.Progress;
 		TitleEdition.File_WriteText("Media/Progress.json",Progress.tojson());
 		
@@ -384,38 +461,38 @@ Void Loop() {
 	declare Boolean RepairMap for This;
 	if(RepairMap) {
 		declare Integer RepairMap_Id for This;
-		declare SChallengeMapInfo RepairMap_Map for This;
+		declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
 		
-		Loading::SetLoading(RepairMap_Map.ModifiedMap.CollectionName, RepairMap_Map.ModifiedMap);
-		TitleControl.EditMap(RepairMap_Map.ModifiedMap.FileName, "Modifier.Script.txt", """<settings>
+		declare Map = ChallengeMaps[RepairMap_Id];
+		declare OldMapUid = Map.ModifiedMap.MapUid; // Cuz MapUID changed in map editor
+		
+		Loading::SetLoading(Map.ModifiedMap.CollectionName, Map.ModifiedMap);
+		TitleControl.EditMap(Map.ModifiedMap.FileName, "Modifier.Script.txt", """<settings>
 	<setting name="S_Build" type="boolean" value="True"/>
-	<setting name="S_FastMode_MapSave" type="text" value="{{{RepairMap_Map.ModifiedMap.FileName}}}"/>
+	<setting name="S_FastMode_MapSave" type="text" value="{{{Map.ModifiedMap.FileName}}}"/>
 </settings>""");
 		wait(TitleControl.IsReady);
-		RepairMap_Map.ModifiedMap = Map::MapInfo(RepairMap_Map.ModifiedMap.FileName);
-		
-		declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
+		Map.ModifiedMap = Map::MapInfo(Map.ModifiedMap.FileName);
 		
 		declare Integer ProblemResult for LocalUser;
 		
 		// define Possible
-		RepairMap_Map.Progress.Possible = ProblemResult; // wrong
+		Map.Progress.Possible = ProblemResult; // wrong
 		
-		ChallengeMaps[RepairMap_Id] = RepairMap_Map;
+		ChallengeMaps[RepairMap_Id] = Map;
 		
 		// set some progress.json
 		declare SProgress Progress for This;
-		if(!Progress.Maps.existskey(RepairMap_Map.OriginalMap.MapUid)) Progress.Maps[RepairMap_Map.OriginalMap.MapUid] = [];
-		Progress.Maps[RepairMap_Map.OriginalMap.MapUid][RepairMap_Map.ModifiedMap.MapUid] = RepairMap_Map.Progress;
+		if(!Progress.Maps.existskey(Map.OriginalMap.MapUid)) Progress.Maps[Map.OriginalMap.MapUid] = [];
+		else declare Removed = Progress.Maps[Map.OriginalMap.MapUid].removekey(OldMapUid);
+		Progress.Maps[Map.OriginalMap.MapUid][Map.ModifiedMap.MapUid] = Map.Progress;
 		TitleEdition.File_WriteText("Media/Progress.json",Progress.tojson());
 		
 		// Update all of the timings
 		UpdateTimings(ChallengeMaps.count);
 		
 		declare Integer[Text] AmountLeft for This;
-		if(RepairMap_Map.Progress.Modified) AmountLeft["Modified"] -= 1;
-		if(RepairMap_Map.Progress.Computed) AmountLeft["Computed"] -= 1;
-		if(RepairMap_Map.Progress.Possible == -1 || RepairMap_Map.Progress.Possible == 1) AmountLeft["Possible"] -= 1;
+		if(Map.Progress.Possible == -1 || Map.Progress.Possible == 1) AmountLeft["Possible"] -= 1;
 		Layers::SendEvent("Modifier", "UpdateAmountLeft", AmountLeft["Modified"]^"/"^AmountLeft["Possible"]);
 		
 		// Refresh the look of the list
@@ -423,4 +500,54 @@ Void Loop() {
 		
 		RepairMap = False;
 	}
+	
+	declare Integer[] ComputationIds for This;
+	
+	declare ComputationCounter = 0;
+	foreach(CompId, ComputationIds) {
+		if(ModificationCounter == 0)
+			Layers::Hide("StartCompute", False); // When modification starts
+	
+		declare Time_ModificationStart = TimeLib::GetCurrent();
+		
+		declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
+		if(!ChallengeMaps.existskey(CompId)) { continue; log(":thinking:"); }
+		declare ChallengeMap = ChallengeMaps[CompId];
+		
+		Loading::SetLoading(ChallengeMap.ModifiedMap.CollectionName, ChallengeMap.ModifiedMap);
+		
+		wait(TitleControl.IsReady);
+		TitleControl.EditMap(ChallengeMap.ModifiedMap.FileName, "Shadow.Script.txt", """<settings>
+			<setting name="S_Enable" type="boolean" value="True"/>
+		</settings>""");
+		wait(TitleControl.IsReady);
+		
+		declare Time_ModificationEnd = TimeLib::GetCurrent();
+		declare Delta = TimeLib::GetDelta(Time_ModificationEnd, Time_ModificationStart);
+		
+		ChallengeMap.Progress.Computed = True;
+		
+		ChallengeMaps[CompId] = ChallengeMap;
+		
+		// set some progress.json
+		declare SProgress Progress for This;
+		Progress.Maps[ChallengeMap.OriginalMap.MapUid][ChallengeMap.ModifiedMap.MapUid] = ChallengeMap.Progress;
+		TitleEdition.File_WriteText("Media/Progress.json",Progress.tojson());
+		
+		// Update all of the timings
+		UpdateTimings(ChallengeMaps.count);
+		
+		declare Integer[Text] AmountLeft for This;
+		if(ChallengeMap.Progress.Computed) AmountLeft["Computed"] -= 1;
+		
+		// Refresh the look of the list
+		Layers::SendEvent("Modifier", "RefreshList");
+			
+		ComputationCounter += 1;
+		
+		if(ComputationCounter == ComputationIds.count) {
+			// when modification ends
+		}
+	}
+	if(ComputationIds.count > 0) ComputationIds.clear();
 }

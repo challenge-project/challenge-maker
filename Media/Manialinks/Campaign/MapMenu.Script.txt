@@ -1,3 +1,61 @@
+#Struct SRecord {
+	Text Login;
+	Text Nickname;
+	Integer Time;
+	Real Distance;
+	Integer Stunts;
+	Text Driven;
+}
+
+Text TimeToTextWithMilli(Integer _Time) {
+	return TextLib::TimeToText(_Time, True)^TextLib::SubText(""^_Time, TextLib::Length(""^_Time)-1, 1);
+}
+
+Void Update(Text _Uid, Integer _CurrentCar) {
+	declare Text[] Cars for Page;
+	declare SRecord[Text] Validations for Page;
+	declare SRecord[][Text] Records for Page;
+	declare Boolean ValidationReceived for Page;
+
+	(Page.GetFirstChild("LABEL_CAR") as CMlLabel).SetText(Cars[_CurrentCar]);
+	
+	if(Validations.existskey(Cars[_CurrentCar])) {
+		declare Validation = Validations[Cars[_CurrentCar]];
+		if(Validation.Nickname == "")
+			(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("{{{VALIDATED_BY}}} " ^ Validation.Login);
+		else
+			(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("{{{VALIDATED_BY}}} " ^ Validation.Nickname);
+	}
+	else if(ValidationReceived)
+		(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("NOT YET VALIDATED");
+	else
+		(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("...");
+
+	declare Record = ScoreMgr.Map_GetRecord(NullId, _Uid, Cars[_CurrentCar]);
+	if(Record == -1)
+		(Page.GetFirstChild("LABEL_PB_TIME") as CMlLabel).SetText("-:--.---");
+	else
+		(Page.GetFirstChild("LABEL_PB_TIME") as CMlLabel).SetText(TimeToTextWithMilli(Record));
+
+	declare Frame_Records = (Page.GetFirstChild("FRAME_RECORDS") as CMlFrame);
+	
+	for(I,0,Frame_Records.Controls.count-1) {
+		declare Label = (Frame_Records.Controls[I] as CMlLabel);
+		if(Records.existskey(Cars[_CurrentCar]) && Records[Cars[_CurrentCar]].existskey(I)) {
+			declare EnvRecords = Records[Cars[_CurrentCar]];
+			declare Record = EnvRecords[I];
+			if(Record.Nickname == "")
+				Label.SetText((I+1)^") "^Record.Login^" / "^TimeToTextWithMilli(Record.Time));
+			else
+				Label.SetText((I+1)^") "^Record.Nickname^"$z / "^TimeToTextWithMilli(Record.Time));
+			Label.Show();
+		}
+		else {
+			Label.Hide();
+		}
+	}
+}
+
 ***Start***
 ***
 declare Frame_MapName_Bg = (Page.GetFirstChild("FRAME_MAPNAME_BG") as CMlFrame);
@@ -11,6 +69,23 @@ declare Label_Challenge = (Page.GetFirstChild("LABEL_CHALLENGE") as CMlLabel);
 declare Label_Challenge2 = (Page.GetFirstChild("LABEL_CHALLENGE_2") as CMlLabel);
 
 declare LabelDistance = 15;
+
+declare Name = "";
+declare Author = "";
+declare Uid = "";
+declare Style = "";
+declare FileName = "";
+declare Environment = "";
+
+declare Zones = TextLib::Split("|", LocalUser.ZonePath);
+declare CurrentZone = 0;
+
+declare Text[] Cars for Page;
+declare CurrentCar = 0;
+declare Boolean ValidationReceived for Page;
+declare Boolean RecordsReceived for Page;
+
+(Page.GetFirstChild("LABEL_PB_NICKNAME") as CMlLabel).SetText(LocalUser.Name);
 ***
 
 ***Loop***
@@ -18,23 +93,83 @@ declare LabelDistance = 15;
 foreach(Event,PendingEvents) {
 	switch(Event.Type) {
 		case CMlScriptEvent::Type::MouseClick: {
-			if(Event.ControlId == "QUAD_BUTTON_EXIT") {
-				SendCustomEvent("Exit", []);
+			switch(Event.ControlId) {
+				case "QUAD_BUTTON_EXIT": {
+					SendCustomEvent("Exit", []);
+				}
+				case "QUAD_BUTTON_START": {
+					SendCustomEvent("Start", [FileName]);
+				}
+				case "QUAD_ZONE_NEXT": {
+					if(Zones.count == 0) continue;
+					if(CurrentZone < Zones.count-1)
+						CurrentZone += 1;
+					else CurrentZone = 0;
+
+					(Page.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(Zones[CurrentZone]);
+				}
+				case "QUAD_ZONE_PREVIOUS": {
+					if(Zones.count == 0) continue;
+					if(CurrentZone > 0)
+						CurrentZone -= 1;
+					else CurrentZone = Zones.count-1;
+
+					(Page.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(Zones[CurrentZone]);
+				}
+				case "QUAD_CAR_NEXT": {
+					if(Cars.count == 0) continue;
+					if(CurrentCar < Cars.count-1)
+						CurrentCar += 1;
+					else CurrentCar = 0;
+
+					Update(Uid, CurrentCar);
+				}
+				case "QUAD_CAR_PREVIOUS": {
+					if(Cars.count == 0) continue;
+					if(CurrentCar > 0)
+						CurrentCar -= 1;
+					else CurrentCar = Cars.count-1;
+
+					Update(Uid, CurrentCar);
+				}
 			}
 		}
 		case CMlScriptEvent::Type::PluginCustomEvent: {
 			switch(Event.CustomEventType) {
 				case "Map": {
-					declare Name = Event.CustomEventData[0];
-					declare Author = Event.CustomEventData[1];
-					declare Uid = Event.CustomEventData[2];
-					declare Style = Event.CustomEventData[3];
-					Style = TextLib::Join(" + ", TextLib::Split("+", Style));
+					Name = Event.CustomEventData[0];
+					Author = Event.CustomEventData[1];
+					Uid = Event.CustomEventData[2];
+					Style = TextLib::Join(" + ", TextLib::Split("+", Event.CustomEventData[3]));
+					FileName = Event.CustomEventData[4];
+					Environment = Event.CustomEventData[5];
 
 					SlideText_Set(Label_MapName, Label_MapName2, Name, LabelDistance);
 					SlideText_Set(Label_Challenge, Label_Challenge2, Style, LabelDistance);
 
+					declare OfficialEnvs = ["Canyon", "Stadium", "Valley", "Lagoon", "Storm"];
+
+					foreach(Env,OfficialEnvs)
+						if(Environment == Env)
+							for(I,0,Cars.count-1)
+								if(Cars[I] == Env^"Car")
+									CurrentCar = I;
+					
+					Update(Uid, CurrentCar);
+
 					(Page.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Uid);
+				}
+				case "Validation": {
+					declare SRecord[Text] Validations for Page;
+					ValidationReceived = True;
+
+					Update(Uid, CurrentCar);
+				}
+				case "Records": {
+					declare SRecord[][Text] Records for Page;
+					RecordsReceived = True;
+
+					Update(Uid, CurrentCar);
 				}
 				case "Show": {
 					

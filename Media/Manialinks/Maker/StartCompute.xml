@@ -1,0 +1,26 @@
+<frame id="FRAME_START_MODIFIER" z-index="10">
+	<quad pos="0 0" z-index="-2" size="320 180" bgcolor="222A" halign="center" valign="center" id="QUAD_BACKGROUND" scriptevents="1"/>
+	<label z-index="0" size="95 5" text="YOU'RE ABOUT TO START COMPUTING" textsize="4" valign="center2" textfont="RajdhaniMono" pos="-58 7" class="opacity" textcolor="EEE"/>
+	<label z-index="0" size="95 5" textprefix="AMOUNT TO COMPUTE: " text="?" textsize="2" valign="center2" textfont="RajdhaniMono" pos="-58 0" class="opacity" textcolor="EEE" id="LABEL_AMOUNT"/>
+	<entry pos="-47 -3" z-index="0" size="22 7" default="0" textsize="6" halign="center" textfont="RajdhaniMono" id="ENTRY_AMOUNT"/>
+	<label z-index="0" size="68 5" textprefix="APPROXIMATE LENGTH: " text="0:00:00.00" valign="center2" textfont="RajdhaniMono" pos="-33 -6.7" class="opacity" textcolor="EEE" textsize="2.5" id="LABEL_APPROX"/>
+	<frame pos="-58 -5" clip="True" clipsizen="90 10" clipposn="45 0">
+	</frame>
+	<quad pos="0 0" z-index="-13" size="130 30" halign="center" valign="center" style="Bgs1" substyle="BgCardList" class="opacity"/>
+	<quad pos="0 0" z-index="-1" size="130 30" halign="center" valign="center" style="Bgs1" substyle="BgCardList" class="opacity"/>
+	<quad pos="0 0" z-index="0" size="130 30" halign="center" valign="center" style="Bgs1InRace" substyle="BgGradV" class="opacity"/>
+	<frame pos="50 10" z-index="1">
+		<quad z-index="0" size="20 20" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="060" id="QUAD_BUTTON_START" class="opacity"/>
+		<label pos="0 -10.8" z-index="1" size="20 20" text="" halign="center" valign="center2" textfont="RajdhaniMono" class="opacity" textsize="8"/>
+	</frame>
+	<frame pos="71 -5" z-index="1">
+		<quad z-index="0" size="10 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="600" id="QUAD_BUTTON_EXIT" class="opacity"/>
+		<label pos="0 -5.6" z-index="1" size="10 10" text="🏃" halign="center" valign="center2" textfont="RajdhaniMono" class="opacity" textsize="3"/>
+	</frame>
+	<frame pos="0 -19">
+		<quad z-index="-2" size="130 7.5" halign="center" valign="center" style="Bgs1" substyle="BgCardList" class="opacity"/>
+		<quad z-index="-1" size="130 7.5" halign="center" valign="center" style="Bgs1" substyle="BgCardList" class="opacity"/>
+		<quad z-index="0" size="130 7.5" halign="center" valign="center" style="Bgs1InRace" substyle="BgGradV" class="opacity"/>
+		<label z-index="1" size="120 5" text="CONSIDER TWICE! THE AUTOMATION CAN'T BE STOPPED! (UNLESS TERMINATING THE GAME)" valign="center2" textfont="Oswald" pos="0 -0.2" class="opacity" textcolor="F70" halign="center" textsize="1.3"/>
+	</frame>
+</frame>

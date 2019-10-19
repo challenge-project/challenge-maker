@@ -1,0 +1,170 @@
+#RequireContext CManiaAppTitle
+
+#Include "TextLib" as TextLib
+#Include "ColorLib" as ColorLib
+#Include "TimeLib" as TimeLib
+
+#Include "Libs/BigBang1112/Http.Script.txt" as Http
+#Include "Libs/BigBang1112/Layers.Script.txt" as Layers
+#Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
+#Include "Libs/BigBang1112/Auth.Script.txt" as Auth
+#Include "Libs/BigBang1112/Auth2.Script.txt" as Auth2
+#Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
+#Include "Libs/BigBang1112/Settings.Script.txt" as Settings
+#Include "Libs/BigBang1112/File.Script.txt" as File
+
+#Include "Libs/Campaign/Menu/Campaign.Script.txt" as Menu_Campaign
+#Include "Libs/Campaign/Menu/PreCampaign.Script.txt" as Menu_PreCampaign
+
+#Include "Libs/Challenge/Menu/AuthBeta.Script.txt" as Menu_AuthBeta
+#Include "Libs/Challenge/Menu/Release.Script.txt" as Menu_Release
+#Include "Libs/Challenge/Notification.Script.txt" as Notification
+
+#Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
+
+#Include "Libs/Challenge/Service/Status.Script.txt" as Service_Status
+
+#Setting S_OfflineMode False
+
+Void GetUnauthorizedToken(Service_Status::SStatus _Status) {
+	declare Request = Http::SyncGET("""{{{_Status.Global.Service}}}/auth.php?login={{{LocalUser.Login}}}&token={{{Auth::GetToken().Value}}}""");
+	if(Http::IsSuccessfulStatusCode(Request.StatusCode)) {
+		declare Menu_AuthBeta::SAccess Access;
+		declare JsonSuccess = Access.fromjson(Request.Result);
+		declare Text CHALLENGE_TOKEN for LocalUser;
+		CHALLENGE_TOKEN = Access.UserToken;
+	}
+	else Dialog_Message("HTTP ERROR "^Request.StatusCode^"\nTry to reload the title pack.");
+	Http.Destroy(Request);
+}
+
+main() {
+	while(True) { // Restart mechanism
+		Settings::Restart(False);
+		
+		Dictionary::SetTranslationFolder("Media/Translations");
+		Dictionary::SetTranslationLanguage(Settings::Get().Language);
+		
+		Layers::Create("Top", Manialink::FromFile("Media/Manialinks/Base/Top", True, ["TextAnimation", "Audio"], Settings::Get().Theme));
+		
+		declare Authorized = False;
+		
+		if(!S_OfflineMode) {
+			Auth::Start();
+			
+			Notification::Init();
+			yield;
+			
+			Layers::Create("Loading", Manialink::FromFile("Media/Manialinks/Loading", False, [], Settings::Get().Theme), True);
+			
+			declare Status = Service_Status::CheckStatus(LocalUser, Auth::GetToken().Value);
+			while(!Status.Global.Running) {
+				sleep(10000);
+				Status = Service_Status::CheckStatus(LocalUser, Auth::GetToken().Value);
+			}
+			
+			if(Status.User.count > 0) {
+				if(Status.User[0].Authorized) {
+					declare Success = Auth2::AsyncAuthorize("Authorize", "b1a3d10ba7", "basic maps", Status.Global.Service^"/auth.php");
+					while(True) {
+						if(Auth2::IsCompleted("Authorize")) {
+							if(Auth2::IsSuccessful("Authorize")) {
+								declare Result = Auth2::GetAsyncAuthorizeResult("Authorize");
+								if(Result.AlreadyAccepted) {
+									declare Success = Http::AsyncGET("Redirect", Result.RedirectUrl);
+								}
+							}
+							else {
+								Dialog_Message("HTTP ERROR "^Auth2::GetStatusCode("Authorize")^"\nAuthorization error.");
+							}
+							Auth2::Destroy("Authorize");
+						}
+						
+						if(Http::IsCompleted("Redirect")) {
+							if(Http::IsSuccessful("Redirect")) {
+								declare Menu_AuthBeta::SAccess Access;
+								declare JsonSuccess = Access.fromjson(Http::GetResult("Redirect"));
+								declare Text CHALLENGE_TOKEN for LocalUser;
+								CHALLENGE_TOKEN = Access.UserToken;
+								break;
+							}
+							else {
+								Dialog_Message("HTTP ERROR "^Auth2::GetStatusCode("Redirect")^"\nRedirection error.");
+							}
+							Http::Destroy("Redirect");
+						}
+						
+						Auth::Loop();
+						yield;
+					}
+					Authorized = True;
+				}
+				else {
+					GetUnauthorizedToken(Status);
+				}
+			}
+			else {
+				GetUnauthorizedToken(Status);
+			}
+			
+			Layers::Destroy("Loading");
+	
+			Menu_Release::Start();
+			wait(Menu_Release::Loop());
+		}
+		
+		yield;
+		
+		Layers::Create("Preload", Manialink::FromFile("Media/Manialinks/Preload", False, [], Settings::Get().Theme), True);
+		
+		declare MakerBase::SChallengeTitleSettings Settings for This;
+		declare JsonSuccess2 = Settings.fromjson(File::Read("Media/Settings.json"));
+		
+		declare MakerBase::SCampaign[] Campaigns for This;
+		declare JsonSuccess = Campaigns.fromjson(File::Read(MakerBase::GetCampaignsFile()));
+		
+		declare MakerBase::SChallenge[][] Challenges for This;
+		declare JsonChallenges = Challenges.fromjson(File::Read("Media/Challenges.json"));
+		Layers::SendEvent("Preload", "Progress", 1/4.);
+		yield;
+		Menu_PreCampaign::Init();
+		Layers::SendEvent("Preload", "Progress", 2/4.);
+		yield;
+		Menu_Campaign::Init();
+		Layers::SendEvent("Preload", "Progress", 3/4.);
+		yield;
+		Menu_AuthBeta::Init();
+		Layers::SendEvent("Preload", "Progress", 4/4.);
+		sleep(300);
+		Layers::Destroy("Preload");
+		sleep(200);
+		
+		Menu_PreCampaign::Start();
+		Menu_Campaign::Start();
+		Notification::Start(<145.,25.>);
+		if(Authorized) Layers::SendEvent("Top", "HideJoin");
+		
+		//EnableMenuNavigationInputs = True;
+	
+		while(!Settings::IsRestarting()) {
+			foreach(Event,PendingEvents) {
+				Layers::Event(Event);
+				Menu_PreCampaign::Event(Event);
+				Menu_Campaign::Event(Event);
+				Menu_AuthBeta::Event(Event);
+			}
+	
+			Auth::Loop();
+			Menu_PreCampaign::Loop();
+			Menu_Campaign::Loop();
+			Menu_AuthBeta::Loop();
+			
+			Menu_Campaign::Async();
+		
+			yield;
+		}
+		
+		Layers::DestroyAll();
+		UILayerDestroyAll();
+	}
+}

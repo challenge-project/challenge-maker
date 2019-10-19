@@ -51,9 +51,13 @@
 		<label pos="0 -112.5" z-index="0" size="55 5" text="{{{{MODIFY_LEFT}}}}" halign="center" textfont="Oswald" textprefix="$o" autonewline="1" textsize="1.5" valign="center"/>
 		<label pos="0 -115" z-index="0" size="55 7" text="?/?/?" halign="center" textfont="Oswald" autonewline="1" textsize="6" id="LABEL_AMOUNT_LEFT"/>
 		
+		<frame pos="0 -130">
+			<quad pos="0 0" z-index="0" size="60 7.5" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="036" id="QUAD_BUTTON_COMPUTE"/>
+			<label pos="0 -0.4" z-index="1" size="50 7.5" text="COMPUTE SHADOWS" halign="center" textfont="RajdhaniMono" valign="center2" textsize="2"/>
+		</frame>
 		<frame pos="0 -140">
-			<quad pos="0 0" z-index="0" size="60 12.5" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="060" id="QUAD_BUTTON_START"/>
-			<label pos="0 -0.4" z-index="1" size="50 12.5" text="{{{{MODIFY}}}}" halign="center" textfont="RajdhaniMono" valign="center2" textsize="4"/>
+			<quad pos="0 0" z-index="0" size="60 12.5" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="222" id="QUAD_BUTTON_START"/>
+			<label pos="0 -0.4" z-index="1" size="50 12.5" text="" halign="center" textfont="RajdhaniMono" valign="center2" textsize="4" id="LABEL_BUTTON_START"/>
 		</frame>
 		
 		<frame pos="15 -152.5">

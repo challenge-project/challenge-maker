@@ -4,9 +4,11 @@
 #Include "ColorLib" as ColorLib
 #Include "TimeLib" as TimeLib
 
+#Include "Libs/BigBang1112/Http.Script.txt" as Http
 #Include "Libs/BigBang1112/Layers.Script.txt" as Layers
 #Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
 #Include "Libs/BigBang1112/Auth.Script.txt" as Auth
+#Include "Libs/BigBang1112/Auth2.Script.txt" as Auth2
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 #Include "Libs/BigBang1112/Settings.Script.txt" as Settings
 
@@ -18,10 +20,23 @@
 #Include "Libs/Challenge/Menu/AuthBeta.Script.txt" as Menu_AuthBeta
 #Include "Libs/Challenge/Devmode.Script.txt" as Devmode
 #Include "Libs/Challenge/Menu/Release.Script.txt" as Menu_Release
+#Include "Libs/Challenge/Notification.Script.txt" as Notification
 
 #Include "Libs/Challenge/Service/Status.Script.txt" as Service_Status
+#Include "Libs/Challenge/Service/Map.Script.txt" as Service_Map
 
 #Setting S_Devmode False
+
+Void GetUnauthorizedToken(Service_Status::SStatus _Status) {
+	declare Request = Http::SyncGET("""{{{_Status.Global.Service}}}/auth.php?login={{{LocalUser.Login}}}&token={{{Auth::GetToken().Value}}}""");
+	if(Http::IsSuccessfulStatusCode(Request.StatusCode)) {
+		declare Menu_AuthBeta::SAccess Access;
+		declare JsonSuccess = Access.fromjson(Request.Result);
+		declare Text CHALLENGE_TOKEN for LocalUser;
+		CHALLENGE_TOKEN = Access.UserToken;
+	}
+	Http.Destroy(Request);
+}
 
 main() {
 	while(True) { // Restart mechanism
@@ -33,37 +48,104 @@ main() {
 			continue;
 		}
 		
-		TitleControl.OpenEditor(CTitleControl::EEditorType::InterfaceDesigner);
+		declare Task = DataFileMgr.Map_GetGameList("Campaigns/Platform/Reverse", True);
+		wait(!Task.IsProcessing);
+		log(Task.MapInfos.count);
+		declare Service_Map::SPublishParams[] Final;
+		foreach(MapInfo,Task.MapInfos) {
+							declare Text CHALLENGE_TOKEN for LocalUser;
+
+							declare Service_Map::SPublishParams Params;
+							Params.UserToken = CHALLENGE_TOKEN;
+							Params.MapUid = MapInfo.MapUid;
+							Params.MapName = MapInfo.Name;
+							Params.MapAuthor = MapInfo.AuthorNickName;
+							Params.OriginalMapUid = MapInfo.MapUid;
+							Params.OriginalMapName = MapInfo.Name;
+							Params.OriginalMapAuthor = MapInfo.AuthorNickName;
+							Params.OriginalGame = "";
+							Params.TitleId = "Challenge_Campaign@bigbang1112";
+							Params.Environment = MapInfo.CollectionName;
+							Params.Modifiers = TextLib::Split("+",MapInfo.MapStyle);
+							Params.Campaign = "Platform Reverse";
+							Final.add(Params);
+			}
+		
+		log(Final);
+		declare Success = Http::SyncPOST("https://challenge.bigbang1112.eu/ingame/publishtitle.php", Final.tojson());
+		log(Success.Result);
+		
+		//TitleControl.OpenEditor(CTitleControl::EEditorType::InterfaceDesigner);
+		//Menu_Editor ();
 		//TitleControl.EditNewMap("Valley", "", "", "", "", "", "");
 		
 		Dictionary::SetTranslationFolder("Media/Translations");
-		Dictionary::SetTranslationLanguage(Settings::Get().Language);
-		//Dictionary::SetTranslationLanguage("en");
+		//Dictionary::SetTranslationLanguage(Settings::Get().Language);
+		Dictionary::SetTranslationLanguage("en");
 		
 		Auth::Start();
 		
-		Menu_AuthBeta::Start();
-		while(!Menu_AuthBeta::GetAccess().Pass) {
-			foreach(Event,PendingEvents) {
-				Menu_AuthBeta::Event(Event);
-			}
+		Notification::Init();
+		yield;
 		
-			Menu_AuthBeta::Async();
-			
-			Auth::Loop();
-			Menu_AuthBeta::Loop();
-			yield;
-		}
-		Menu_AuthBeta::End();
+		Layers::Create("Loading", Manialink::FromFile("Media/Manialinks/Loading", False, [], Settings::Get().Theme), True);
 		
-		Menu_Release::Start();
-		wait(Menu_Release::Loop());
-		
-		declare Status = Service_Status::CheckStatus(LocalUser);
+		declare Status = Service_Status::CheckStatus(LocalUser, Auth::GetToken().Value);
 		while(!Status.Global.Running) {
 			sleep(10000);
-			Status = Service_Status::CheckStatus(LocalUser);
+			Status = Service_Status::CheckStatus(LocalUser, Auth::GetToken().Value);
 		}
+		
+		declare Authorized = False;
+		
+		if(Status.User.count > 0) {
+			if(Status.User[0].Authorized) {
+				declare Success = Auth2::AsyncAuthorize("Authorize", "b1a3d10ba7", "basic maps", Status.Global.Service^"/auth.php");
+				while(True) {
+					if(Auth2::IsCompleted("Authorize")) {
+						if(Auth2::IsSuccessful("Authorize")) {
+							declare Result = Auth2::GetAsyncAuthorizeResult("Authorize");
+							if(Result.AlreadyAccepted) {
+								declare Success = Http::AsyncGET("Redirect", Result.RedirectUrl);
+							}
+						}
+						else {
+							log("Authorize: " ^ Auth2::GetStatusCode("Authorize"));
+						}
+						Auth2::Destroy("Authorize");
+					}
+					
+					if(Http::IsCompleted("Redirect")) {
+						if(Http::IsSuccessful("Redirect")) {
+							declare Menu_AuthBeta::SAccess Access;
+							declare JsonSuccess = Access.fromjson(Http::GetResult("Redirect"));
+							declare Text CHALLENGE_TOKEN for LocalUser;
+							CHALLENGE_TOKEN = Access.UserToken;
+							break;
+						}
+						else {
+							log("Redirect: " ^ Http::GetStatusCode("Redirect"));
+						}
+						Http::Destroy("Redirect");
+					}
+					
+					Auth::Loop();
+					yield;
+				}
+				Authorized = True;
+			}
+			else {
+				GetUnauthorizedToken(Status);
+			}
+		}
+		else {
+			GetUnauthorizedToken(Status);
+		}
+		
+		Layers::Destroy("Loading");
+
+		Menu_Release::Start();
+		wait(Menu_Release::Loop());
 		
 		yield;
 		
