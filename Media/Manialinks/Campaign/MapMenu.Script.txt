@@ -68,6 +68,8 @@ declare Frame_Label_Challenge = (Page.GetFirstChild("FRAME_LABEL_CHALLENGE") as 
 declare Label_Challenge = (Page.GetFirstChild("LABEL_CHALLENGE") as CMlLabel);
 declare Label_Challenge2 = (Page.GetFirstChild("LABEL_CHALLENGE_2") as CMlLabel);
 
+declare Frame_Records = (Page.GetFirstChild("FRAME_RECORDS") as CMlFrame);
+
 declare LabelDistance = 15;
 
 declare Name = "";
@@ -172,7 +174,11 @@ foreach(Event,PendingEvents) {
 					Update(Uid, CurrentCar);
 				}
 				case "Show": {
+					(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("...");
 					
+					for(I,0,Frame_Records.Controls.count-1) {
+						Frame_Records.Controls[I].Hide();
+					}
 				}
 			}
 		}
