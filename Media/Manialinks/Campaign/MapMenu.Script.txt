@@ -48,9 +48,12 @@ Void Update(Text _Uid, Integer _CurrentCar) {
 				Label.SetText((I+1)^") "^Record.Login^" / "^TimeToTextWithMilli(Record.Time));
 			else
 				Label.SetText((I+1)^") "^Record.Nickname^"$z / "^TimeToTextWithMilli(Record.Time));
-			Label.Show();
+			
+			Label.RelativePosition_V3.X = 300.;
+			AnimMgr.Add(Label, "<label hidden=\"0\" pos=\"0 "^Label.RelativePosition_V3.Y^"\"/>", Now+I*100, 500, CAnimManager::EAnimManagerEasing::QuadOut);
 		}
 		else {
+			AnimMgr.Flush(Label);
 			Label.Hide();
 		}
 	}
@@ -69,6 +72,9 @@ declare Label_Challenge = (Page.GetFirstChild("LABEL_CHALLENGE") as CMlLabel);
 declare Label_Challenge2 = (Page.GetFirstChild("LABEL_CHALLENGE_2") as CMlLabel);
 
 declare Frame_Records = (Page.GetFirstChild("FRAME_RECORDS") as CMlFrame);
+declare Frame_MapMenu = (Page.GetFirstChild("FRAME_MAPMENU") as CMlFrame);
+
+declare Quad_Background = (Page.GetFirstChild("QUAD_BACKGROUND") as CMlQuad);
 
 declare LabelDistance = 15;
 
@@ -86,6 +92,8 @@ declare Text[] Cars for Page;
 declare CurrentCar = 0;
 declare Boolean ValidationReceived for Page;
 declare Boolean RecordsReceived for Page;
+
+declare End = -1;
 
 (Page.GetFirstChild("LABEL_PB_NICKNAME") as CMlLabel).SetText(LocalUser.Name);
 ***
@@ -174,15 +182,39 @@ foreach(Event,PendingEvents) {
 					Update(Uid, CurrentCar);
 				}
 				case "Show": {
-					(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("...");
-					
+					End = -1;
+
+					declare SRecord[][Text] Records for Page;
+					Records.clear();
+					RecordsReceived = False;
+					declare SRecord[Text] Validations for Page;
+					Validations.clear();
+					ValidationReceived = False;
+
+					Frame_MapMenu.RelativePosition_V3.X = -100.;
+					AnimMgr.Add(Frame_MapMenu, "<label pos=\"0 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					Quad_Background.Show();
+					Quad_Background.Opacity = 0.;
+					AnimMgr.Add(Quad_Background, "<quad opacity=\"1\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+				}
+				case "Hide": {
+					End = Now;
+
+					Quad_Background.Hide();
+					AnimMgr.Add(Frame_MapMenu, "<label pos=\"-100 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+
 					for(I,0,Frame_Records.Controls.count-1) {
-						Frame_Records.Controls[I].Hide();
+						AnimMgr.Add(Frame_Records.Controls[I], "<label pos=\"300 "^Frame_Records.Controls[I].RelativePosition_V3.Y^"\"/>", Now+I*100, 1000, CAnimManager::EAnimManagerEasing::QuadOut);
 					}
 				}
 			}
 		}
 	}
+}
+
+if(End != -1) {
+	if(Now - End > 2000)
+		SendCustomEvent("Hide_Response", []);
 }
 
 SlideText_Loop(Frame_Label_MapName, Label_MapName, Label_MapName2, LabelDistance, -.01);

@@ -121,7 +121,7 @@ Void Event(CManiaAppEvent _Event) {
 						MapFileToStart = FileName;
 					}
 					case "Exit": {
-						Layers::Hide("MapMenu");
+						Layers::Hide("MapMenu", True);
 					}
 				}
 			}
