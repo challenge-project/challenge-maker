@@ -28,6 +28,64 @@ foreach(Event,PendingEvents) {
 				}
 			}
 		}
+		case CMlScriptEvent::Type::PluginCustomEvent: {
+			switch(Event.CustomEventType) {
+				case "Show": {
+					for(I, 0, Frame_Clip_PreCampaign.Controls.count-1) {
+						declare Frame = (Frame_Clip_PreCampaign.Controls[I] as CMlFrame);
+						Frame.RelativeScale = .8;
+						AnimMgr.Flush(Frame);
+						AnimMgr.Add(Frame, "<frame scale=\"1\"/>", Now + I*200, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+						foreach(C,Frame.Controls) {
+							switchtype(C) {
+								case CMlQuad: {
+									(C as CMlQuad).Opacity = 0.;
+									AnimMgr.Flush(C);
+									AnimMgr.Add(C, "<quad opacity=\"1\"/>", Now + I*200, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+								}
+								case CMlLabel: {
+									(C as CMlLabel).Opacity = 0.;
+									AnimMgr.Flush(C);
+									AnimMgr.Add(C, "<label opacity=\"1\"/>", Now + I*200, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+								}
+								case CMlFrame: {
+									foreach(C2,(C as CMlFrame).Controls) {
+										switchtype(C2) {
+											case CMlQuad: {
+												(C2 as CMlQuad).Opacity = 0.;
+												AnimMgr.Flush(C2);
+												AnimMgr.Add(C2, "<quad opacity=\"1\"/>", Now + I*200, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+											}
+											case CMlLabel: {
+												(C2 as CMlLabel).Opacity = 0.;
+												AnimMgr.Flush(C2);
+												AnimMgr.Add(C2, "<label opacity=\"1\"/>", Now + I*200, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+											}
+											case CMlFrame: {
+												foreach(C3,(C2 as CMlFrame).Controls) {
+													switchtype(C3) {
+														case CMlQuad: {
+															(C3 as CMlQuad).Opacity = 0.;
+															AnimMgr.Flush(C3);
+															AnimMgr.Add(C3, "<quad opacity=\"1\"/>", Now + I*200, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+														}
+														case CMlLabel: {
+															(C3 as CMlLabel).Opacity = 0.;
+															AnimMgr.Flush(C3);
+															AnimMgr.Add(C3, "<label opacity=\"1\"/>", Now + I*200, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
 

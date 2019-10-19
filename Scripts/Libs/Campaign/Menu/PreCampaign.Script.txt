@@ -76,7 +76,7 @@ Void Init() {
 Void Start() {
 	Layers::Show("Top", True);
 	Layers::Show("Bottom", True);
-	Layers::Show("PreCampaign");
+	Layers::Show("PreCampaign", True);
 }
 
 Void Event(CManiaAppEvent _Event) {
