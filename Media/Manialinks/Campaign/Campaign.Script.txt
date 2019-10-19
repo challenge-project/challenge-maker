@@ -1,3 +1,22 @@
+#Struct SPublicMap {
+	Text Name;
+	Text Uid;
+	Text Author;
+	Text OriginalName;
+	Text OriginalUid;
+	Text OriginalAuthor;
+}
+
+#Struct SUser {
+	Text Login;
+	Text Nickname;
+}
+
+#Struct SPlaysession {
+	SPublicMap Map;
+	SUser[] Users;
+}
+
 declare CMlQuad CurrentMapFocused;
 
 Void UpdateMapThumbnails(Text _Challenge) {
@@ -200,6 +219,26 @@ foreach(Event,PendingEvents) {
 				case "Suggest": {
 					Frame_Campaigns.RelativePosition_V3.X = TextLib::ToInteger(Event.CustomEventData[0])*-45.;
 					Frame_Challenges.RelativePosition_V3.X = TextLib::ToInteger(Event.CustomEventData[1])*-45.;
+				}
+				case "Playsessions": {
+					declare SPlaysession[] Playsessions;
+					declare JsonSuccess = Playsessions.fromjson(Event.CustomEventData[0]);
+
+					declare Frame_Playsessions = (Page.GetFirstChild("FRAME_PLAYSESSIONS") as CMlFrame);
+
+					for(I,0,Frame_Playsessions.Controls.count-1) {
+						declare Frame = (Frame_Playsessions.Controls[I] as CMlFrame);
+						if(Playsessions.existskey(I)) {
+							declare Playsession = Playsessions[I];
+							(Frame.GetFirstChild("LABEL_MAP") as CMlLabel).SetText(Playsession.Map.OriginalName);
+							(Frame.GetFirstChild("LABEL_COUNT") as CMlLabel).SetText(Playsession.Users.count^"");
+							(Frame.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Playsession.Map.Uid);
+							Frame.Show();
+						}
+						else {
+							Frame.Hide();
+						}
+					}
 				}
 			}
 		}

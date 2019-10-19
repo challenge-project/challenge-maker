@@ -78,7 +78,7 @@
 				</frame>
 				<label pos="0 5" z-index="1" size="55 5" text="{{{{NOW_PLAYING}}}}" halign="center" valign="center" textfont="RajdhaniMono"/>
 				<frame z-index="1" pos="-30 -5" clip="True" clipposn="28.5 -20" clipsizen="57 50">
-					<frame>
+					<frame id="FRAME_PLAYSESSIONS">
 						<frame hidden="1">
 							<quad z-index="0" size="57 10" style="Bgs1" substyle="BgCardList" valign="center"/>
 							<frame z-index="1" pos="1 0" clip="True" clipposn="28.5" clipsizen="55 8">

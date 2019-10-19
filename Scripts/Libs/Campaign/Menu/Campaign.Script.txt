@@ -8,6 +8,7 @@
 #Include "Libs/BigBang1112/File.Script.txt" as File
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 #Include "Libs/BigBang1112/Map.Script.txt" as Map
+#Include "Libs/BigBang1112/Time.Script.txt" as Time
 
 #Include "Libs/Challenge/Vehicle.Script.txt" as Vehicle
 #Include "Libs/Challenge/Loading.Script.txt" as Loading
@@ -176,5 +177,12 @@ Void Loop() {
 			
 		Layers::Hide("MapMenu");
 		MapFileToStart = "";
+	}
+	
+	if(!Time::Stamp_CreateOnce("PLAYSESSION_REFRESH", 1*1000)) {
+		if(Time::Stamp_Reached("PLAYSESSION_REFRESH")) {
+			declare Playsessions = Service_Status::LastStatus(LocalUser).Titles[LoadedTitle.TitleId].Playsessions;
+			Layers::SendEvent("Campaign", "Playsessions", Playsessions.tojson());
+		}
 	}
 }
