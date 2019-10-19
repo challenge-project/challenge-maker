@@ -22,9 +22,9 @@ Void Update(Text _Uid, Integer _CurrentCar) {
 	if(Validations.existskey(Cars[_CurrentCar])) {
 		declare Validation = Validations[Cars[_CurrentCar]];
 		if(Validation.Nickname == "")
-			(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("{{{VALIDATED_BY}}} " ^ Validation.Login);
+			(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("{{{{VALIDATED_BY}}}} " ^ Validation.Login);
 		else
-			(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("{{{VALIDATED_BY}}} " ^ Validation.Nickname);
+			(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("{{{{VALIDATED_BY}}}} " ^ Validation.Nickname);
 	}
 	else if(ValidationReceived)
 		(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("NOT YET VALIDATED");
