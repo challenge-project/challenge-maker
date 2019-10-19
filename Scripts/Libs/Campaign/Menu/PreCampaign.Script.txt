@@ -109,6 +109,24 @@ Void Event(CManiaAppEvent _Event) {
 					case "Button_Exit": {
 						Menu_Quit();
 					}
+					case "Replays": {
+						Layers::Show("Replays", True);
+						Layers::Show("ReplayInfo", True);
+						Layers::Hide("Top", True);
+						Layers::Hide("Bottom", True);
+						Layers::Hide("PreCampaign", False);
+					}
+				}
+			}
+			case Layers::Get("ReplayInfo"): {
+				switch(Event.CustomEventType) {
+					case "Back": {
+						Layers::Hide("Replays", True);
+						Layers::Hide("ReplayInfo", True);
+						Layers::Show("Top", True);
+						Layers::Show("Bottom", True);
+						Layers::Show("PreCampaign", True);
+					}
 				}
 			}
 			case Layers::Get("Top"): {

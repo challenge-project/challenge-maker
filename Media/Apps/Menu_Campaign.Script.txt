@@ -17,6 +17,7 @@
 #Include "Libs/Campaign/Menu/PreCampaign.Script.txt" as Menu_PreCampaign
 
 #Include "Libs/Challenge/Menu/AuthBeta.Script.txt" as Menu_AuthBeta
+#Include "Libs/Challenge/Menu/Replays.Script.txt" as Menu_Replays
 #Include "Libs/Challenge/Menu/Release.Script.txt" as Menu_Release
 #Include "Libs/Challenge/Notification.Script.txt" as Notification
 
@@ -125,16 +126,19 @@ main() {
 		
 		declare MakerBase::SChallenge[][] Challenges for This;
 		declare JsonChallenges = Challenges.fromjson(File::Read("Media/Challenges.json"));
-		Layers::SendEvent("Preload", "Progress", 1/4.);
+		Layers::SendEvent("Preload", "Progress", 1/5.);
 		yield;
 		Menu_PreCampaign::Init();
-		Layers::SendEvent("Preload", "Progress", 2/4.);
+		Layers::SendEvent("Preload", "Progress", 2/5.);
 		yield;
 		Menu_Campaign::Init();
-		Layers::SendEvent("Preload", "Progress", 3/4.);
+		Layers::SendEvent("Preload", "Progress", 3/5.);
 		yield;
 		Menu_AuthBeta::Init();
-		Layers::SendEvent("Preload", "Progress", 4/4.);
+		Layers::SendEvent("Preload", "Progress", 4/5.);
+		yield;
+		Menu_Replays::Init();
+		Layers::SendEvent("Preload", "Progress", 5/5.);
 		sleep(300);
 		Layers::Destroy("Preload");
 		sleep(200);
@@ -152,14 +156,17 @@ main() {
 				Menu_PreCampaign::Event(Event);
 				Menu_Campaign::Event(Event);
 				Menu_AuthBeta::Event(Event);
+				Menu_Replays::Event(Event);
 			}
+			
+			Menu_Campaign::Async();
+			Menu_Replays::Async();
 	
 			Auth::Loop();
 			Menu_PreCampaign::Loop();
 			Menu_Campaign::Loop();
 			Menu_AuthBeta::Loop();
-			
-			Menu_Campaign::Async();
+			Menu_Replays::Loop();
 		
 			yield;
 		}
