@@ -64,7 +64,7 @@ Void Init() {
 	}
 
 	PreCampaignML ^= "</frame>";
-	PreCampaignML ^= """<frame pos="-145 -62.5">
+	PreCampaignML ^= """<frame pos="-145 -62.5" id="FRAME_SCROLL">
 			<quad z-index="0" size="290 2.5" style="Bgs1" substyle="BgMetalBar" modulatecolor="222" opacity=".5" valign="center"/>
 			<quad z-index="1" size="{{{290./(Campaigns.count*80)*290}}} 2.5" style="Bgs1" substyle="BgWindow4" id="QUAD_SCROLL" valign="center" hidden="0" scriptevents="1"/>
 		</frame>""";

@@ -31,6 +31,8 @@ foreach(Event,PendingEvents) {
 		case CMlScriptEvent::Type::PluginCustomEvent: {
 			switch(Event.CustomEventType) {
 				case "Show": {
+					Page.GetFirstChild("FRAME_SCROLL").RelativeScale = 0.;
+					AnimMgr.Add(Page.GetFirstChild("FRAME_SCROLL"), "<frame scale=\"1\"/>", 1000, CAnimManager::EAnimManagerEasing::QuadOut);
 					for(I, 0, Frame_Clip_PreCampaign.Controls.count-1) {
 						declare Frame = (Frame_Clip_PreCampaign.Controls[I] as CMlFrame);
 						Frame.RelativeScale = .8;
