@@ -12,6 +12,7 @@
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 #Include "Libs/BigBang1112/Settings.Script.txt" as Settings
 #Include "Libs/BigBang1112/File.Script.txt" as File
+#Include "Libs/BigBang1112/Time.Script.txt" as Time
 
 #Include "Libs/Campaign/Menu/Campaign.Script.txt" as Menu_Campaign
 #Include "Libs/Campaign/Menu/PreCampaign.Script.txt" as Menu_PreCampaign
@@ -167,6 +168,18 @@ main() {
 			Menu_Campaign::Loop();
 			Menu_AuthBeta::Loop();
 			Menu_Replays::Loop();
+
+			if(!Time::Stamp_CreateOnce("STATUS", 10*1000)) {
+				if(Time::Stamp_Reached("STATUS")) {
+					declare Success = Service_Status::AsyncCheckStatus("STATUS", LocalUser);
+				}
+			}
+			
+			if(Service_Status::AsyncIsCompleted("STATUS")) {
+				if(Service_Status::AsyncIsSuccessful("STATUS")) {
+					declare Status = Service_Status::GetAsyncCheckStatusResult("STATUS", LocalUser);
+				}
+			}
 		
 			yield;
 		}
