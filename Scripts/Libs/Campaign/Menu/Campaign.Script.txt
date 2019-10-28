@@ -101,7 +101,6 @@ Void Event(CManiaAppEvent _Event) {
 						
 						declare Vehicle::SVehicle[] Vehicles for This;
 						declare Text[] VehicleNames;
-						
 						foreach(Vehicle,Vehicles) {
 							VehicleNames.add(Vehicle.Name);
 						}

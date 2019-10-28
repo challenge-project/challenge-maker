@@ -142,8 +142,8 @@
 		</frame>
 	</frame>
 </frame>
-<frame z-index="10" hidden="0">
-	<frame clip="True" clipsizen="120 55" clipposn="0 0" id="FRAME_QUICKMAPINFO">
+<frame z-index="10">
+	<frame clip="True" clipsizen="120 55" clipposn="0 0" id="FRAME_QUICKMAPINFO" hidden="1">
 		<quad pos="0 0" z-index="-1" size="50 50" style="Bgs1" substyle="BgWindow4" halign="center" valign="center"/>
 		<quad pos="0 0" z-index="0" size="46 46" bgcolor="2228" halign="center" valign="center" id="QUAD_THUMBNAIL"/>
 		<label pos="-20 20" z-index="1" size="40 10" text="" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>

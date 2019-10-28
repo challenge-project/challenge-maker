@@ -19,6 +19,34 @@
 
 declare CMlQuad CurrentMapFocused;
 
+Void PreloadMapThumbnails() {
+	declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
+	foreach(Control, Frame_Campaign_Menu.Controls) {
+		if(Control.ControlId == "FRAME_CAMPAIGN") {
+			declare Frame_Campaign = (Control as CMlFrame);
+			foreach(Control2, Frame_Campaign.Controls) {
+				declare Frame_Group = (Control2 as CMlFrame);
+				foreach(Control3, Frame_Group.Controls) {
+					if(Control3.ControlId == "FRAME_MAP") {
+						declare Frame_Map = (Control3 as CMlFrame);
+						foreach(Control,Frame_Map.Controls) {
+							if(Control.ControlId == "FRAME_CHALLENGE_INFO") {
+								if(Control.DataAttributeGet("valid") == "True") {
+									PreloadImage("file://Thumbnails/MapUid/"^Control.DataAttributeGet("uid"));
+								}
+								else {
+									PreloadImage("file://Thumbnails/MapUid/"^Frame_Map.DataAttributeGet("uid"));
+								}
+							}
+						}
+					}
+				}
+				//yield;
+			}
+		}
+	}
+}
+
 Void UpdateMapThumbnails(Text _Challenge) {
 	declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
 	foreach(Control, Frame_Campaign_Menu.Controls) {
@@ -125,6 +153,9 @@ declare Text[] Challenges for Page;
 foreach(Control,Frame_Challenges.Controls) {
 	Challenges.add(Control.DataAttributeGet("challenge"));
 }
+
+PreloadMapThumbnails();
+
 UpdateMapThumbnails(Challenges[0]);
 ***
 
