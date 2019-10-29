@@ -65,22 +65,22 @@
 			<label pos="2 -3.1" z-index="0" size="43.5 6" text="https://discord.gg/v6TW88m" valign="center2" textsize="1.5" textfont="BiryaniDemiBold" id="LABEL_TEXT"/>
 		</frame>
 	</frame>
-	<frame pos="150 0" id="FRAME_RECORDS" clip="True" clipposn="-110" clipsizen="216 180">
-		<label pos="0 80" z-index="0" size="300 15" text="1) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="16" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 63" z-index="0" size="300 15" text="2) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="12" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 50" z-index="0" size="300 15" text="3) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="10" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 38.5" z-index="0" size="300 15" text="4) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="9" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 28" z-index="0" size="300 15" text="5) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="8" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 18" z-index="0" size="300 15" text="6) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="7.5" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 9" z-index="0" size="300 15" text="7) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="7" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 0" z-index="0" size="300 15" text="8) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.75" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 -9" z-index="0" size="300 15" text="9) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.5" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 -18" z-index="0" size="300 15" text="10) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.5" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 -27" z-index="0" size="300 15" text="11) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.4" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 -36" z-index="0" size="300 15" text="12) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.3" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 -45" z-index="0" size="300 15" text="13) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.25" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 -54" z-index="0" size="300 15" text="14) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.25" textfont="RajdhaniMono" textemboss="1"/>
-		<label pos="0 -63" z-index="0" size="300 15" text="15) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.25" textfont="RajdhaniMono" textemboss="1"/>
+	<frame pos="150 0" id="FRAME_RECORDS" clip="True" clipposn="-110" clipsizen="218 180">
+		<label pos="0 80" z-index="0" size="300 15" text="1) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="16" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 63" z-index="0" size="300 15" text="2) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="12" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 50" z-index="0" size="300 15" text="3) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="10" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 38.5" z-index="0" size="300 15" text="4) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="9" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 28" z-index="0" size="300 15" text="5) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="8" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 18" z-index="0" size="300 15" text="6) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="7.5" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 9" z-index="0" size="300 15" text="7) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="7" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 0" z-index="0" size="300 15" text="8) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.75" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 -9" z-index="0" size="300 15" text="9) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.5" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 -18" z-index="0" size="300 15" text="10) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.5" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 -27" z-index="0" size="300 15" text="11) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.4" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 -36" z-index="0" size="300 15" text="12) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.3" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 -45" z-index="0" size="300 15" text="13) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.25" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 -54" z-index="0" size="300 15" text="14) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.25" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
+		<label pos="0 -63" z-index="0" size="300 15" text="15) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="6.25" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardRaceRank"/>
 	</frame>
 	<label pos="150 -69" z-index="0" size="200 15" text="SEE MORE..." halign="right" textsize="6.5" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextCardMedium" hidden="1"/>
 </frame>

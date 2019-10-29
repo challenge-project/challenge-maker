@@ -9,6 +9,7 @@
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 #Include "Libs/BigBang1112/Map.Script.txt" as Map
 #Include "Libs/BigBang1112/Time.Script.txt" as Time
+#Include "Libs/BigBang1112/Task.Script.txt" as Task
 
 #Include "Libs/Challenge/Vehicle.Script.txt" as Vehicle
 #Include "Libs/Challenge/Loading.Script.txt" as Loading
@@ -98,16 +99,32 @@ Void Event(CManiaAppEvent _Event) {
 					}
 					case "Map": {
 						Layers::Show("MapMenu", True);
+
+						declare MapUid = Event.CustomEventData[2];
 						
 						declare Vehicle::SVehicle[] Vehicles for This;
+						
+						declare Boolean Leaderboards_Request for This;
+						declare CTaskResult_NaturalLeaderBoardInfoList[Text] Leaderboards for This;
+						foreach(LB,Leaderboards)
+							if(LB != Null)
+								ScoreMgr.TaskResult_Release(LB.Id);
+						Leaderboards.clear();
+						
 						declare Text[] VehicleNames;
 						foreach(Vehicle,Vehicles) {
 							VehicleNames.add(Vehicle.Name);
+							declare Request = ScoreMgr.MapLeaderBoard_GetPlayerList(NullId, MapUid, Vehicle.Name, "World", 0, 20);
+							if(Request == Null)
+								log("Records on " ^ MapUid ^ " with car " ^ Vehicle.Name ^ " are not available in this title pack.");
+							else
+								Leaderboards[Vehicle.Name] = Request;
 						}
+						Leaderboards_Request = True;
 						
-						declare Success = Http::AsyncGET("VALIDATION", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/validation.php?uid={{{Event.CustomEventData[2]}}}&car={{{TextLib::Join(",",VehicleNames)}}}""");
-						declare Success2 = Http::AsyncGET("RECORDS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/records.php?uid={{{Event.CustomEventData[2]}}}&car={{{TextLib::Join(",",VehicleNames)}}}&zone=World""");
-						
+						declare Success = Http::AsyncGET("VALIDATION", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/validation.php?uid={{{MapUid}}}&car={{{TextLib::Join(",",VehicleNames)}}}""");
+						declare Success2 = Http::AsyncGET("RECORDS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/records.php?uid={{{MapUid}}}&car={{{TextLib::Join(",",VehicleNames)}}}&zone=World""");
+
 						declare Text[] Data;
 						foreach(D,Event.CustomEventData) Data.add(D);
 						Layers::SendEvent("MapMenu", "Map", Data);
@@ -122,6 +139,16 @@ Void Event(CManiaAppEvent _Event) {
 					}
 					case "Exit": {
 						Layers::Hide("MapMenu", True);
+					}
+					case "ViewGhost": {
+						declare Text Ghost_Url for LocalUser;
+						Ghost_Url = Event.CustomEventData[0];
+						declare Text Ghost_FileName for LocalUser;
+						Ghost_FileName = Event.CustomEventData[1];
+						declare Text Ghost_MapFile for LocalUser;
+						Ghost_MapFile = Event.CustomEventData[2];
+						
+						Map::AsyncMapInfo(Ghost_MapFile);
 					}
 				}
 			}
@@ -153,6 +180,44 @@ Void Async() {
 			
 		}
 		Http::Destroy("RECORDS");
+	}
+	
+	declare Text Ghost_MapFile for LocalUser;
+	if(Ghost_MapFile != "") {
+		if(Map::AsyncIsCompleted(Ghost_MapFile)) {
+			if(Map::AsyncIsSuccessful(Ghost_MapFile)) {
+				declare Map = Map::MapInfo(Ghost_MapFile);
+				wait(TitleControl.IsReady);
+				Loading::SetLoading(Map.CollectionName, Map);
+				TitleControl.PlayMap(Ghost_MapFile, "Replay.Script.txt", "");
+				wait(TitleControl.IsReady);
+				declare Text Ghost_ReplayFile for LocalUser;
+				if(Ghost_ReplayFile != "")
+					TitleControl.EditReplay([Ghost_ReplayFile]);
+			}
+			Map::AsyncDestroy(Ghost_MapFile);
+			Ghost_MapFile = "";
+		}
+	}
+	
+	declare Boolean Leaderboards_Request for This;
+	if(Leaderboards_Request) {
+		Leaderboards_Request = False;
+		declare CTaskResult_NaturalLeaderBoardInfoList[Text] Leaderboards for This;
+		foreach(Car => L,Leaderboards) {
+			if(L != Null) {
+				Leaderboards_Request = True;
+				if(!L.IsProcessing) {
+					if(L.HasSucceeded) {
+						foreach(Record,L.LeaderBoardInfo) {
+							Layers::SendEvent("MapMenu", "RecordGhost", [Car, Record.Login, Record.DisplayName, Record.Score^"", Record.ReplayUrl, Record.FileName]);
+						}
+					}
+					ScoreMgr.TaskResult_Release(L.Id);
+					Leaderboards[Car] = Null;
+				}
+			}
+		}
 	}
 }
 

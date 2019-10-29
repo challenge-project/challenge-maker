@@ -11,6 +11,26 @@ Text TimeToTextWithMilli(Integer _Time) {
 	return TextLib::TimeToText(_Time, True)^TextLib::SubText(""^_Time, TextLib::Length(""^_Time)-1, 1);
 }
 
+Void UpdateGhosts(Text _Car) {
+	declare Text[Text][Text] GhostRecords for Page;
+	if(_Car == "")
+		GhostRecords.clear();
+
+	foreach(Control,(Page.GetFirstChild("FRAME_RECORDS") as CMlFrame).Controls) {
+		if(_Car == "") {
+			Control.DataAttributeSet("url", "");
+			Control.DataAttributeSet("filename", "");
+		}
+		else if(GhostRecords.existskey(_Car)) {
+			if(Control.DataAttributeGet("login") == GhostRecords[_Car]["Login"]
+			&& Control.DataAttributeGet("time") == GhostRecords[_Car]["Time"]) {
+				Control.DataAttributeSet("url", GhostRecords[_Car]["Url"]);
+				Control.DataAttributeSet("filename", GhostRecords[_Car]["FileName"]);
+			}
+		}
+	}
+}
+
 Void Update(Text _Uid, Integer _CurrentCar) {
 	declare Text[] Cars for Page;
 	declare SRecord[Text] Validations for Page;
@@ -27,7 +47,7 @@ Void Update(Text _Uid, Integer _CurrentCar) {
 			(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("{{{{VALIDATED_BY}}}} " ^ Validation.Nickname);
 	}
 	else if(ValidationReceived)
-		(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("NOT YET VALIDATED");
+		(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("{{{{NOT_YET_VALIDATED}}}}");
 	else
 		(Page.GetFirstChild("LABEL_VALIDATION") as CMlLabel).SetText("...");
 
@@ -44,11 +64,18 @@ Void Update(Text _Uid, Integer _CurrentCar) {
 		if(Records.existskey(Cars[_CurrentCar]) && Records[Cars[_CurrentCar]].existskey(I)) {
 			declare EnvRecords = Records[Cars[_CurrentCar]];
 			declare Record = EnvRecords[I];
+
+			Label.DataAttributeSet("login", Record.Login);
+			Label.DataAttributeSet("time", Record.Time^"");
+			Label.DataAttributeSet("url", "");
+			Label.DataAttributeSet("filename", "");
+
 			if(Record.Nickname == "")
 				Label.SetText((I+1)^") "^Record.Login^" / "^TimeToTextWithMilli(Record.Time));
 			else
 				Label.SetText((I+1)^") "^Record.Nickname^"$z / "^TimeToTextWithMilli(Record.Time));
 			
+			AnimMgr.Flush(Label);
 			Label.RelativePosition_V3.X = 300.;
 			AnimMgr.Add(Label, "<label hidden=\"0\" pos=\"0 "^Label.RelativePosition_V3.Y^"\"/>", Now+I*100, 500, CAnimManager::EAnimManagerEasing::QuadOut);
 		}
@@ -133,6 +160,7 @@ foreach(Event,PendingEvents) {
 					else CurrentCar = 0;
 
 					Update(Uid, CurrentCar);
+					UpdateGhosts(Cars[CurrentCar]);
 				}
 				case "QUAD_CAR_PREVIOUS": {
 					if(Cars.count == 0) continue;
@@ -141,6 +169,17 @@ foreach(Event,PendingEvents) {
 					else CurrentCar = Cars.count-1;
 
 					Update(Uid, CurrentCar);
+					UpdateGhosts(Cars[CurrentCar]);
+				}
+			}
+
+			if(Event.Control.Parent.ControlId == "FRAME_RECORDS") {
+				if(Event.Control.DataAttributeGet("url") == "") {
+					log("Ghost for this record unfortunately not available.");
+				}
+				else {
+					log("Downloading " ^ Event.Control.DataAttributeGet("url") ^ "...");
+					SendCustomEvent("ViewGhost", [Event.Control.DataAttributeGet("url"), Event.Control.DataAttributeGet("filename"), FileName]);
 				}
 			}
 		}
@@ -165,6 +204,7 @@ foreach(Event,PendingEvents) {
 								if(Cars[I] == Env^"Car")
 									CurrentCar = I;
 					
+					UpdateGhosts("");
 					Update(Uid, CurrentCar);
 
 					(Page.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Uid);
@@ -180,6 +220,24 @@ foreach(Event,PendingEvents) {
 					RecordsReceived = True;
 
 					Update(Uid, CurrentCar);
+				}
+				case "RecordGhost": {
+					declare _Car = Event.CustomEventData[0];
+					declare _Login = Event.CustomEventData[1];
+					declare _Nickname = Event.CustomEventData[2];
+					declare _Time = Event.CustomEventData[3];
+					declare _Url = Event.CustomEventData[4];
+					declare _FileName = Event.CustomEventData[5];
+
+					declare Text[Text][Text] GhostRecords for Page;
+					if(!GhostRecords.existskey(_Car)) GhostRecords[_Car] = [];
+					GhostRecords[_Car]["Login"] = _Login;
+					GhostRecords[_Car]["Nickname"] = _Nickname;
+					GhostRecords[_Car]["Time"] = _Time;
+					GhostRecords[_Car]["Url"] = _Url;
+					GhostRecords[_Car]["FileName"] = _FileName;
+
+					UpdateGhosts(_Car);
 				}
 				case "Show": {
 					End = -1;
