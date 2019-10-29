@@ -18,6 +18,7 @@ Void UpdateGhosts(Text _Car) {
 
 	foreach(Control,(Page.GetFirstChild("FRAME_RECORDS") as CMlFrame).Controls) {
 		if(_Car == "") {
+			(Control as CMlLabel).Style = "TextStaticMedium";
 			Control.DataAttributeSet("url", "");
 			Control.DataAttributeSet("filename", "");
 		}
@@ -26,6 +27,9 @@ Void UpdateGhosts(Text _Car) {
 			&& Control.DataAttributeGet("time") == GhostRecords[_Car]["Time"]) {
 				Control.DataAttributeSet("url", GhostRecords[_Car]["Url"]);
 				Control.DataAttributeSet("filename", GhostRecords[_Car]["FileName"]);
+				declare Label = (Control as CMlLabel);
+				Label.Style = "TextCardRaceRank";
+				Label.SetText("$111$z " ^ Label.Value);
 			}
 		}
 	}
@@ -65,6 +69,7 @@ Void Update(Text _Uid, Integer _CurrentCar) {
 			declare EnvRecords = Records[Cars[_CurrentCar]];
 			declare Record = EnvRecords[I];
 
+			Label.Style = "TextStaticMedium";
 			Label.DataAttributeSet("login", Record.Login);
 			Label.DataAttributeSet("time", Record.Time^"");
 			Label.DataAttributeSet("url", "");
