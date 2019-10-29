@@ -29,7 +29,7 @@ Void UpdateGhosts(Text _Car) {
 				Control.DataAttributeSet("filename", GhostRecords[_Car]["FileName"]);
 				declare Label = (Control as CMlLabel);
 				Label.Style = "TextCardRaceRank";
-				Label.SetText("$111$z " ^ Label.Value);
+				Label.SetText("$fff$z " ^ Label.Value);
 			}
 		}
 	}
