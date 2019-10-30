@@ -73,7 +73,7 @@ Void Update(Text _Uid, Integer _CurrentCar) {
 
 			declare Rank = I+1;
 			if(Records[Cars[_CurrentCar]].existskey(I-1))
-				if(Record.Time == Records[Cars[_CurrentCar]].Time)
+				if(Record.Time == Records[Cars[_CurrentCar]][I-1].Time)
 					RankOffset += 1;
 			Rank = I+1-RankOffset;
 
