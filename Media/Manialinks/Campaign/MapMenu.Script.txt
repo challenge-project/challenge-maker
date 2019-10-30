@@ -63,11 +63,19 @@ Void Update(Text _Uid, Integer _CurrentCar) {
 
 	declare Frame_Records = (Page.GetFirstChild("FRAME_RECORDS") as CMlFrame);
 	
+	declare RankOffset = 0;
+
 	for(I,0,Frame_Records.Controls.count-1) {
 		declare Label = (Frame_Records.Controls[I] as CMlLabel);
 		if(Records.existskey(Cars[_CurrentCar]) && Records[Cars[_CurrentCar]].existskey(I)) {
 			declare EnvRecords = Records[Cars[_CurrentCar]];
 			declare Record = EnvRecords[I];
+
+			declare Rank = I+1;
+			if(Records[Cars[_CurrentCar]].existskey(I-1))
+				if(Record.Time == Records[Cars[_CurrentCar]].Time)
+					RankOffset += 1;
+			Rank = I+1-RankOffset;
 
 			Label.Style = "TextStaticMedium";
 			Label.DataAttributeSet("login", Record.Login);
@@ -76,9 +84,9 @@ Void Update(Text _Uid, Integer _CurrentCar) {
 			Label.DataAttributeSet("filename", "");
 
 			if(Record.Nickname == "")
-				Label.SetText((I+1)^") "^Record.Login^" / "^TimeToTextWithMilli(Record.Time));
+				Label.SetText(Rank^") "^Record.Login^" / "^TimeToTextWithMilli(Record.Time));
 			else
-				Label.SetText((I+1)^") "^Record.Nickname^"$z / "^TimeToTextWithMilli(Record.Time));
+				Label.SetText(Rank^") "^Record.Nickname^"$z / "^TimeToTextWithMilli(Record.Time));
 			
 			AnimMgr.Flush(Label);
 			Label.RelativePosition_V3.X = 300.;
