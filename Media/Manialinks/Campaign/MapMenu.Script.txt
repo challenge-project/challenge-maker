@@ -72,9 +72,12 @@ Void Update(Text _Uid, Integer _CurrentCar) {
 			declare Record = EnvRecords[I];
 
 			declare Rank = I+1;
-			if(Records[Cars[_CurrentCar]].existskey(I-1))
+			if(Records[Cars[_CurrentCar]].existskey(I-1)) {
 				if(Record.Time == Records[Cars[_CurrentCar]][I-1].Time)
 					RankOffset += 1;
+				else
+					RankOffset = 0;
+			}
 			Rank = I+1-RankOffset;
 
 			Label.Style = "TextStaticMedium";
