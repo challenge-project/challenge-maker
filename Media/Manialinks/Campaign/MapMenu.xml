@@ -16,6 +16,7 @@
 			<label z-index="0" size="70 7" text="REVERSE + CHECKPOINTLESSFS" textsize="6" textfont="Oswald" valign="top" id="LABEL_CHALLENGE" textemboss="1"/>
 			<label z-index="0" size="70 7" text="REVERSE + CHECKPOINTLESSFS" textsize="6" textfont="Oswald" valign="top" id="LABEL_CHALLENGE_2" textemboss="1"/>
 		</frame>
+		<entry pos="-95 7.5" z-index="1" size="35 3.5" default="" halign="center" valign="bottom" textsize="1" textfont="OswaldMono" selecttext="1" textcolor="888" id="ENTRY_UID"/>
 		<frame pos="-110 0" z-index="1">
 			<quad size="80 40" halign="center" style="Bgs1" substyle="BgGradV" z-index="-1"/>
 			<label pos="-36 -3" z-index="0" size="40 5" text="[unknown]" textsize="4" textfont="Oswald" id="LABEL_PB_NICKNAME"/>

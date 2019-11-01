@@ -224,6 +224,7 @@ foreach(Event,PendingEvents) {
 					Update(Uid, CurrentCar);
 
 					(Page.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Uid);
+					(Page.GetFirstChild("ENTRY_UID") as CMlEntry).SetText(Uid, False);
 				}
 				case "Validation": {
 					declare SRecord[Text] Validations for Page;
