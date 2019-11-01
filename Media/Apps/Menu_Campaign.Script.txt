@@ -49,6 +49,8 @@ main() {
 		
 		Layers::Create("Top", Manialink::FromFile("Media/Manialinks/Base/Top", True, ["TextAnimation", "Audio"], Settings::Get().Theme));
 		
+		//TitleControl.OpenEditor(CTitleControl::EEditorType::InterfaceDesigner);
+		
 		declare Authorized = False;
 		
 		if(!S_OfflineMode) {
@@ -146,7 +148,7 @@ main() {
 		
 		Menu_PreCampaign::Start();
 		Menu_Campaign::Start();
-		Notification::Start(<145.,25.>);
+		Notification::Start(<152.5,72.5>);
 		if(Authorized) Layers::SendEvent("Top", "HideJoin");
 		
 		//EnableMenuNavigationInputs = True;
@@ -162,6 +164,7 @@ main() {
 			
 			Menu_Campaign::Async();
 			Menu_Replays::Async();
+			Menu_AuthBeta::Async();
 	
 			Auth::Loop();
 			Menu_PreCampaign::Loop();
