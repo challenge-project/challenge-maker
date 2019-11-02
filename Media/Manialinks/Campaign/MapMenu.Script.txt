@@ -207,7 +207,7 @@ foreach(Event,PendingEvents) {
 					Name = Event.CustomEventData[0];
 					Author = Event.CustomEventData[1];
 					Uid = Event.CustomEventData[2];
-					Style = TextLib::Join(" + ", TextLib::Split("+", Event.CustomEventData[3]));
+					Style = TextLib::ToUpperCase(TextLib::Join(" + ", TextLib::Split("+", Event.CustomEventData[3])));
 					FileName = Event.CustomEventData[4];
 					Environment = Event.CustomEventData[5];
 
