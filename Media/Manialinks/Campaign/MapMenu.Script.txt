@@ -139,6 +139,8 @@ declare Boolean RecordsReceived for Page;
 declare End = -1;
 
 (Page.GetFirstChild("LABEL_PB_NICKNAME") as CMlLabel).SetText(LocalUser.Name);
+
+EnableMenuNavigation(True, False, Null, 1);
 ***
 
 ***Loop***
@@ -281,6 +283,26 @@ foreach(Event,PendingEvents) {
 					for(I,0,Frame_Records.Controls.count-1) {
 						AnimMgr.Add(Frame_Records.Controls[I], "<label pos=\"300 "^Frame_Records.Controls[I].RelativePosition_V3.Y^"\"/>", Now+I*100, 1000, CAnimManager::EAnimManagerEasing::QuadOut);
 					}
+				}
+			}
+		}
+		case CMlScriptEvent::Type::MenuNavigation: {
+			switch(Event.MenuNavAction) {
+				case CMlScriptEvent::EMenuNavAction::Cancel: {
+					
+				}
+				case CMlScriptEvent::EMenuNavAction::Select: {
+					
+				}
+			}
+		}
+		case CMlScriptEvent::Type::KeyPress: {
+			switch(Event.KeyName) {
+				case "Escape": {
+					SendCustomEvent("Exit", []);
+				}
+				case "Return": {
+					SendCustomEvent("Start", [FileName]);
 				}
 			}
 		}
