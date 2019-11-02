@@ -5,6 +5,11 @@
 		<quad pos="0.1 -0.1" z-index="0" size="60 10" halign="center" valign="center2" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="036" opacity=".5" id="QUAD_BUTTON_REPLAYS"/>
 		<label pos="0 -0.25" z-index="1" size="50 10" text="{{{{REPLAYS}}}}" halign="center" valign="center2" textfont="RajdhaniMono" textcolor="EEE"/>
 	</frame>
+	<frame pos="-52.5 0">
+		<quad pos="0 0" z-index="0" size="60 10" style="Bgs1" substyle="BgCard3" halign="center" valign="center" opacity=".5"/>
+		<quad pos="0.1 -0.1" z-index="0" size="60 10" halign="center" valign="center2" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="036" opacity=".5" id="QUAD_BUTTON_LEADERBOARDS"/>
+		<label pos="0 -0.25" z-index="1" size="50 10" text="{{{{LEADERBOARDS}}}}" halign="center" valign="center2" textfont="RajdhaniMono" textcolor="EEE"/>
+	</frame>
 	<frame pos="115 0">
 		<quad pos="0 0" z-index="0" size="60 10" style="Bgs1" substyle="BgCard3" halign="center" valign="center" opacity=".5"/>
 		<quad pos="0.1 -0.1" z-index="0" size="60 10" halign="center" valign="center2" style="Bgs1" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="600" opacity=".5" id="QUAD_BUTTON_EXIT"/>
