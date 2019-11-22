@@ -39,7 +39,7 @@
 				</frame>
 				<frame pos="0 -18">
 					<frame clip="True" clipsizen="55 6">
-						<label size="200 5" text="WORLD" halign="center" valign="center2" style="TextButtonBig" textsize="2.5" translate="1" id="LABEL_ZONE"/>
+						<label size="200 5" text="World" halign="center" valign="center2" style="TextButtonBig" textsize="2.5" translate="1" id="LABEL_ZONE"/>
 					</frame>
 					<quad pos="-32.5 0" z-index="0" size="8 8" halign="center" valign="center" style="UIConstruction_Buttons" substyle="Quit" scriptevents="1" id="QUAD_ZONE_PREVIOUS"/>
 					<quad pos="32.5 0" z-index="0" size="8 8" halign="center" valign="center" style="UIConstruction_Buttons" substyle="Quit" scriptevents="1" rot="180" id="QUAD_ZONE_NEXT"/>

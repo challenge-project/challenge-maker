@@ -35,7 +35,7 @@ Void UpdateGhosts(Text _Car) {
 	}
 }
 
-Void Update(Text _Uid, Integer _CurrentCar) {
+Void Update(Text _Uid, Integer _CurrentCar, Boolean _NoAnim) {
 	declare Text[] Cars for Page;
 	declare SRecord[Text] Validations for Page;
 	declare SRecord[][Text] Records for Page;
@@ -91,15 +91,21 @@ Void Update(Text _Uid, Integer _CurrentCar) {
 			else
 				Label.SetText(Rank^") "^Record.Nickname^"$z / "^TimeToTextWithMilli(Record.Time));
 			
-			AnimMgr.Flush(Label);
-			Label.RelativePosition_V3.X = 300.;
-			AnimMgr.Add(Label, "<label hidden=\"0\" pos=\"0 "^Label.RelativePosition_V3.Y^"\"/>", Now+I*100, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+			if(!_NoAnim) {
+				AnimMgr.Flush(Label);
+				Label.RelativePosition_V3.X = 300.;
+				AnimMgr.Add(Label, "<label hidden=\"0\" pos=\"0 "^Label.RelativePosition_V3.Y^"\"/>", Now+I*100, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+			}
 		}
 		else {
 			AnimMgr.Flush(Label);
 			Label.Hide();
 		}
 	}
+}
+
+Void Update(Text _Uid, Integer _CurrentCar) {
+	Update(_Uid, _CurrentCar, False);
 }
 
 ***Start***
@@ -129,7 +135,8 @@ declare FileName = "";
 declare Environment = "";
 
 declare Zones = TextLib::Split("|", LocalUser.ZonePath);
-declare CurrentZone = 0;
+declare Integer CurrentZone for Page;
+CurrentZone = 0;
 
 declare Text[] Cars for Page;
 declare CurrentCar = 0;
@@ -161,7 +168,12 @@ foreach(Event,PendingEvents) {
 						CurrentZone += 1;
 					else CurrentZone = 0;
 
+					declare Text[] ZonesToJoin;
+					for(I,0,CurrentZone)
+						ZonesToJoin.add(Zones[I]);
+
 					(Page.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(Zones[CurrentZone]);
+					SendCustomEvent("ChangeZone",[TextLib::Join("|", ZonesToJoin), Uid]);
 				}
 				case "QUAD_ZONE_PREVIOUS": {
 					if(Zones.count == 0) continue;
@@ -169,7 +181,12 @@ foreach(Event,PendingEvents) {
 						CurrentZone -= 1;
 					else CurrentZone = Zones.count-1;
 
+					declare Text[] ZonesToJoin;
+					for(I,0,CurrentZone)
+						ZonesToJoin.add(Zones[I]);
+
 					(Page.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(Zones[CurrentZone]);
+					SendCustomEvent("ChangeZone",[TextLib::Join("|", ZonesToJoin), Uid]);
 				}
 				case "QUAD_CAR_NEXT": {
 					if(Cars.count == 0) continue;
@@ -214,6 +231,9 @@ foreach(Event,PendingEvents) {
 					SlideText_Set(Label_MapName, Label_MapName2, Name, LabelDistance);
 					SlideText_Set(Label_Challenge, Label_Challenge2, Style, LabelDistance);
 
+					CurrentZone = 0;
+					(Page.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(Zones[CurrentZone]);
+
 					declare OfficialEnvs = ["Canyon", "Stadium", "Valley", "Lagoon", "Storm"];
 
 					foreach(Env,OfficialEnvs)
@@ -232,7 +252,7 @@ foreach(Event,PendingEvents) {
 					declare SRecord[Text] Validations for Page;
 					ValidationReceived = True;
 
-					Update(Uid, CurrentCar);
+					Update(Uid, CurrentCar, True);
 				}
 				case "Records": {
 					declare SRecord[][Text] Records for Page;

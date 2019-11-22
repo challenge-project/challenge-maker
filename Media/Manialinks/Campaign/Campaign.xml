@@ -67,8 +67,8 @@
 			</frame>
 			<frame pos="0 -55">
 				<quad pos="0 0" z-index="0" size="60 27.5" halign="center" style="Bgs1" substyle="BgCardList"/>
-				<label pos="0 -8" z-index="1" size="55 7.5" text="0" textfont="Gotham/Gotham-Bold" halign="center" textsize="4" valign="center2" textprefix="$0F0"/>
-				<label pos="0 -19" z-index="1" size="55 7.5" text="0" textfont="Gotham/Gotham-Bold" halign="center" textsize="4" valign="center2" textprefix="$0FF"/>
+				<label pos="0 -8" z-index="1" size="55 7.5" text="0" textfont="Gotham/Gotham-Bold" halign="center" textsize="4" valign="center2" textprefix="$0F0" id="LABEL_SKILLPOINTS" style="TextCardMedium" scriptevents="1"/>
+				<label pos="0 -19" z-index="1" size="55 7.5" text="0" textfont="Gotham/Gotham-Bold" halign="center" textsize="4" valign="center2" textprefix="$0FF" id="LABEL_ACTIVITYPOINTS" style="TextCardMedium" scriptevents="1"/>
 			</frame>
 			<frame pos="0 -95">
 				<quad pos="0 10" z-index="0" size="60 60" halign="center" style="Bgs1" substyle="BgCardList"/>
@@ -146,11 +146,15 @@
 	<frame clip="True" clipsizen="120 55" clipposn="0 0" id="FRAME_QUICKMAPINFO" hidden="1">
 		<quad pos="0 0" z-index="-1" size="50 50" style="Bgs1" substyle="BgWindow4" halign="center" valign="center"/>
 		<quad pos="0 0" z-index="0" size="46 46" bgcolor="2228" halign="center" valign="center" id="QUAD_THUMBNAIL"/>
-		<label pos="-20 20" z-index="1" size="40 10" text="" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
-		<label pos="0 0" z-index="1" size="40 10" text="REVERSE + CHECKPOINTLESS" halign="center" valign="center" textfont="OswaldMono" textprefix="$o$000" opacity=".3" autonewline="1" id="LABEL_CHALLENGE"/>
-		<label pos="-20 -15" z-index="1" size="40 5" text="?/0" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1" hidden="1"/>
-		<label pos="-20 -20" z-index="1" size="40 4" text="0" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1" hidden="1"/>
-		<quad pos="14 -15" z-index="1" size="10 10" image="file://ZoneFlags/Path/World" halign="center" valign="center" opacity=".9"/>
+		<quad pos="0 -15" z-index="1" size="46 13" bgcolor="111C" halign="center" valign="center"/>
+		<label pos="-20 20" z-index="1" size="40 10" text="A01" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
+		<label pos="-20 10" z-index="1" size="40 5" text="REVERSE" textfont="Oswald" id="LABEL_CHALLENGE" textemboss="1"/>
+		<label pos="-20 -15" z-index="2" size="25 5" text="?/?" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1" hidden="0"/>
+		<label pos="-20 -20" z-index="2" size="25 4" text="?" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1" hidden="0"/>
+		<frame id="FRAME_ZONE" z-index="2">
+			<quad pos="15 -15" size="10 10" image="file://ZoneFlags/Path/World" halign="center" valign="center" opacity=".9" id="QUAD_FLAG"/>
+			<label pos="9 -19" z-index="1" size="10 4" text="WORLD" textsize="0.2" textfont="Oswald" autonewline="1" opacity=".75" halign="right" valign="bottom" id="LABEL_ZONE"/>
+		</frame>
 		<quad pos="-27.5 0" z-index="-2" size="100 55" style="Bgs1" substyle="BgGradV" valign="center" hidden="1"/>
 		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="1"/>
 		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="1"/>
