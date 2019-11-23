@@ -202,52 +202,54 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 	if(_QuadMap == Null) {
 		Frame_QuickMapInfo.Hide();
 	}
-	else if(!Frame_QuickMapInfo.Visible) {
-		declare Name = _QuadMap.Parent.DataAttributeGet("name");
-		declare Author = _QuadMap.Parent.DataAttributeGet("author");
-		declare Car = _QuadMap.Parent.DataAttributeGet("defaultcar");
+	else {
 		Frame_QuickMapInfo.RelativePosition_V3 = _QuadMap.AbsolutePosition_V3;
-		(Frame_QuickMapInfo.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl(_QuadMap.ImageUrl);
-		(Frame_QuickMapInfo.GetFirstChild("LABEL_NAME") as CMlLabel).SetText(Name);
-		(Frame_QuickMapInfo.GetFirstChild("LABEL_CHALLENGE") as CMlLabel).SetText(TextLib::ToUpperCase(TextLib::Replace(Challenges[CurrentChallenge], "+", " + ")));
+		if(!Frame_QuickMapInfo.Visible) {
+			declare Name = _QuadMap.Parent.DataAttributeGet("name");
+			declare Author = _QuadMap.Parent.DataAttributeGet("author");
+			declare Car = _QuadMap.Parent.DataAttributeGet("defaultcar");
+			(Frame_QuickMapInfo.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl(_QuadMap.ImageUrl);
+			(Frame_QuickMapInfo.GetFirstChild("LABEL_NAME") as CMlLabel).SetText(Name);
+			(Frame_QuickMapInfo.GetFirstChild("LABEL_CHALLENGE") as CMlLabel).SetText(TextLib::ToUpperCase(TextLib::Replace(Challenges[CurrentChallenge], "+", " + ")));
 
-		declare MapExists = False;
+			declare MapExists = False;
 
-		foreach(Campaign => Maps, TitleProgress.Campaigns) {
-			foreach(Control,_QuadMap.Parent.Controls) {
-				if(Control.ControlId == "FRAME_CHALLENGE_INFO" && Control.DataAttributeGet("challenge") == Challenges[CurrentChallenge]) {
-					declare MapUid = Control.DataAttributeGet("uid");
-					if(Maps.existskey(MapUid)) {
-						(Frame_QuickMapInfo.GetFirstChild("LABEL_SP") as CMlLabel).SetText(Maps[MapUid].Skillpoints^"");
-						if(Maps[MapUid].Records.existskey(Car)) {
-							declare Rank = Maps[MapUid].Records[Car].Zones["World"].Rank;
-							declare Count = Maps[MapUid].Records[Car].Zones["World"].Count;
-							if(Rank > 0)
-								(Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel).SetText(Rank^"/"^Count);
-							else
-								(Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel).SetText("?/"^Count);
-							
-							foreach(Zon => RankCount in Maps[MapUid].Records[Car].Zones) {
-								Frame_QuickMapInfo.GetFirstChild("LABEL_RANK").DataAttributeSet("rank-"^Zon, RankCount.Rank^"");
-								Frame_QuickMapInfo.GetFirstChild("LABEL_RANK").DataAttributeSet("count-"^Zon, RankCount.Count^"");
+			foreach(Campaign => Maps, TitleProgress.Campaigns) {
+				foreach(Control,_QuadMap.Parent.Controls) {
+					if(Control.ControlId == "FRAME_CHALLENGE_INFO" && Control.DataAttributeGet("challenge") == Challenges[CurrentChallenge]) {
+						declare MapUid = Control.DataAttributeGet("uid");
+						if(Maps.existskey(MapUid)) {
+							(Frame_QuickMapInfo.GetFirstChild("LABEL_SP") as CMlLabel).SetText(Maps[MapUid].Skillpoints^"");
+							if(Maps[MapUid].Records.existskey(Car)) {
+								declare Rank = Maps[MapUid].Records[Car].Zones["World"].Rank;
+								declare Count = Maps[MapUid].Records[Car].Zones["World"].Count;
+								if(Rank > 0)
+									(Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel).SetText(Rank^"/"^Count);
+								else
+									(Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel).SetText("?/"^Count);
+								
+								foreach(Zon => RankCount in Maps[MapUid].Records[Car].Zones) {
+									Frame_QuickMapInfo.GetFirstChild("LABEL_RANK").DataAttributeSet("rank-"^Zon, RankCount.Rank^"");
+									Frame_QuickMapInfo.GetFirstChild("LABEL_RANK").DataAttributeSet("count-"^Zon, RankCount.Count^"");
+								}
 							}
-						}
-						else
-							(Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel).SetText("?/0");
+							else
+								(Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel).SetText("?/0");
 
-						MapExists = True;
-						break;
+							MapExists = True;
+							break;
+						}
 					}
 				}
 			}
-		}
 
-		if(!MapExists) {
-			(Frame_QuickMapInfo.GetFirstChild("LABEL_SP") as CMlLabel).SetText("0");
-			(Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel).SetText("?/0");
-		}
+			if(!MapExists) {
+				(Frame_QuickMapInfo.GetFirstChild("LABEL_SP") as CMlLabel).SetText("0");
+				(Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel).SetText("?/0");
+			}
 
-		Frame_QuickMapInfo.Show();
+			Frame_QuickMapInfo.Show();
+		}
 	}
 }
 
