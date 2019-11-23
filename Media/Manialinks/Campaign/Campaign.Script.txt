@@ -121,24 +121,40 @@ Void UpdateMapThumbnails(Text _Challenge) {
 											declare Label_SP = (Frame_Map.GetFirstChild("LABEL_SP") as CMlLabel);
 											declare Label_Rank = (Frame_Map.GetFirstChild("LABEL_RANK") as CMlLabel);
 
+											declare Zones = TextLib::Split("|", LocalUser.ZonePath);
+											declare Text[] ZoneCounter;
+											foreach(Zon in Zones) {
+												ZoneCounter.add(Zon);
+												Label_Rank.DataAttributeSet("rank-"^TextLib::Join("|", ZoneCounter), "");
+												Label_Rank.DataAttributeSet("count-"^TextLib::Join("|", ZoneCounter), "");
+											}
+
 											if(Maps.existskey(MapUid)) {
 												if(Maps[MapUid].Records.existskey(Car)) {
-													declare Rank = Maps[MapUid].Records[Car].Zones["World"].Rank;
-													declare Count = Maps[MapUid].Records[Car].Zones["World"].Count;
-													if(Rank > 0) {
-														declare PreviousRank = Label_Rank.DataAttributeGet("rank");
-														declare PreviousCount = Label_Rank.DataAttributeGet("count");
-														Label_Rank.SetText(Rank^"/"^Count); // Animate this after requesting ends
-														Label_Rank.DataAttributeSet("rank", Rank^"");
-														Label_Rank.DataAttributeSet("count", Count^"");
+													foreach(Zon => RankCount in Maps[MapUid].Records[Car].Zones) {
+														if(Zon == "World") {
+															declare Rank = Maps[MapUid].Records[Car].Zones[Zon].Rank;
+															declare Count = Maps[MapUid].Records[Car].Zones[Zon].Count;
+															if(Rank > 0) {
+																declare PreviousRank = Label_Rank.DataAttributeGet("rank-"^Zon);
+																declare PreviousCount = Label_Rank.DataAttributeGet("count-"^Zon);
+																Label_Rank.SetText(Rank^"/"^Count); // Animate this after requesting ends
+																Label_Rank.DataAttributeSet("rank-"^Zon, Rank^"");
+																Label_Rank.DataAttributeSet("count-"^Zon, Count^"");
 
-														declare PreviousSP = Label_SP.DataAttributeGet("skillpoints");
-														Label_SP.SetText(Maps[MapUid].Skillpoints^""); // Animate this after requesting ends
-														Label_SP.DataAttributeSet("skillpoints", Maps[MapUid].Skillpoints^"");
-													}
-													else {
-														Label_Rank.SetText("");
-														Label_SP.SetText("");
+																declare PreviousSP = Label_SP.DataAttributeGet("skillpoints");
+																Label_SP.SetText(Maps[MapUid].Skillpoints^""); // Animate this after requesting ends
+																Label_SP.DataAttributeSet("skillpoints", Maps[MapUid].Skillpoints^"");
+															}
+															else {
+																Label_Rank.SetText("");
+																Label_SP.SetText("");
+															}
+														}
+														else {
+															Label_Rank.DataAttributeSet("rank-"^Zon, RankCount.Rank^"");
+															Label_Rank.DataAttributeSet("count-"^Zon, RankCount.Count^"");
+														}
 													}
 												}
 												else {
@@ -186,7 +202,7 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 	if(_QuadMap == Null) {
 		Frame_QuickMapInfo.Hide();
 	}
-	else {
+	else if(!Frame_QuickMapInfo.Visible) {
 		declare Name = _QuadMap.Parent.DataAttributeGet("name");
 		declare Author = _QuadMap.Parent.DataAttributeGet("author");
 		declare Car = _QuadMap.Parent.DataAttributeGet("defaultcar");
@@ -210,6 +226,11 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 								(Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel).SetText(Rank^"/"^Count);
 							else
 								(Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel).SetText("?/"^Count);
+							
+							foreach(Zon => RankCount in Maps[MapUid].Records[Car].Zones) {
+								Frame_QuickMapInfo.GetFirstChild("LABEL_RANK").DataAttributeSet("rank-"^Zon, RankCount.Rank^"");
+								Frame_QuickMapInfo.GetFirstChild("LABEL_RANK").DataAttributeSet("count-"^Zon, RankCount.Count^"");
+							}
 						}
 						else
 							(Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel).SetText("?/0");
@@ -291,12 +312,7 @@ declare SplittedZones = SplitZones(LocalUser.ZonePath);
 declare ZoneSwitched = False;
 declare ZoneCounter = 0;
 
-PreloadMapThumbnails();
-
-if(!MapsPreloaded) {
-	UpdateMapThumbnails(Challenges[0]);
-	MapsPreloaded = True;
-}
+//PreloadMapThumbnails();
 ***
 
 ***Loop***
@@ -379,6 +395,7 @@ foreach(Event,PendingEvents) {
 				if(TextLib::Length(DisplayedZone) > 10) DisplayedZone ^= " ";
 				(Frame_QuickMapInfo.GetFirstChild("QUAD_FLAG") as CMlQuad).ChangeImageUrl("file://ZoneFlags/Path/"^SplittedZones[ZoneCounter]);
 				(Frame_QuickMapInfo.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(DisplayedZone);
+				Frame_QuickMapInfo.Hide();
 			}
 		}
 		case CMlScriptEvent::Type::MouseOut: {
@@ -427,7 +444,6 @@ foreach(Event,PendingEvents) {
 
 					declare PreviousSkillpoints = TextLib::ToInteger(Label_Skillpoints.Value);
 					declare PreviousActivityPoints = TextLib::ToInteger(Label_ActivityPoints.Value);
-
 					Label_Skillpoints.SetText(TitleProgress.Skillpoints^""); // Animate this
 					Label_ActivityPoints.SetText(TitleProgress.ActivityPoints^""); // Animate this
 					//UpdateMapThumbnails(Challenges[CurrentChallenge]);
@@ -525,12 +541,24 @@ if(ZoneSwitchTime != -1) {
 		if(TextLib::Length(DisplayedZone) > 10) DisplayedZone ^= " ";
 		(Frame_QuickMapInfo.GetFirstChild("QUAD_FLAG") as CMlQuad).ChangeImageUrl("file://ZoneFlags/Path/"^SplittedZones[ZoneCounter]);
 		(Frame_QuickMapInfo.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(DisplayedZone);
+
+		declare Label_RankCount = (Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel);
+		declare ContentRank = Label_RankCount.DataAttributeGet("rank-"^SplittedZones[ZoneCounter]);
+		declare ContentCount = Label_RankCount.DataAttributeGet("count-"^SplittedZones[ZoneCounter]);
+		if(ContentRank == "" || TextLib::ToInteger(ContentRank) < 1) ContentRank = "?";
+		if(ContentCount == "") ContentCount = "0";
+		Label_RankCount.SetText(ContentRank^"/"^ContentCount);
 	}
 
 	if(Time > 3000) {
 		ZoneSwitchTime = Now;
 		ZoneSwitched = False;
 	}
+}
+
+if(!MapsPreloaded) {
+	UpdateMapThumbnails(Challenges[0]);
+	MapsPreloaded = True;
 }
 
 //Frame_QuickMapInfo.ClipWindowRelativePosition.X = AnimLib::EaseOutQuad(Now - RevealMapInfoTime, -100., 122.5, 300);
