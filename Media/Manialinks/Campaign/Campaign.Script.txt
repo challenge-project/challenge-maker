@@ -89,7 +89,11 @@ Void PreloadMapThumbnails() {
 	}
 }
 
+declare Boolean MapsPreloaded;
+
 Void UpdateMapThumbnails(Text _Challenge) {
+	Page.GetFirstChild("FRAME_LOADING").Show();
+
 	declare STitleProgress TitleProgress for Page;
 	declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
 	foreach(Control, Frame_Campaign_Menu.Controls) {
@@ -101,6 +105,7 @@ Void UpdateMapThumbnails(Text _Challenge) {
 					if(Control3.ControlId == "FRAME_MAP") {
 						declare Frame_Map = (Control3 as CMlFrame);
 						foreach(Control4,Frame_Map.Controls) {
+							Page.GetFirstChild("QUAD_LOADING").RelativeRotation += Period / 50.0;
 							if(Control4.ControlId == "FRAME_CHALLENGE_INFO") {
 								if(Control4.DataAttributeGet("challenge") == _Challenge) {
 									if(Control4.DataAttributeGet("valid") == "True") {
@@ -160,11 +165,15 @@ Void UpdateMapThumbnails(Text _Challenge) {
 								}
 							}
 						}
+						yield;
 					}
 				}
+				yield;
 			}
 		}
 	}
+
+	Page.GetFirstChild("FRAME_LOADING").Hide();
 }
 
 Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
@@ -284,7 +293,10 @@ declare ZoneCounter = 0;
 
 PreloadMapThumbnails();
 
-UpdateMapThumbnails(Challenges[0]);
+if(!MapsPreloaded) {
+	UpdateMapThumbnails(Challenges[0]);
+	MapsPreloaded = True;
+}
 ***
 
 ***Loop***
@@ -418,7 +430,7 @@ foreach(Event,PendingEvents) {
 
 					Label_Skillpoints.SetText(TitleProgress.Skillpoints^""); // Animate this
 					Label_ActivityPoints.SetText(TitleProgress.ActivityPoints^""); // Animate this
-					UpdateMapThumbnails(Challenges[CurrentChallenge]);
+					//UpdateMapThumbnails(Challenges[CurrentChallenge]);
 				}
 			}
 		}
