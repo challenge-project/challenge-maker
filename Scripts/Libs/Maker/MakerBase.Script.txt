@@ -166,7 +166,7 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 	declare Integer LargestCampaignHeight;
 	for(I, 0, Campaigns.count-1) {
 		declare Campaign = Campaigns[I];
-		CampaignListBuild ^= "\n"^"""	<frame pos="{{{I*45*5}}} 0" id="FRAME_CAMPAIGN">""";
+		CampaignListBuild ^= "\n"^"""	<frame pos="{{{I*45*5}}} 0" id="FRAME_CAMPAIGN" data-campaignname="{{{Campaign.Name}}}">""";
 		
 		CampaignPadBuild ^= """<frame pos="{{{I*45}}}" data-campaignid="{{{I}}}">
 			<quad size="45 18" halign="center" valign="center" bgcolor="F0F" image="file://{{{Campaign.Image}}}" scriptevents="1" id="QUAD_CAMPAIGN"/>
@@ -241,7 +241,7 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 						declare ThumbnailPositionY = MathLib::FloorInteger(K/5.)*-45;
 						
 						declare MapInfo <=> MapList.MapInfos[K];
-						CampaignListBuild ^= "\n"^"""			<frame pos="{{{ThumbnailPositionX}}} {{{ThumbnailPositionY}}}" id="FRAME_MAP" data-name="{{{MapInfo.Name}}}" data-author="{{{MapInfo.AuthorNickName}}}" data-uid="{{{MapInfo.MapUid}}}" data-filename="{{{MapInfo.FileName}}}" data-style="{{{MapInfo.MapStyle}}}" data-env="{{{MapInfo.CollectionName}}}">""";
+						CampaignListBuild ^= "\n"^"""			<frame pos="{{{ThumbnailPositionX}}} {{{ThumbnailPositionY}}}" id="FRAME_MAP" data-name="{{{MapInfo.Name}}}" data-author="{{{MapInfo.AuthorNickName}}}" data-uid="{{{MapInfo.MapUid}}}" data-filename="{{{MapInfo.FileName}}}" data-style="{{{MapInfo.MapStyle}}}" data-env="{{{MapInfo.CollectionName}}}" data-defaultcar="{{{MapInfo.CollectionName}}}Car" z-index="0">""";
 						
 						declare File = TextLib::Split("\\", MapInfo.FileName);		
 						
@@ -256,10 +256,13 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 						}
 						//
 						
-						CampaignListBuild ^= """<quad z-index="0" size="45 45" halign="center" valign="center" bgcolor="FFF" image="file://Thumbnails/MapUid/{{{MapInfo.MapUid}}}" id="QUAD_MAP" scriptevents="1"/>
+						CampaignListBuild ^= """<quad z-index="-1" size="45 45" halign="center" valign="center" bgcolor="FFFF" style="UIConstruction_Buttons" substyle="BgTools" hidden="1"/>
+						<quad z-index="0" size="45 45" halign="center" valign="center" bgcolor="FFFF" image="file://Thumbnails/MapUid/{{{MapInfo.MapUid}}}" id="QUAD_MAP" scriptevents="1" hidden="0"/>
 						<frame z-index="1" pos="-19.5 19.5" id="FRAME_NAME" clip="True" clipposn="19.5 -5" clipsizen="39 10">
 							<label size="200 10" text="{{{MapInfo.Name}}}" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
 						</frame>
+						<label pos="-19.5 -14.75" z-index="1" size="40 5" text="?/?" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1" hidden="0"/>
+						<label pos="-19.5 -19.5" z-index="1" size="40 4" text="?" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1" hidden="0"/>
 						<label pos="17.5 17.5" z-index="2" size="10 10" text="" halign="center" valign="center" textcolor="C00" textsize="4" opacity=".9" textemboss="1" scriptevents="1" style="TextCardMedium" id="LABEL_MAP_REMOVE" data-campaignid="{{{I}}}" data-groupid="{{{J}}}" data-mapid="{{{K}}}" data-mapfile="{{{MapInfo.FileName}}}" hidden="{{{NadeoCampaignMode}}}"/>
 						<quad z-index="4" size="45 45" halign="center" valign="center" bgcolor="111C" id="QUAD_MAP_BLOCK" scriptevents="1" hidden="1"/>
 						</frame>""";

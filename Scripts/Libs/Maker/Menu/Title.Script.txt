@@ -119,8 +119,8 @@ Void BuildPackage() {
 			}
 		}
 	}*/
-	//for(I,0,Vehicles.count-1)
-	//	TitleEdition.SetTitleCampaign(I, Vehicles[I].Name, "Maps/Campaigns/", True, True);
+	for(I,0,Vehicles.count-1)
+		TitleEdition.SetTitleCampaign(I, Vehicles[I].Name, "Maps/Campaigns/", True, True);
 	
 	declare PckCr <=> TitleEdition.PackCreator;
 	declare TitleInfo <=> TitleEdition.EditedTitleInfo;
@@ -151,6 +151,17 @@ Void BuildPackage() {
 	PckCr.Build_AddFolder(Pack, "Maps/", False, True, False, False);
 	PckCr.Build_AddFolder(Pack, "Scripts/");
 	PckCr.Build_AddFile(Pack, "Scripts/Modes/TrackMania/SkinSelect.Script.txt");
+	PckCr.Build_AddFile(Pack, "Scripts/Modes/TrackMania/Replay.Script.txt");
+	PckCr.Build_AddFile(Pack, "Items/Vehicles/CanyonCar.Item.Gbx");
+	PckCr.Build_AddFile(Pack, "Items/Vehicles/StadiumCar.Item.Gbx");
+	PckCr.Build_AddFile(Pack, "Items/Vehicles/ValleyCar.Item.Gbx");
+	PckCr.Build_AddFile(Pack, "Items/Vehicles/LagoonCar.Item.Gbx");
+	PckCr.Build_AddFile(Pack, "Items/Vehicles/DesertCar.Item.Gbx");
+	PckCr.Build_AddFile(Pack, "Items/Vehicles/SnowCar.Item.Gbx");
+	PckCr.Build_AddFile(Pack, "Items/Vehicles/RallyCar.Item.Gbx");
+	PckCr.Build_AddFile(Pack, "Items/Vehicles/IslandCar.Item.Gbx");
+	PckCr.Build_AddFile(Pack, "Items/Vehicles/BayCar.Item.Gbx");
+	PckCr.Build_AddFile(Pack, "Items/Vehicles/CoastCar.Item.Gbx");
 	PckCr.Build_Generate(Pack, False);
 	wait(PckCr.Build_IsGenerated(Pack));
 	declare Success = (PckCr.Build_ErrorMessage(Pack) == "");
