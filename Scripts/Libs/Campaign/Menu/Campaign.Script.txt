@@ -78,7 +78,7 @@
 
 Boolean RequestTitleProgress() {
 	declare Text CHALLENGE_TOKEN for LocalUser;
-	return Http::AsyncPOST("TITLE", Service_Status::LastStatus(LocalUser).Global.Service^"/title.php?title=Challenge_Campaign@bigbang1112", CHALLENGE_TOKEN); // change this to LoadedTitle.TitleId
+	return Http::AsyncPOST("TITLE", Service_Status::LastStatus(LocalUser).Global.Service^"/title.php?title="^LoadedTitle.TitleId, CHALLENGE_TOKEN); // change this to LoadedTitle.TitleId
 }
 
 Void UpdateChallenges() {
