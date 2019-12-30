@@ -12,7 +12,7 @@
 #Include "Libs/BigBang1112/Task.Script.txt" as Task
 
 #Include "Libs/Challenge/Vehicle.Script.txt" as Vehicle
-#Include "Libs/Challenge/Loading.Script.txt" as Loading
+#Include "Libs/Challenge/LoadMap.Script.txt" as LoadMap
 
 #Include "Libs/Challenge/Service/Status.Script.txt" as Service_Status
 
@@ -259,11 +259,7 @@ Void Async() {
 	if(Ghost_MapFile != "") {
 		if(Map::AsyncIsCompleted(Ghost_MapFile)) {
 			if(Map::AsyncIsSuccessful(Ghost_MapFile)) {
-				declare Map = Map::MapInfo(Ghost_MapFile);
-				wait(TitleControl.IsReady);
-				Loading::SetLoading(Map.CollectionName, Map);
-				TitleControl.PlayMap(Ghost_MapFile, "Replay.Script.txt", "");
-				wait(TitleControl.IsReady);
+				LoadMap::Play(Map::FromFileName(Ghost_MapFile), "Replay.Script.txt");
 				declare Text Ghost_ReplayFile for LocalUser;
 				if(Ghost_ReplayFile != "")
 					TitleControl.EditReplay([Ghost_ReplayFile]);
@@ -307,10 +303,7 @@ Void Loop() {
 		IsUpdating = False;
 	}
 	if(MapFileToStart != "") {
-		declare Map = Map::MapInfo(MapFileToStart);
-		Loading::SetLoading(Map.CollectionName, Map);
-		wait(TitleControl.IsReady);
-		TitleControl.PlayMap(MapFileToStart, "Modes/TrackMania/ChallengeSolo.Script.txt", "");
+		LoadMap::Play(Map::FromFileName(MapFileToStart), "Modes/TrackMania/ChallengeSolo.Script.txt");
 			
 		Layers::Hide("MapMenu");
 		MapFileToStart = "";

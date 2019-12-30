@@ -10,7 +10,6 @@
 #Include "Libs/BigBang1112/Task.Script.txt" as Task
 #Include "Libs/BigBang1112/Map.Script.txt" as Map
 
-#Include "Libs/Challenge/Loading.Script.txt" as Loading
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 
 #Struct SMapProgress {
@@ -132,7 +131,7 @@ Void UpdateProgress() {
 			foreach(S, Script) Challenge.add(S.Metadata.Name);
 				
 			if(Progress.Maps.existskey(MapInfo.OriginalMap.MapUid)) {
-				MapInfo.ModifiedMap = Map::MapInfo(ToDifferentChallengeMapName(Map.FileName, Challenge));
+				MapInfo.ModifiedMap = Map::FromFileName(ToDifferentChallengeMapName(Map.FileName, Challenge));
 				
 				if(Progress.Maps.existskey(Map.MapUid) && Progress.Maps[Map.MapUid].existskey(MapInfo.ModifiedMap.MapUid)) {
 					MapInfo.Progress.Modified = Progress.Maps[Map.MapUid][MapInfo.ModifiedMap.MapUid].Modified;
@@ -398,17 +397,15 @@ Void Loop() {
 		foreach(Script, CHALLENGE_SCRIPTS) Challenges.add(Script.Metadata.Name);
 		
 		declare ChallengeMapName = ToDifferentChallengeMapName(ChallengeMap.OriginalMap.FileName, Challenges);
-		Loading::SetLoading(ChallengeMap.OriginalMap.CollectionName, ChallengeMap.OriginalMap);
 		
-		wait(TitleControl.IsReady);
-		TitleControl.EditNewMapFromBaseMap(ChallengeMap.OriginalMap.FileName, "", "", "Challenge.Script.txt", "Modifier.Script.txt", """<settings>
-			<setting name="S_Build" type="boolean" value="True"/>
-			<setting name="S_FastMode" type="boolean" value="True"/>
-			<setting name="S_FastMode_MapSave" type="text" value="{{{ChallengeMapName}}}"/>
-		</settings>""");
-		wait(TitleControl.IsReady);
+		LoadMap::EditFromBase(ChallengeMap.OriginalMap, "Challenge.Script.txt", "Modifier.Script.txt", """<settings>
+	<setting name="S_Build" type="boolean" value="True"/>
+	<setting name="S_FastMode" type="boolean" value="True"/>
+	<setting name="S_FastMode_MapSave" type="text" value="{{{ChallengeMapName}}}"/>
+</settings>""");
+
 		wait(Map::Exists(ChallengeMapName));
-		ChallengeMap.ModifiedMap = Map::MapInfo(ChallengeMapName);
+		ChallengeMap.ModifiedMap = Map::FromFileName(ChallengeMapName);
 		
 		declare Time_ModificationEnd = TimeLib::GetCurrent();
 		declare Delta = TimeLib::GetDelta(Time_ModificationEnd, Time_ModificationStart);
@@ -466,13 +463,12 @@ Void Loop() {
 		declare Map = ChallengeMaps[RepairMap_Id];
 		declare OldMapUid = Map.ModifiedMap.MapUid; // Cuz MapUID changed in map editor
 		
-		Loading::SetLoading(Map.ModifiedMap.CollectionName, Map.ModifiedMap);
-		TitleControl.EditMap(Map.ModifiedMap.FileName, "Modifier.Script.txt", """<settings>
+		LoadMap::Edit(Map.ModifiedMap, "Modifier.Script.txt", """<settings>
 	<setting name="S_Build" type="boolean" value="True"/>
 	<setting name="S_FastMode_MapSave" type="text" value="{{{Map.ModifiedMap.FileName}}}"/>
 </settings>""");
-		wait(TitleControl.IsReady);
-		Map.ModifiedMap = Map::MapInfo(Map.ModifiedMap.FileName);
+
+		Map.ModifiedMap = Map::FromFileName(Map.ModifiedMap.FileName);
 		
 		declare Integer ProblemResult for LocalUser;
 		
@@ -514,13 +510,9 @@ Void Loop() {
 		if(!ChallengeMaps.existskey(CompId)) { continue; log(":thinking:"); }
 		declare ChallengeMap = ChallengeMaps[CompId];
 		
-		Loading::SetLoading(ChallengeMap.ModifiedMap.CollectionName, ChallengeMap.ModifiedMap);
-		
-		wait(TitleControl.IsReady);
-		TitleControl.EditMap(ChallengeMap.ModifiedMap.FileName, "Shadow.Script.txt", """<settings>
+		LoadMap::Edit(ChallengeMap.ModifiedMap, "Shadow.Script.txt", """<settings>
 			<setting name="S_Enable" type="boolean" value="True"/>
 		</settings>""");
-		wait(TitleControl.IsReady);
 		
 		declare Time_ModificationEnd = TimeLib::GetCurrent();
 		declare Delta = TimeLib::GetDelta(Time_ModificationEnd, Time_ModificationStart);

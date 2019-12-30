@@ -9,7 +9,7 @@
 #Include "Libs/BigBang1112/Map.Script.txt" as Map
 
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
-#Include "Libs/Challenge/Loading.Script.txt" as Loading
+#Include "Libs/Challenge/LoadMap.Script.txt" as LoadMap
 
 declare Boolean VisitMap;
 declare CTaskResult_MapList Quickplay;
@@ -187,10 +187,7 @@ Void Async() {
 
 Void Loop() {
 	if(VisitMap) {
-		wait(TitleControl.IsReady);
-		declare Map = Map::MapInfo("THE SKIN SELECT.Map.Gbx");
-		Loading::SetLoading(Map.CollectionName, Map);
-		TitleControl.PlayMap(Map.FileName, "TrackMania/SkinSelect.Script.txt", "");
+		LoadMap::Play(Map::FromFileName("THE SKIN SELECT.Map.Gbx"), "TrackMania/SkinSelect.Script.txt");
 		VisitMap = False;
 	}
 	if(Quickplay != Null) {
@@ -203,9 +200,7 @@ Void Loop() {
 				yield;
 			}
 			
-			Loading::SetLoading(RandomMap.CollectionName, Map::ToSMapInfo(RandomMap));
-			wait(TitleControl.IsReady);
-			TitleControl.PlayMap(RandomMap.FileName, "Modes/TrackMania/ChallengeSolo.Script.txt", "");
+			LoadMap::Play(Map::ToSMapInfo(RandomMap), "Modes/TrackMania/ChallengeSolo.Script.txt");
 				
 			Layers::Hide("MapMenu");
 		}
