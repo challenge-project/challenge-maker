@@ -47,8 +47,6 @@ main() {
 		Dictionary::SetTranslationFolder("Media/Translations");
 		Dictionary::SetTranslationLanguage(Settings::Get().Language);
 		
-		Layers::Create("Top", Manialink::FromFile("Media/Manialinks/Base/Top", True, ["TextAnimation", "Audio"], Settings::Get().Theme));
-		
 		//TitleControl.OpenEditor(CTitleControl::EEditorType::InterfaceDesigner);
 		
 		declare Authorized = False;
@@ -146,12 +144,12 @@ main() {
 		Layers::Destroy("Preload");
 		sleep(200);
 		
+		//EnableMenuNavigationInputs = True;
+		
 		Menu_PreCampaign::Start();
 		Menu_Campaign::Start();
 		Notification::Start(<152.5,72.5>);
 		if(Authorized) Layers::SendEvent("Top", "HideJoin");
-		
-		//EnableMenuNavigationInputs = True;
 	
 		while(!Settings::IsRestarting()) {
 			foreach(Event,PendingEvents) {

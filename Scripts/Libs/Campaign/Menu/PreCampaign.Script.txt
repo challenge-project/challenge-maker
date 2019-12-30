@@ -8,6 +8,8 @@
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 #Include "Libs/BigBang1112/Map.Script.txt" as Map
 
+#Include "Libs/Challenge/Menu/Top.Script.txt" as Menu_Top
+
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 #Include "Libs/Challenge/LoadMap.Script.txt" as LoadMap
 
@@ -16,7 +18,7 @@ declare CTaskResult_MapList Quickplay;
 
 Void Init() {
 	Layers::Create("Bottom", Manialink::FromFile("Media/Manialinks/Campaign/Bottom", True, ["TextAnimation", "Audio"], Settings::Get().Theme));
-	Layers::Create("Authors", Manialink::FromFile("Media/Manialinks/Base/Authors", True, ["TextAnimation", "Audio"], Settings::Get().Theme));
+	Menu_Top::Init();
 
 	declare MakerBase::SCampaign[] Campaigns for This;
 	declare MakerBase::SChallenge[][] Challenges for This;
@@ -74,13 +76,15 @@ Void Init() {
 }
 
 Void Start() {
-	Layers::Show("Top", True);
 	Layers::Show("Bottom", True);
 	Layers::Show("PreCampaign", True);
+	Menu_Top::Start();
 }
 
 Void Event(CManiaAppEvent _Event) {
 	declare Event <=> _Event;
+
+	Menu_Top::Event(Event);
 
 	if(Event.Type == CManiaAppEvent::EType::LayerCustomEvent) {
 		switch(Event.CustomEventLayer) {
@@ -131,9 +135,6 @@ Void Event(CManiaAppEvent _Event) {
 			}
 			case Layers::Get("Top"): {
 				switch(Event.CustomEventType) {
-					case "Button_Skins": {
-						VisitMap = True;
-					}
 					case "Button_Authorize": {
 						Layers::Hide("Top", True);
 						Layers::Hide("Bottom", True);
@@ -182,14 +183,12 @@ Void Event(CManiaAppEvent _Event) {
 }
 
 Void Async() {
-	
+	Menu_Top::Async();
 }
 
 Void Loop() {
-	if(VisitMap) {
-		LoadMap::Play(Map::FromFileName("THE SKIN SELECT.Map.Gbx"), "TrackMania/SkinSelect.Script.txt");
-		VisitMap = False;
-	}
+	Menu_Top::Loop();
+
 	if(Quickplay != Null) {
 		wait(!Quickplay.IsProcessing);
 		if(Quickplay.HasSucceeded) {
