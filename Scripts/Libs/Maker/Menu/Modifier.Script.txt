@@ -10,6 +10,8 @@
 #Include "Libs/BigBang1112/Task.Script.txt" as Task
 #Include "Libs/BigBang1112/Map.Script.txt" as Map
 
+#Include "Libs/Challenge/LoadMap.Script.txt" as LoadMap
+
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 
 #Struct SMapProgress {
