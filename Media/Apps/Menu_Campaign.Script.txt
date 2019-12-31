@@ -161,6 +161,7 @@ main() {
 			}
 			
 			Menu_Campaign::Async();
+			Menu_PreCampaign::Async();
 			Menu_Replays::Async();
 			Menu_AuthBeta::Async();
 	
