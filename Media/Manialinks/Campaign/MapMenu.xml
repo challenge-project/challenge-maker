@@ -1,6 +1,6 @@
 <frame z-index="20">
-	<quad pos="0 0" z-index="-2" size="320 180" bgcolor="000C" halign="center" valign="center" id="QUAD_BACKGROUND" scriptevents="1"/>
-	<frame id="FRAME_MAPMENU">
+	<quad pos="0 0" z-index="-2" size="320 180" bgcolor="000D" halign="center" valign="center" id="QUAD_BACKGROUND" scriptevents="1"/>
+	<frame id="FRAME_MAPMENU" scale="1.02">
 		<frame z-index="-1" pos="-110">
 			<quad z-index="-2" size="80 160" valign="center" halign="center" style="Bgs1" substyle="BgCardList"/>
 			<quad z-index="-1" size="80 160" valign="center" halign="center" style="Bgs1" substyle="BgCardList"/>
@@ -66,7 +66,14 @@
 			<label pos="2 -3.1" z-index="0" size="43.5 6" text="https://discord.gg/v6TW88m" valign="center2" textsize="1.5" textfont="BiryaniDemiBold" id="LABEL_TEXT"/>
 		</frame>
 	</frame>
-	<frame pos="150 0" id="FRAME_RECORDS" clip="True" clipposn="-110" clipsizen="218 180">
+	<frame pos="50 0" id="FRAME_RECORDS_LOADING">
+		<frame id="FRAME_RECORDS_LOADING_SANDTIMER" class="LOADING">
+			<quad pos="0.2 -0.2" z-index="0" size="20 20" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer" colorize="000"/>
+			<quad z-index="1" size="20 20" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer"/>
+		</frame>
+		<label id="LABEL_RECORDS_LOADING" pos="15 -1" z-index="0" size="80 10" text="{{{{LOADING}}}}..." valign="center2" textfont="RajdhaniMono" textsize="7"/>
+	</frame>
+	<frame pos="150 0" id="FRAME_RECORDS" clip="True" clipposn="-110" clipsizen="218 180" hidden="1">
 		<label pos="0 80" z-index="0" size="300 15" text="1) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="16" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextStaticMedium"/>
 		<label pos="0 63" z-index="0" size="300 15" text="2) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="12" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextStaticMedium"/>
 		<label pos="0 50" z-index="0" size="300 15" text="3) $o$i$nBIGBANG1112$z / 0:00.000" halign="right" textsize="10" textfont="RajdhaniMono" textemboss="1" scriptevents="1" style="TextStaticMedium"/>

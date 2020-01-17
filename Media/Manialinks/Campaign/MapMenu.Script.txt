@@ -11,6 +11,26 @@ Text TimeToTextWithMilli(Integer _Time) {
 	return TextLib::TimeToText(_Time, True)^TextLib::SubText(""^_Time, TextLib::Length(""^_Time)-1, 1);
 }
 
+Void AnimateLoading(Boolean _FadeIn) {
+	declare Label_Records_Loading = (Page.GetFirstChild("LABEL_RECORDS_LOADING") as CMlLabel);
+	declare Frame_Records_Loading_Sandtimer = (Page.GetFirstChild("FRAME_RECORDS_LOADING_SANDTIMER") as CMlFrame);
+
+	if(_FadeIn) {
+		Label_Records_Loading.Opacity = 0.;
+		AnimMgr.Add(Label_Records_Loading, "<label opacity=\"1\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+		foreach(Control in Frame_Records_Loading_Sandtimer.Controls) {
+			(Control as CMlQuad).Opacity = 0.;
+			AnimMgr.Add(Control, "<label opacity=\"1\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+		}
+	}
+	else {
+		AnimMgr.Add(Label_Records_Loading, "<label opacity=\"0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+		foreach(Control in Frame_Records_Loading_Sandtimer.Controls) {
+			AnimMgr.Add(Control, "<label opacity=\"0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+		}
+	}
+}
+
 Void UpdateGhosts(Text _Car) {
 	declare Text[Text][Text] GhostRecords for Page;
 	if(_Car == "")
@@ -64,6 +84,15 @@ Void Update(Text _Uid, Integer _CurrentCar, Boolean _NoAnim) {
 	declare Frame_Records = (Page.GetFirstChild("FRAME_RECORDS") as CMlFrame);
 	
 	declare RankOffset = 0;
+
+	if(Records.existskey(Cars[_CurrentCar])) {
+		Page.GetFirstChild("FRAME_RECORDS").Show();
+		AnimateLoading(False);
+	}
+	else {
+		Page.GetFirstChild("FRAME_RECORDS").Hide();
+		AnimateLoading(True);
+	}
 
 	for(I,0,Frame_Records.Controls.count-1) {
 		declare Label = (Frame_Records.Controls[I] as CMlLabel);
@@ -125,6 +154,10 @@ declare Frame_MapMenu = (Page.GetFirstChild("FRAME_MAPMENU") as CMlFrame);
 
 declare Quad_Background = (Page.GetFirstChild("QUAD_BACKGROUND") as CMlQuad);
 
+declare Label_Records_Loading = (Page.GetFirstChild("LABEL_RECORDS_LOADING") as CMlLabel);
+
+Page.GetClassChildren("LOADING", Page.MainFrame, True);
+
 declare LabelDistance = 15;
 
 declare Name = "";
@@ -171,7 +204,9 @@ foreach(Event,PendingEvents) {
 					declare Text[] ZonesToJoin;
 					for(I,0,CurrentZone)
 						ZonesToJoin.add(Zones[I]);
-
+					
+					Frame_Records.Hide();
+					AnimateLoading(True);
 					(Page.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(Zones[CurrentZone]);
 					SendCustomEvent("ChangeZone",[TextLib::Join("|", ZonesToJoin), Uid]);
 				}
@@ -184,7 +219,9 @@ foreach(Event,PendingEvents) {
 					declare Text[] ZonesToJoin;
 					for(I,0,CurrentZone)
 						ZonesToJoin.add(Zones[I]);
-
+					
+					Frame_Records.Hide();
+					AnimateLoading(True);
 					(Page.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(Zones[CurrentZone]);
 					SendCustomEvent("ChangeZone",[TextLib::Join("|", ZonesToJoin), Uid]);
 				}
@@ -293,6 +330,10 @@ foreach(Event,PendingEvents) {
 					Quad_Background.Show();
 					Quad_Background.Opacity = 0.;
 					AnimMgr.Add(Quad_Background, "<quad opacity=\"1\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					Quad_Background.Opacity = 0.;
+					AnimMgr.Add(Quad_Background, "<quad opacity=\"1\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					
+					AnimateLoading(True);
 				}
 				case "Hide": {
 					End = Now;
@@ -303,6 +344,8 @@ foreach(Event,PendingEvents) {
 					for(I,0,Frame_Records.Controls.count-1) {
 						AnimMgr.Add(Frame_Records.Controls[I], "<label pos=\"300 "^Frame_Records.Controls[I].RelativePosition_V3.Y^"\"/>", Now+I*100, 1000, CAnimManager::EAnimManagerEasing::QuadOut);
 					}
+					
+					AnimateLoading(False);
 				}
 			}
 		}
@@ -336,4 +379,7 @@ if(End != -1) {
 
 SlideText_Loop(Frame_Label_MapName, Label_MapName, Label_MapName2, LabelDistance, -.01);
 SlideText_Loop(Frame_Label_Challenge, Label_Challenge, Label_Challenge2, LabelDistance, .01);
+
+foreach(Control,Page.GetClassChildren_Result)
+	Control.RelativeRotation += Period / 5.0;
 ***
