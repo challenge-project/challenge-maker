@@ -114,8 +114,13 @@ Void Init() {
 	MakerBase::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False, MakerBase::ChallengesToTextArray(Scripts_Campaign));
 }
 
+declare Text MapUid;
+declare Text Zone;
+declare Text CurrentCar;
+
 Void Start() {
 	declare Success = RequestTitleProgress();
+	CurrentCar = "";
 }
 
 declare Text MapFileToStart;
@@ -135,15 +140,18 @@ Void Event(CManiaAppEvent _Event) {
 					case "Map": {
 						Layers::Show("MapMenu", True);
 
-						declare MapUid = Event.CustomEventData[2];
+						MapUid = Event.CustomEventData[2];
 						
 						declare Vehicle::SVehicle[] Vehicles for This;
 						
-						declare Boolean Leaderboards_Request for This;
 						declare CTaskResult_NaturalLeaderBoardInfoList[Text] Leaderboards for This;
-						foreach(LB,Leaderboards)
-							if(LB != Null)
+						foreach(LB in Leaderboards) {
+							if(LB != Null) {
+								if(LB.IsProcessing)
+									LB.Cancel();
 								ScoreMgr.TaskResult_Release(LB.Id);
+							}
+						}
 						Leaderboards.clear();
 						
 						declare Text[] VehicleNames;
@@ -155,8 +163,11 @@ Void Event(CManiaAppEvent _Event) {
 							else
 								Leaderboards[Vehicle.Name] = Request;
 						}
+
+						declare Boolean Leaderboards_Request for This;
 						Leaderboards_Request = True;
 						
+						Zone = "World";
 						declare Success = Http::AsyncGET("VALIDATION", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/validation.php?uid={{{MapUid}}}&car={{{TextLib::Join(",",VehicleNames)}}}""");
 						declare Success2 = Http::AsyncGET("RECORDS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/records.php?uid={{{MapUid}}}&car={{{TextLib::Join(",",VehicleNames)}}}&zone=World""");
 
@@ -186,30 +197,23 @@ Void Event(CManiaAppEvent _Event) {
 						Map::AsyncMapInfo(Ghost_MapFile);
 					}
 					case "ChangeZone": {
-						declare Zone = Event.CustomEventData[0];
-						declare MapUid = Event.CustomEventData[1];
+						Zone = Event.CustomEventData[0];
+						MapUid = Event.CustomEventData[1];
 						
 						declare Vehicle::SVehicle[] Vehicles for This;
-						
-						declare Boolean Leaderboards_Request for This;
-						declare CTaskResult_NaturalLeaderBoardInfoList[Text] Leaderboards for This;
-						foreach(LB,Leaderboards)
-							if(LB != Null)
-								ScoreMgr.TaskResult_Release(LB.Id);
-						Leaderboards.clear();
 						
 						declare Text[] VehicleNames;
 						foreach(Vehicle,Vehicles) {
 							VehicleNames.add(Vehicle.Name);
-							declare Request = ScoreMgr.MapLeaderBoard_GetPlayerList(NullId, MapUid, Vehicle.Name, Zone, 0, 20);
-							if(Request == Null)
-								log("Records on " ^ MapUid ^ " with car " ^ Vehicle.Name ^ " are not available in this title pack.");
-							else
-								Leaderboards[Vehicle.Name] = Request;
 						}
-						Leaderboards_Request = True;
 
+						Http::Destroy("RECORDS");
 						declare Success = Http::AsyncGET("RECORDS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/records.php?uid={{{MapUid}}}&car={{{TextLib::Join(",",VehicleNames)}}}&zone={{{Zone}}}""");
+					}
+					case "ChangedCar": {
+						declare Boolean Leaderboards_Request for This;
+						Leaderboards_Request = True;
+						CurrentCar = Event.CustomEventData[0];
 					}
 				}
 			}
@@ -234,6 +238,32 @@ Void Async() {
 		if(Http::IsSuccessful("RECORDS")) {
 			declare SRecord[][Text] Records for Layers::Page("MapMenu");
 			declare Success = Records.fromjson(Http::GetResult("RECORDS"));
+
+			declare CTaskResult_NaturalLeaderBoardInfoList[Text] Leaderboards for This;
+			//declare CTaskResult_NaturalLeaderBoardInfoList[Text] LeaderboardsAdditional for This;
+			foreach(LB in Leaderboards) {
+				if(LB != Null) {
+					if(LB.IsProcessing)
+						LB.Cancel();
+					ScoreMgr.TaskResult_Release(LB.Id);
+				}
+			}
+			Leaderboards.clear();
+			
+			declare Vehicle::SVehicle[] Vehicles for This;
+			foreach(Vehicle in Vehicles) {
+				declare Request = ScoreMgr.MapLeaderBoard_GetPlayerList(NullId, MapUid, Vehicle.Name, Zone, 1, 10);
+				declare RequestAdditional = ScoreMgr.MapLeaderBoard_GetPlayerList(NullId, MapUid, Vehicle.Name, Zone, 10, 10);
+				if(Request == Null || RequestAdditional == Null)
+					log("Records on " ^ MapUid ^ " with car " ^ Vehicle.Name ^ " in "^Zone^" are not available in this title pack.");
+				else {
+					Leaderboards[Vehicle.Name] = Request;
+					//LeaderboardsAdditional[Vehicle] = RequestAdditional;
+				}
+			}
+
+			declare Boolean Leaderboards_Request for This;
+			Leaderboards_Request = True;
 			
 			Layers::SendEvent("MapMenu", "Records");
 		}
@@ -273,17 +303,19 @@ Void Async() {
 	if(Leaderboards_Request) {
 		Leaderboards_Request = False;
 		declare CTaskResult_NaturalLeaderBoardInfoList[Text] Leaderboards for This;
-		foreach(Car => L,Leaderboards) {
-			if(L != Null) {
+		if(Leaderboards.existskey(CurrentCar)) {
+			declare L = Leaderboards[CurrentCar];
+			if(L.IsProcessing) {
 				Leaderboards_Request = True;
-				if(!L.IsProcessing) {
-					if(L.HasSucceeded) {
-						foreach(Record,L.LeaderBoardInfo) {
-							Layers::SendEvent("MapMenu", "RecordGhost", [Car, Record.Login, Record.DisplayName, Record.Score^"", Record.ReplayUrl, Record.FileName]);
-						}
+			}
+			else {
+				if(L.HasSucceeded) {
+					foreach(Record,L.LeaderBoardInfo) {
+						Layers::SendEvent("MapMenu", "RecordGhost", [CurrentCar, Record.Login, Record.DisplayName, Record.Score^"", Record.ReplayUrl, Record.FileName]);
 					}
-					ScoreMgr.TaskResult_Release(L.Id);
-					Leaderboards[Car] = Null;
+				}
+				else {
+					log("oof");
 				}
 			}
 		}

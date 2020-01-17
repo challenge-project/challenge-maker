@@ -49,7 +49,7 @@ Void UpdateGhosts(Text _Car) {
 				Control.DataAttributeSet("filename", GhostRecords[_Car]["FileName"]);
 				declare Label = (Control as CMlLabel);
 				Label.Style = "TextCardRaceRank";
-				Label.SetText("$fff$z " ^ Label.Value);
+				Label.SetText("$fff🎥$z " ^ Label.Value);
 			}
 		}
 	}
@@ -131,6 +131,9 @@ Void Update(Text _Uid, Integer _CurrentCar, Boolean _NoAnim) {
 			Label.Hide();
 		}
 	}
+
+	declare Boolean Leaderboards_Request for This;
+	Leaderboards_Request = True;
 }
 
 Void Update(Text _Uid, Integer _CurrentCar) {
@@ -233,6 +236,8 @@ foreach(Event,PendingEvents) {
 
 					Update(Uid, CurrentCar);
 					UpdateGhosts(Cars[CurrentCar]);
+
+					SendCustomEvent("ChangedCar", [Cars[CurrentCar]]);
 				}
 				case "QUAD_CAR_PREVIOUS": {
 					if(Cars.count == 0) continue;
@@ -242,6 +247,8 @@ foreach(Event,PendingEvents) {
 
 					Update(Uid, CurrentCar);
 					UpdateGhosts(Cars[CurrentCar]);
+
+					SendCustomEvent("ChangedCar", [Cars[CurrentCar]]);
 				}
 			}
 
@@ -281,6 +288,8 @@ foreach(Event,PendingEvents) {
 					
 					UpdateGhosts("");
 					Update(Uid, CurrentCar);
+
+					SendCustomEvent("ChangedCar", [Cars[CurrentCar]]);
 
 					(Page.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Uid);
 					(Page.GetFirstChild("ENTRY_UID") as CMlEntry).SetText(Uid, False);
