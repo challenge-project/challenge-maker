@@ -508,6 +508,9 @@ foreach(Event,PendingEvents) {
 					HoldItSteadyChallengeLoc = Frame_Challenges.RelativePosition_V3.X;
 					HoldItSteadyChallengeMouse = MouseX;
 				}
+				case "QUAD_PLAYSESSION_MAP": {
+					SendCustomEvent("PlayMap", [Event.Control.DataAttributeGet("uid")]);
+				}
 			}
 		}
 		case CMlScriptEvent::Type::MouseOver: {
@@ -578,6 +581,7 @@ foreach(Event,PendingEvents) {
 						declare Frame = (Frame_Playsessions.Controls[I] as CMlFrame);
 						if(Playsessions.existskey(I)) {
 							declare Playsession = Playsessions[I];
+							Frame.GetFirstChild("QUAD_PLAYSESSION_MAP").DataAttributeSet("uid", Playsession.Map.Uid);
 							(Frame.GetFirstChild("LABEL_MAP") as CMlLabel).SetText(Playsession.Map.OriginalName);
 							(Frame.GetFirstChild("LABEL_COUNT") as CMlLabel).SetText(Playsession.Users.count^"");
 							(Frame.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Playsession.Map.Uid);

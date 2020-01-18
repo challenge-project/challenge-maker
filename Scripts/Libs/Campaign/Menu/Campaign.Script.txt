@@ -121,6 +121,8 @@ declare Text MapUid;
 declare Text Zone;
 declare Text CurrentCar;
 
+declare Text PlayMap;
+
 Void Start() {
 	declare Success = RequestTitleProgress();
 	CurrentCar = "";
@@ -177,6 +179,9 @@ Void Event(CManiaAppEvent _Event) {
 						declare Text[] Data;
 						foreach(D,Event.CustomEventData) Data.add(D);
 						Layers::SendEvent("MapMenu", "Map", Data);
+					}
+					case "PlayMap": {
+						PlayMap = Event.CustomEventData[0];
 					}
 				}
 			}
@@ -342,6 +347,11 @@ Void Loop() {
 			
 		Layers::Hide("MapMenu");
 		MapFileToStart = "";
+	}
+	
+	if(PlayMap != "") {
+		LoadMap::Play(Map::FromUid(PlayMap), "Modes/TrackMania/ChallengeSolo.Script.txt");
+		PlayMap = "";
 	}
 	
 	if(!Time::Stamp_CreateOnce("PLAYSESSION_REFRESH", 1*1000)) {
