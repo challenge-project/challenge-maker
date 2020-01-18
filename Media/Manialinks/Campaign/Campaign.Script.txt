@@ -91,7 +91,7 @@ Void PreloadMapThumbnails() {
 declare Boolean MapsPreloaded;
 
 Void UpdateMapThumbnails(Text _Challenge) {
-	Page.GetFirstChild("FRAME_LOADING").Show();
+	//Page.GetFirstChild("FRAME_LOADING").Show();
 
 	declare STitleProgress TitleProgress for Page;
 	declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
@@ -111,6 +111,7 @@ Void UpdateMapThumbnails(Text _Challenge) {
 										(Frame_Map.GetFirstChild("QUAD_MAP") as CMlQuad).ImageUrl = "file://Thumbnails/MapUid/"^Control4.DataAttributeGet("uid");
 										(Frame_Map.GetFirstChild("QUAD_MAP_BLOCK") as CMlQuad).Hide();
 										(Frame_Map.GetFirstChild("LABEL_NAME") as CMlLabel).Opacity = 1.;
+										(Frame_Map.GetFirstChild("FRAME_LOADING") as CMlFrame).Show();
 
 										/*if(TitleProgress.Campaigns.existskey(Control.DataAttributeGet("campaignname"))) {
 											declare Maps = TitleProgress.Campaigns[Control.DataAttributeGet("campaignname")];
@@ -165,10 +166,10 @@ Void UpdateMapThumbnails(Text _Challenge) {
 												Label_SP.SetText("");
 												Label_Rank.SetText("");
 											}
-										}*/
+										}
 
 										(Frame_Map.GetFirstChild("LABEL_RANK") as CMlLabel).Show();
-										(Frame_Map.GetFirstChild("LABEL_SP") as CMlLabel).Show();
+										(Frame_Map.GetFirstChild("LABEL_SP") as CMlLabel).Show();*/
 									}
 									else {
 										(Frame_Map.GetFirstChild("QUAD_MAP") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Frame_Map.DataAttributeGet("uid"));
@@ -176,6 +177,7 @@ Void UpdateMapThumbnails(Text _Challenge) {
 										(Frame_Map.GetFirstChild("LABEL_NAME") as CMlLabel).Opacity = .5;
 										(Frame_Map.GetFirstChild("LABEL_RANK") as CMlLabel).Hide();
 										(Frame_Map.GetFirstChild("LABEL_SP") as CMlLabel).Hide();
+										(Frame_Map.GetFirstChild("FRAME_LOADING") as CMlFrame).Hide();
 									}
 								}
 							}
@@ -206,8 +208,17 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 			declare Author = _QuadMap.Parent.DataAttributeGet("author");
 			declare Car = _QuadMap.Parent.DataAttributeGet("defaultcar");
 			(Frame_QuickMapInfo.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl(_QuadMap.ImageUrl);
-			(Frame_QuickMapInfo.GetFirstChild("LABEL_NAME") as CMlLabel).SetText(Name);
-			(Frame_QuickMapInfo.GetFirstChild("LABEL_CHALLENGE") as CMlLabel).SetText(TextLib::ToUpperCase(TextLib::Replace(Challenges[CurrentChallenge], "+", " + ")));
+
+			declare Label_Name = (Frame_QuickMapInfo.GetFirstChild("LABEL_NAME") as CMlLabel);
+			Label_Name.SetText(Name);
+			if(Label_Name.ComputeWidth(Label_Name.Value) <= Label_Name.Size.X)
+				Label_Name.TextSizeReal = 8.;
+			while(Label_Name.ComputeWidth(Label_Name.Value) > Label_Name.Size.X)
+				Label_Name.TextSizeReal -= .25;
+
+			declare Label_Challenge = (Frame_QuickMapInfo.GetFirstChild("LABEL_CHALLENGE") as CMlLabel);
+			Label_Challenge.RelativePosition_V3.Y = 20-Label_Name.ComputeHeight(Label_Name.Value);
+			Label_Challenge.SetText(TextLib::ToUpperCase(TextLib::Replace(Challenges[CurrentChallenge], "+", " + ")));
 
 			declare MapExists = False;
 
@@ -394,10 +405,29 @@ foreach(Control in Frame_Challenges.Controls) {
 	Challenges.add(Control.DataAttributeGet("challenge"));
 
 	declare Frame = (Control as CMlFrame);
-	declare Label = (Frame.GetFirstChild("LABEL_CHALLENGE") as CMlLabel);
-	while(Label.ComputeWidth(Label.Value) > 40)
-		Label.TextSizeReal -= .25;
+	declare Label_Challenge = (Frame.GetFirstChild("LABEL_CHALLENGE") as CMlLabel);
+	while(Label_Challenge.ComputeWidth(Label_Challenge.Value) > 40)
+		Label_Challenge.TextSizeReal -= .25;
 }
+
+foreach(Control, Frame_Campaign_Menu.Controls) {
+	if(Control.ControlId == "FRAME_CAMPAIGN") {
+		declare Frame_Campaign = (Control as CMlFrame);
+		foreach(Control2, Frame_Campaign.Controls) {
+			declare Frame_Group = (Control2 as CMlFrame);
+			foreach(Control3, Frame_Group.Controls) {
+				if(Control3.ControlId == "FRAME_MAP") {
+					declare Frame_Map = (Control3 as CMlFrame);
+					declare Label_Name = (Frame_Map.GetFirstChild("LABEL_NAME") as CMlLabel);
+					while(Label_Name.ComputeWidth(Label_Name.Value) > Label_Name.Size.X)
+						Label_Name.TextSizeReal -= .25;
+				}
+			}
+		}
+	}
+}
+
+Page.GetClassChildren("LOADING", Page.MainFrame, True);
 
 declare SplittedZones = SplitZones(LocalUser.ZonePath);
 declare ZoneSwitched = False;
@@ -475,7 +505,7 @@ foreach(Event,PendingEvents) {
 				declare Quad = (Event.Control as CMlQuad);
 				CurrentMapFocused = Quad;
 				RevealMapInfoTime = Now;
-				ZoneSwitchTime = Now;
+				//ZoneSwitchTime = Now;
 				
 				ZoneCounter = 0;
 				ZoneSwitched = False;
@@ -620,10 +650,16 @@ if(RevealMapInfoTime != -1) {
 	Frame_QuickMapInfo.ClipWindowSize = <ClipSize,ClipSize>;
 }
 
-if(ZoneSwitchTime != -1) {
+if(ZoneSwitchTime == -1) {
+	Frame_QuickMapInfo.GetFirstChild("QUAD_FLAG").Hide();
+	Frame_QuickMapInfo.GetFirstChild("LABEL_ZONE").Hide();
+}
+else {
 	declare Time = Now-ZoneSwitchTime;
 	declare Fade = AnimLib::EaseInOutQuad(Time-2000, 1., -1., 500)+AnimLib::EaseInOutQuad(Time-2500, 0., 1., 500);
 	//Frame_QuickMapInfo.GetFirstChild("FRAME_ZONE").RelativePosition_V3.X = (1-Fade)*30;
+	Frame_QuickMapInfo.GetFirstChild("QUAD_FLAG").Visible = True;
+	Frame_QuickMapInfo.GetFirstChild("LABEL_ZONE").Visible = True;
 	(Frame_QuickMapInfo.GetFirstChild("QUAD_FLAG") as CMlQuad).Opacity = Fade;
 	(Frame_QuickMapInfo.GetFirstChild("LABEL_ZONE") as CMlLabel).Opacity = Fade;
 
@@ -664,6 +700,9 @@ if(PreloadThumbnails) {
 	PreloadTheThumbnails();
 	PreloadThumbnails = False;
 }
+
+foreach(Control,Page.GetClassChildren_Result)
+	Control.RelativeRotation += Period / 5.0;
 
 //Frame_QuickMapInfo.ClipWindowRelativePosition.X = AnimLib::EaseOutQuad(Now - RevealMapInfoTime, -100., 122.5, 300);
 ***

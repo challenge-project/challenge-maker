@@ -1,5 +1,5 @@
 <frame>
-	<frame id="FRAME_LOADING_THUMBNAILS" hidden="1">
+	<frame id="FRAME_LOADING_THUMBNAILS" hidden="1" z-index="1">
 		<label pos="0 3" z-index="0" size="140 10" text="{{{{LOADING_THE_THUMBNAILS}}}}..." halign="center" valign="center2" textfont="Oswald" textsize="6" textemboss="1"/>
 		<gauge pos="0 -3" z-index="0" size="100 9" halign="center" valign="center" drawbg="0" id="GAUGE_LOADING_THUMBNAILS"/>
 	</frame>
@@ -8,13 +8,13 @@
 			<quad z-index="-3" size="235 160" style="Bgs1" substyle="BgCardList" class="WindowBackground1"/>
 			<quad z-index="-2" size="235 160" style="Bgs1" substyle="BgCardList" class="WindowBackground2"/>
 			<quad z-index="-1" size="235 160" bgcolor="FFFA" style="Bgs1InRace" substyle="BgGradV"/>
-			<frame pos="117.5 -80" id="FRAME_LOADING" z-index="1">
+			<frame pos="117.5 -80" id="FRAME_LOADING" z-index="1" hidden="1">
 				<quad z-index="-1" size="226 151" style="Bgs1" substyle="BgListLine" halign="center" valign="center" scriptevents="1"/>
 				<quad z-index="0" size="226 151" style="Bgs1" substyle="BgListLine" halign="center" valign="center"/>
 				<quad z-index="1" size="20 20" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer" id="QUAD_LOADING"/>
 			</frame>
 			<frame pos="117.5 -12.5">
-				<frame clip="True" clipsizen="225 150" clipposn="0 -67.5">
+				<frame clip="True" clipsizen="225 150" clipposn="0 -67.2">
 					<frame id="FRAME_CAMPAIGN_MENU"/>
 					<frame pos="0 0" id="FRAME_CONSTRUCT_GROUP" hidden="1">
 						<quad pos="0 0" z-index="0" size="225 15" halign="center" style="UIConstruction_Buttons" substyle="BgEditors" valign="center"/>
@@ -161,9 +161,13 @@
 		<quad pos="0 0" z-index="0" size="46 46" bgcolor="2228" halign="center" valign="center" id="QUAD_THUMBNAIL"/>
 		<quad pos="0 -15" z-index="1" size="46 13" bgcolor="111C" halign="center" valign="center"/>
 		<label pos="-20 20" z-index="1" size="40 10" text="A01" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
-		<label pos="-20 10" z-index="1" size="40 5" text="REVERSE" textfont="Oswald" id="LABEL_CHALLENGE" textemboss="1"/>
-		<label pos="-20 -15" z-index="2" size="15 5" text="?/?" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1" hidden="0"/>
-		<label pos="-20 -20" z-index="2" size="15 4" text="?" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1" hidden="0"/>
+		<label pos="-20 10" z-index="1" size="40 5" text="REVERSE" textsize="3" textfont="Oswald" id="LABEL_CHALLENGE" textemboss="1" autonewline="1"/>
+		<label pos="-20 -15" z-index="2" size="15 5" text="?/?" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1" hidden="1"/>
+		<label pos="-20 -20" z-index="2" size="15 4" text="?" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1" hidden="1"/>
+		<frame pos="-15 -15" class="LOADING" id="FRAME_LOADING" z-index="2">
+			<quad pos="0.2 -0.2" z-index="0" size="7.5 7.5" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer" colorize="000"/>
+			<quad pos="0 0" z-index="1" size="7.5 7.5" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer"/>
+		</frame>
 		<frame id="FRAME_ZONE" z-index="2">
 			<quad pos="15 -15" size="10 10" image="file://ZoneFlags/Path/World" halign="center" valign="center" opacity=".9" id="QUAD_FLAG"/>
 			<label pos="9 -19" z-index="1" size="10 4" text="WORLD" textsize="0.2" textfont="Oswald" autonewline="1" opacity=".75" halign="right" valign="bottom" id="LABEL_ZONE"/>

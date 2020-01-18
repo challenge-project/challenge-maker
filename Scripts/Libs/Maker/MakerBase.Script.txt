@@ -258,13 +258,17 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 						
 						CampaignListBuild ^= """<quad z-index="-1" size="45 45" halign="center" valign="center" bgcolor="FFFF" style="UIConstruction_Buttons" substyle="BgTools" hidden="1"/>
 						<quad z-index="0" size="45 45" halign="center" valign="center" bgcolor="FFFF" image="file://Thumbnails/MapUid/{{{MapInfo.MapUid}}}" id="QUAD_MAP" scriptevents="1" hidden="0"/>
-						<frame z-index="1" pos="-19.5 19.5" id="FRAME_NAME" clip="True" clipposn="19.5 -5" clipsizen="39 10">
-							<label size="200 10" text="{{{MapInfo.Name}}}" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
+						<frame z-index="1" pos="-19.5 19.5" id="FRAME_NAME" clip="False" clipposn="19.5 -5" clipsizen="39 10">
+							<label size="40 10" text="{{{MapInfo.Name}}}" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
 						</frame>
-						<label pos="-19.5 -14.75" z-index="1" size="40 5" text="?/?" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1" hidden="0"/>
-						<label pos="-19.5 -19.5" z-index="1" size="40 4" text="?" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1" hidden="0"/>
+						<label pos="-19.5 -14.75" z-index="1" size="40 5" text="?/?" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1" hidden="1"/>
+						<label pos="-19.5 -19.5" z-index="1" size="40 4" text="?" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1" hidden="1"/>
 						<label pos="17.5 17.5" z-index="2" size="10 10" text="" halign="center" valign="center" textcolor="C00" textsize="4" opacity=".9" textemboss="1" scriptevents="1" style="TextCardMedium" id="LABEL_MAP_REMOVE" data-campaignid="{{{I}}}" data-groupid="{{{J}}}" data-mapid="{{{K}}}" data-mapfile="{{{MapInfo.FileName}}}" hidden="{{{NadeoCampaignMode}}}"/>
 						<quad z-index="4" size="45 45" halign="center" valign="center" bgcolor="111C" id="QUAD_MAP_BLOCK" scriptevents="1" hidden="1"/>
+						<frame pos="-14.5 -14.5" class="LOADING" id="FRAME_LOADING">
+	<quad pos="0.2 -0.2" z-index="0" size="7.5 7.5" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer" colorize="000"/>
+	<quad pos="0 0" z-index="1" size="7.5 7.5" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer"/>
+</frame>
 						</frame>""";
 					}
 					
