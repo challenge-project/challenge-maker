@@ -30,7 +30,7 @@ Void Init() {
 			ScriptSet.add(MakerBase::SChallengeToSScriptInfo(Ch));
 		Scripts.add(ScriptSet);
 	}
-	declare PreCampaignML = """<frame id="FRAME_PRECAMPAIGN">""";
+	declare PreCampaignML = """<frame id="FRAME_PRECAMPAIGN" z-index="-1">""";
 	PreCampaignML ^= """<frame id="FRAME_CLIP_PRECAMPAIGN" clip="True" clipsizen="290 120" scroll="True" scrollmax="{{{-Campaigns.count*80+290}}} 0">""";
 	
 	for(I, 0, Campaigns.count-1) {
@@ -103,7 +103,7 @@ Void Event(CManiaAppEvent _Event) {
 						declare ChallengeId = Event.CustomEventData[1];
 						Layers::Hide("Top", True);
 						Layers::Hide("Bottom", True);
-						Layers::Hide("PreCampaign");
+						Layers::Hide("PreCampaign", True);
 						Layers::Show("Campaign", True);
 						Layers::SendEvent("Campaign", "Suggest", [CampaignId, ChallengeId]);
 						Layers::SendEvent("Campaign", "Scores");
@@ -126,7 +126,7 @@ Void Event(CManiaAppEvent _Event) {
 						Layers::Show("ReplayInfo", True);
 						Layers::Hide("Top", True);
 						Layers::Hide("Bottom", True);
-						Layers::Hide("PreCampaign", False);
+						Layers::Hide("PreCampaign", True);
 					}
 				}
 			}
@@ -146,12 +146,12 @@ Void Event(CManiaAppEvent _Event) {
 					case "Button_Authorize": {
 						Layers::Hide("Top", True);
 						Layers::Hide("Bottom", True);
-						Layers::Hide("PreCampaign", False);
+						Layers::Hide("PreCampaign", True);
 						Layers::Show("AuthBeta", True);
 					}
 					case "Button_Authors": {
 						Layers::Hide("Top", True);
-						Layers::Hide("PreCampaign", False);
+						Layers::Hide("PreCampaign", True);
 						Layers::Hide("Bottom", True);
 						Layers::Show("Authors", True);
 					}

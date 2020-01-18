@@ -136,7 +136,7 @@ Void Event(CManiaAppEvent _Event) {
 			case Layers::Get("Campaign"): {
 				switch(Event.CustomEventType) {
 					case "Exit": {
-						Layers::Hide("Campaign", False);
+						Layers::Hide("Campaign", True);
 						Layers::Show("EditTitle", True);
 						Layers::Show("ManageTitle", True);
 					}

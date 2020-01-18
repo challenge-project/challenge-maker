@@ -287,6 +287,9 @@ Void PreloadTheThumbnails() {
 	
 	declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
 
+	(Page.GetFirstChild("GAUGE_LOADING_THUMBNAILS") as CMlGauge).Ratio = 0.;
+	sleep(400);
+
 	declare TotalMaps = 0;
 	foreach(Control, Frame_Campaign_Menu.Controls) {
 		if(Control.ControlId == "FRAME_CAMPAIGN") {
@@ -306,9 +309,6 @@ Void PreloadTheThumbnails() {
 			}
 		}
 	}
-
-	(Page.GetFirstChild("GAUGE_LOADING_THUMBNAILS") as CMlGauge).Ratio = 0.;
-	sleep(400);
 
 	declare CurrentMap = 0;
 	foreach(Control, Frame_Campaign_Menu.Controls) {
@@ -365,6 +365,8 @@ declare HoldItSteadyMouse = 0.;
 declare HoldItSteadyChallenge = False;
 declare HoldItSteadyChallengeLoc = 0.;
 declare HoldItSteadyChallengeMouse = 0.;
+
+declare End = -1;
 
 declare CampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
 declare LastCampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
@@ -537,12 +539,22 @@ foreach(Event,PendingEvents) {
 		case CMlScriptEvent::Type::PluginCustomEvent: {
 			switch(Event.CustomEventType) {
 				case "Show": {
+					End = -1;
+
 					if(ThumbnailsPreloaded) {
 						ShowCampaignMenu();
 					}
 					else {
 						PreloadThumbnails = True;
 					}
+				}
+				case "Hide": {
+					End = Now;
+					
+					AnimMgr.Flush(Frame_Main_Campaign);
+					AnimMgr.Flush(Frame_Main_Panel);
+					AnimMgr.Add(Frame_Main_Campaign, "<frame pos=\"85 80\" hidden=\"1\"/>", 1000, CAnimManager::EAnimManagerEasing::QuadOut);
+					AnimMgr.Add(Frame_Main_Panel, "<frame pos=\"52.5 80\" hidden=\"1\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
 				}
 				case "Suggest": {
 					Frame_Campaigns.RelativePosition_V3.X = TextLib::ToInteger(Event.CustomEventData[0])*-45.;
@@ -699,6 +711,13 @@ if(!MapsPreloaded) {
 if(PreloadThumbnails) {
 	PreloadTheThumbnails();
 	PreloadThumbnails = False;
+}
+
+if(End != -1) {
+	if(Now - End > 1000) {
+		End = -1;
+		SendCustomEvent("Hide_Response", []);
+	}
 }
 
 foreach(Control,Page.GetClassChildren_Result)

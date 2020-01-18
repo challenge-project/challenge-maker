@@ -7,6 +7,7 @@ declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_SCROLL") as CMlQuad);
 declare Frame_Clip_PreCampaign = (Page.GetFirstChild("FRAME_CLIP_PRECAMPAIGN") as CMlFrame);
 
 declare MoveSpeed = 0.;
+declare End = -1;
 ***
 
 ***Loop***
@@ -57,6 +58,8 @@ foreach(Event,PendingEvents) {
 		case CMlScriptEvent::Type::PluginCustomEvent: {
 			switch(Event.CustomEventType) {
 				case "Show": {
+					End = -1;
+
 					Page.GetFirstChild("FRAME_SCROLL").RelativeScale = 0.;
 					AnimMgr.Add(Page.GetFirstChild("FRAME_SCROLL"), "<frame scale=\"1\"/>", 1000, CAnimManager::EAnimManagerEasing::QuadOut);
 
@@ -70,7 +73,7 @@ foreach(Event,PendingEvents) {
 						Frame.RelativeScale = .8;
 						AnimMgr.Flush(Frame);
 						AnimMgr.Add(Frame, "<frame scale=\"1\"/>", Now + I*200, 500, CAnimManager::EAnimManagerEasing::QuadOut);
-						foreach(C,Frame.Controls) {
+						foreach(C in Frame.Controls) {
 							switchtype(C) {
 								case CMlQuad: {
 									(C as CMlQuad).Opacity = 0.;
@@ -118,6 +121,58 @@ foreach(Event,PendingEvents) {
 						}
 					}
 				}
+				case "Hide": {
+					End = Now;
+					AnimMgr.Add(Page.GetFirstChild("FRAME_SCROLL"), "<frame scale=\"0\"/>", 1000, CAnimManager::EAnimManagerEasing::QuadOut);
+					AnimMgr.Add(Page.GetFirstChild("QUAD_LEFTER"), "<frame scale=\"0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					AnimMgr.Add(Page.GetFirstChild("QUAD_RIGHTER"), "<frame scale=\"0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+
+					for(I, 0, Frame_Clip_PreCampaign.Controls.count-1) {
+						declare Frame = (Frame_Clip_PreCampaign.Controls[I] as CMlFrame);
+						AnimMgr.Flush(Frame);
+						AnimMgr.Add(Frame, "<frame scale=\".8\"/>", Now + I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+						foreach(C in Frame.Controls) {
+							switchtype(C) {
+								case CMlQuad: {
+									AnimMgr.Flush(C);
+									AnimMgr.Add(C, "<quad opacity=\"0\"/>", Now + I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+								}
+								case CMlLabel: {
+									AnimMgr.Flush(C);
+									AnimMgr.Add(C, "<label opacity=\"0\"/>", Now + I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+								}
+								case CMlFrame: {
+									foreach(C2,(C as CMlFrame).Controls) {
+										switchtype(C2) {
+											case CMlQuad: {
+												AnimMgr.Flush(C2);
+												AnimMgr.Add(C2, "<quad opacity=\"0\"/>", Now + I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+											}
+											case CMlLabel: {
+												AnimMgr.Flush(C2);
+												AnimMgr.Add(C2, "<label opacity=\"0\"/>", Now + I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+											}
+											case CMlFrame: {
+												foreach(C3,(C2 as CMlFrame).Controls) {
+													switchtype(C3) {
+														case CMlQuad: {
+															AnimMgr.Flush(C3);
+															AnimMgr.Add(C3, "<quad opacity=\"0\"/>", Now + I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+														}
+														case CMlLabel: {
+															AnimMgr.Flush(C3);
+															AnimMgr.Add(C3, "<label opacity=\"0\"/>", Now + I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -131,5 +186,12 @@ else {
 	HoldScrollbar = False;
 	Frame_Clip_PreCampaign.ScrollOffset.X += MoveSpeed;
 	Quad_Scrollbar.RelativePosition_V3.X = Frame_Clip_PreCampaign.ScrollOffset.X/Frame_Clip_PreCampaign.ScrollMax.X*(290-Quad_Scrollbar.Size.X);
+}
+
+if(End != -1) {
+	if(Now - End > 1000) {
+		SendCustomEvent("Hide_Response", []);
+		End = -1;
+	}
 }
 ***
