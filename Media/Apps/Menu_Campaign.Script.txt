@@ -127,19 +127,22 @@ main() {
 		
 		declare MakerBase::SChallenge[][] Challenges for This;
 		declare JsonChallenges = Challenges.fromjson(File::Read("Media/Challenges.json"));
-		Layers::SendEvent("Preload", "Progress", 1/5.);
+		Layers::SendEvent("Preload", "Progress", 1/6.);
 		yield;
 		Menu_PreCampaign::Init();
-		Layers::SendEvent("Preload", "Progress", 2/5.);
+		Layers::SendEvent("Preload", "Progress", 2/6.);
 		yield;
 		Menu_Campaign::Init();
-		Layers::SendEvent("Preload", "Progress", 3/5.);
+		Layers::SendEvent("Preload", "Progress", 3/6.);
+		yield;
+		Menu_Campaign::InitBuilder();
+		Layers::SendEvent("Preload", "Progress", 4/6.);
 		yield;
 		Menu_AuthBeta::Init();
-		Layers::SendEvent("Preload", "Progress", 4/5.);
+		Layers::SendEvent("Preload", "Progress", 5/6.);
 		yield;
 		Menu_Replays::Init();
-		Layers::SendEvent("Preload", "Progress", 5/5.);
+		Layers::SendEvent("Preload", "Progress", 6/6.);
 		sleep(300);
 		Layers::Destroy("Preload");
 		sleep(200);

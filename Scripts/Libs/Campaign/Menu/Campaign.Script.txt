@@ -110,6 +110,9 @@ Void Init() {
 	foreach(Vehicle,Vehicles) Cars.add(Vehicle.Name);
 	
 	UpdateChallenges();
+}
+
+Void InitBuilder() {
 	declare SScriptInfo[][] Scripts_Campaign for Layers::Page("Campaign");
 	MakerBase::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False, MakerBase::ChallengesToTextArray(Scripts_Campaign));
 }
