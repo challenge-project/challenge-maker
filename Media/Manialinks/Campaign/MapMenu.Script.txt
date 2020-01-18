@@ -94,6 +94,8 @@ Void Update(Text _Uid, Integer _CurrentCar, Boolean _NoAnim) {
 		AnimateLoading(True);
 	}
 
+	declare HeightOffset = 80.;
+
 	for(I,0,Frame_Records.Controls.count-1) {
 		declare Label = (Frame_Records.Controls[I] as CMlLabel);
 		if(Records.existskey(Cars[_CurrentCar]) && Records[Cars[_CurrentCar]].existskey(I)) {
@@ -119,6 +121,14 @@ Void Update(Text _Uid, Integer _CurrentCar, Boolean _NoAnim) {
 				Label.SetText(Rank^") "^Record.Login^" / "^TimeToTextWithMilli(Record.Time));
 			else
 				Label.SetText(Rank^") "^Record.Nickname^"$z / "^TimeToTextWithMilli(Record.Time));
+			
+			if(Label.ComputeWidth(Label.Value) <= 218)
+				Label.TextSizeReal = TextLib::ToReal(Label.DataAttributeGet("defaulttextsize"));
+			while(Label.ComputeWidth(Label.Value) > 218)
+				Label.TextSizeReal -= .25;
+			
+			Label.RelativePosition_V3.Y = HeightOffset;
+			HeightOffset -= Label.ComputeHeight(Label.Value);
 			
 			if(!_NoAnim) {
 				AnimMgr.Flush(Label);
