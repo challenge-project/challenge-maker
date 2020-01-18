@@ -47,6 +47,8 @@ main() {
 		Dictionary::SetTranslationFolder("Media/Translations");
 		Dictionary::SetTranslationLanguage(Settings::Get().Language);
 		
+		EnableMenuNavigationInputs = True;
+		
 		//TitleControl.OpenEditor(CTitleControl::EEditorType::InterfaceDesigner);
 		
 		declare Authorized = False;
@@ -127,27 +129,42 @@ main() {
 		
 		declare MakerBase::SChallenge[][] Challenges for This;
 		declare JsonChallenges = Challenges.fromjson(File::Read("Media/Challenges.json"));
-		Layers::SendEvent("Preload", "Progress", 1/6.);
+		Layers::SendEvent("Preload", "Progress", 1/7.);
 		yield;
 		Menu_PreCampaign::Init();
-		Layers::SendEvent("Preload", "Progress", 2/6.);
+		Layers::SendEvent("Preload", "Progress", 2/7.);
 		yield;
 		Menu_Campaign::Init();
-		Layers::SendEvent("Preload", "Progress", 3/6.);
+		Layers::SendEvent("Preload", "Progress", 3/7.);
 		yield;
 		Menu_Campaign::InitBuilder();
-		Layers::SendEvent("Preload", "Progress", 4/6.);
+		Layers::SendEvent("Preload", "Progress", 4/7.);
 		yield;
 		Menu_AuthBeta::Init();
-		Layers::SendEvent("Preload", "Progress", 5/6.);
+		Layers::SendEvent("Preload", "Progress", 5/7.);
 		yield;
 		Menu_Replays::Init();
-		Layers::SendEvent("Preload", "Progress", 6/6.);
+		Layers::SendEvent("Preload", "Progress", 6/7.);
+		Layers::Create("Intro", Manialink::FromFile("Media/Manialinks/Campaign/Intro", True, [], Settings::Get().Theme));
+		Layers::SendEvent("Preload", "Progress", 7/7.);
 		sleep(300);
 		Layers::Destroy("Preload");
 		sleep(200);
-		
-		//EnableMenuNavigationInputs = True;
+		Layers::Show("Intro", True);
+		declare IntroStart = Now;
+		while(Now - IntroStart  < 5000) {
+			foreach(Event in PendingEvents) {
+				if(Event.Type == CManiaAppEvent::EType::MenuNavigation) {
+					if(Event.MenuNavAction == CManiaAppEvent::EMenuNavAction::Cancel) {
+						Layers::Hide("Intro");
+						IntroStart -= 5000;
+					}
+				}
+			}
+			yield;
+		}
+					
+		Layers::Hide("Intro", True);
 		
 		Menu_PreCampaign::Start();
 		Menu_Campaign::Start();

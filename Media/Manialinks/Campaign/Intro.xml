@@ -1,0 +1,4 @@
+<frame>
+	<quad pos="0 0" z-index="0" size="88 20" halign="center" valign="center" image="file://Media/Images/Challenge.png" scale="1.5" id="QUAD_CHALLENGE_LOGO"/>
+	<quad pos="0 0" z-index="0" size="60 25" bgcolor="FFFA" style="TitleLogos" substyle="Title" halign="center" valign="center" id="QUAD_TITLE_LOGO" scale="0" hidden="1"/>
+</frame>
