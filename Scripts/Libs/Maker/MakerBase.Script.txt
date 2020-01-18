@@ -157,7 +157,7 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 		CampaignChallengeBuild ^= """<frame pos="{{{I*45}}}" data-challenge="{{{TextLib::Join("+", Chs)}}}">
 		<quad z-index="0" size="45 8" bgcolor="024" halign="center" valign="center" scriptevents="1" id="QUAD_CHALLENGE_HOLD"/>
 		<frame z-index="1" clip="True" clipsizen="40 8">
-			<label pos="0 0.3" size="200 8" halign="center" valign="center" text="{{{TextLib::Join(" + ", Chs)}}}" id="LABEL_CHALLENGE" textfont="RajdhaniMono"/>
+			<label pos="0 0.3" size="200 8" halign="center" valign="center" text="{{{TextLib::Join(" + ", Chs)}}}" id="LABEL_CHALLENGE" textfont="RajdhaniMono" textsize="3"/>
 		</frame>
 		</frame>""";
 	}

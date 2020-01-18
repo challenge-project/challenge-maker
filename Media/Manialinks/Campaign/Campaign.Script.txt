@@ -395,6 +395,8 @@ foreach(Control in Frame_Challenges.Controls) {
 
 	declare Frame = (Control as CMlFrame);
 	declare Label = (Frame.GetFirstChild("LABEL_CHALLENGE") as CMlLabel);
+	while(Label.ComputeWidth(Label.Value) > 40)
+		Label.TextSizeReal -= .25;
 }
 
 declare SplittedZones = SplitZones(LocalUser.ZonePath);
