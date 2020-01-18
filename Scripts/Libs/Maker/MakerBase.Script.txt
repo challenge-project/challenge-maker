@@ -258,6 +258,7 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 						
 						CampaignListBuild ^= """<quad z-index="-1" size="45 45" halign="center" valign="center" bgcolor="FFFF" style="UIConstruction_Buttons" substyle="BgTools" hidden="1"/>
 						<quad z-index="0" size="45 45" halign="center" valign="center" bgcolor="FFFF" image="file://Thumbnails/MapUid/{{{MapInfo.MapUid}}}" id="QUAD_MAP" scriptevents="1" hidden="0"/>
+						<quad z-index="1" size="45 45" halign="center" valign="center" id="QUAD_MAP_ANIM" image="file://Thumbnails/MapUid/{{{MapInfo.MapUid}}}" hidden="1"/>
 						<frame z-index="1" pos="-19.5 19.5" id="FRAME_NAME" clip="False" clipposn="19.5 -5" clipsizen="39 10">
 							<label size="40 10" text="{{{MapInfo.Name}}}" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
 						</frame>

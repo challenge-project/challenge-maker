@@ -107,9 +107,16 @@ Void UpdateMapThumbnails(Text _Challenge) {
 							Page.GetFirstChild("QUAD_LOADING").RelativeRotation += Period / 50.0;
 							if(Control4.ControlId == "FRAME_CHALLENGE_INFO") {
 								if(Control4.DataAttributeGet("challenge") == _Challenge) {
+									declare Quad_Map = (Frame_Map.GetFirstChild("QUAD_MAP") as CMlQuad);
+									declare Quad_Map_Anim = (Frame_Map.GetFirstChild("QUAD_MAP_ANIM") as CMlQuad);
+									Quad_Map_Anim.Opacity = 1.;
+									Quad_Map_Anim.ImageUrl = Quad_Map.ImageUrl;
+									AnimMgr.Flush(Quad_Map_Anim);
+									AnimMgr.Add(Quad_Map_Anim, "<quad opacity=\"0\" hidden=\"0\"/>", 300, CAnimManager::EAnimManagerEasing::QuadOut);
+
 									if(Control4.DataAttributeGet("valid") == "True") {
-										(Frame_Map.GetFirstChild("QUAD_MAP") as CMlQuad).ImageUrl = "file://Thumbnails/MapUid/"^Control4.DataAttributeGet("uid");
-										(Frame_Map.GetFirstChild("QUAD_MAP_BLOCK") as CMlQuad).Hide();
+										Quad_Map.ImageUrl = "file://Thumbnails/MapUid/"^Control4.DataAttributeGet("uid");
+										AnimMgr.Add((Frame_Map.GetFirstChild("QUAD_MAP_BLOCK") as CMlQuad), "<quad opacity=\"0\" hidden=\"1\"/>", 300, CAnimManager::EAnimManagerEasing::QuadOut);
 										(Frame_Map.GetFirstChild("LABEL_NAME") as CMlLabel).Opacity = 1.;
 										(Frame_Map.GetFirstChild("FRAME_LOADING") as CMlFrame).Show();
 
@@ -172,8 +179,9 @@ Void UpdateMapThumbnails(Text _Challenge) {
 										(Frame_Map.GetFirstChild("LABEL_SP") as CMlLabel).Show();*/
 									}
 									else {
+										declare Quad_Map = (Frame_Map.GetFirstChild("QUAD_MAP") as CMlQuad);
 										(Frame_Map.GetFirstChild("QUAD_MAP") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Frame_Map.DataAttributeGet("uid"));
-										(Frame_Map.GetFirstChild("QUAD_MAP_BLOCK") as CMlQuad).Show();
+										AnimMgr.Add((Frame_Map.GetFirstChild("QUAD_MAP_BLOCK") as CMlQuad), "<quad opacity=\"1\" hidden=\"0\"/>", 300, CAnimManager::EAnimManagerEasing::QuadOut);
 										(Frame_Map.GetFirstChild("LABEL_NAME") as CMlLabel).Opacity = .5;
 										(Frame_Map.GetFirstChild("LABEL_RANK") as CMlLabel).Hide();
 										(Frame_Map.GetFirstChild("LABEL_SP") as CMlLabel).Hide();
