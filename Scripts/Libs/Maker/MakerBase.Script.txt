@@ -294,6 +294,8 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 						Height += 45;
 					}
 				}
+				
+				CampaignListBuild ^= "<frame />";
 					
 				CampaignListBuild ^= "\n"^"""		</frame>""";
 			
