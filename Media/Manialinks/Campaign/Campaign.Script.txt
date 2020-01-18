@@ -83,7 +83,6 @@ Void PreloadMapThumbnails() {
 						}
 					}
 				}
-				//yield;
 			}
 		}
 	}
@@ -113,7 +112,7 @@ Void UpdateMapThumbnails(Text _Challenge) {
 										(Frame_Map.GetFirstChild("QUAD_MAP_BLOCK") as CMlQuad).Hide();
 										(Frame_Map.GetFirstChild("LABEL_NAME") as CMlLabel).Opacity = 1.;
 
-										if(TitleProgress.Campaigns.existskey(Control.DataAttributeGet("campaignname"))) {
+										/*if(TitleProgress.Campaigns.existskey(Control.DataAttributeGet("campaignname"))) {
 											declare Maps = TitleProgress.Campaigns[Control.DataAttributeGet("campaignname")];
 											declare MapUid = Control4.DataAttributeGet("uid");
 											declare Car = Control4.Parent.DataAttributeGet("defaultcar");
@@ -166,7 +165,7 @@ Void UpdateMapThumbnails(Text _Challenge) {
 												Label_SP.SetText("");
 												Label_Rank.SetText("");
 											}
-										}
+										}*/
 
 										(Frame_Map.GetFirstChild("LABEL_RANK") as CMlLabel).Show();
 										(Frame_Map.GetFirstChild("LABEL_SP") as CMlLabel).Show();
@@ -181,10 +180,8 @@ Void UpdateMapThumbnails(Text _Challenge) {
 								}
 							}
 						}
-						yield;
 					}
 				}
-				yield;
 			}
 		}
 	}
@@ -253,6 +250,89 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 	}
 }
 
+declare Boolean PreloadThumbnails;
+declare Boolean ThumbnailsPreloaded;
+
+Void ShowCampaignMenu() {
+	declare Frame_Main_Campaign = (Page.GetFirstChild("FRAME_MAIN_CAMPAIGN") as CMlFrame);
+	declare Frame_Main_Panel = (Page.GetFirstChild("FRAME_MAIN_PANEL") as CMlFrame);
+	Frame_Main_Campaign.RelativePosition_V3 = <85., 80.>;
+	Frame_Main_Panel.RelativePosition_V3 = <52.5, 80.>;
+	AnimMgr.Add(Frame_Main_Campaign, "<frame pos=\"-150 80\" hidden=\"0\"/>", 1000, CAnimManager::EAnimManagerEasing::QuadOut);
+	AnimMgr.Add(Frame_Main_Panel, "<frame pos=\"117.5 80\" hidden=\"0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+}
+
+Void PreloadTheThumbnails() {
+	declare Frame_Main_Campaign = (Page.GetFirstChild("FRAME_MAIN_CAMPAIGN") as CMlFrame);
+	declare Frame_Main_Panel = (Page.GetFirstChild("FRAME_MAIN_PANEL") as CMlFrame);
+	AnimMgr.Flush(Frame_Main_Campaign);
+	AnimMgr.Flush(Frame_Main_Panel);
+	Frame_Main_Campaign.RelativePosition_V3 = <85., 80.>;
+	Frame_Main_Panel.RelativePosition_V3 = <52.5, 80.>;
+
+	declare Frame_Loading_Thumbnails = (Page.GetFirstChild("FRAME_LOADING_THUMBNAILS") as CMlFrame);
+	Frame_Loading_Thumbnails.RelativeScale = 0.;
+	AnimMgr.Add(Frame_Loading_Thumbnails, "<frame scale=\"1\" hidden=\"0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+	
+	declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
+
+	declare TotalMaps = 0;
+	foreach(Control, Frame_Campaign_Menu.Controls) {
+		if(Control.ControlId == "FRAME_CAMPAIGN") {
+			declare Frame_Campaign = (Control as CMlFrame);
+			foreach(Control2, Frame_Campaign.Controls) {
+				declare Frame_Group = (Control2 as CMlFrame);
+				foreach(Control3, Frame_Group.Controls) {
+					if(Control3.ControlId == "FRAME_MAP") {
+						declare Frame_Map = (Control3 as CMlFrame);
+						foreach(Control,Frame_Map.Controls) {
+							if(Control.ControlId == "FRAME_CHALLENGE_INFO") {
+								TotalMaps += 1;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	(Page.GetFirstChild("GAUGE_LOADING_THUMBNAILS") as CMlGauge).Ratio = 0.;
+	sleep(400);
+
+	declare CurrentMap = 0;
+	foreach(Control, Frame_Campaign_Menu.Controls) {
+		if(Control.ControlId == "FRAME_CAMPAIGN") {
+			declare Frame_Campaign = (Control as CMlFrame);
+			foreach(Control2, Frame_Campaign.Controls) {
+				declare Frame_Group = (Control2 as CMlFrame);
+				foreach(Control3, Frame_Group.Controls) {
+					if(Control3.ControlId == "FRAME_MAP") {
+						declare Frame_Map = (Control3 as CMlFrame);
+						foreach(Control,Frame_Map.Controls) {
+							if(Control.ControlId == "FRAME_CHALLENGE_INFO") {
+								if(Control.DataAttributeGet("valid") == "True") {
+									PreloadImage("file://Thumbnails/MapUid/"^Control.DataAttributeGet("uid"));
+								}
+								else {
+									PreloadImage("file://Thumbnails/MapUid/"^Frame_Map.DataAttributeGet("uid"));
+								}
+								CurrentMap += 1;
+							}
+						}
+					}
+				}
+				(Page.GetFirstChild("GAUGE_LOADING_THUMBNAILS") as CMlGauge).Ratio = MathLib::ToReal(CurrentMap)/TotalMaps;
+				yield;
+			}
+		}
+	}
+
+	AnimMgr.Add(Frame_Loading_Thumbnails, "<frame scale=\"0\" hidden=\"1\"/>", 500, CAnimManager::EAnimManagerEasing::QuadIn);
+
+	ThumbnailsPreloaded = True;
+	ShowCampaignMenu();
+}
+
 ***Start***
 ***
 declare Frame_Campaigns = (Page.GetFirstChild("FRAME_CAMPAIGNS") as CMlFrame);
@@ -262,6 +342,10 @@ declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_CAMPAIGN_SCROLL") as CMlQuad)
 declare Frame_Challenges = (Page.GetFirstChild("FRAME_CHALLENGES") as CMlFrame);
 declare Label_Skillpoints = (Page.GetFirstChild("LABEL_SKILLPOINTS") as CMlLabel);
 declare Label_ActivityPoints = (Page.GetFirstChild("LABEL_ACTIVITYPOINTS") as CMlLabel);
+
+declare Frame_Loading_Thumbnails = (Page.GetFirstChild("FRAME_LOADING_THUMBNAILS") as CMlFrame);
+declare Frame_Main_Campaign = (Page.GetFirstChild("FRAME_MAIN_CAMPAIGN") as CMlFrame);
+declare Frame_Main_Panel = (Page.GetFirstChild("FRAME_MAIN_PANEL") as CMlFrame);
 
 declare HoldItSteady = False;
 declare HoldItSteadyLoc = 0.;
@@ -306,8 +390,11 @@ declare HoldScrollbarPos = 0.;
 
 declare Text[] Challenges for Page;
 
-foreach(Control,Frame_Challenges.Controls) {
+foreach(Control in Frame_Challenges.Controls) {
 	Challenges.add(Control.DataAttributeGet("challenge"));
+
+	declare Frame = (Control as CMlFrame);
+	declare Label = (Frame.GetFirstChild("LABEL_CHALLENGE") as CMlLabel);
 }
 
 declare SplittedZones = SplitZones(LocalUser.ZonePath);
@@ -417,6 +504,14 @@ foreach(Event,PendingEvents) {
 		}
 		case CMlScriptEvent::Type::PluginCustomEvent: {
 			switch(Event.CustomEventType) {
+				case "Show": {
+					if(ThumbnailsPreloaded) {
+						ShowCampaignMenu();
+					}
+					else {
+						PreloadThumbnails = True;
+					}
+				}
 				case "Suggest": {
 					Frame_Campaigns.RelativePosition_V3.X = TextLib::ToInteger(Event.CustomEventData[0])*-45.;
 					Frame_Challenges.RelativePosition_V3.X = TextLib::ToInteger(Event.CustomEventData[1])*-45.;
@@ -561,6 +656,11 @@ if(ZoneSwitchTime != -1) {
 if(!MapsPreloaded) {
 	UpdateMapThumbnails(Challenges[0]);
 	MapsPreloaded = True;
+}
+
+if(PreloadThumbnails) {
+	PreloadTheThumbnails();
+	PreloadThumbnails = False;
 }
 
 //Frame_QuickMapInfo.ClipWindowRelativePosition.X = AnimLib::EaseOutQuad(Now - RevealMapInfoTime, -100., 122.5, 300);

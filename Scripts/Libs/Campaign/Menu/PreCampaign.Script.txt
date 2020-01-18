@@ -93,8 +93,8 @@ Void Event(CManiaAppEvent _Event) {
 					case "Campaign": {
 						declare CampaignId = Event.CustomEventData[0];
 						declare ChallengeId = Event.CustomEventData[1];
-						Layers::Hide("Top");
-						Layers::Hide("Bottom");
+						Layers::Hide("Top", True);
+						Layers::Hide("Bottom", True);
 						Layers::Hide("PreCampaign");
 						Layers::Show("Campaign", True);
 						Layers::SendEvent("Campaign", "Suggest", [CampaignId, ChallengeId]);
