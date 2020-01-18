@@ -5,6 +5,8 @@ declare HoldScrollbarPos = 0.;
 
 declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_SCROLL") as CMlQuad);
 declare Frame_Clip_PreCampaign = (Page.GetFirstChild("FRAME_CLIP_PRECAMPAIGN") as CMlFrame);
+
+declare MoveSpeed = 0.;
 ***
 
 ***Loop***
@@ -28,11 +30,41 @@ foreach(Event,PendingEvents) {
 				}
 			}
 		}
+		case CMlScriptEvent::Type::MouseOver: {
+			switch(Event.ControlId) {
+				case "QUAD_SCROLL_LEFT": {
+					MoveSpeed = 1.;
+					(Page.GetFirstChild("QUAD_LEFTER") as CMlQuad).StyleSelected = True;
+				}
+				case "QUAD_SCROLL_RIGHT": {
+					MoveSpeed = -1.;
+					(Page.GetFirstChild("QUAD_RIGHTER") as CMlQuad).StyleSelected = True;
+				}
+			}
+		}
+		case CMlScriptEvent::Type::MouseOut: {
+			switch(Event.ControlId) {
+				case "QUAD_SCROLL_LEFT": {
+					MoveSpeed = 0.;
+					(Page.GetFirstChild("QUAD_LEFTER") as CMlQuad).StyleSelected = False;
+				}
+				case "QUAD_SCROLL_RIGHT": {
+					MoveSpeed = 0.;
+					(Page.GetFirstChild("QUAD_RIGHTER") as CMlQuad).StyleSelected = False;
+				}
+			}
+		}
 		case CMlScriptEvent::Type::PluginCustomEvent: {
 			switch(Event.CustomEventType) {
 				case "Show": {
 					Page.GetFirstChild("FRAME_SCROLL").RelativeScale = 0.;
 					AnimMgr.Add(Page.GetFirstChild("FRAME_SCROLL"), "<frame scale=\"1\"/>", 1000, CAnimManager::EAnimManagerEasing::QuadOut);
+
+					Page.GetFirstChild("QUAD_LEFTER").RelativeScale = 0.;
+					AnimMgr.Add(Page.GetFirstChild("QUAD_LEFTER"), "<frame scale=\"1\"/>", Now + 500, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					Page.GetFirstChild("QUAD_RIGHTER").RelativeScale = 0.;
+					AnimMgr.Add(Page.GetFirstChild("QUAD_RIGHTER"), "<frame scale=\"1\"/>", Now + 500, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+
 					for(I, 0, Frame_Clip_PreCampaign.Controls.count-1) {
 						declare Frame = (Frame_Clip_PreCampaign.Controls[I] as CMlFrame);
 						Frame.RelativeScale = .8;
@@ -97,5 +129,7 @@ if(HoldScrollbar && MouseLeftButton) {
 }
 else {
 	HoldScrollbar = False;
+	Frame_Clip_PreCampaign.ScrollOffset.X += MoveSpeed;
+	Quad_Scrollbar.RelativePosition_V3.X = Frame_Clip_PreCampaign.ScrollOffset.X/Frame_Clip_PreCampaign.ScrollMax.X*(290-Quad_Scrollbar.Size.X);
 }
 ***

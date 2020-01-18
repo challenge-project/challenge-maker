@@ -70,6 +70,14 @@ Void Init() {
 			<quad z-index="0" size="290 2.5" style="Bgs1" substyle="BgMetalBar" modulatecolor="222" opacity=".5" valign="center"/>
 			<quad z-index="1" size="{{{290./(Campaigns.count*80)*290}}} 2.5" style="Bgs1" substyle="BgWindow4" id="QUAD_SCROLL" valign="center" hidden="0" scriptevents="1"/>
 		</frame>""";
+	PreCampaignML ^= """<frame pos="-160">
+		<quad pos="0 0" z-index="0" size="15 120" valign="center" scriptevents="1" id="QUAD_SCROLL_LEFT"/>
+		<quad pos="7.5" z-index="1" size="7.5 7.5" halign="center" valign="center" style="UIConstruction_Buttons" substyle="Quit" id="QUAD_LEFTER"/>
+	</frame>
+	<frame pos="160">
+		<quad pos="0 0" z-index="0" size="15 120" valign="center" halign="right" scriptevents="1" id="QUAD_SCROLL_RIGHT"/>
+		<quad pos="-7.5" z-index="1" size="7.5 7.5" halign="center" valign="center" style="UIConstruction_Buttons" substyle="Quit" rot="180" id="QUAD_RIGHTER"/>
+	</frame>""";
 	PreCampaignML ^= "</frame>";
 
 	Layers::Create("PreCampaign", Manialink::Construct(PreCampaignML, File::Read("Media/Manialinks/Campaign/PreCampaign.Script.txt"), True));
