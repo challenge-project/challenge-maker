@@ -58,6 +58,8 @@
 	Integer Skillpoints;
 	Integer ActivityPoints;
 	Real WRPB;
+	Real Difficulty;
+	Real Quality;
 }
 
 #Struct STitleMap {

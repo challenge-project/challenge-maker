@@ -79,8 +79,8 @@
 				</frame>
 				<frame pos="0 -55">
 					<quad pos="0 0" z-index="0" size="60 27.5" halign="center" style="Bgs1" substyle="BgCardList"/>
-					<label pos="0 -8" z-index="1" size="55 7.5" text="0" textfont="Gotham/Gotham-Bold" halign="center" textsize="4" valign="center2" textprefix="$0F0" id="LABEL_SKILLPOINTS" style="TextCardMedium" scriptevents="1"/>
-					<label pos="0 -19" z-index="1" size="55 7.5" text="0" textfont="Gotham/Gotham-Bold" halign="center" textsize="4" valign="center2" textprefix="$0FF" id="LABEL_ACTIVITYPOINTS" style="TextCardMedium" scriptevents="1"/>
+					<label pos="0 -8" z-index="1" size="55 7.5" text="?" textfont="Gotham/Gotham-Bold" halign="center" textsize="4" valign="center2" textprefix="$0F0" id="LABEL_SKILLPOINTS" style="TextCardMedium" scriptevents="1"/>
+					<label pos="0 -19" z-index="1" size="55 7.5" text="?" textfont="Gotham/Gotham-Bold" halign="center" textsize="4" valign="center2" textprefix="$0FF" id="LABEL_ACTIVITYPOINTS" style="TextCardMedium" scriptevents="1"/>
 				</frame>
 				<frame pos="0 -95">
 					<quad pos="0 10" z-index="0" size="60 60" halign="center" style="Bgs1" substyle="BgCardList"/>
@@ -156,7 +156,7 @@
 	</frame>
 </frame>
 <frame z-index="10">
-	<frame clip="True" clipsizen="120 55" clipposn="0 0" id="FRAME_QUICKMAPINFO" hidden="1">
+	<frame clip="True" clipsizen="155 55" clipposn="0 0" id="FRAME_QUICKMAPINFO" hidden="1">
 		<quad pos="0 0" z-index="-1" size="50 50" style="Bgs1" substyle="BgWindow4" halign="center" valign="center"/>
 		<quad pos="0 0" z-index="0" size="46 46" bgcolor="2228" halign="center" valign="center" id="QUAD_THUMBNAIL"/>
 		<quad pos="0 -15" z-index="1" size="46 13" bgcolor="111C" halign="center" valign="center"/>
@@ -172,15 +172,72 @@
 			<quad pos="15 -15" size="10 10" image="file://ZoneFlags/Path/World" halign="center" valign="center" opacity=".9" id="QUAD_FLAG"/>
 			<label pos="9 -19" z-index="1" size="10 4" text="WORLD" textsize="0.2" textfont="Oswald" autonewline="1" opacity=".75" halign="right" valign="bottom" id="LABEL_ZONE"/>
 		</frame>
-		<quad pos="-27.5 0" z-index="-2" size="100 55" style="Bgs1" substyle="BgGradV" valign="center" hidden="0"/>
-		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="0"/>
-		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="0"/>
-		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="0"/>
-		<quad pos="-27.5 0" z-index="-3" size="100 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="0"/>
+		<quad pos="-27.5 0" z-index="-2" size="105 55" style="Bgs1" substyle="BgGradV" valign="center" hidden="0"/>
+		<quad pos="-27.5 0" z-index="-3" size="105 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="0"/>
+		<quad pos="-27.5 0" z-index="-3" size="105 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="0"/>
+		<quad pos="-27.5 0" z-index="-3" size="105 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="0"/>
+		<quad pos="-27.5 0" z-index="-3" size="105 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="0"/>
 		<quad pos="-27.5 0" z-index="-2" size="55 55" style="Bgs1" substyle="BgGradV" valign="center" hidden="1"/>
 		<quad pos="-27.5 0" z-index="-3" size="55 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="1"/>
 		<quad pos="-27.5 0" z-index="-3" size="55 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="1"/>
 		<quad pos="-27.5 0" z-index="-3" size="55 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="1"/>
 		<quad pos="-27.5 0" z-index="-3" size="55 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="1"/>
+		<frame pos="27.5 21" z-index="1">
+			<label z-index="0" size="14 5" text="$o{{{{CAR}}}}" valign="center" textfont="Oswald" textsize="1"/>
+			<label z-index="0" size="15 5" text="$o{{{{DIFFICULTY}}}}" valign="center" textfont="Oswald" textsize="1" pos="15"/>
+			<label z-index="0" size="15 5" text="$o{{{{QUALITY}}}}" valign="center" textfont="Oswald" textsize="1" pos="32.5"/>
+			<frame id="FRAME_CARS">
+				<frame pos="0 -5" data-car="CanyonCar">
+					<label z-index="0" size="12.5 5" text="CanyonCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
+					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+				</frame>
+				<frame pos="0 -9" data-car="StadiumCar">
+					<label z-index="0" size="12.5 5" text="StadiumCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
+					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+				</frame>
+				<frame pos="0 -13" data-car="ValleyCar">
+					<label z-index="0" size="12.5 5" text="ValleyCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
+					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+				</frame>
+				<frame pos="0 -17" data-car="LagoonCar">
+					<label z-index="0" size="12.5 5" text="LagoonCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
+					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+				</frame>
+				<frame pos="0 -21" data-car="DesertCar">
+					<label z-index="0" size="12.5 5" text="DesertCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
+					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+				</frame>
+				<frame pos="0 -25" data-car="RallyCar">
+					<label z-index="0" size="12.5 5" text="RallyCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
+					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+				</frame>
+				<frame pos="0 -29" data-car="SnowCar">
+					<label z-index="0" size="12.5 5" text="SnowCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
+					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+				</frame>
+				<frame pos="0 -33" data-car="IslandCar">
+					<label z-index="0" size="12.5 5" text="IslandCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
+					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+				</frame>
+				<frame pos="0 -37" data-car="BayCar">
+					<label z-index="0" size="12.5 5" text="BayCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
+					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+				</frame>
+				<frame pos="0 -41" data-car="CoastCar">
+					<label z-index="0" size="12.5 5" text="CoastCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
+					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+				</frame>
+			</frame>
+		</frame>
 	</frame>
 </frame>
