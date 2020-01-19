@@ -121,6 +121,7 @@ main() {
 		
 		Layers::Create("Preload", Manialink::FromFile("Media/Manialinks/Preload", False, [], Settings::Get().Theme), True);
 		sleep(500);
+		Layers::Destroy("Loading");
 		
 		declare MakerBase::SChallengeTitleSettings Settings for This;
 		declare JsonSuccess2 = Settings.fromjson(File::Read("Media/Settings.json"));
