@@ -111,7 +111,7 @@ main() {
 				GetUnauthorizedToken(Status);
 			}
 			
-			Layers::Destroy("Loading");
+			Layers::Hide("Loading", True);
 	
 			Menu_Release::Start();
 			wait(Menu_Release::Loop());
@@ -120,6 +120,7 @@ main() {
 		yield;
 		
 		Layers::Create("Preload", Manialink::FromFile("Media/Manialinks/Preload", False, [], Settings::Get().Theme), True);
+		sleep(500);
 		
 		declare MakerBase::SChallengeTitleSettings Settings for This;
 		declare JsonSuccess2 = Settings.fromjson(File::Read("Media/Settings.json"));
@@ -148,7 +149,7 @@ main() {
 		Layers::Create("Intro", Manialink::FromFile("Media/Manialinks/Campaign/Intro", True, [], Settings::Get().Theme));
 		Layers::SendEvent("Preload", "Progress", 7/7.);
 		sleep(300);
-		Layers::Destroy("Preload");
+		Layers::Hide("Preload", True);
 		sleep(200);
 		Layers::Show("Intro", True);
 		declare IntroStart = Now;
@@ -165,6 +166,7 @@ main() {
 		}
 					
 		Layers::Hide("Intro", True);
+		EnableMenuNavigationInputs = False;
 		
 		Menu_PreCampaign::Start();
 		Menu_Campaign::Start();
