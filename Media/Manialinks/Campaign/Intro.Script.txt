@@ -3,6 +3,8 @@
 declare End = -1;
 declare Quad_Challenge_Logo = (Page.GetFirstChild("QUAD_CHALLENGE_LOGO") as CMlQuad);
 declare Quad_Title_Logo = (Page.GetFirstChild("QUAD_TITLE_LOGO") as CMlQuad);
+declare Quad_Challenge_Logo_Shadow = (Page.GetFirstChild("QUAD_CHALLENGE_LOGO_SHADOW") as CMlQuad);
+declare Quad_Title_Logo_Shadow = (Page.GetFirstChild("QUAD_TITLE_LOGO_SHADOW") as CMlQuad);
 declare Label_Intro_Skip = (Page.GetFirstChild("LABEL_INTRO_SKIP") as CMlLabel);
 
 EnableMenuNavigationInputs = True;
@@ -17,12 +19,20 @@ foreach(Event,PendingEvents) {
 				case "Show": {
 					Quad_Challenge_Logo.Opacity = 0.;
 					Quad_Challenge_Logo.RelativeScale = 100.;
+					Quad_Challenge_Logo_Shadow.Opacity = 0.;
+					Quad_Challenge_Logo_Shadow.RelativeScale = 100.;
 					AnimMgr.Add(Quad_Challenge_Logo, "<quad scale=\"1.5\" opacity=\"1\"/>", Now, 500, CAnimManager::EAnimManagerEasing::QuadOut);
 					AnimMgr.Add(Quad_Challenge_Logo, "<quad scale=\"1.4\"/>", Now+500, 1500, CAnimManager::EAnimManagerEasing::Linear);
 					AnimMgr.Add(Quad_Challenge_Logo, "<quad scale=\"1.6\" opacity=\"0\"/>", Now+2000, 500, CAnimManager::EAnimManagerEasing::QuadIn);
+					AnimMgr.Add(Quad_Challenge_Logo_Shadow, "<quad scale=\"1.5\" opacity=\"1\"/>", Now, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					AnimMgr.Add(Quad_Challenge_Logo_Shadow, "<quad scale=\"1.4\"/>", Now+500, 1500, CAnimManager::EAnimManagerEasing::Linear);
+					AnimMgr.Add(Quad_Challenge_Logo_Shadow, "<quad scale=\"1.6\" opacity=\"0\"/>", Now+2000, 500, CAnimManager::EAnimManagerEasing::QuadIn);
 					AnimMgr.Add(Quad_Title_Logo, "<quad scale=\"1.5\" hidden=\"0\" opacity=\"1\"/>", Now+2000, 1000, CAnimManager::EAnimManagerEasing::QuadOut);
 					AnimMgr.Add(Quad_Title_Logo, "<quad scale=\"1.6\"/>", Now+3000, 2000, CAnimManager::EAnimManagerEasing::Linear);
 					AnimMgr.Add(Quad_Title_Logo, "<quad scale=\"1.65\" hidden=\"1\" opacity=\"0\"/>", Now+5000, 1000, CAnimManager::EAnimManagerEasing::QuadOut);
+					AnimMgr.Add(Quad_Title_Logo_Shadow, "<quad scale=\"1.5\" hidden=\"0\" opacity=\"1\"/>", Now+2000, 1000, CAnimManager::EAnimManagerEasing::QuadOut);
+					AnimMgr.Add(Quad_Title_Logo_Shadow, "<quad scale=\"1.6\"/>", Now+3000, 2000, CAnimManager::EAnimManagerEasing::Linear);
+					AnimMgr.Add(Quad_Title_Logo_Shadow, "<quad scale=\"1.65\" hidden=\"1\" opacity=\"0\"/>", Now+5000, 1000, CAnimManager::EAnimManagerEasing::QuadOut);
 					AnimMgr.Add(Label_Intro_Skip, "<label hidden=\"1\"/>", Now+4500, 500, CAnimManager::EAnimManagerEasing::QuadOut);
 				}
 				case "Hide": {
