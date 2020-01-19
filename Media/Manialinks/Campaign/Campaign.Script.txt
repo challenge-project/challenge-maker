@@ -31,6 +31,7 @@
 	Real WRPB;
 	Real Difficulty;
 	Real Quality;
+	Text[] Star;
 }
 
 #Struct STitleMap {
@@ -260,6 +261,7 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 								declare Label = (Frame.GetFirstChild("LABEL_CAR") as CMlLabel);
 								declare Gauge_Difficulty = (Frame.GetFirstChild("GAUGE_CAR_DIFFICULTY") as CMlGauge);
 								declare Gauge_Quality = (Frame.GetFirstChild("GAUGE_CAR_QUALITY") as CMlGauge);
+								declare Quad_Star = (Frame.GetFirstChild("QUAD_STAR") as CMlQuad);
 
 								if(Car == SectionCar) {
 									Label.TextColor = <1.,1.,0.>;
@@ -285,6 +287,15 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 										Gauge_Quality.Ratio = 0.;
 									else
 										Gauge_Quality.Ratio = Quality;
+									
+									declare Star = Maps[MapUid].Records[SectionCar].Star;
+
+									if(Star.count == 0) {
+										Quad_Star.Hide();
+									}
+									else {
+										Quad_Star.Show();
+									}
 								}
 								else {
 									Gauge_Difficulty.Ratio = 0.;
@@ -316,6 +327,8 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 						((Control as CMlFrame).GetFirstChild("GAUGE_CAR_DIFFICULTY") as CMlGauge).Color = <1.,1.,1.>;
 						((Control as CMlFrame).GetFirstChild("GAUGE_CAR_QUALITY") as CMlGauge).Color = <1.,1.,1.>;
 					}
+
+					(Control as CMlFrame).GetFirstChild("QUAD_STAR").Hide();
 				}
 			}
 

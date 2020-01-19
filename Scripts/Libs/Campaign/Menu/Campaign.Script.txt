@@ -60,6 +60,7 @@
 	Real WRPB;
 	Real Difficulty;
 	Real Quality;
+	Text[] Star;
 }
 
 #Struct STitleMap {
