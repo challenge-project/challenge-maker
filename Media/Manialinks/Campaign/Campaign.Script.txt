@@ -96,7 +96,7 @@ declare Boolean MapsPreloaded;
 Void UpdateMapThumbnails(Text _Challenge) {
 	//Page.GetFirstChild("FRAME_LOADING").Show();
 
-	declare STitleProgress TitleProgress for Page;
+	//declare STitleProgress TitleProgress for Page;
 	declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
 	foreach(Control, Frame_Campaign_Menu.Controls) {
 		if(Control.ControlId == "FRAME_CAMPAIGN") {
@@ -117,78 +117,23 @@ Void UpdateMapThumbnails(Text _Challenge) {
 									AnimMgr.Flush(Quad_Map_Anim);
 									AnimMgr.Add(Quad_Map_Anim, "<quad opacity=\"0\" hidden=\"0\"/>", 300, CAnimManager::EAnimManagerEasing::QuadOut);
 
+									AnimMgr.Add(Frame_Map.GetFirstChild("LABEL_RANK"), "<label opacity=\"0\" hidden=\"1\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+									AnimMgr.Add(Frame_Map.GetFirstChild("LABEL_SP"), "<label opacity=\"0\" hidden=\"1\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+									
 									if(Control4.DataAttributeGet("valid") == "True") {
 										Quad_Map.ImageUrl = "file://Thumbnails/MapUid/"^Control4.DataAttributeGet("uid");
 										AnimMgr.Add((Frame_Map.GetFirstChild("QUAD_MAP_BLOCK") as CMlQuad), "<quad opacity=\"0\" hidden=\"1\"/>", 300, CAnimManager::EAnimManagerEasing::QuadOut);
 										(Frame_Map.GetFirstChild("LABEL_NAME") as CMlLabel).Opacity = 1.;
-										(Frame_Map.GetFirstChild("FRAME_LOADING") as CMlFrame).Show();
-
-										/*if(TitleProgress.Campaigns.existskey(Control.DataAttributeGet("campaignname"))) {
-											declare Maps = TitleProgress.Campaigns[Control.DataAttributeGet("campaignname")];
-											declare MapUid = Control4.DataAttributeGet("uid");
-											declare Car = Control4.Parent.DataAttributeGet("defaultcar");
-											
-											declare Label_SP = (Frame_Map.GetFirstChild("LABEL_SP") as CMlLabel);
-											declare Label_Rank = (Frame_Map.GetFirstChild("LABEL_RANK") as CMlLabel);
-
-											declare Zones = TextLib::Split("|", LocalUser.ZonePath);
-											declare Text[] ZoneCounter;
-											foreach(Zon in Zones) {
-												ZoneCounter.add(Zon);
-												Label_Rank.DataAttributeSet("rank-"^TextLib::Join("|", ZoneCounter), "");
-												Label_Rank.DataAttributeSet("count-"^TextLib::Join("|", ZoneCounter), "");
-											}
-
-											if(Maps.existskey(MapUid)) {
-												if(Maps[MapUid].Records.existskey(Car)) {
-													foreach(Zon => RankCount in Maps[MapUid].Records[Car].Zones) {
-														if(Zon == "World") {
-															declare Rank = Maps[MapUid].Records[Car].Zones[Zon].Rank;
-															declare Count = Maps[MapUid].Records[Car].Zones[Zon].Count;
-															if(Rank > 0) {
-																declare PreviousRank = Label_Rank.DataAttributeGet("rank-"^Zon);
-																declare PreviousCount = Label_Rank.DataAttributeGet("count-"^Zon);
-																Label_Rank.SetText(Rank^"/"^Count); // Animate this after requesting ends
-																Label_Rank.DataAttributeSet("rank-"^Zon, Rank^"");
-																Label_Rank.DataAttributeSet("count-"^Zon, Count^"");
-
-																declare PreviousSP = Label_SP.DataAttributeGet("skillpoints");
-																Label_SP.SetText(Maps[MapUid].Skillpoints^""); // Animate this after requesting ends
-																Label_SP.DataAttributeSet("skillpoints", Maps[MapUid].Skillpoints^"");
-															}
-															else {
-																Label_Rank.SetText("");
-																Label_SP.SetText("");
-															}
-														}
-														else {
-															Label_Rank.DataAttributeSet("rank-"^Zon, RankCount.Rank^"");
-															Label_Rank.DataAttributeSet("count-"^Zon, RankCount.Count^"");
-														}
-													}
-												}
-												else {
-													Label_SP.SetText("");
-													Label_Rank.SetText("");
-												}
-											}
-											else {
-												Label_SP.SetText("");
-												Label_Rank.SetText("");
-											}
-										}
-
-										(Frame_Map.GetFirstChild("LABEL_RANK") as CMlLabel).Show();
-										(Frame_Map.GetFirstChild("LABEL_SP") as CMlLabel).Show();*/
+										foreach(Control in (Frame_Map.GetFirstChild("FRAME_LOADING") as CMlFrame).Controls)
+											AnimMgr.Add(Control, "<quad opacity=\"1\" hidden=\"0\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
 									}
 									else {
 										declare Quad_Map = (Frame_Map.GetFirstChild("QUAD_MAP") as CMlQuad);
 										(Frame_Map.GetFirstChild("QUAD_MAP") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Frame_Map.DataAttributeGet("uid"));
 										AnimMgr.Add((Frame_Map.GetFirstChild("QUAD_MAP_BLOCK") as CMlQuad), "<quad opacity=\"1\" hidden=\"0\"/>", 300, CAnimManager::EAnimManagerEasing::QuadOut);
 										(Frame_Map.GetFirstChild("LABEL_NAME") as CMlLabel).Opacity = .5;
-										(Frame_Map.GetFirstChild("LABEL_RANK") as CMlLabel).Hide();
-										(Frame_Map.GetFirstChild("LABEL_SP") as CMlLabel).Hide();
-										(Frame_Map.GetFirstChild("FRAME_LOADING") as CMlFrame).Hide();
+										foreach(Control in (Frame_Map.GetFirstChild("FRAME_LOADING") as CMlFrame).Controls)
+											AnimMgr.Add(Control, "<quad opacity=\"0\" hidden=\"1\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
 									}
 								}
 							}
@@ -488,6 +433,7 @@ foreach(Control in Frame_Challenges.Controls) {
 		Label_Challenge.TextSizeReal -= .25;
 }
 
+declare CMlFrame[] MapBoxes;
 foreach(Control, Frame_Campaign_Menu.Controls) {
 	if(Control.ControlId == "FRAME_CAMPAIGN") {
 		declare Frame_Campaign = (Control as CMlFrame);
@@ -499,6 +445,7 @@ foreach(Control, Frame_Campaign_Menu.Controls) {
 					declare Label_Name = (Frame_Map.GetFirstChild("LABEL_NAME") as CMlLabel);
 					while(Label_Name.ComputeWidth(Label_Name.Value) > Label_Name.Size.X)
 						Label_Name.TextSizeReal -= .25;
+					MapBoxes.add(Frame_Map);
 				}
 			}
 		}
@@ -511,6 +458,14 @@ declare SplittedZones = SplitZones(LocalUser.ZonePath);
 declare ZoneSwitched = False;
 declare ZoneCounter = 0;
 
+declare UpdateScores = -1;
+declare UpdateScoreProgress = 0;
+
+declare Zones = TextLib::Split("|", LocalUser.ZonePath);
+
+declare STitleProgress TitleProgress for Page;
+declare STitleMap[Text] TitleProgressCampaign;
+declare Text TitleProgressCampaignName;
 //PreloadMapThumbnails();
 ***
 
@@ -661,12 +616,13 @@ foreach(Event,PendingEvents) {
 					}
 				}
 				case "Scores": {
-					declare STitleProgress TitleProgress for Page;
-
 					declare PreviousSkillpoints = TextLib::ToInteger(Label_Skillpoints.Value);
 					declare PreviousActivityPoints = TextLib::ToInteger(Label_ActivityPoints.Value);
 					Label_Skillpoints.SetText(TitleProgress.Skillpoints^""); // Animate this
 					Label_ActivityPoints.SetText(TitleProgress.ActivityPoints^""); // Animate this
+
+					UpdateScoreProgress = 0;
+					UpdateScores = Now;
 					//UpdateMapThumbnails(Challenges[CurrentChallenge]);
 				}
 			}
@@ -692,6 +648,91 @@ CurrentChallenge = MathLib::NearestInteger(Frame_Challenges.RelativePosition_V3.
 if(CurrentChallenge != LastChallenge) {
 	LastChallenge = CurrentChallenge;
 	UpdateMapThumbnails(Challenges[CurrentChallenge]);
+	UpdateScoreProgress = 0;
+	UpdateScores = Now;
+}
+
+if(UpdateScores != -1 && Now - UpdateScores > 500) {
+	if(UpdateScoreProgress < MapBoxes.count) {		
+		declare Frame_Map = MapBoxes[UpdateScoreProgress];
+
+		declare Label_SP = (Frame_Map.GetFirstChild("LABEL_SP") as CMlLabel);
+		declare Label_Rank = (Frame_Map.GetFirstChild("LABEL_RANK") as CMlLabel);
+		declare Frame_Loading = (Frame_Map.GetFirstChild("FRAME_LOADING") as CMlFrame);
+		foreach(Control in Frame_Loading.Controls)
+			AnimMgr.Add(Control, "<quad opacity=\"0\" hidden=\"1\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+
+		declare Text[] ZoneCounter;
+		foreach(Zon in Zones) {
+			ZoneCounter.add(Zon);
+			Label_Rank.DataAttributeSet("rank-"^TextLib::Join("|", ZoneCounter), "");
+			Label_Rank.DataAttributeSet("count-"^TextLib::Join("|", ZoneCounter), "");
+		}
+
+		declare CampaignName = Frame_Map.Parent.Parent.DataAttributeGet("campaignname");
+		if(CampaignName != TitleProgressCampaignName) {
+			if(TitleProgress.Campaigns.existskey(CampaignName))
+				TitleProgressCampaign = TitleProgress.Campaigns[CampaignName];
+			TitleProgressCampaignName = CampaignName;
+		}
+
+		foreach(Control in Frame_Map.Controls) {
+			if(Control.ControlId == "FRAME_CHALLENGE_INFO") {
+				if(Challenges[CurrentChallenge] == Control.DataAttributeGet("challenge")) {
+					declare MapUid = Control.DataAttributeGet("uid");
+					declare Car = Control.Parent.DataAttributeGet("defaultcar");
+					if(TitleProgressCampaign.existskey(MapUid)) {
+						declare Map = TitleProgressCampaign[MapUid];
+						if(Map.Records.existskey(Car)) {
+							declare Records = Map.Records[Car];
+							foreach(Zon => RankCount in Records.Zones) {
+								if(Zon == "World") {
+									declare Rank = Records.Zones[Zon].Rank;
+									declare Count = Records.Zones[Zon].Count;
+									if(Rank > 0) {
+										declare PreviousRank = Label_Rank.DataAttributeGet("rank-"^Zon);
+										declare PreviousCount = Label_Rank.DataAttributeGet("count-"^Zon);
+										Label_Rank.Value = Rank^"/"^Count; // Animate this after requesting ends
+										Label_Rank.DataAttributeSet("rank-"^Zon, Rank^"");
+										Label_Rank.DataAttributeSet("count-"^Zon, Count^"");
+
+										declare PreviousSP = Label_SP.DataAttributeGet("skillpoints");
+										Label_SP.SetText(Map.Skillpoints^""); // Animate this after requesting ends
+										Label_SP.DataAttributeSet("skillpoints", Map.Skillpoints^"");
+
+										AnimMgr.Add(Label_Rank, "<quad opacity=\"1\" hidden=\"0\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+										AnimMgr.Add(Label_SP, "<quad opacity=\"1\" hidden=\"0\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+									}
+									else {
+										AnimMgr.Add(Label_Rank, "<quad opacity=\"0\" hidden=\"1\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+										AnimMgr.Add(Label_SP, "<quad opacity=\"0\" hidden=\"1\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+									}
+								}
+								else {
+									Label_Rank.DataAttributeSet("rank-"^Zon, RankCount.Rank^"");
+									Label_Rank.DataAttributeSet("count-"^Zon, RankCount.Count^"");
+								}
+							}
+						}
+						else {
+							AnimMgr.Add(Label_Rank, "<quad opacity=\"0\" hidden=\"1\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+							AnimMgr.Add(Label_SP, "<quad opacity=\"0\" hidden=\"1\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+						}
+					}
+					else {
+						AnimMgr.Add(Label_Rank, "<quad opacity=\"0\" hidden=\"1\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+						AnimMgr.Add(Label_SP, "<quad opacity=\"0\" hidden=\"1\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+					}
+				}
+			}
+		}
+
+		UpdateScoreProgress += 1;
+	}
+	else {
+		UpdateScoreProgress = 0;
+		UpdateScores = -1;
+	}
 }
 
 if(MouseLeftButton && HoldItSteadyChallenge) {
