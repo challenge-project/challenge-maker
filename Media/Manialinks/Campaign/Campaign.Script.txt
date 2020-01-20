@@ -209,9 +209,9 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 								declare Quad_Star = (Frame.GetFirstChild("QUAD_STAR") as CMlQuad);
 
 								if(Car == SectionCar) {
-									Label.TextColor = <1.,1.,0.>;
-									Gauge_Difficulty.Color = <1.,1.,0.>;
-									Gauge_Quality.Color = <1.,1.,0.>;
+									Label.TextColor = <0.,1.,1.>;
+									Gauge_Difficulty.Color = <0.,1.,1.>;
+									Gauge_Quality.Color = <0.,1.,1.>;
 								}
 								else {
 									Label.TextColor = <1.,1.,1.>;
@@ -240,6 +240,9 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 									}
 									else {
 										Quad_Star.Show();
+										Label.TextColor = <1.,1.,0.>;
+										Gauge_Difficulty.Color = <1.,1.,0.>;
+										Gauge_Quality.Color = <1.,1.,0.>;
 									}
 								}
 								else {
@@ -263,9 +266,9 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 					((Control as CMlFrame).GetFirstChild("GAUGE_CAR_QUALITY") as CMlGauge).Ratio = 0.;
 
 					if(Car == Control.DataAttributeGet("car")) {
-						((Control as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).TextColor = <1.,1.,0.>;
-						((Control as CMlFrame).GetFirstChild("GAUGE_CAR_DIFFICULTY") as CMlGauge).Color = <1.,1.,0.>;
-						((Control as CMlFrame).GetFirstChild("GAUGE_CAR_QUALITY") as CMlGauge).Color = <1.,1.,0.>;
+						((Control as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).TextColor = <0.,1.,1.>;
+						((Control as CMlFrame).GetFirstChild("GAUGE_CAR_DIFFICULTY") as CMlGauge).Color = <0.,1.,1.>;
+						((Control as CMlFrame).GetFirstChild("GAUGE_CAR_QUALITY") as CMlGauge).Color = <0.,1.,1.>;
 					}
 					else {
 						((Control as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).TextColor = <1.,1.,1.>;
