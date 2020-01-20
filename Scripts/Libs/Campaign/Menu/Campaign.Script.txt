@@ -120,7 +120,9 @@ Void InitBuilder() {
 	MakerBase::UpdateBuilder("Campaign", "Media/Manialinks/Campaign/Campaign", 0, 0, False, MakerBase::ChallengesToTextArray(Scripts_Campaign));
 }
 
+declare Text MapName;
 declare Text MapUid;
+declare Text Challenge;
 declare Text Zone;
 declare Text CurrentCar;
 
@@ -148,7 +150,9 @@ Void Event(CManiaAppEvent _Event) {
 					case "Map": {
 						Layers::Show("MapMenu", True);
 
+						MapName = Event.CustomEventData[0];
 						MapUid = Event.CustomEventData[2];
+						Challenge = Event.CustomEventData[3];
 						
 						declare Vehicle::SVehicle[] Vehicles for This;
 						
@@ -322,7 +326,10 @@ Void Async() {
 			else {
 				if(L.HasSucceeded) {
 					foreach(Record,L.LeaderBoardInfo) {
-						Layers::SendEvent("MapMenu", "RecordGhost", [CurrentCar, Record.Login, Record.DisplayName, Record.Score^"", Record.ReplayUrl, Record.FileName]);
+						declare Folders = TextLib::Split("\\", Record.FileName);
+						Folders.removekey(Folders.count-1);
+						declare FileName = """{{{TextLib::Join("\\", Folders)}}}\{{{TextLib::StripFormatting(MapName)}}}_{{{Challenge}}}_{{{CurrentCar}}}_({{{Time::TimeToFileNameSupportedText(Record.Score)}}}).Replay.Gbx""";
+						Layers::SendEvent("MapMenu", "RecordGhost", [CurrentCar, Record.Login, Record.DisplayName, Record.Score^"", Record.ReplayUrl, FileName]);
 					}
 				}
 				else {
