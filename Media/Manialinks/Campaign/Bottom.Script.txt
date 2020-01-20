@@ -2,6 +2,11 @@
 ***
 declare Start = Now;
 declare End = -1;
+
+if(LoadedTitle.MakerTitleId == "")
+(Page.GetFirstChild("LABEL_MAKER") as CMlLabel).Value = "$AAA[UNKNOWN MAKER]";
+else
+	(Page.GetFirstChild("LABEL_MAKER") as CMlLabel).Value = TextLib::ToUpperCase(LoadedTitle.MakerTitleId);
 ***
 
 ***Loop***
@@ -34,6 +39,10 @@ foreach(Event,PendingEvents) {
 					Start = -1;
 
 					AnimMgr.Add(Page.GetFirstChild("FRAME_BOTTOM"), "<frame pos=\"0 -120\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+				}
+				case "Maker": {
+					if(Event.CustomEventData[0] != "")
+						(Page.GetFirstChild("LABEL_MAKER") as CMlLabel).Value = "$l["^Event.CustomEventData[1]^"]"^Event.CustomEventData[0];
 				}
 			}
 		}

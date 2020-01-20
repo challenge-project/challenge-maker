@@ -7,6 +7,8 @@
 #Include "Libs/BigBang1112/File.Script.txt" as File
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 #Include "Libs/BigBang1112/Map.Script.txt" as Map
+#Include "Libs/BigBang1112/Web.Script.txt" as Web
+#Include "Libs/BigBang1112/Http.Script.txt" as Http
 
 #Include "Libs/Challenge/Menu/Top.Script.txt" as Menu_Top
 
@@ -87,6 +89,9 @@ Void Start() {
 	Layers::Show("Bottom", True);
 	Layers::Show("PreCampaign", True);
 	Menu_Top::Start();
+	
+	if(LoadedTitle.MakerTitleId != "")
+		Web::AsyncTitle("MAKER", LoadedTitle.MakerTitleId);
 }
 
 Void Event(CManiaAppEvent _Event) {
@@ -191,6 +196,14 @@ Void Event(CManiaAppEvent _Event) {
 
 Void Async() {
 	Menu_Top::Async();
+	
+	if(Http::IsCompleted("MAKER")) {
+		if(Http::IsSuccessful("MAKER")) {
+			declare Title = Web::GetAsyncTitleResult("MAKER");
+			Layers::SendEvent("Bottom", "Maker", [Title.Name, "https://www.maniaplanet.com/titles/"^LoadedTitle.TitleId]);
+		}
+		Http::Destroy("MAKER");
+	}
 }
 
 Void Loop() {
