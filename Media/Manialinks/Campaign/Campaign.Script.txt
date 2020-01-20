@@ -64,35 +64,6 @@ Text[] SplitZones(Text _Zone) {
 	return Result;
 }
 
-Void PreloadMapThumbnails() {
-	declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
-	foreach(Control, Frame_Campaign_Menu.Controls) {
-		if(Control.ControlId == "FRAME_CAMPAIGN") {
-			declare Frame_Campaign = (Control as CMlFrame);
-			foreach(Control2, Frame_Campaign.Controls) {
-				declare Frame_Group = (Control2 as CMlFrame);
-				foreach(Control3, Frame_Group.Controls) {
-					if(Control3.ControlId == "FRAME_MAP") {
-						declare Frame_Map = (Control3 as CMlFrame);
-						foreach(Control,Frame_Map.Controls) {
-							if(Control.ControlId == "FRAME_CHALLENGE_INFO") {
-								if(Control.DataAttributeGet("valid") == "True") {
-									PreloadImage("file://Thumbnails/MapUid/"^Control.DataAttributeGet("uid"));
-								}
-								else {
-									PreloadImage("file://Thumbnails/MapUid/"^Frame_Map.DataAttributeGet("uid"));
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-declare Boolean MapsPreloaded;
-
 Void UpdateMapThumbnails(Text _Challenge) {
 	declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
 	foreach(Control, Frame_Campaign_Menu.Controls) {
@@ -104,7 +75,6 @@ Void UpdateMapThumbnails(Text _Challenge) {
 					if(Control3.ControlId == "FRAME_MAP") {
 						declare Frame_Map = (Control3 as CMlFrame);
 						foreach(Control4,Frame_Map.Controls) {
-							Page.GetFirstChild("QUAD_LOADING").RelativeRotation += Period / 50.0;
 							if(Control4.ControlId == "FRAME_CHALLENGE_INFO") {
 								if(Control4.DataAttributeGet("challenge") == _Challenge) {
 									declare Quad_Map = (Frame_Map.GetFirstChild("QUAD_MAP") as CMlQuad);
@@ -470,7 +440,6 @@ declare Zones = TextLib::Split("|", LocalUser.ZonePath);
 declare STitleProgress TitleProgress for Page;
 declare STitleMap[Text] TitleProgressCampaign;
 declare Text TitleProgressCampaignName;
-//PreloadMapThumbnails();
 ***
 
 ***Loop***
@@ -832,11 +801,6 @@ else {
 		ZoneSwitchTime = Now;
 		ZoneSwitched = False;
 	}
-}
-
-if(!MapsPreloaded) {
-	UpdateMapThumbnails(Challenges[0]);
-	MapsPreloaded = True;
 }
 
 if(PreloadThumbnails) {
