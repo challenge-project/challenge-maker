@@ -122,6 +122,8 @@ Void Update(Text _Uid, Integer _CurrentCar, Boolean _NoAnim) {
 			else
 				Label.SetText(Rank^") "^Record.Nickname^"$z / "^TimeToTextWithMilli(Record.Time));
 			
+			Label.Show();
+			
 			if(Label.ComputeWidth(Label.Value) <= 218)
 				Label.TextSizeReal = TextLib::ToReal(Label.DataAttributeGet("defaulttextsize"));
 			while(Label.ComputeWidth(Label.Value) > 218)
@@ -133,7 +135,7 @@ Void Update(Text _Uid, Integer _CurrentCar, Boolean _NoAnim) {
 			if(!_NoAnim) {
 				AnimMgr.Flush(Label);
 				Label.RelativePosition_V3.X = 300.;
-				AnimMgr.Add(Label, "<label hidden=\"0\" pos=\"0 "^Label.RelativePosition_V3.Y^"\"/>", Now+I*100, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+				AnimMgr.Add(Label, "<label pos=\"0 "^Label.RelativePosition_V3.Y^"\"/>", Now+I*100, 500, CAnimManager::EAnimManagerEasing::QuadOut);
 			}
 		}
 		else {

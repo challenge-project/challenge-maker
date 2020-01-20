@@ -162,9 +162,9 @@
 		<quad pos="0 -15" z-index="1" size="46 13" bgcolor="111C" halign="center" valign="center"/>
 		<label pos="-20 20" z-index="1" size="40 10" text="A01" textsize="8" textfont="Oswald" id="LABEL_NAME" textemboss="1"/>
 		<label pos="-20 10" z-index="1" size="40 5" text="REVERSE" textsize="3" textfont="Oswald" id="LABEL_CHALLENGE" textemboss="1" autonewline="1"/>
-		<label pos="-20 -15" z-index="2" size="15 5" text="?/?" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1" hidden="1"/>
-		<label pos="-20 -20" z-index="2" size="15 4" text="?" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1" hidden="1"/>
-		<frame pos="-15 -15" class="LOADING" id="FRAME_LOADING" z-index="2">
+		<label pos="-20 -15" z-index="2" size="15 5" text="?/?" textsize="3" textfont="Gotham/Gotham-Bold" id="LABEL_RANK" valign="bottom" textemboss="1"/>
+		<label pos="-20 -20" z-index="2" size="15 4" text="?" textsize="2" textfont="Gotham/Gotham-Bold" id="LABEL_SP" valign="bottom" textcolor="0C0" textemboss="1"/>
+		<frame pos="-15 -15" class="LOADING" id="FRAME_LOADING" z-index="2" hidden="1">
 			<quad pos="0.2 -0.2" z-index="0" size="7.5 7.5" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer" colorize="000"/>
 			<quad pos="0 0" z-index="1" size="7.5 7.5" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer"/>
 		</frame>

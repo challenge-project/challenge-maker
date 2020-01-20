@@ -94,9 +94,6 @@ Void PreloadMapThumbnails() {
 declare Boolean MapsPreloaded;
 
 Void UpdateMapThumbnails(Text _Challenge) {
-	//Page.GetFirstChild("FRAME_LOADING").Show();
-
-	//declare STitleProgress TitleProgress for Page;
 	declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
 	foreach(Control, Frame_Campaign_Menu.Controls) {
 		if(Control.ControlId == "FRAME_CAMPAIGN") {
@@ -143,11 +140,11 @@ Void UpdateMapThumbnails(Text _Challenge) {
 			}
 		}
 	}
-
-	Page.GetFirstChild("FRAME_LOADING").Hide();
 }
 
-Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
+declare Integer UpdateScores;
+
+Void UpdateQuickMapInfo(CMlQuad _QuadMap, Boolean _Reload) {
 	declare Frame_QuickMapInfo = (Page.GetFirstChild("FRAME_QUICKMAPINFO") as CMlFrame);
 	declare STitleProgress TitleProgress for Page;
 
@@ -159,7 +156,7 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 	}
 	else {
 		Frame_QuickMapInfo.RelativePosition_V3 = _QuadMap.AbsolutePosition_V3;
-		if(!Frame_QuickMapInfo.Visible) {
+		if(!Frame_QuickMapInfo.Visible || _Reload) {
 			declare Name = _QuadMap.Parent.DataAttributeGet("name");
 			declare Author = _QuadMap.Parent.DataAttributeGet("author");
 			declare Car = _QuadMap.Parent.DataAttributeGet("defaultcar");
@@ -283,6 +280,10 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
 			Frame_QuickMapInfo.Show();
 		}
 	}
+}
+
+Void UpdateQuickMapInfo(CMlQuad _QuadMap) {
+	UpdateQuickMapInfo(_QuadMap, False);
 }
 
 declare Boolean PreloadThumbnails;
@@ -420,7 +421,7 @@ declare ZoneSwitchTime = -1;
 declare CurrentCampaign = 0;
 declare LastCampaign = 0;
 declare Integer CurrentChallenge for This;
-declare LastChallenge = 0;
+declare LastChallenge = CurrentChallenge;
 
 declare HoldScrollbar = False;
 declare HoldScrollbarPos = 0.;
@@ -461,7 +462,7 @@ declare SplittedZones = SplitZones(LocalUser.ZonePath);
 declare ZoneSwitched = False;
 declare ZoneCounter = 0;
 
-declare UpdateScores = -1;
+UpdateScores = -1;
 declare UpdateScoreProgress = 0;
 
 declare Zones = TextLib::Split("|", LocalUser.ZonePath);
@@ -544,7 +545,7 @@ foreach(Event,PendingEvents) {
 				declare Quad = (Event.Control as CMlQuad);
 				CurrentMapFocused = Quad;
 				RevealMapInfoTime = Now;
-				//ZoneSwitchTime = Now;
+				ZoneSwitchTime = Now;
 				
 				ZoneCounter = 0;
 				ZoneSwitched = False;
@@ -651,8 +652,10 @@ CurrentChallenge = MathLib::NearestInteger(Frame_Challenges.RelativePosition_V3.
 if(CurrentChallenge != LastChallenge) {
 	LastChallenge = CurrentChallenge;
 	UpdateMapThumbnails(Challenges[CurrentChallenge]);
-	UpdateScoreProgress = 0;
-	UpdateScores = Now;
+	if(TitleProgress.Campaigns.count > 0) {
+		UpdateScoreProgress = 0;
+		UpdateScores = Now;
+	}
 }
 
 if(UpdateScores != -1 && Now - UpdateScores > 500) {
@@ -678,6 +681,9 @@ if(UpdateScores != -1 && Now - UpdateScores > 500) {
 				TitleProgressCampaign = TitleProgress.Campaigns[CampaignName];
 			TitleProgressCampaignName = CampaignName;
 		}
+
+		if(CurrentMapFocused != Null && Frame_Map.GetFirstChild("QUAD_MAP").Id == CurrentMapFocused.Id)
+			UpdateQuickMapInfo(CurrentMapFocused, True);
 
 		foreach(Control in Frame_Map.Controls) {
 			if(Control.ControlId == "FRAME_CHALLENGE_INFO") {
@@ -733,6 +739,7 @@ if(UpdateScores != -1 && Now - UpdateScores > 500) {
 		UpdateScoreProgress += 1;
 	}
 	else {
+		Frame_QuickMapInfo.GetFirstChild("FRAME_LOADING").Hide();
 		UpdateScoreProgress = 0;
 		UpdateScores = -1;
 	}
