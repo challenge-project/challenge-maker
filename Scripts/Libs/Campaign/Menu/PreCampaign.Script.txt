@@ -111,6 +111,7 @@ Void Event(CManiaAppEvent _Event) {
 						Layers::Hide("PreCampaign", True);
 						Layers::Show("Campaign", True);
 						Layers::SendEvent("Campaign", "Suggest", [CampaignId, ChallengeId]);
+						Layers::SendEvent("Campaign", "Scores");
 					}
 					case "Quickplay": {
 						declare CampaignId = TextLib::ToInteger(Event.CustomEventData[0]);

@@ -19,35 +19,34 @@
 
 #Struct STitleMapRecordZone {
 	Integer Count;
+	Integer Best;
 	Integer Rank;
+	Integer RankSP;
+	Integer SP;
+	Integer AP;
+	Real WRPB;
 }
 
 #Struct STitleMapRecord {
-	Integer WR;
-	STitleMapRecordZone[Text] Zones;
-	Integer PB;
-	Integer Skillpoints;
-	Integer ActivityPoints;
-	Real WRPB;
 	Real Difficulty;
 	Real Quality;
+	Integer PB;
+	STitleMapRecordZone[Text] Zones;
 	Text[] Star;
 }
 
 #Struct STitleMap {
 	Text Name;
-	STitleMapRecord[Text] Records;
-	Integer Skillpoints;
-	Integer ActivityPoints;
+	STitleMapRecord[Text] Cars;
 }
 
 #Struct STitleProgress {
 	Integer Records;
-	Integer Skillpoints;
-	Integer ActivityPoints;
+	Integer SP;
+	Integer AP;
 	Real WRPB;
 	Real Time; // in seconds
-	STitleMap[Text][Text] Campaigns;
+	STitleMap[Text][Text] Maps;
 }
 
 declare CMlQuad CurrentMapFocused;
@@ -145,21 +144,22 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap, Boolean _Reload) {
 
 			declare MapExists = False;
 
-			foreach(Campaign => Maps, TitleProgress.Campaigns) {
+			foreach(Campaign => Maps, TitleProgress.Maps) {
 				foreach(Control,_QuadMap.Parent.Controls) {
 					if(Control.ControlId == "FRAME_CHALLENGE_INFO" && Control.DataAttributeGet("challenge") == Challenges[CurrentChallenge]) {
 						declare MapUid = Control.DataAttributeGet("uid");
 						if(Maps.existskey(MapUid)) {
-							(Frame_QuickMapInfo.GetFirstChild("LABEL_SP") as CMlLabel).SetText(Maps[MapUid].Skillpoints^"");
-							if(Maps[MapUid].Records.existskey(Car)) {
-								declare Rank = Maps[MapUid].Records[Car].Zones["World"].Rank;
-								declare Count = Maps[MapUid].Records[Car].Zones["World"].Count;
+							if(Maps[MapUid].Cars.existskey(Car)) {
+								(Frame_QuickMapInfo.GetFirstChild("LABEL_SP") as CMlLabel).SetText(Maps[MapUid].Cars[Car].Zones["World"].SP^"");
+
+								declare Rank = Maps[MapUid].Cars[Car].Zones["World"].Rank;
+								declare Count = Maps[MapUid].Cars[Car].Zones["World"].Count;
 								if(Rank > 0)
 									(Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel).SetText(Rank^"/"^Count);
 								else
 									(Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel).SetText("?/"^Count);
 								
-								foreach(Zon => RankCount in Maps[MapUid].Records[Car].Zones) {
+								foreach(Zon => RankCount in Maps[MapUid].Cars[Car].Zones) {
 									Frame_QuickMapInfo.GetFirstChild("LABEL_RANK").DataAttributeSet("rank-"^Zon, RankCount.Rank^"");
 									Frame_QuickMapInfo.GetFirstChild("LABEL_RANK").DataAttributeSet("count-"^Zon, RankCount.Count^"");
 								}
@@ -186,9 +186,9 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap, Boolean _Reload) {
 									Gauge_Quality.Color = <1.,1.,1.>;
 								}
 
-								if(Maps[MapUid].Records.existskey(SectionCar)) {
-									declare Difficulty = Maps[MapUid].Records[SectionCar].Difficulty;
-									declare Quality = Maps[MapUid].Records[SectionCar].Quality;
+								if(Maps[MapUid].Cars.existskey(SectionCar)) {
+									declare Difficulty = Maps[MapUid].Cars[SectionCar].Difficulty;
+									declare Quality = Maps[MapUid].Cars[SectionCar].Quality;
 
 									if(Difficulty == -1.)
 										Gauge_Difficulty.Ratio = 0.;
@@ -200,7 +200,7 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap, Boolean _Reload) {
 									else
 										Gauge_Quality.Ratio = Quality;
 									
-									declare Star = Maps[MapUid].Records[SectionCar].Star;
+									declare Star = Maps[MapUid].Cars[SectionCar].Star;
 
 									if(Star.count == 0) {
 										Quad_Star.Hide();
@@ -591,8 +591,9 @@ foreach(Event,PendingEvents) {
 				case "Scores": {
 					declare PreviousSkillpoints = TextLib::ToInteger(Label_Skillpoints.Value);
 					declare PreviousActivityPoints = TextLib::ToInteger(Label_ActivityPoints.Value);
-					Label_Skillpoints.SetText(TitleProgress.Skillpoints^""); // Animate this
-					Label_ActivityPoints.SetText(TitleProgress.ActivityPoints^""); // Animate this
+					Label_Skillpoints.SetText(TitleProgress.SP^""); // Animate this
+					Label_ActivityPoints.SetText(TitleProgress.AP^""); // Animate this
+					log("wtf");
 
 					UpdateScoreProgress = 0;
 					UpdateScores = Now;
@@ -621,7 +622,7 @@ CurrentChallenge = MathLib::NearestInteger(Frame_Challenges.RelativePosition_V3.
 if(CurrentChallenge != LastChallenge) {
 	LastChallenge = CurrentChallenge;
 	UpdateMapThumbnails(Challenges[CurrentChallenge]);
-	if(TitleProgress.Campaigns.count > 0) {
+	if(TitleProgress.Maps.count > 0) {
 		UpdateScoreProgress = 0;
 		UpdateScores = Now;
 	}
@@ -646,8 +647,8 @@ if(UpdateScores != -1 && Now - UpdateScores > 500) {
 
 		declare CampaignName = Frame_Map.Parent.Parent.DataAttributeGet("campaignname");
 		if(CampaignName != TitleProgressCampaignName) {
-			if(TitleProgress.Campaigns.existskey(CampaignName))
-				TitleProgressCampaign = TitleProgress.Campaigns[CampaignName];
+			if(TitleProgress.Maps.existskey(CampaignName))
+				TitleProgressCampaign = TitleProgress.Maps[CampaignName];
 			TitleProgressCampaignName = CampaignName;
 		}
 
@@ -661,8 +662,8 @@ if(UpdateScores != -1 && Now - UpdateScores > 500) {
 					declare Car = Control.Parent.DataAttributeGet("defaultcar");
 					if(TitleProgressCampaign.existskey(MapUid)) {
 						declare Map = TitleProgressCampaign[MapUid];
-						if(Map.Records.existskey(Car)) {
-							declare Records = Map.Records[Car];
+						if(Map.Cars.existskey(Car)) {
+							declare Records = Map.Cars[Car];
 							foreach(Zon => RankCount in Records.Zones) {
 								if(Zon == "World") {
 									declare Rank = Records.Zones[Zon].Rank;
@@ -675,8 +676,8 @@ if(UpdateScores != -1 && Now - UpdateScores > 500) {
 										Label_Rank.DataAttributeSet("count-"^Zon, Count^"");
 
 										declare PreviousSP = Label_SP.DataAttributeGet("skillpoints");
-										Label_SP.SetText(Map.Skillpoints^""); // Animate this after requesting ends
-										Label_SP.DataAttributeSet("skillpoints", Map.Skillpoints^"");
+										Label_SP.SetText(Map.Cars[Car].Zones["World"].SP^""); // Animate this after requesting ends
+										Label_SP.DataAttributeSet("skillpoints", Map.Cars[Car].Zones["World"].SP^"");
 
 										AnimMgr.Add(Label_Rank, "<quad opacity=\"1\" hidden=\"0\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
 										AnimMgr.Add(Label_SP, "<quad opacity=\"1\" hidden=\"0\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
