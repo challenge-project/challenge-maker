@@ -593,7 +593,6 @@ foreach(Event,PendingEvents) {
 					declare PreviousActivityPoints = TextLib::ToInteger(Label_ActivityPoints.Value);
 					Label_Skillpoints.SetText(TitleProgress.SP^""); // Animate this
 					Label_ActivityPoints.SetText(TitleProgress.AP^""); // Animate this
-					log("wtf");
 
 					UpdateScoreProgress = 0;
 					UpdateScores = Now;
