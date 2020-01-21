@@ -353,6 +353,8 @@ declare Frame_Loading_Thumbnails = (Page.GetFirstChild("FRAME_LOADING_THUMBNAILS
 declare Frame_Main_Campaign = (Page.GetFirstChild("FRAME_MAIN_CAMPAIGN") as CMlFrame);
 declare Frame_Main_Panel = (Page.GetFirstChild("FRAME_MAIN_PANEL") as CMlFrame);
 
+(Page.GetFirstChild("LABEL_VERSION") as CMlLabel).Value = TextLib::Split(" ", LoadedTitle.TitleVersion)[0];
+
 declare HoldItSteady = False;
 declare HoldItSteadyLoc = 0.;
 declare HoldItSteadyMouse = 0.;

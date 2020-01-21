@@ -139,17 +139,11 @@
 						</frame>
 					</frame>
 				</frame>
-				<frame pos="-25 -152.5">
-					<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="222" id="QUAD_BUTTON_REFRESH"/>
-					<quad pos="0 0" z-index="1" size="9 9" valign="center" halign="center" style="UIConstruction_Buttons" substyle="Reload"/>
-				</frame>
-				<frame pos="-15 -152.5">
-					<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="222" id="QUAD_BUTTON_FOLDER"/>
-					<label pos="0 0.3" z-index="1" size="10 10" text="" halign="center" textfont="Oswald" valign="center"/>
-				</frame>
-				<frame pos="10 -152.5">
-					<quad pos="0 0" z-index="0" size="40 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="600" id="QUAD_BUTTON_EXIT"/>
-					<label pos="0 0.1" z-index="1" size="40 10" text="" halign="center" textfont="Oswald" valign="center"/>
+				<label pos="-10 -151" z-index="0" size="37.5 4" text="Better Campaign Update" halign="center" valign="center2" textsize="2" autonewline="1" textfont="Oswald" style="TextTitle3"/>
+				<label pos="-10 -153.5" z-index="0" size="37.5 4" text="[unknown version]" halign="center" textsize="1" textfont="BiryaniDemiBold" textcolor="888" id="LABEL_VERSION"/>
+				<frame pos="20 -152.5">
+					<quad pos="0 0" z-index="0" size="20 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="600" id="QUAD_BUTTON_EXIT"/>
+					<label pos="0 0.1" z-index="1" size="20 10" text="" halign="center" textfont="Oswald" valign="center"/>
 				</frame>
 			</frame>
 		</frame>
