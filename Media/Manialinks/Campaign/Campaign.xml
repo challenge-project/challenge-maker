@@ -139,7 +139,7 @@
 						</frame>
 					</frame>
 				</frame>
-				<label pos="-10 -151" z-index="0" size="37.5 4" text="Better Campaign Update" halign="center" valign="center2" textsize="2" autonewline="1" textfont="Oswald" style="TextTitle3"/>
+				<label pos="-10 -151" z-index="0" size="37.5 4" text="Leaderboards & Maker Update" halign="center" valign="center2" textsize="1.4" autonewline="1" textfont="Oswald" style="TextTitle3"/>
 				<label pos="-10 -153.5" z-index="0" size="37.5 4" text="[unknown version]" halign="center" textsize="1" textfont="BiryaniDemiBold" textcolor="888" id="LABEL_VERSION"/>
 				<frame pos="20 -152.5">
 					<quad pos="0 0" z-index="0" size="20 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="600" id="QUAD_BUTTON_EXIT"/>
@@ -184,61 +184,81 @@
 				<frame pos="0 -5" data-car="CanyonCar">
 					<label z-index="0" size="12.5 5" text="CanyonCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
 					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<label pos="22.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_DIFFICULTY_COUNT" textemboss="1"/>
 					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+					<label pos="39.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_QUALITY_COUNT" textemboss="1"/>
 					<quad pos="47 0" z-index="1" size="5 5" halign="center" valign="center" style="BgRaceScore2" substyle="Fame" id="QUAD_STAR" hidden="1"/>
 				</frame>
 				<frame pos="0 -9" data-car="StadiumCar">
 					<label z-index="0" size="12.5 5" text="StadiumCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
 					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<label pos="22.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_DIFFICULTY_COUNT" textemboss="1"/>
 					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+					<label pos="39.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_QUALITY_COUNT" textemboss="1"/>
 					<quad pos="47 0" z-index="1" size="5 5" halign="center" valign="center" style="BgRaceScore2" substyle="Fame" id="QUAD_STAR" hidden="1"/>
 				</frame>
 				<frame pos="0 -13" data-car="ValleyCar">
 					<label z-index="0" size="12.5 5" text="ValleyCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
 					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<label pos="22.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_DIFFICULTY_COUNT" textemboss="1"/>
 					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+					<label pos="39.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_QUALITY_COUNT" textemboss="1"/>
 					<quad pos="47 0" z-index="1" size="5 5" halign="center" valign="center" style="BgRaceScore2" substyle="Fame" id="QUAD_STAR" hidden="1"/>
 				</frame>
 				<frame pos="0 -17" data-car="LagoonCar">
 					<label z-index="0" size="12.5 5" text="LagoonCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
 					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<label pos="22.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_DIFFICULTY_COUNT" textemboss="1"/>
 					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+					<label pos="39.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_QUALITY_COUNT" textemboss="1"/>
 					<quad pos="47 0" z-index="1" size="5 5" halign="center" valign="center" style="BgRaceScore2" substyle="Fame" id="QUAD_STAR" hidden="1"/>
 				</frame>
 				<frame pos="0 -21" data-car="DesertCar">
 					<label z-index="0" size="12.5 5" text="DesertCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
 					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<label pos="22.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_DIFFICULTY_COUNT" textemboss="1"/>
 					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+					<label pos="39.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_QUALITY_COUNT" textemboss="1"/>
 					<quad pos="47 0" z-index="1" size="5 5" halign="center" valign="center" style="BgRaceScore2" substyle="Fame" id="QUAD_STAR" hidden="1"/>
 				</frame>
 				<frame pos="0 -25" data-car="RallyCar">
 					<label z-index="0" size="12.5 5" text="RallyCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
 					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<label pos="22.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_DIFFICULTY_COUNT" textemboss="1"/>
 					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+					<label pos="39.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_QUALITY_COUNT" textemboss="1"/>
 					<quad pos="47 0" z-index="1" size="5 5" halign="center" valign="center" style="BgRaceScore2" substyle="Fame" id="QUAD_STAR" hidden="1"/>
 				</frame>
 				<frame pos="0 -29" data-car="SnowCar">
 					<label z-index="0" size="12.5 5" text="SnowCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
 					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<label pos="22.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_DIFFICULTY_COUNT" textemboss="1"/>
 					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+					<label pos="39.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_QUALITY_COUNT" textemboss="1"/>
 					<quad pos="47 0" z-index="1" size="5 5" halign="center" valign="center" style="BgRaceScore2" substyle="Fame" id="QUAD_STAR" hidden="1"/>
 				</frame>
 				<frame pos="0 -33" data-car="IslandCar">
 					<label z-index="0" size="12.5 5" text="IslandCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
 					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<label pos="22.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_DIFFICULTY_COUNT" textemboss="1"/>
 					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+					<label pos="39.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_QUALITY_COUNT" textemboss="1"/>
 					<quad pos="47 0" z-index="1" size="5 5" halign="center" valign="center" style="BgRaceScore2" substyle="Fame" id="QUAD_STAR" hidden="1"/>
 				</frame>
 				<frame pos="0 -37" data-car="BayCar">
 					<label z-index="0" size="12.5 5" text="BayCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
 					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<label pos="22.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_DIFFICULTY_COUNT" textemboss="1"/>
 					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+					<label pos="39.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_QUALITY_COUNT" textemboss="1"/>
 					<quad pos="47 0" z-index="1" size="5 5" halign="center" valign="center" style="BgRaceScore2" substyle="Fame" id="QUAD_STAR" hidden="1"/>
 				</frame>
 				<frame pos="0 -41" data-car="CoastCar">
 					<label z-index="0" size="12.5 5" text="CoastCar" valign="center2" textfont="Oswald" textsize="1" pos="0 -.2" id="LABEL_CAR"/>
 					<gauge pos="13 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_DIFFICULTY"/>
+					<label pos="22.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_DIFFICULTY_COUNT" textemboss="1"/>
 					<gauge pos="30 0" z-index="0" size="19 7" valign="center" drawbg="0" id="GAUGE_CAR_QUALITY"/>
+					<label pos="39.5 0.4" z-index="1" size="19 5" text="0" valign="center" textsize="1.5" textcolor="777" halign="center" textfont="BiryaniDemiBold" id="LABEL_QUALITY_COUNT" textemboss="1"/>
 					<quad pos="47 0" z-index="1" size="5 5" halign="center" valign="center" style="BgRaceScore2" substyle="Fame" id="QUAD_STAR" hidden="1"/>
 				</frame>
 			</frame>

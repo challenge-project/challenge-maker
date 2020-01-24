@@ -59,6 +59,8 @@
 #Struct STitleMapRecord {
 	Real Difficulty;
 	Real Quality;
+	Integer DifficultyCount;
+	Integer QualityCount;
 	Integer PB;
 	STitleMapRecordZone[Text] Zones;
 	Text[] Star;

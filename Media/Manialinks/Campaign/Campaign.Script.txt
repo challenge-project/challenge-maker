@@ -30,6 +30,8 @@
 #Struct STitleMapRecord {
 	Real Difficulty;
 	Real Quality;
+	Integer DifficultyCount;
+	Integer QualityCount;
 	Integer PB;
 	STitleMapRecordZone[Text] Zones;
 	Text[] Star;
@@ -173,22 +175,30 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap, Boolean _Reload) {
 								declare Label = (Frame.GetFirstChild("LABEL_CAR") as CMlLabel);
 								declare Gauge_Difficulty = (Frame.GetFirstChild("GAUGE_CAR_DIFFICULTY") as CMlGauge);
 								declare Gauge_Quality = (Frame.GetFirstChild("GAUGE_CAR_QUALITY") as CMlGauge);
+								declare Label_Difficulty_Count = (Frame.GetFirstChild("LABEL_DIFFICULTY_COUNT") as CMlLabel);
+								declare Label_Quality_Count = (Frame.GetFirstChild("LABEL_QUALITY_COUNT") as CMlLabel);
 								declare Quad_Star = (Frame.GetFirstChild("QUAD_STAR") as CMlQuad);
 
 								if(Car == SectionCar) {
 									Label.TextColor = <0.,1.,1.>;
 									Gauge_Difficulty.Color = <0.,1.,1.>;
 									Gauge_Quality.Color = <0.,1.,1.>;
+									Label_Difficulty_Count.TextColor = <.0,.46,.46>;
+									Label_Quality_Count.TextColor = <.0,.46,.46>;
 								}
 								else {
 									Label.TextColor = <1.,1.,1.>;
 									Gauge_Difficulty.Color = <1.,1.,1.>;
 									Gauge_Quality.Color = <1.,1.,1.>;
+									Label_Difficulty_Count.TextColor = <.46,.46,.46>;
+									Label_Quality_Count.TextColor = <.46,.46,.46>;
 								}
 
 								if(Maps[MapUid].Cars.existskey(SectionCar)) {
 									declare Difficulty = Maps[MapUid].Cars[SectionCar].Difficulty;
 									declare Quality = Maps[MapUid].Cars[SectionCar].Quality;
+									declare DifficultyCount = Maps[MapUid].Cars[SectionCar].DifficultyCount;
+									declare QualityCount = Maps[MapUid].Cars[SectionCar].QualityCount;
 
 									if(Difficulty == -1.)
 										Gauge_Difficulty.Ratio = 0.;
@@ -200,6 +210,15 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap, Boolean _Reload) {
 									else
 										Gauge_Quality.Ratio = Quality;
 									
+									if(DifficultyCount == 0)
+										Label_Difficulty_Count.Value = "";
+									else
+										Label_Difficulty_Count.Value = DifficultyCount^"";
+									if(QualityCount == 0)
+										Label_Quality_Count.Value = "";
+									else
+										Label_Quality_Count.Value = QualityCount^"";
+									
 									declare Star = Maps[MapUid].Cars[SectionCar].Star;
 
 									if(Star.count == 0) {
@@ -210,11 +229,19 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap, Boolean _Reload) {
 										Label.TextColor = <1.,1.,0.>;
 										Gauge_Difficulty.Color = <1.,1.,0.>;
 										Gauge_Quality.Color = <1.,1.,0.>;
+										Label_Difficulty_Count.TextColor = <1.,1.,0.>;
+										Label_Quality_Count.TextColor = <1.,1.,0.>;
 									}
 								}
 								else {
 									Gauge_Difficulty.Ratio = 0.;
 									Gauge_Quality.Ratio = 0.;
+									Gauge_Difficulty.Color = <1.,0.,0.>;
+									Gauge_Quality.Color = <1.,0.,0.>;
+									
+									Label.TextColor = <1.,0.,0.>;
+									Label_Difficulty_Count.Value = "";
+									Label_Quality_Count.Value = "";
 								}
 							}
 
@@ -231,16 +258,18 @@ Void UpdateQuickMapInfo(CMlQuad _QuadMap, Boolean _Reload) {
 				foreach(Control in (Frame_QuickMapInfo.GetFirstChild("FRAME_CARS") as CMlFrame).Controls) {
 					((Control as CMlFrame).GetFirstChild("GAUGE_CAR_DIFFICULTY") as CMlGauge).Ratio = 0.;
 					((Control as CMlFrame).GetFirstChild("GAUGE_CAR_QUALITY") as CMlGauge).Ratio = 0.;
+					((Control as CMlFrame).GetFirstChild("GAUGE_CAR_DIFFICULTY") as CMlGauge).Color = <1.,0.,0.>;
+					((Control as CMlFrame).GetFirstChild("GAUGE_CAR_QUALITY") as CMlGauge).Color = <1.,0.,0.>;
+
+					((Control as CMlFrame).GetFirstChild("LABEL_DIFFICULTY_COUNT") as CMlLabel).Value = "";
+					((Control as CMlFrame).GetFirstChild("LABEL_QUALITY_COUNT") as CMlLabel).Value = "";
+					((Control as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).TextColor = <1.,0.,0.>;
 
 					if(Car == Control.DataAttributeGet("car")) {
-						((Control as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).TextColor = <0.,1.,1.>;
-						((Control as CMlFrame).GetFirstChild("GAUGE_CAR_DIFFICULTY") as CMlGauge).Color = <0.,1.,1.>;
-						((Control as CMlFrame).GetFirstChild("GAUGE_CAR_QUALITY") as CMlGauge).Color = <0.,1.,1.>;
+						
 					}
 					else {
-						((Control as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).TextColor = <1.,1.,1.>;
-						((Control as CMlFrame).GetFirstChild("GAUGE_CAR_DIFFICULTY") as CMlGauge).Color = <1.,1.,1.>;
-						((Control as CMlFrame).GetFirstChild("GAUGE_CAR_QUALITY") as CMlGauge).Color = <1.,1.,1.>;
+						
 					}
 
 					(Control as CMlFrame).GetFirstChild("QUAD_STAR").Hide();
