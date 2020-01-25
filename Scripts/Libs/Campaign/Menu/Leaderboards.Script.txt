@@ -1,0 +1,105 @@
+#Include "Libs/BigBang1112/Layers.Script.txt" as Layers
+#Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
+#Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
+#Include "Libs/BigBang1112/Random.Script.txt" as Random
+#Include "Libs/BigBang1112/Http.Script.txt" as Http
+
+#Include "Libs/BigBang1112/Settings.Script.txt" as Settings
+
+#Include "Libs/Challenge/Service/Status.Script.txt" as Service_Status
+
+#Const C_Manialink "Media/Manialinks/Campaign/Leaderboards"
+
+#Struct SLBMostSPUser {
+	Text Login;
+	Text Nickname;
+	Text Zone;
+	Integer SP;
+	Integer Rank;
+}
+
+#Struct SLBMostSP {
+	Integer Count;
+	Real Time;
+	SLBMostSPUser[] Users;
+}
+
+#Struct SLBMostAPUser {
+	Text Login;
+	Text Nickname;
+	Text Zone;
+	Integer AP;
+	Integer Rank;
+}
+
+#Struct SLBMostAP {
+	Integer Count;
+	Real Time;
+	SLBMostAPUser[] Users;
+}
+
+Void Init() {
+	Layers::Create("Leaderboards", Manialink::FromFile(C_Manialink, True, ["Audio"], Settings::Get().Theme));
+}
+
+Void Start() {
+	Layers::Show("Leaderboards", True);
+	
+	declare Text CHALLENGE_TOKEN for LocalUser;
+	declare SuccessMostSP = Http::AsyncPOST("MOST_SKILLPOINTS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{"Challenge_Campaign@bigbang1112"}}}&type=SP""", CHALLENGE_TOKEN);
+	declare SuccessMostAP = Http::AsyncPOST("MOST_ACTIVITY_POINTS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{"Challenge_Campaign@bigbang1112"}}}&type=AP""", CHALLENGE_TOKEN);
+	
+	Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostSP", ""]);
+	Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostAP", ""]);
+}
+
+Void Event(CManiaAppEvent _Event) {
+	declare Event <=> _Event;
+
+	if(Event.Type == CManiaAppEvent::EType::LayerCustomEvent) {
+		switch(Event.CustomEventLayer) {
+			case Layers::Get("Leaderboards"): {
+				switch(Event.CustomEventType) {
+					case "Exit": {
+						Layers::Hide("Leaderboards", True);
+						Layers::Show("Top", True);
+						Layers::Show("Bottom", True);
+						Layers::Show("PreCampaign", True);
+					}
+					case "Change": {
+						
+					}
+				}
+			}
+		}
+	}
+}
+
+Void Async() {
+	if(Http::IsCompleted("MOST_SKILLPOINTS")) {
+		if(Http::IsSuccessful("MOST_SKILLPOINTS")) {
+			declare SLBMostSP Leaderboard;
+			declare Success = Leaderboard.fromjson(Http::GetResult("MOST_SKILLPOINTS"));
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostSP", Leaderboard.tojson()]);
+		}
+		else {
+			
+		}
+		Http::Destroy("MOST_SKILLPOINTS");
+	}
+	if(Http::IsCompleted("MOST_ACTIVITY_POINTS")) {
+		if(Http::IsSuccessful("MOST_ACTIVITY_POINTS")) {
+			declare SLBMostAP Leaderboard;
+			declare Success = Leaderboard.fromjson(Http::GetResult("MOST_ACTIVITY_POINTS"));
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostAP", Leaderboard.tojson()]);
+		}
+		else {
+			
+		}
+		Http::Destroy("MOST_ACTIVITY_POINTS");
+	}
+}
+
+Void Loop() {
+	
+}

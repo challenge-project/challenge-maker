@@ -16,16 +16,19 @@
 
 #Include "Libs/Campaign/Menu/Campaign.Script.txt" as Menu_Campaign
 #Include "Libs/Campaign/Menu/PreCampaign.Script.txt" as Menu_PreCampaign
+#Include "Libs/Campaign/Menu/Leaderboards.Script.txt" as Menu_Leaderboards
 
 #Include "Libs/Challenge/Menu/AuthBeta.Script.txt" as Menu_AuthBeta
 #Include "Libs/Challenge/Menu/Replays.Script.txt" as Menu_Replays
 #Include "Libs/Challenge/Menu/Release.Script.txt" as Menu_Release
 #Include "Libs/Challenge/Notification.Script.txt" as Notification
+#Include "Libs/Challenge/DevMode.Script.txt" as DevMode
 
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 
 #Include "Libs/Challenge/Service/Status.Script.txt" as Service_Status
 
+#Setting S_Dev False
 #Setting S_OfflineMode False
 
 Void GetUnauthorizedToken(Service_Status::SStatus _Status) {
@@ -48,6 +51,8 @@ main() {
 		Dictionary::SetTranslationLanguage(Settings::Get().Language);
 		
 		EnableMenuNavigationInputs = True;
+		
+		if(S_Dev) DevMode::Start();
 		
 		declare Authorized = False;
 		
@@ -129,24 +134,28 @@ main() {
 		
 		declare MakerBase::SChallenge[][] Challenges for This;
 		declare JsonChallenges = Challenges.fromjson(File::Read("Media/Challenges.json"));
-		Layers::SendEvent("Preload", "Progress", 1/7.);
+		Layers::SendEvent("Preload", "Progress", 1/8.);
 		yield;
 		Menu_PreCampaign::Init();
-		Layers::SendEvent("Preload", "Progress", 2/7.);
+		Layers::SendEvent("Preload", "Progress", 2/8.);
 		yield;
 		Menu_Campaign::Init();
-		Layers::SendEvent("Preload", "Progress", 3/7.);
+		Layers::SendEvent("Preload", "Progress", 3/8.);
 		yield;
 		Menu_Campaign::InitBuilder();
-		Layers::SendEvent("Preload", "Progress", 4/7.);
+		Layers::SendEvent("Preload", "Progress", 4/8.);
 		yield;
 		Menu_AuthBeta::Init();
-		Layers::SendEvent("Preload", "Progress", 5/7.);
+		Layers::SendEvent("Preload", "Progress", 5/8.);
 		yield;
 		Menu_Replays::Init();
-		Layers::SendEvent("Preload", "Progress", 6/7.);
+		Layers::SendEvent("Preload", "Progress", 6/8.);
+		yield;
+		Menu_Leaderboards::Init();
+		Layers::SendEvent("Preload", "Progress", 7/8.);
+		yield;
 		Layers::Create("Intro", Manialink::FromFile("Media/Manialinks/Campaign/Intro", True, [], Settings::Get().Theme));
-		Layers::SendEvent("Preload", "Progress", 7/7.);
+		Layers::SendEvent("Preload", "Progress", 8/8.);
 		sleep(300);
 		Layers::Hide("Preload", True);
 		sleep(200);
@@ -179,11 +188,13 @@ main() {
 				Menu_Campaign::Event(Event);
 				Menu_AuthBeta::Event(Event);
 				Menu_Replays::Event(Event);
+				Menu_Leaderboards::Event(Event);
 			}
 			
 			Menu_Campaign::Async();
 			Menu_PreCampaign::Async();
 			Menu_Replays::Async();
+			Menu_Leaderboards::Async();
 			Menu_AuthBeta::Async();
 	
 			Auth::Loop();
@@ -191,6 +202,7 @@ main() {
 			Menu_Campaign::Loop();
 			Menu_AuthBeta::Loop();
 			Menu_Replays::Loop();
+			Menu_Leaderboards::Loop();
 
 			if(!Time::Stamp_CreateOnce("STATUS", 10*1000)) {
 				if(Time::Stamp_Reached("STATUS")) {

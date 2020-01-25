@@ -327,7 +327,7 @@ Void Async() {
 				if(L.HasSucceeded) {
 					foreach(Record,L.LeaderBoardInfo) {
 						declare Folders = TextLib::Split("\\", Record.FileName);
-						Folders.removekey(Folders.count-1);
+						declare Removed = Folders.removekey(Folders.count-1);
 						declare FileName = """{{{TextLib::Join("\\", Folders)}}}\{{{TextLib::StripFormatting(MapName)}}}_{{{Challenge}}}_{{{CurrentCar}}}_({{{Time::TimeToFileNameSupportedText(Record.Score)}}}).Replay.Gbx""";
 						Layers::SendEvent("MapMenu", "RecordGhost", [CurrentCar, Record.Login, Record.DisplayName, Record.Score^"", Record.ReplayUrl, FileName]);
 					}

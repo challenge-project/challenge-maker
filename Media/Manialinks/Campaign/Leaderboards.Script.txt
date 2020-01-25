@@ -1,0 +1,143 @@
+#Struct SLBMostSPUser {
+	Text Login;
+	Text Nickname;
+	Text Zone;
+	Integer SP;
+	Integer Rank;
+}
+
+#Struct SLBMostSP {
+	Integer Count;
+	Real Time;
+	SLBMostSPUser[] Users;
+}
+
+#Struct SLBMostAPUser {
+	Text Login;
+	Text Nickname;
+	Text Zone;
+	Integer AP;
+	Integer Rank;
+}
+
+#Struct SLBMostAP {
+	Integer Count;
+	Real Time;
+	SLBMostAPUser[] Users;
+}
+
+***Start***
+***
+Page.GetClassChildren("LOADING", Page.MainFrame, True);
+
+declare Zones = TextLib::Split("|", LocalUser.ZonePath);
+declare Cars = ["CanyonCar", "StadiumCar", "ValleyCar", "LagoonCar", "DesertCar", "RallyCar", "SnowCar", "IslandCar", "BayCar", "CoastCar"];
+
+declare Integer[Text] CurrentZone;
+declare Integer[Text] CurrentCar;
+
+declare End = -1;
+***
+
+***Loop***
+***
+foreach(Event in PendingEvents) {
+	switch(Event.Type) {
+		case CMlScriptEvent::Type::MouseClick: {
+			switch(Event.ControlId) {
+				case "QUAD_BUTTON_EXIT": {
+					SendCustomEvent("Exit", []);
+				}
+			}
+		}
+		case CMlScriptEvent::Type::PluginCustomEvent: {
+			switch(Event.CustomEventType) {
+				case "Show": {
+					
+				}
+				case "Hide": {
+					End = Now;
+				}
+				case "UpdateLeaderboard": {
+					declare Type = Event.CustomEventData[0];
+					declare Data = Event.CustomEventData[1];
+
+					declare CMlFrame LeaderboardFrame;
+					
+					switch (Type) {
+						case "MostSP": {
+							LeaderboardFrame = (Page.GetFirstChild("FRAME_OVERALL_SKILLPOINT") as CMlFrame);
+							declare Frame_LB = (LeaderboardFrame.GetFirstChild("FRAME_LEADERBOARD") as CMlFrame);
+							declare Quad_Loading = LeaderboardFrame.GetFirstChild("QUAD_LOADING");
+
+							if(Data == "") {
+								Frame_LB.Hide();
+								Quad_Loading.Show();
+							}
+							else {
+								declare SLBMostSP Leaderboard;
+								declare Success = Leaderboard.fromjson(Data);
+
+								Quad_Loading.Hide();
+								Frame_LB.Show();
+
+								for(I, 0, Frame_LB.Controls.count-1) {
+									if(Leaderboard.Users.count >= Frame_LB.Controls.count) {
+										declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+										declare User = Leaderboard.Users[I];
+										(Frame.GetFirstChild("LABEL_PLACE") as CMlLabel).Value = TextLib::FormatInteger(User.Rank, 2);
+										(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).Value = User.Nickname;
+										(Frame.GetFirstChild("LABEL_SCORE") as CMlLabel).Value = User.SP^"";
+									}
+								}
+							}
+						}
+						case "MostAP": {
+							LeaderboardFrame = (Page.GetFirstChild("FRAME_OVERALL_ACTIVITY") as CMlFrame);
+							declare Frame_LB = (LeaderboardFrame.GetFirstChild("FRAME_LEADERBOARD") as CMlFrame);
+							declare Quad_Loading = LeaderboardFrame.GetFirstChild("QUAD_LOADING");
+
+							if(Data == "") {
+								Frame_LB.Hide();
+								Quad_Loading.Show();
+							}
+							else {
+								declare SLBMostAP Leaderboard;
+								declare Success = Leaderboard.fromjson(Data);
+
+								Quad_Loading.Hide();
+								Frame_LB.Show();
+
+								for(I, 0, Frame_LB.Controls.count-1) {
+									if(Leaderboard.Users.count >= Frame_LB.Controls.count) {
+										declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+										declare User = Leaderboard.Users[I];
+										(Frame.GetFirstChild("LABEL_PLACE") as CMlLabel).Value = TextLib::FormatInteger(User.Rank, 2);
+										(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).Value = User.Nickname;
+										(Frame.GetFirstChild("LABEL_SCORE") as CMlLabel).Value = User.AP^"";
+									}
+								}
+							}
+						}
+						default: {
+
+						}
+					}
+
+					
+				}
+			}
+		}
+	}
+}
+
+if(End != -1) {
+	if(End < Now) {
+		SendCustomEvent("Hide_Response", []);
+		End = -1;
+	}
+}
+
+foreach(Control,Page.GetClassChildren_Result)
+	Control.RelativeRotation += Period / 5.0;
+***

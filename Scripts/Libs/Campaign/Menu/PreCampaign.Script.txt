@@ -12,6 +12,8 @@
 
 #Include "Libs/Challenge/Menu/Top.Script.txt" as Menu_Top
 
+#Include "Libs/Campaign/Menu/Leaderboards.Script.txt" as Menu_Leaderboards
+
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 #Include "Libs/Challenge/LoadMap.Script.txt" as LoadMap
 
@@ -91,7 +93,7 @@ Void Start() {
 	Menu_Top::Start();
 	
 	if(LoadedTitle.MakerTitleId != "")
-		Web::AsyncTitle("MAKER", LoadedTitle.MakerTitleId);
+		declare Success = Web::AsyncTitle("MAKER", LoadedTitle.MakerTitleId);
 }
 
 Void Event(CManiaAppEvent _Event) {
@@ -129,6 +131,12 @@ Void Event(CManiaAppEvent _Event) {
 					case "Replays": {
 						Layers::Show("Replays", True);
 						Layers::Show("ReplayInfo", True);
+						Layers::Hide("Top", True);
+						Layers::Hide("Bottom", True);
+						Layers::Hide("PreCampaign", True);
+					}
+					case "Leaderboards": {
+						Menu_Leaderboards::Start();
 						Layers::Hide("Top", True);
 						Layers::Hide("Bottom", True);
 						Layers::Hide("PreCampaign", True);

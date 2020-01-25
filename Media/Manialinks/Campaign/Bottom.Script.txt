@@ -23,6 +23,10 @@ foreach(Event,PendingEvents) {
 					SendCustomEvent("Replays", []);
 					PlayAudio(Sound_Click);
 				}
+				case "QUAD_BUTTON_LEADERBOARDS": {
+					SendCustomEvent("Leaderboards", []);
+					PlayAudio(Sound_Click);
+				}
 			}
 		}
 		case CMlScriptEvent::Type::PluginCustomEvent: {
