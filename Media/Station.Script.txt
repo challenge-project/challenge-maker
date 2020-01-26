@@ -1,0 +1,928 @@
+#RequireContext CManiaAppStation
+
+#Include "MathLib" as MathLib
+#Include "TextLib" as TextLib
+
+#Struct SElement {
+	Text Name;
+	Integer Count;
+	Boolean Selected;
+	Boolean Selectable;
+}
+
+Text Construct(Text _Markup, Text _Script) {
+	declare Markup = _Markup;
+	declare Script = _Script;
+
+	return """<manialink version="3">
+			{{{Markup}}}
+			<script><![CDATA[#Include "MathLib" as MathLib
+#Include "TextLib" as TextLib
+#Include "ColorLib" as ColorLib
+#Include "AnimLib" as AnimLib
+#Include "TimeLib" as TimeLib
+
+{{{Script}}}
+
+Void Main() {
+	+++Start+++
+	while(True) {
+		+++Loop+++
+		yield;
+	}
+}
+
+main() {
+	Main();
+}]]></script>
+	</manialink>""";
+}
+
+/*
+// Layers.Script.txt
+// by BigBang1112
+// part of Universe Library Set
+
+// Layers library similar to Nadeo's one that supports CManiaApp.
+
+// This library does not depend on any other library from the Universe Library Set.
+// You can use this library independently, although it's recommended to use the whole set.
+*/
+
+/*
+// Compatible contexts:
+// - CManiaApp
+*/
+
+/*
+// Boolean Exists(Text _LayerName)
+// CUILayer Get(Text _LayerName)
+// CUILayer Get(Ident _LayerId)
+// Text GetName(Ident _LayerId)
+// Text GetName(CUILayer _Layer)
+// Void Destroy(Text _LayerName)
+// Void DestroyAll()
+// Void Create(Text _LayerName, Text _LayerManialink, Boolean IsVisible, CUILayer::EUILayerType _LayerType)
+// Void Create(Text _LayerName, Text _LayerManialink, Boolean IsVisible)
+// Void Create(Text _LayerName, Text _LayerManialink)
+// Void Create(Text _LayerName)
+// Void SetType(Text _LayerName, CUILayer::EUILayerType _LayerType)
+// Void SetAnimationIn(Text _LayerName, CUILayer::EUILayerAnimation _Animation)
+// Void SetAnimationOut(Text _LayerName, CUILayer::EUILayerAnimation _Animation)
+// Void SetAnimationInOut(Text _LayerName, CUILayer::EUILayerAnimation _Animation)
+// Void Show(Text _LayerName)
+// Void ShowOnly(Text _LayerName)
+// Void Hide(Text _LayerName)
+// Void SendEvent(Text _LayerName, Text _Type, Text[] _Data)
+// Void SendEvent(Text _LayerName, Text _Type, Text _Data)
+// Void SendEvent(Text _LayerName, Text _Type)
+*/
+
+declare Ident[Text] G_Layers;
+
+Boolean Exists(Text _LayerName) {
+	if(G_Layers.existskey(_LayerName)) return True;
+	return False;
+}
+
+CUILayer Get(Text _LayerName) {
+	if(Exists(_LayerName)) return UILayers[G_Layers[_LayerName]];
+	return Null;
+}
+
+CUILayer Get(Ident _LayerId) {
+	if(G_Layers.exists(_LayerId)) return UILayers[_LayerId];
+	return Null;
+}
+
+Text GetName(Ident _LayerId) {
+	if(G_Layers.exists(_LayerId)) return G_Layers.keyof(_LayerId);
+	return "";
+}
+
+Text GetName(CUILayer _Layer) {
+	if (_Layer == Null) return "";
+	return GetName(_Layer.Id);
+}
+
+Void Destroy(Text _LayerName) {
+	if(!Exists(_LayerName)) return;
+	UILayerDestroy(UILayers[G_Layers[_LayerName]]);
+	declare Removed = G_Layers.removekey(_LayerName);
+}
+
+Void DestroyAll() {
+	foreach(LayerName => LayerId in G_Layers) {
+		Destroy(LayerName);
+	}
+}
+
+Void Create(Text _LayerName, Text _LayerManialink, Boolean _IsVisible, Boolean _ShowEvent, CUILayer::EUILayerType _LayerType) {
+	if(Exists(_LayerName)) Destroy(_LayerName);
+	declare NewLayer = UILayerCreate();
+	NewLayer.ManialinkPage = _LayerManialink;
+	if(_ShowEvent) LayerCustomEvent(NewLayer, "Show", []);
+	NewLayer.IsVisible = _IsVisible;
+	NewLayer.Type = _LayerType;
+	G_Layers[_LayerName] = NewLayer.Id;
+}
+
+Void Create(Text _LayerName, Text _LayerManialink, Boolean _IsVisible, Boolean _ShowEvent) {
+	Create(_LayerName, _LayerManialink, _IsVisible, _ShowEvent, CUILayer::EUILayerType::Normal);
+}
+
+Void Create(Text _LayerName, Text _LayerManialink, Boolean _IsVisible) {
+	Create(_LayerName, _LayerManialink, _IsVisible, False, CUILayer::EUILayerType::Normal);
+}
+
+Void Create(Text _LayerName, Text _LayerManialink) {
+	Create(_LayerName, _LayerManialink, False);
+}
+
+Void Create(Text _LayerName) {
+	Create(_LayerName, "", False);
+}
+
+Void Update(Text _LayerName, Text _LayerManialink) {
+	declare Layer <=> Get(_LayerName);
+	if(Layer == Null) return;
+	Layer.ManialinkPage = _LayerManialink;
+}
+
+Void SetType(Text _LayerName, CUILayer::EUILayerType _LayerType) {
+	declare Layer <=> Get(_LayerName);
+	if(Layer == Null) return;
+	Layer.Type = _LayerType;
+}
+
+Void SetAnimationIn(Text _LayerName, CUILayer::EUILayerAnimation _Animation) {
+	declare Layer <=> Get(_LayerName);
+	if(Layer == Null) return;
+	Layer.InAnimation = _Animation;
+}
+
+Void SetAnimationOut(Text _LayerName, CUILayer::EUILayerAnimation _Animation) {
+	declare Layer <=> Get(_LayerName);
+	if(Layer == Null) return;
+	Layer.OutAnimation = _Animation;
+}
+
+Void SetAnimationInOut(Text _LayerName, CUILayer::EUILayerAnimation _Animation) {
+	declare Layer <=> Get(_LayerName);
+	if(Layer == Null) return;
+	Layer.InOutAnimation = _Animation;
+}
+
+CMlPage Page(Text _LayerName) {
+	declare Layer <=> Get(_LayerName);
+	if(Layer == Null) return Null;
+	return Layer.LocalPage;
+}
+
+Void Show(Text _LayerName, Boolean _ShowEvent) {
+	declare Layer <=> Get(_LayerName);
+	if(Layer == Null) return;
+	if(_ShowEvent) LayerCustomEvent(Layer, "Show", []);
+	Layer.IsVisible = True;
+}
+
+Void Show(Text _LayerName) {
+	Show(_LayerName, False);
+}
+
+Void Hide(Text _LayerName, Boolean _HideEvent) {
+	declare Layer <=> Get(_LayerName);
+	if(Layer == Null) return;
+	if(_HideEvent) LayerCustomEvent(Layer, "Hide", []);
+	else Get(_LayerName).IsVisible = False;
+}
+
+Void Hide(Text _LayerName) {
+	Hide(_LayerName, False);
+}
+
+Void ShowOnly(Text _LayerName, Boolean _ShowEvent, Boolean _HideEvent) {
+	foreach(Layer,G_Layers) Hide(_LayerName, _HideEvent);
+	Show(_LayerName, _ShowEvent);
+}
+
+Void ShowOnly(Text _LayerName) {
+	ShowOnly(_LayerName, False, False);
+}
+
+Void SendEvent(Text _LayerName, Text _Type, Text[] _Data) {
+	LayerCustomEvent(Get(_LayerName), _Type, _Data);
+}
+
+Void SendEvent(Text _LayerName, Text _Type, Text _Data) {
+	LayerCustomEvent(Get(_LayerName), _Type, [_Data]);
+}
+
+Void SendEvent(Text _LayerName, Text _Type, Integer _Data) {
+	LayerCustomEvent(Get(_LayerName), _Type, [_Data^""]);
+}
+
+Void SendEvent(Text _LayerName, Text _Type, Real _Data) {
+	LayerCustomEvent(Get(_LayerName), _Type, [_Data^""]);
+}
+
+Void SendEvent(Text _LayerName, Text _Type, Ident _Data) {
+	LayerCustomEvent(Get(_LayerName), _Type, [_Data^""]);
+}
+
+Void SendEvent(Text _LayerName, Text _Type, Vec2 _Data) {
+	LayerCustomEvent(Get(_LayerName), _Type, [_Data^""]);
+}
+
+Void SendEvent(Text _LayerName, Text _Type, Vec3 _Data) {
+	LayerCustomEvent(Get(_LayerName), _Type, [_Data^""]);
+}
+
+Void SendEvent(Text _LayerName, Text _Type, Int3 _Data) {
+	LayerCustomEvent(Get(_LayerName), _Type, [_Data^""]);
+}
+
+Void SendEvent(Text _LayerName, Text _Type) {
+	LayerCustomEvent(Get(_LayerName), _Type, []);
+}
+
+Void UpdateEditedTitles() {
+	declare SElement[] Elements;
+	foreach(MakerTitle, Maker_EditedTitles) {
+		declare SElement Element;
+		Element.Name = MakerTitle.TitleId^"";
+		Element.Selectable = True;
+		Elements.add(Element);
+	}
+	SendEvent("Titles", "Elements", [Elements.tojson()]);
+}
+
+main() {
+	LayersDefaultManialinkVersion = 3;
+	Station.DisableQuickEnter = True;
+	Station.IsLogoVisible = False;
+
+	Create("Create", Construct("""<frame pos="-60 -45" id="FRAME_WINDOW_CREATETITLE">
+	<frame id="FRAME_BACKGROUND" z-index="-1">
+		<quad z-index="-1" size="180 35" bgcolor="FFFA" halign="center" valign="top" style="Bgs1" substyle="BgCardList" class="opacity"/>
+		<quad z-index="0" size="180 35" bgcolor="FFFA" halign="center" valign="top" style="Bgs1" substyle="BgGradV" class="opacity"/>
+	</frame>
+	<entry pos="0 -10" z-index="0" size="170 12.5" default="" halign="center" valign="center" id="ENTRY_TITLENAME" scriptevents="1"/>
+	<frame pos="0 -20" z-index="1">
+		<quad z-index="0" size="170 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="036" id="QUAD_BUTTON_CREATE" class="opacity" pos="0 0"/>
+		<label pos="0 -5.25" z-index="1" size="170 10" text="CREATE NEW CHALLENGE TITLE" halign="center" valign="center2" textfont="RajdhaniMono"/>
+	</frame>
+</frame>""", """***Loop***
+***
+foreach(Event,PendingEvents) {
+	switch(Event.Type) {
+		case CMlScriptEvent::Type::MouseClick: {
+			if(Event.ControlId == "QUAD_BUTTON_CREATE") {
+				declare Entry = (Page.GetFirstChild("ENTRY_TITLENAME") as CMlEntry);
+				SendCustomEvent("CreateTitle", [Entry.Value]);
+				Entry.Value = "";
+			}
+		}
+	}
+	
+}
+***"""));
+	Create("Edit", Construct("""<frame pos="95 80" id="FRAME_WINDOW_EDITTITLE">
+	<frame id="FRAME_BACKGROUND" z-index="-1">
+		<quad z-index="-1" size="110 160" bgcolor="FFFA" halign="center" valign="top" style="Bgs1" substyle="BgCardList" class="opacity"/>
+		<quad z-index="0" size="110 160" bgcolor="FFFA" halign="center" valign="top" style="Bgs1" substyle="BgGradV" class="opacity"/>
+	</frame>
+	<label pos="0 -10" z-index="0" size="100 10" text="Challenge@bigbang1112" halign="center" textsize="4" textfont="RajdhaniMono" valign="center" id="LABEL_TITLEID"/>
+	<entry pos="0 -25" z-index="0" size="100 10" default="Challenge" valign="center" halign="center" textsize="4" id="ENTRY_DISPLAYNAME" scriptevents="1"/>
+	<textedit pos="-50 -31" z-index="0" size="100 12.5" textsize="2" id="TEXTEDIT_DESCRIPTION" scriptevents="1" autonewline="1"/>
+	<frame pos="0 -50">
+		<label pos="-12 0" z-index="0" size="38 8" text="INFO URL:" valign="center2" textfont="RajdhaniMono" textsize="2" halign="right"/>
+		<entry pos="20 0" z-index="0" size="60 8" default="" valign="center" halign="center" textsize="2" id="ENTRY_INFOURL" scriptevents="1"/>
+	</frame>
+	<frame pos="0 -60">
+		<label pos="-12 0" z-index="0" size="38 8" text="DOWNLOAD URL:" valign="center2" textfont="RajdhaniMono" textsize="2" halign="right"/>
+		<entry pos="20 0" z-index="0" size="60 8" default="" valign="center" halign="center" textsize="2" id="ENTRY_DOWNLOADURL" scriptevents="1"/>
+	</frame>
+	<frame pos="0 -70">
+		<label pos="-12 0" z-index="0" size="38 8" text="TITLE VERSION:" valign="center2" textfont="RajdhaniMono" textsize="2" halign="right"/>
+		<entry pos="4.5 0" z-index="0" size="29 8" default="" valign="center" halign="center" textsize="2" scriptevents="1"/>
+		<entry pos="35.5 0" z-index="0" size="29 8" default="" valign="center" halign="center" textsize="2" scriptevents="1"/>
+	</frame>
+	<frame pos="0 -115">
+		<quad pos="0 0" z-index="0" size="100 50" bgcolor="0004" halign="center" valign="center"/>
+		<label pos="0 1.5" z-index="1" size="100 50" text="PACKAGE" halign="center" valign="center" textfont="RajdhaniMono" textsize="10"/>
+	</frame>
+	<frame pos="0 -145" z-index="1">
+		<quad z-index="0" size="100 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="036" id="QUAD_BUTTON_EDIT" class="opacity" pos="0 0"/>
+		<label pos="0 -5.25" z-index="1" size="90 10" text="EDIT THIS CHALLENGE TITLE" halign="center" valign="center2" textfont="RajdhaniMono"/>
+	</frame>
+	<quad pos="0 -80" z-index="2" size="110 125" halign="center" valign="center" scriptevents="1"/>
+</frame>""", """***Loop***
+	***
+	foreach(Event,PendingEvents) {
+		switch(Event.Type) {
+			case CMlScriptEvent::Type::MouseClick: {
+				if(Event.ControlId == "QUAD_BUTTON_EDIT") {
+					SendCustomEvent("EditTitle", []);
+				}
+			}
+			case CMlScriptEvent::Type::EntrySubmit: {
+				SendCustomEvent("UpdateTitle", [(Page.GetFirstChild("LABEL_TITLEID") as CMlLabel).Value,
+					(Page.GetFirstChild("ENTRY_DISPLAYNAME") as CMlEntry).Value,
+					(Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value,
+					(Page.GetFirstChild("ENTRY_INFOURL") as CMlEntry).Value,
+					(Page.GetFirstChild("ENTRY_DOWNLOADURL") as CMlEntry).Value]);
+			}
+			case CMlScriptEvent::Type::PluginCustomEvent: {
+				switch(Event.CustomEventType) {
+					case "Change": {
+						declare TitleId = Event.CustomEventData[0];
+						declare DisplayName = Event.CustomEventData[1];
+						declare Description = Event.CustomEventData[2];
+						declare InfoUrl = Event.CustomEventData[3];
+						declare DownloadUrl = Event.CustomEventData[4];
+	
+						(Page.GetFirstChild("LABEL_TITLEID") as CMlLabel).Value = TitleId;
+						(Page.GetFirstChild("ENTRY_DISPLAYNAME") as CMlEntry).Value = DisplayName;
+						(Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value = Description;
+						(Page.GetFirstChild("ENTRY_INFOURL") as CMlEntry).Value = InfoUrl;
+						(Page.GetFirstChild("ENTRY_DOWNLOADURL") as CMlEntry).Value = DownloadUrl;
+					}
+				}
+			}
+		}
+		
+	}
+	***"""));
+
+	Create("Titles", Construct("""<frame pos="-115 35" id="FRAME_WINDOW_LIST">
+	<frame id="FRAME_BACKGROUND">
+		<quad z-index="-1" size="70 70" bgcolor="FFFA" halign="center" valign="top" style="Bgs1" substyle="BgCardList" class="opacity"/>
+		<quad z-index="0" size="70 70" bgcolor="FFFA" halign="center" valign="top" style="Bgs1" substyle="BgGradV" class="opacity"/>
+	</frame>
+	<frame id="FRAME_INNER" z-index="1">
+		<label pos="0 -4.8" z-index="1" size="60 10" text="NEWS" textfont="RajdhaniMono" halign="center" textsize="4" textcolor="EEE" id="LABEL_NAME"/>
+		<quad pos="0 -15" z-index="1" size="70 50" bgcolor="FFFA" halign="center" style="Bgs1" substyle="BgGradV" class="opacity" id="QUAD_LIST_BG"/>
+		<frame pos="0 -15">
+			<quad z-index="2" size="2 20" bgcolor="FFFA" style="Bgs1" substyle="BgMetalBar" id="QUAD_SCROLLBAR" scriptevents="1"/>
+			<quad z-index="1" size="2 50" bgcolor="FFFA" style="Bgs1InRace" substyle="BgMetalBar" modulatecolor="222" opacity=".5" scriptevents="1" id="QUAD_SCROLLBAR_BACKGROUND"/>
+		</frame>
+		<frame pos="0 -15" z-index="2" id="FRAME_LIST" clip="True" clipposn="0 -25" clipsizen="70 50">
+			<frame id="FRAME_LIST_INNER">
+				<frame>
+					<quad z-index="0" size="67 10" pos="-35 0" bgcolor="FFFA" style="Bgs1InRace" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="036" opacity=".5" id="QUAD_BUTTON"/>
+					<frame pos="-30 -5.25" z-index="1" clip="True" clipsizen="100 10" id="FRAME_LABEL_BUTTON">
+						<label size="200 10" text="SOMETHING NEW SOMETHING NEW SOMETHING NEW" textsize="2" halign="left" valign="center2" textfont="RajdhaniMono" id="LABEL_BUTTON" textcolor="EEE"/>
+					</frame>
+					<label pos="25 -5.25" z-index="1" size="7.5 10" text="99" textsize="2" halign="center" valign="center2" textfont="RajdhaniMono" id="LABEL_NUMBER" textcolor="EEE"/>
+				</frame>
+				<frame pos="0 -10">
+					<quad z-index="0" size="67 10" pos="-35 0" bgcolor="FFFA" style="Bgs1InRace" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="036" opacity=".5" id="QUAD_BUTTON"/>
+					<frame pos="-30 -5.25" z-index="1" clip="True" clipsizen="100 10" id="FRAME_LABEL_BUTTON">
+						<label size="200 10" text="SOMETHING NEW SOMETHING NEW SOMETHING NEW" textsize="2" halign="left" valign="center2" textfont="RajdhaniMono" id="LABEL_BUTTON" textcolor="EEE"/>
+					</frame>
+					<label pos="25 -5.25" z-index="1" size="7.5 10" text="99" textsize="2" halign="center" valign="center2" textfont="RajdhaniMono" id="LABEL_NUMBER" textcolor="EEE"/>
+				</frame>
+				<frame pos="0 -20">
+					<quad z-index="0" size="67 10" pos="-35 0" bgcolor="FFFA" style="Bgs1InRace" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="036" opacity=".5" id="QUAD_BUTTON"/>
+					<frame pos="-30 -5.25" z-index="1" clip="True" clipsizen="100 10" id="FRAME_LABEL_BUTTON">
+						<label size="200 10" text="SOMETHING NEW SOMETHING NEW SOMETHING NEW" textsize="2" halign="left" valign="center2" textfont="RajdhaniMono" id="LABEL_BUTTON" textcolor="EEE"/>
+					</frame>
+					<label pos="25 -5.25" z-index="1" size="7.5 10" text="99" textsize="2" halign="center" valign="center2" textfont="RajdhaniMono" id="LABEL_NUMBER" textcolor="EEE"/>
+				</frame>
+				<frame pos="0 -30">
+					<quad z-index="0" size="67 10" pos="-35 0" bgcolor="FFFA" style="Bgs1InRace" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="036" opacity=".5" id="QUAD_BUTTON"/>
+					<frame pos="-30 -5.25" z-index="1" clip="True" clipsizen="100 10" id="FRAME_LABEL_BUTTON">
+						<label size="200 10" text="SOMETHING NEW SOMETHING NEW SOMETHING NEW" textsize="2" halign="left" valign="center2" textfont="RajdhaniMono" id="LABEL_BUTTON" textcolor="EEE"/>
+					</frame>
+					<label pos="25 -5.25" z-index="1" size="7.5 10" text="99" textsize="2" halign="center" valign="center2" textfont="RajdhaniMono" id="LABEL_NUMBER" textcolor="EEE"/>
+				</frame>
+				<frame pos="0 -40">
+					<quad z-index="0" size="67 10" pos="-35 0" bgcolor="FFFA" style="Bgs1InRace" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="036" opacity=".5" id="QUAD_BUTTON"/>
+					<frame pos="-30 -5.25" z-index="1" clip="True" clipsizen="100 10" id="FRAME_LABEL_BUTTON">
+						<label size="200 10" text="SOMETHING NEW SOMETHING NEW SOMETHING NEW" textsize="2" halign="left" valign="center2" textfont="RajdhaniMono" id="LABEL_BUTTON" textcolor="EEE"/>
+					</frame>
+					<label pos="25 -5.25" z-index="1" size="7.5 10" text="99" textsize="2" halign="center" valign="center2" textfont="RajdhaniMono" id="LABEL_NUMBER" textcolor="EEE"/>
+				</frame>
+				<frame pos="0 -50">
+					<quad z-index="0" size="67 10" pos="-35 0" bgcolor="FFFA" style="Bgs1InRace" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="036" opacity=".5" id="QUAD_BUTTON"/>
+					<frame pos="-30 -5.25" z-index="1" clip="True" clipsizen="100 10" id="FRAME_LABEL_BUTTON">
+						<label size="200 10" text="SOMETHING NEW SOMETHING NEW SOMETHING NEW" textsize="2" halign="left" valign="center2" textfont="RajdhaniMono" id="LABEL_BUTTON" textcolor="EEE"/>
+					</frame>
+					<label pos="25 -5.25" z-index="1" size="7.5 10" text="99" textsize="2" halign="center" valign="center2" textfont="RajdhaniMono" id="LABEL_NUMBER" textcolor="EEE"/>
+				</frame>
+				<frame pos="0 -60">
+					<quad z-index="0" size="67 10" pos="-35 0" bgcolor="FFFA" style="Bgs1InRace" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="036" opacity=".5" id="QUAD_BUTTON"/>
+					<frame pos="-30 -5.25" z-index="1" clip="True" clipsizen="100 10" id="FRAME_LABEL_BUTTON">
+						<label size="200 10" text="SOMETHING NEW SOMETHING NEW SOMETHING NEW" textsize="2" halign="left" valign="center2" textfont="RajdhaniMono" id="LABEL_BUTTON" textcolor="EEE"/>
+					</frame>
+					<label pos="25 -5.25" z-index="1" size="7.5 10" text="99" textsize="2" halign="center" valign="center2" textfont="RajdhaniMono" id="LABEL_NUMBER" textcolor="EEE"/>
+				</frame>
+				<frame pos="0 -70">
+					<quad z-index="0" size="67 10" pos="-35 0" bgcolor="FFFA" style="Bgs1InRace" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="036" opacity=".5" id="QUAD_BUTTON"/>
+					<frame pos="-30 -5.25" z-index="1" clip="True" clipsizen="100 10" id="FRAME_LABEL_BUTTON">
+						<label size="200 10" text="SOMETHING NEW SOMETHING NEW SOMETHING NEW" textsize="2" halign="left" valign="center2" textfont="RajdhaniMono" id="LABEL_BUTTON" textcolor="EEE"/>
+					</frame>
+					<label pos="25 -5.25" z-index="1" size="7.5 10" text="99" textsize="2" halign="center" valign="center2" textfont="RajdhaniMono" id="LABEL_NUMBER" textcolor="EEE"/>
+				</frame>
+				<frame pos="0 -80">
+					<quad z-index="0" size="67 10" pos="-35 0" bgcolor="FFFA" style="Bgs1InRace" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="036" opacity=".5" id="QUAD_BUTTON"/>
+					<frame pos="-30 -5.25" z-index="1" clip="True" clipsizen="100 10" id="FRAME_LABEL_BUTTON">
+						<label size="200 10" text="SOMETHING NEW SOMETHING NEW SOMETHING NEW" textsize="2" halign="left" valign="center2" textfont="RajdhaniMono" id="LABEL_BUTTON" textcolor="EEE"/>
+					</frame>
+					<label pos="25 -5.25" z-index="1" size="7.5 10" text="99" textsize="2" halign="center" valign="center2" textfont="RajdhaniMono" id="LABEL_NUMBER" textcolor="EEE"/>
+				</frame>
+				<frame pos="0 -90">
+					<quad z-index="0" size="67 10" pos="-35 0" bgcolor="FFFA" style="Bgs1InRace" substyle="BgCardInventoryItem" scriptevents="1" modulatecolor="036" opacity=".5" id="QUAD_BUTTON"/>
+					<frame pos="-30 -5.25" z-index="1" clip="True" clipsizen="100 10" id="FRAME_LABEL_BUTTON">
+						<label size="200 10" text="SOMETHING NEW SOMETHING NEW SOMETHING NEW" textsize="2" halign="left" valign="center2" textfont="RajdhaniMono" id="LABEL_BUTTON" textcolor="EEE"/>
+					</frame>
+					<label pos="25 -5.25" z-index="1" size="7.5 10" text="99" textsize="2" halign="center" valign="center2" textfont="RajdhaniMono" id="LABEL_NUMBER" textcolor="EEE"/>
+				</frame>
+			</frame>
+		</frame>
+	</frame>
+</frame>""", """#Struct SElement {
+	Text Name;
+	Integer Count;
+	Boolean Selected;
+	Boolean Selectable;
+}
+
+declare CMlFrame Frame_Window_List;
+declare CMlLabel Label_Name;
+declare CMlFrame Frame_Background;
+declare CMlQuad Quad_List_Bg;
+declare CMlQuad Quad_Scrollbar;
+declare CMlQuad Quad_Scrollbar_Background;
+declare CMlFrame Frame_List;
+
+declare Vec2 Window_Position;
+declare Vec2 Window_Size;
+declare Text Window_Title;
+declare CMlControl::AlignHorizontal Window_Title_Align;
+declare Boolean Window_Number_Enable;
+declare SElement[] Window_Elements;
+declare Boolean Window_Multiselection;
+declare Real Window_ScrollbarHeight;
+declare Vec2 Window_AnimationOut;
+
+declare Vec2 PreviousScroll;
+
+declare Boolean Animating;
+
+Void Align(CMlControl _Control, CMlControl::AlignHorizontal _Align, Real _Offset) {
+	_Control.HorizontalAlign = _Align;
+	switch(_Align) {
+		case CMlControl::AlignHorizontal::Left: {
+			_Control.RelativePosition_V3.X = -_Control.Size.X/2+_Offset;
+		}
+		case CMlControl::AlignHorizontal::Right: {
+			_Control.RelativePosition_V3.X = _Control.Size.X/2-_Offset;
+		}
+		case CMlControl::AlignHorizontal::HCenter: {
+			_Control.RelativePosition_V3.X = 0.;
+		}
+	}
+}
+
+Void UpdateElements() {
+	declare Offset = MathLib::NearestInteger(Frame_List.ScrollOffset.Y/10);
+	declare Frame_List_Inner = (Frame_List.Controls[0] as CMlFrame);
+	for(i,0,Frame_List_Inner.Controls.count-1) {
+		declare Selector = (Frame_List_Inner.Controls[i] as CMlFrame);
+		declare Label_Button = ((Selector.GetFirstChild("FRAME_LABEL_BUTTON") as CMlFrame).GetFirstChild("LABEL_BUTTON") as CMlLabel);
+		declare Quad_Button = (Selector.GetFirstChild("QUAD_BUTTON") as CMlQuad);
+
+		if(Window_Elements.existskey(i+Offset)) {
+			declare Element = Window_Elements[i+Offset];
+			Label_Button.SetText(Element.Name);
+			Label_Button.Size.X = Label_Button.ComputeWidth(Element.Name);
+			(Selector.GetFirstChild("LABEL_NUMBER") as CMlLabel).SetText(Element.Count^"");
+			Selector.DataAttributeSet("element",i+Offset^"");
+
+			if(!Element.Selectable)
+				Quad_Button.Substyle = "BgEmpty";
+			else if(Element.Selected)
+				Quad_Button.Substyle = "BgCard";
+			else
+				Quad_Button.Substyle = "BgCardInventoryItem";
+
+			AnimMgr.Add(Selector.GetFirstChild("LABEL_NUMBER"), "<label opacity=\"1\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+			AnimMgr.Add(Label_Button, "<label opacity=\"1\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+			AnimMgr.Add(Selector, "<frame hidden=\"0\"/>", 0, CAnimManager::EAnimManagerEasing::QuadOut);
+			AnimMgr.Add(Quad_Button, "<quad hidden=\"0\"/>", 0, CAnimManager::EAnimManagerEasing::QuadOut);
+		}
+		else {
+			AnimMgr.Add(Selector.GetFirstChild("LABEL_NUMBER"), "<label opacity=\"0\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+			AnimMgr.Add(Label_Button, "<label opacity=\"0\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+			AnimMgr.Add(Selector, "<frame hidden=\"1\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+			AnimMgr.Add(Quad_Button, "<quad hidden=\"1\"/>", 0, CAnimManager::EAnimManagerEasing::QuadOut);
+		}
+	}
+
+	declare ListHeight = Window_Size.Y-20;
+
+	if(ListHeight/10 < Window_Elements.count) {
+		Quad_Scrollbar.Show();
+	}
+	else {
+		Quad_Scrollbar.Hide();
+	}
+
+	Frame_List.ScrollMax = <0.,Window_Elements.count*10.-ListHeight>;
+
+	declare VisibleElements = (Window_Size.Y-20)/10;
+	if(Window_Elements.count > VisibleElements) {
+		declare VisibleRatio = VisibleElements/Window_Elements.count;
+		Window_ScrollbarHeight = (Window_Size.Y-20)*VisibleRatio;
+		Quad_Scrollbar.Size.Y = Window_ScrollbarHeight;
+	}
+
+	if(Window_Elements.count > 10) Frame_List.ScrollActive = True;
+	else Frame_List.ScrollActive = False;
+}
+
+Void UpdateLayout() {
+	Label_Name.SetText(Window_Title);
+
+	foreach(Control,Frame_Background.Controls)
+		Control.Size = Window_Size;
+
+	Label_Name.Size.X = Window_Size.X-10;
+	Align(Label_Name, Window_Title_Align, 2.5);
+
+	declare ListWidth = Window_Size.X-12;
+	if(Window_Number_Enable) ListWidth -= 10;
+	declare ListHeight = Window_Size.Y-20;
+
+	Quad_List_Bg.Size = <Window_Size.X, ListHeight>;
+
+	Quad_Scrollbar.RelativePosition_V3.X = Window_Size.X/2-3;
+	Quad_Scrollbar_Background.RelativePosition_V3.X = Window_Size.X/2-3;
+
+	Frame_List.ClipWindowRelativePosition = <0., -ListHeight/2>;
+	Frame_List.ClipWindowSize = <Window_Size.X, ListHeight>;
+
+	foreach(Control,(Frame_List.Controls[0] as CMlFrame).Controls) {
+		declare Frame = (Control as CMlFrame);
+		Frame.GetFirstChild("QUAD_BUTTON").RelativePosition_V3.X = -Window_Size.X/2;
+		Frame.GetFirstChild("QUAD_BUTTON").Size.X = Window_Size.X-3;
+		Frame.GetFirstChild("FRAME_LABEL_BUTTON").RelativePosition_V3.X = -Window_Size.X/2+5;
+
+		(Frame.GetFirstChild("FRAME_LABEL_BUTTON") as CMlFrame).ClipWindowSize.X = ListWidth;
+		(Frame.GetFirstChild("FRAME_LABEL_BUTTON") as CMlFrame).ClipWindowRelativePosition.X = ListWidth/2;
+
+		if(Window_Number_Enable) {
+			Frame.GetFirstChild("LABEL_NUMBER").RelativePosition_V3.X = Window_Size.X/2-10;
+			Frame.GetFirstChild("LABEL_NUMBER").Show();
+		}
+		else {
+			Frame.GetFirstChild("LABEL_NUMBER").Hide();
+		}
+	}
+
+	UpdateElements();
+}
+
+Void Select(Integer _Id) {
+	if(_Id < 0) {
+		for(I,0,Window_Elements.count-1)
+			Window_Elements[I].Selected = False;
+	}
+	else if(Window_Elements[_Id].Selectable) {
+		if(Window_Multiselection) {
+			if(Window_Elements[_Id].Selected)
+				Window_Elements[_Id].Selected = False;
+			else
+				Window_Elements[_Id].Selected = True;
+		}
+		else {
+			for(I,0,Window_Elements.count-1) Window_Elements[I].Selected = False;
+			Window_Elements[_Id].Selected = True;
+		}
+	}
+
+	UpdateElements();
+	SendCustomEvent("Select", [_Id^""]);
+}
+
+Void Next() {
+	declare Id = -1;
+	if(!Window_Multiselection) {
+		declare I = 0;
+		while(I < Window_Elements.count && !Window_Elements[I].Selected) I+=1;
+
+		Window_Elements[I].Selected = False;
+		if(I+1 == Window_Elements.count) {
+			Window_Elements[0].Selected = True;
+			Id = 0;
+		}
+		else {
+			Window_Elements[I+1].Selected = True;
+			Id = I+1;
+		}
+	}
+
+	UpdateElements();
+	SendCustomEvent("Select", [Id^""]);
+}
+
+***Start***
+***
+declare Start = Now;
+declare End = -1;
+
+Frame_Window_List = (Page.GetFirstChild("FRAME_WINDOW_LIST") as CMlFrame);
+Label_Name = (Page.GetFirstChild("LABEL_NAME") as CMlLabel);
+Frame_Background = (Page.GetFirstChild("FRAME_BACKGROUND") as CMlFrame);
+Quad_List_Bg = (Page.GetFirstChild("QUAD_LIST_BG") as CMlQuad);
+Quad_Scrollbar = (Page.GetFirstChild("QUAD_SCROLLBAR") as CMlQuad);
+Quad_Scrollbar_Background = (Page.GetFirstChild("QUAD_SCROLLBAR_BACKGROUND") as CMlQuad);
+Frame_List = (Page.GetFirstChild("FRAME_LIST") as CMlFrame);
+
+Window_Size = <70.,50.>;
+Window_Title = "";
+Window_Title_Align = CMlControl::AlignHorizontal::HCenter;
+Window_Number_Enable = False;
+
+Frame_List.ScrollActive = True;
+Frame_List.ScrollGrid = <10.,10.>;
+
+declare CMlLabel MoveLabel;
+
+declare HoldScrollbar = False;
+declare HoldScrollbarPos = 0.;
+***
+
+***Loop***
+***
+foreach(Event,PendingEvents) {
+	switch(Event.Type) {
+		case CMlScriptEvent::Type::MouseClick: {
+			switch(Event.ControlId) {
+				case "QUAD_BUTTON": {
+					Select(TextLib::ToInteger(Event.Control.Parent.DataAttributeGet("element")));
+				}
+				case "QUAD_SCROLLBAR": {
+					HoldScrollbar = True;
+					HoldScrollbarPos = MouseY-Quad_Scrollbar.RelativePosition_V3.Y;
+				}
+				case "QUAD_SCROLLBAR_BACKGROUND": {
+					Quad_Scrollbar.RelativePosition_V3.Y = -(Window_Size.Y-20)/2.+5+MouseY+Quad_Scrollbar.Size.Y/2;
+					
+					HoldScrollbar = True;
+					HoldScrollbarPos = MouseY-Quad_Scrollbar.RelativePosition_V3.Y;
+				}
+			}
+		}
+		case CMlScriptEvent::Type::MouseOver: {
+			switch(Event.ControlId) {
+				case "QUAD_BUTTON": {
+					declare Label = ((Event.Control.Parent.GetFirstChild("FRAME_LABEL_BUTTON") as CMlFrame).GetFirstChild("LABEL_BUTTON") as CMlLabel);
+					declare ListWidth = Window_Size.X-12;
+					if(Window_Number_Enable) ListWidth -= 10;
+					if(Label.Size.X > ListWidth) Label.DataAttributeSet("move", Label.Size.X-ListWidth^"");
+					else Label.DataAttributeSet("move", "0");
+					MoveLabel = Label;
+				}
+			}
+		}
+		case CMlScriptEvent::Type::MouseOut: {
+			switch(Event.ControlId) {
+				case "QUAD_BUTTON": {
+					declare Label = ((Event.Control.Parent.GetFirstChild("FRAME_LABEL_BUTTON") as CMlFrame).GetFirstChild("LABEL_BUTTON") as CMlLabel);
+					Label.DataAttributeSet("move", "0");
+					AnimMgr.Add(Label, "<label pos=\"0 0\"/>", 200, CAnimManager::EAnimManagerEasing::QuadOut);
+				}
+			}
+		}
+		case CMlScriptEvent::Type::PluginCustomEvent: {
+			switch(Event.CustomEventType) {
+				case "Title": {
+					Window_Title = Event.CustomEventData[0];
+					UpdateLayout();
+				}
+				case "Title_Align": {
+					declare Align = TextLib::ToLowerCase(Event.CustomEventData[0]);
+
+					switch(Align) {
+						case "left": { Window_Title_Align = CMlControl::AlignHorizontal::Left; }
+						case "center": { Window_Title_Align = CMlControl::AlignHorizontal::HCenter; }
+						case "right": { Window_Title_Align = CMlControl::AlignHorizontal::Right; }
+					}
+
+					UpdateLayout();
+				}
+				case "Size": {
+					declare Size = TextLib::Split(" ", Event.CustomEventData[0]);
+					Window_Size = <TextLib::ToReal(Size[0]), MathLib::Min(120., TextLib::ToReal(Size[1]))>;
+					UpdateLayout();
+				}
+				case "Position": {
+					declare Position = TextLib::Split(" ", Event.CustomEventData[0]);
+					Window_Position = <TextLib::ToReal(Position[0]), TextLib::ToReal(Position[1])>;
+					UpdateLayout();
+				}
+				case "Number_Enable": {
+					Window_Number_Enable = Event.CustomEventData[0] == "True";
+					UpdateLayout();
+				}
+				case "Number": {
+					UpdateLayout();
+				}
+				case "Elements": {
+					declare JsonSuccess = Window_Elements.fromjson(Event.CustomEventData[0]);
+					UpdateElements();
+				}
+				case "Animation_Out": {
+					declare Position = TextLib::Split(" ", Event.CustomEventData[0]);
+					Window_AnimationOut = <TextLib::ToReal(Position[0]), TextLib::ToReal(Position[1])>;
+					UpdateLayout();
+				}
+				case "Select": {
+					Select(TextLib::ToInteger(Event.CustomEventData[0]));
+				}
+				case "Next": {
+					Next();
+				}
+				case "Show": {
+					Start = Now;
+					End = -1;
+
+					Frame_Window_List.RelativePosition_V3 = <Window_Position.X,Window_Position.Y+7.5>;
+					AnimMgr.Add(Frame_Window_List, "<frame pos=\""^Window_Position.X^" "^Window_Position.Y+Window_Size.Y/2^"\"/>", Now + 500 + 500, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+
+					foreach(Control,Frame_Background.Controls) {
+						(Control as CMlQuad).Opacity = 0.;
+						(Control as CMlQuad).Style = "Bgs1InRace";
+						AnimMgr.Add(Control, "<quad opacity=\"1\"/>", Now + 500, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					}
+
+					Label_Name.Opacity = 0.;
+					AnimMgr.Add(Label_Name, "<label opacity=\"1\"/>", Now + 500, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+
+					declare Delay = 0;
+					foreach(Control,(Frame_List.Controls[0] as CMlFrame).Controls) {
+						declare Frame = (Control as CMlFrame);
+
+						AnimMgr.Flush(Frame.GetFirstChild("QUAD_BUTTON"));
+						AnimMgr.Flush(Frame.GetFirstChild("LABEL_BUTTON"));
+						AnimMgr.Flush(Frame.GetFirstChild("LABEL_NUMBER"));
+						
+						Frame.GetFirstChild("QUAD_BUTTON").Hide();
+						AnimMgr.Add(Frame.GetFirstChild("QUAD_BUTTON"), "<quad hidden=\"0\"/>", Now + 1500 + Delay, 200, CAnimManager::EAnimManagerEasing::QuadOut);
+						((Frame.GetFirstChild("FRAME_LABEL_BUTTON") as CMlFrame).GetFirstChild("LABEL_BUTTON") as CMlLabel).Opacity = 0.;
+						(Frame.GetFirstChild("FRAME_LABEL_BUTTON") as CMlFrame).GetFirstChild("LABEL_BUTTON").RelativePosition_V3.X = 0.;
+						AnimMgr.Add((Frame.GetFirstChild("FRAME_LABEL_BUTTON") as CMlFrame).GetFirstChild("LABEL_BUTTON"), "<label opacity=\"1\"/>", Now + 1500 + Delay, 200, CAnimManager::EAnimManagerEasing::QuadOut);
+						(Frame.GetFirstChild("LABEL_NUMBER") as CMlLabel).Opacity = 0.;
+						AnimMgr.Add(Frame.GetFirstChild("LABEL_NUMBER"), "<label opacity=\"1\"/>", Now + 1500 + Delay, 200, CAnimManager::EAnimManagerEasing::QuadOut);
+
+						Delay += 100;
+					}
+
+					SendCustomEvent("Show", []);
+				}
+				case "Hide": {
+					End = Now;
+					AnimMgr.Add(Frame_Window_List, "<frame pos=\""^Window_AnimationOut.X^" "^Window_AnimationOut.Y+Window_Size.Y/2^"\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+				}
+				case "InnerClip": {
+					foreach(Frame,(Page.GetFirstChild("FRAME_LIST_INNER") as CMlFrame).Controls) {
+						((Frame as CMlFrame).GetFirstChild("FRAME_LABEL_BUTTON") as CMlFrame).ClipWindowActive = (Event.CustomEventData[0] == "True");
+					}
+				}
+			}
+		}
+	}
+}
+
+declare Time = Now - Start - 1000;
+
+if(End == -1) {
+	if(Time <= 1500) {
+		foreach(Control,Frame_Background.Controls) {
+			Control.Size.Y = AnimLib::EaseOutQuad(Time, 15.0, Window_Size.Y-15, 500);
+			if(Time >= 0) (Control as CMlQuad).Style = "Bgs1";
+		}
+		Quad_Scrollbar_Background.Size.Y = AnimLib::EaseOutQuad(Time, 0.0, Window_Size.Y-20, 500);
+		Quad_List_Bg.Size.Y = AnimLib::EaseOutQuad(Time, 0.0, Window_Size.Y-20, 500);
+		Frame_List.ClipWindowRelativePosition.Y = AnimLib::EaseOutQuad(Time, 0.0, -(Window_Size.Y-20)/2, 500);
+		Frame_List.ClipWindowSize.Y = AnimLib::EaseOutQuad(Time, 0.0, Window_Size.Y-20, 500);
+		Quad_Scrollbar.Size.Y = AnimLib::EaseOutQuad(Time, 0.0, Window_ScrollbarHeight, 500);
+
+		Animating = True;
+	}
+	else {
+		Animating = False; 
+
+		foreach(Control,Frame_Background.Controls) {
+			Control.Size.Y = Window_Size.Y;
+			if(Time >= 0) (Control as CMlQuad).Style = "Bgs1";
+			(Control as CMlQuad).Opacity = 1.;
+		}
+
+		Label_Name.Opacity = 1.;
+		Quad_Scrollbar_Background.Size.Y = Window_Size.Y-20;
+		Quad_List_Bg.Size.Y = Window_Size.Y-20;
+		Frame_List.ClipWindowRelativePosition.Y = -(Window_Size.Y-20)/2;
+		Frame_List.ClipWindowSize.Y = Window_Size.Y-20;
+		Quad_Scrollbar.Size.Y = Window_ScrollbarHeight;
+	}
+}
+else {
+	if(Now - End > 1000) {
+		SendCustomEvent("Hide_Response", []);
+		End = -1;
+	}
+}
+
+if(MoveLabel != Null) {
+	declare Move = TextLib::ToReal(MoveLabel.DataAttributeGet("move"));
+	if(Move != 0.)
+		if(-MoveLabel.RelativePosition_V3.X < Move)
+			MoveLabel.RelativePosition_V3.X -= Period*.01;
+}
+
+if(HoldScrollbar && MouseLeftButton) {
+	Quad_Scrollbar.RelativePosition_V3.Y = MathLib::Clamp(MouseY-HoldScrollbarPos,Quad_Scrollbar.Size.Y-Window_Size.Y+20.,0.);
+	Frame_List.ScrollOffset.Y = (MouseY-HoldScrollbarPos)/(Quad_Scrollbar.Size.Y-Window_Size.Y+20.)*Frame_List.ScrollMax.Y;
+
+	Page.GetFirstChild("FRAME_LIST_INNER").RelativePosition_V3 = -Frame_List.ScrollOffset;
+	UpdateElements();
+}
+else {
+	if(Frame_List.ScrollOffset != PreviousScroll) {
+		Page.GetFirstChild("FRAME_LIST_INNER").RelativePosition_V3 = -Frame_List.ScrollOffset;
+		UpdateElements();
+
+		declare ScrollRatio = 0.;
+		if(Frame_List.ScrollMax.Y != 0)
+			ScrollRatio = MathLib::NearestInteger(Frame_List.ScrollOffset.Y/10)*10 / Frame_List.ScrollMax.Y;
+		Quad_Scrollbar.RelativePosition_V3.Y = -ScrollRatio*(Window_Size.Y-20-Quad_Scrollbar.Size.Y);
+
+		PreviousScroll = Frame_List.ScrollOffset;
+	}
+
+	HoldScrollbar = False;
+}
+
+
+
+//Quad_Scrollbar.RelativePosition_V3.Y = -5.-ScrollRatio*(150.0-Page.GetFirstChild("QUAD_CAMPAIGN_SCROLL").Size.Y);
+
+/*
+// Scroll bar stuff
+if((Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame).ScrollMax.Y > 0) {
+	declare ScrollRatio = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame).ScrollOffset.Y/(Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame).ScrollMax.Y;
+	Page.GetFirstChild("QUAD_CAMPAIGN_SCROLL").Show();
+	Page.GetFirstChild("QUAD_CAMPAIGN_SCROLL").Size.Y = 150/((Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame).ScrollMax.Y/10.0);
+	Page.GetFirstChild("QUAD_CAMPAIGN_SCROLL").RelativePosition_V3.Y = -5.-ScrollRatio*(150.0-Page.GetFirstChild("QUAD_CAMPAIGN_SCROLL").Size.Y);
+
+	//(Page.GetFirstChild("QUAD_CAMPAIGN_SCROLL") as CMlGauge).Ratio = OldMapScrollPos/(Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame).ScrollMax.Y;
+}
+else {
+	Page.GetFirstChild("QUAD_CAMPAIGN_SCROLL").Hide();
+}
+//*/
+***"""));
+	SendEvent("Titles", "Title", "CREATED TITLE PACKS");
+	SendEvent("Titles", "Title_Align", "left");
+	SendEvent("Titles", "Position", ["-60 20"]);
+	SendEvent("Titles", "Size", ["180 120"]);
+	SendEvent("Titles", "Animation_Out", ["200 0"]);
+	SendEvent("Titles", "InnerClip", "False");
+	
+	Show("Titles", True);
+	Show("Create", True);
+
+	UpdateEditedTitles();
+
+	declare SelectedId = -1;
+
+	while(True) {
+		foreach(Event, PendingEvents) {
+			if(Event.Type == CManiaAppEvent::EType::LayerCustomEvent) {
+				switch(Event.CustomEventType) {
+					case "CreateTitle": {
+						Maker_EditNewTitle(Event.CustomEventData[0]);
+						UpdateEditedTitles();
+					}
+					case "EditTitle": {
+						if(SelectedId != -1)
+						Maker_EditTitle(Maker_EditedTitles[SelectedId].TitleId^"");
+					}
+					case "Select": {
+						Show("Edit", True);
+
+						declare I = TextLib::ToInteger(Event.CustomEventData[0]);
+						SendEvent("Edit", "Change", [Maker_EditedTitles[I].TitleId^"", Maker_EditedTitles[I].DisplayName,
+						Maker_EditedTitles[I].Description, Maker_EditedTitles[I].InfoUrl, Maker_EditedTitles[I].DownloadUrl]);
+						SelectedId = I;
+					}
+				}
+			}
+		}
+		yield;
+	}
+}
