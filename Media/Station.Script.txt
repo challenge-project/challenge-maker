@@ -750,36 +750,7 @@ foreach(Event,PendingEvents) {
 					Start = Now;
 					End = -1;
 
-					Frame_Window_List.RelativePosition_V3 = <Window_Position.X,Window_Position.Y+7.5>;
-					AnimMgr.Add(Frame_Window_List, "<frame pos=\""^Window_Position.X^" "^Window_Position.Y+Window_Size.Y/2^"\"/>", Now + 500 + 500, 500, CAnimManager::EAnimManagerEasing::QuadOut);
-
-					foreach(Control,Frame_Background.Controls) {
-						(Control as CMlQuad).Opacity = 0.;
-						(Control as CMlQuad).Style = "Bgs1InRace";
-						AnimMgr.Add(Control, "<quad opacity=\"1\"/>", Now + 500, 500, CAnimManager::EAnimManagerEasing::QuadOut);
-					}
-
-					Label_Name.Opacity = 0.;
-					AnimMgr.Add(Label_Name, "<label opacity=\"1\"/>", Now + 500, 500, CAnimManager::EAnimManagerEasing::QuadOut);
-
-					declare Delay = 0;
-					foreach(Control,(Frame_List.Controls[0] as CMlFrame).Controls) {
-						declare Frame = (Control as CMlFrame);
-
-						AnimMgr.Flush(Frame.GetFirstChild("QUAD_BUTTON"));
-						AnimMgr.Flush(Frame.GetFirstChild("LABEL_BUTTON"));
-						AnimMgr.Flush(Frame.GetFirstChild("LABEL_NUMBER"));
-						
-						Frame.GetFirstChild("QUAD_BUTTON").Hide();
-						AnimMgr.Add(Frame.GetFirstChild("QUAD_BUTTON"), "<quad hidden=\"0\"/>", Now + 1500 + Delay, 200, CAnimManager::EAnimManagerEasing::QuadOut);
-						((Frame.GetFirstChild("FRAME_LABEL_BUTTON") as CMlFrame).GetFirstChild("LABEL_BUTTON") as CMlLabel).Opacity = 0.;
-						(Frame.GetFirstChild("FRAME_LABEL_BUTTON") as CMlFrame).GetFirstChild("LABEL_BUTTON").RelativePosition_V3.X = 0.;
-						AnimMgr.Add((Frame.GetFirstChild("FRAME_LABEL_BUTTON") as CMlFrame).GetFirstChild("LABEL_BUTTON"), "<label opacity=\"1\"/>", Now + 1500 + Delay, 200, CAnimManager::EAnimManagerEasing::QuadOut);
-						(Frame.GetFirstChild("LABEL_NUMBER") as CMlLabel).Opacity = 0.;
-						AnimMgr.Add(Frame.GetFirstChild("LABEL_NUMBER"), "<label opacity=\"1\"/>", Now + 1500 + Delay, 200, CAnimManager::EAnimManagerEasing::QuadOut);
-
-						Delay += 100;
-					}
+					Frame_Window_List.RelativePosition_V3 = <Window_Position.X,Window_Position.Y+Window_Size.Y/2>;
 
 					SendCustomEvent("Show", []);
 				}
@@ -801,16 +772,6 @@ declare Time = Now - Start - 1000;
 
 if(End == -1) {
 	if(Time <= 1500) {
-		foreach(Control,Frame_Background.Controls) {
-			Control.Size.Y = AnimLib::EaseOutQuad(Time, 15.0, Window_Size.Y-15, 500);
-			if(Time >= 0) (Control as CMlQuad).Style = "Bgs1";
-		}
-		Quad_Scrollbar_Background.Size.Y = AnimLib::EaseOutQuad(Time, 0.0, Window_Size.Y-20, 500);
-		Quad_List_Bg.Size.Y = AnimLib::EaseOutQuad(Time, 0.0, Window_Size.Y-20, 500);
-		Frame_List.ClipWindowRelativePosition.Y = AnimLib::EaseOutQuad(Time, 0.0, -(Window_Size.Y-20)/2, 500);
-		Frame_List.ClipWindowSize.Y = AnimLib::EaseOutQuad(Time, 0.0, Window_Size.Y-20, 500);
-		Quad_Scrollbar.Size.Y = AnimLib::EaseOutQuad(Time, 0.0, Window_ScrollbarHeight, 500);
-
 		Animating = True;
 	}
 	else {
