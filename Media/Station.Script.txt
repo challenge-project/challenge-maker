@@ -317,7 +317,12 @@ foreach(Event,PendingEvents) {
 		<label pos="0 -5.25" z-index="1" size="90 10" text="EDIT THIS CHALLENGE TITLE" halign="center" valign="center2" textfont="RajdhaniMono"/>
 	</frame>
 	<quad pos="0 -80" z-index="2" size="110 125" halign="center" valign="center" scriptevents="1"/>
-</frame>""", """***Loop***
+</frame>""", """***Start***
+	***
+	declare End = -1;
+	***
+
+	***Loop***
 	***
 	foreach(Event,PendingEvents) {
 		switch(Event.Type) {
@@ -347,6 +352,15 @@ foreach(Event,PendingEvents) {
 						(Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value = Description;
 						(Page.GetFirstChild("ENTRY_INFOURL") as CMlEntry).Value = InfoUrl;
 						(Page.GetFirstChild("ENTRY_DOWNLOADURL") as CMlEntry).Value = DownloadUrl;
+					}
+					case "Show": {
+						End = -1;
+						Page.GetFirstChild("FRAME_WINDOW_EDITTITLE").RelativePosition_V3.X = 230.;
+						AnimMgr.Add(Page.GetFirstChild("FRAME_WINDOW_EDITTITLE"), "<frame pos=\"95 80\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					}
+					case "Hide": {
+						End = Now;
+						AnimMgr.Add(Page.GetFirstChild("FRAME_WINDOW_EDITTITLE"), "<frame pos=\"230 80\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
 					}
 				}
 			}
@@ -874,11 +888,12 @@ else {
 						Maker_EditTitle(Maker_EditedTitles[SelectedId].TitleId^"");
 					}
 					case "Select": {
-						Show("Edit", True);
+						if(!Get("Edit").IsVisible)
+							Show("Edit", True);
 
 						declare I = TextLib::ToInteger(Event.CustomEventData[0]);
 						SendEvent("Edit", "Change", [Maker_EditedTitles[I].TitleId^"", Maker_EditedTitles[I].DisplayName,
-						Maker_EditedTitles[I].Description, Maker_EditedTitles[I].InfoUrl, Maker_EditedTitles[I].DownloadUrl]);
+						Maker_EditedTitles[I].Description, Maker_EditedTitles[I].InfoUrl, Maker_EditedTitles[I].DownloadUrl, Maker_EditedTitles[I].Packaging_ImageFileName]);
 						SelectedId = I;
 					}
 				}

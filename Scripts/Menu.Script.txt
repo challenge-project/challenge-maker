@@ -48,40 +48,10 @@ main() {
 			continue;
 		}
 		
-		declare Task = DataFileMgr.Map_GetGameList("Campaigns/Platform/Reverse", True);
-		wait(!Task.IsProcessing);
-		log(Task.MapInfos.count);
-		declare Service_Map::SPublishParams[] Final;
-		foreach(MapInfo,Task.MapInfos) {
-							declare Text CHALLENGE_TOKEN for LocalUser;
-
-							declare Service_Map::SPublishParams Params;
-							Params.UserToken = CHALLENGE_TOKEN;
-							Params.MapUid = MapInfo.MapUid;
-							Params.MapName = MapInfo.Name;
-							Params.MapAuthor = MapInfo.AuthorNickName;
-							Params.OriginalMapUid = MapInfo.MapUid;
-							Params.OriginalMapName = MapInfo.Name;
-							Params.OriginalMapAuthor = MapInfo.AuthorNickName;
-							Params.OriginalGame = "";
-							Params.TitleId = "Challenge_Campaign@bigbang1112";
-							Params.Environment = MapInfo.CollectionName;
-							Params.Modifiers = TextLib::Split("+",MapInfo.MapStyle);
-							Params.Campaign = "Platform Reverse";
-							Final.add(Params);
-			}
-		
-		log(Final);
-		declare Success = Http::SyncPOST("https://challenge.bigbang1112.eu/ingame/publishtitle.php", Final.tojson());
-		log(Success.Result);
-		
-		//TitleControl.OpenEditor(CTitleControl::EEditorType::InterfaceDesigner);
-		//Menu_Editor ();
-		//TitleControl.EditNewMap("Valley", "", "", "", "", "", "");
-		
 		Dictionary::SetTranslationFolder("Media/Translations");
-		//Dictionary::SetTranslationLanguage(Settings::Get().Language);
-		Dictionary::SetTranslationLanguage("en");
+		Dictionary::SetTranslationLanguage(Settings::Get().Language);
+		
+		EnableMenuNavigationInputs = True;
 		
 		Auth::Start();
 		
@@ -142,7 +112,7 @@ main() {
 			GetUnauthorizedToken(Status);
 		}
 		
-		Layers::Destroy("Loading");
+		Layers::Hide("Loading", True);
 
 		Menu_Release::Start();
 		wait(Menu_Release::Loop());
@@ -150,18 +120,44 @@ main() {
 		yield;
 		
 		Layers::Create("Preload", Manialink::FromFile("Media/Manialinks/Preload", False, [], Settings::Get().Theme), True);
-		
+		sleep(500);
+		Layers::Destroy("Loading");
 		Menu_Title::Init();
-		Layers::SendEvent("Preload", "Progress", 1/4.);
+		Layers::SendEvent("Preload", "Progress", 1/6.);
+		yield;
 		Menu_Builder::Init();
-		Layers::SendEvent("Preload", "Progress", 2/4.);
+		Layers::SendEvent("Preload", "Progress", 2/6.);
+		yield;
 		Menu_Modifier::Init();
-		Layers::SendEvent("Preload", "Progress", 3/4.);
+		Layers::SendEvent("Preload", "Progress", 3/6.);
+		yield;
 		Menu_Campaign::Init();
-		Layers::SendEvent("Preload", "Progress", 4/4.);
+		Layers::SendEvent("Preload", "Progress", 4/6.);
+		yield;
+		Menu_Campaign::InitBuilder();
+		Layers::SendEvent("Preload", "Progress", 5/6.);
+		yield;
+		Layers::Create("Intro", Manialink::FromFile("Media/Manialinks/Campaign/Intro", True, [], Settings::Get().Theme));
+		Layers::SendEvent("Preload", "Progress", 6/6.);
 		sleep(300);
-		Layers::Destroy("Preload");
+		Layers::Hide("Preload", True);
 		sleep(200);
+		Layers::Show("Intro", True);
+		declare IntroStart = Now;
+		while(Now - IntroStart  < 5000) {
+			foreach(Event in PendingEvents) {
+				if(Event.Type == CManiaAppEvent::EType::MenuNavigation) {
+					if(Event.MenuNavAction == CManiaAppEvent::EMenuNavAction::Cancel) {
+						Layers::Hide("Intro");
+						IntroStart -= 5000;
+					}
+				}
+			}
+			yield;
+		}
+					
+		Layers::Hide("Intro", True);
+		EnableMenuNavigationInputs = False;
 		
 		Menu_Title::Start();
 		Menu_Builder::Start();
@@ -182,6 +178,9 @@ main() {
 				Menu_Modifier::Event(Event);
 				Menu_Campaign::Event(Event);
 			}
+			
+			Menu_Title::Async();
+			Menu_Campaign::Async();
 	
 			Auth::Loop();
 			Menu_Title::Loop();

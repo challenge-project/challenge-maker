@@ -94,11 +94,10 @@ Void Event(CManiaAppEvent _Event) {
 						if(Settings.Type == "Nadeo") return;
 						
 						declare Scroll = TextLib::ToInteger(Event.CustomEventData[0]);
-						
 						// some map file add to add here
 						
-						LastScroll = Scroll;
-						Changed = True;
+						//LastScroll = Scroll;
+						//Changed = True;
 					}
 					case "RemoveMap": {
 						if(Settings.Type == "Nadeo") return;
@@ -207,6 +206,25 @@ Void Event(CManiaAppEvent _Event) {
 						declare Campaign = Campaigns[Index];
 						Campaign.Image = Event.CustomEventData[1];
 						Campaigns[Index] = Campaign;
+						Changed = True;
+					}
+					case "OpenMapsFolder": {
+						declare MakerBase::SCampaign[] Campaigns for This;
+						declare Index = TextLib::ToInteger(Event.CustomEventData[0]);
+						if(Campaigns.existskey(Index)) {
+							declare Campaign = Campaigns[Index];
+							declare Success = OpenFileInExplorer("WorkTitles\\"^TitleEdition.EditedTitleId^"\\Maps\\Campaigns\\"^Campaign.Name^"\\");
+							if(!Success) {
+								declare Success2 = OpenFileInExplorer("WorkTitles\\"^TitleEdition.EditedTitleId^"\\Maps\\Campaigns\\"^Campaign.Name^"\\");
+							}
+						}
+						
+						declare Success = OpenFileInExplorer("WorkTitles\\"^TitleEdition.EditedTitleId^"\\Maps\\Campaigns\\");
+					}
+					case "Refresh": {
+						declare Scroll = TextLib::ToInteger(Event.CustomEventData[0]);
+						LastScroll = Scroll;
+						DataFileMgr.Map_RefreshFromDisk();
 						Changed = True;
 					}
 				}

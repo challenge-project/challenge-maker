@@ -66,10 +66,10 @@
 					<label size="50 5" text="{{{{IMAGE}}}}:" textfont="RajdhaniMono" valign="center" textsize="2"/>
 					<entry pos="0 -6" z-index="1" size="50 6" textfont="RajdhaniMono" valign="center" textsize="2" id="ENTRY_IMAGE"/>
 				</frame>
-				<quad pos="0 0" z-index="2" size="60 50" halign="center" scriptevents="1" id="QUAD_BLOCK_CAMPAIGNINFO" hidden="1"/>
+				<quad pos="0 0" z-index="2" size="60 50" halign="center" scriptevents="1" id="QUAD_BLOCK_CAMPAIGNINFO"/>
 				<frame z-index="2" id="FRAME_LOADING_CAMPAIGNINFO">
 					<quad pos="0 0" size="60 50" halign="center" style="Bgs1" substyle="BgCardList" scriptevents="1"/>
-					<quad pos="0 -25" z-index="1" size="10 10" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer" class="QUAD_LOADING_CAMPAIGNINFO_ICON"/>
+					<quad pos="0 -25" z-index="1" size="10 10" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer" class="LOADING"/>
 				</frame>
 			</frame>
 			<frame pos="0 -94.5">
@@ -83,7 +83,7 @@
 				<quad z-index="2" size="60 30" halign="center" scriptevents="1" id="QUAD_BLOCK_ADDCAMPAIGN"/>
 				<frame z-index="2" id="FRAME_LOADING_ADDCAMPAIGN">
 					<quad pos="0 0" size="60 30" halign="center" style="Bgs1" substyle="BgCardList" scriptevents="1"/>
-					<quad pos="0 -15" z-index="1" size="10 10" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer" class="QUAD_LOADING_ADDCAMPAIGN_ICON"/>
+					<quad pos="0 -15" z-index="1" size="10 10" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer" class="LOADING"/>
 				</frame>
 			</frame>
 			<frame pos="0 -130">
@@ -95,11 +95,11 @@
 				<label pos="0 0.5" z-index="1" size="60 10" text="{{{{CUSTOM_CAMPAIGN}}}}" halign="center" textfont="RajdhaniMono" valign="center"/>
 			</frame>
 			<frame pos="-25 -152.5">
-				<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="222" id="QUAD_BUTTON_REFRESH"/>
+				<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="036" id="QUAD_BUTTON_REFRESH"/>
 				<quad pos="0 0" z-index="1" size="9 9" valign="center" halign="center" style="UIConstruction_Buttons" substyle="Reload"/>
 			</frame>
 			<frame pos="-15 -152.5">
-				<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="222" id="QUAD_BUTTON_FOLDER"/>
+				<quad pos="0 0" z-index="0" size="10 10" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="036" id="QUAD_BUTTON_FOLDER"/>
 				<label pos="0 0.3" z-index="1" size="10 10" text="" halign="center" textfont="Oswald" valign="center"/>
 			</frame>
 			<frame pos="10 -152.5">

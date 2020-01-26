@@ -1,13 +1,34 @@
+#Struct STitle {
+	Real Time;
+	Boolean Exists;
+	Boolean Approved;
+	Text BanReason;
+}
+
+Void UpdateTitle() {
+	SendCustomEvent("UpdateTitle", [(Page.GetFirstChild("LABEL_TITLEID") as CMlLabel).Value,
+		(Page.GetFirstChild("ENTRY_DISPLAYNAME") as CMlEntry).Value,
+		(Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value,
+		(Page.GetFirstChild("ENTRY_INFOURL") as CMlEntry).Value,
+		(Page.GetFirstChild("ENTRY_DOWNLOADURL") as CMlEntry).Value]);
+}
+
+***Start***
+***
+declare Quad_Button_Publish = (Page.GetFirstChild("QUAD_BUTTON_PUBLISH") as CMlQuad);
+declare Label_Button_Publish = (Page.GetFirstChild("LABEL_BUTTON_PUBLISH") as CMlLabel);
+
+declare PreviousDescription = (Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value;
+
+declare End = -1;
+***
+
 ***Loop***
 ***
 foreach(Event,PendingEvents) {
 	switch(Event.Type) {
 		case CMlScriptEvent::Type::EntrySubmit: {
-			SendCustomEvent("UpdateTitle", [(Page.GetFirstChild("LABEL_TITLEID") as CMlLabel).Value,
-				(Page.GetFirstChild("ENTRY_DISPLAYNAME") as CMlEntry).Value,
-				(Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value,
-				(Page.GetFirstChild("ENTRY_INFOURL") as CMlEntry).Value,
-				(Page.GetFirstChild("ENTRY_DOWNLOADURL") as CMlEntry).Value]);
+			UpdateTitle();
 		}
 		case CMlScriptEvent::Type::MouseClick: {
 			switch(Event.ControlId) {
@@ -15,7 +36,17 @@ foreach(Event,PendingEvents) {
 					SendCustomEvent("BuildTitle", []);
 				}
 				case "QUAD_BUTTON_PUBLISH": {
-					SendCustomEvent("PublishTitle", []);
+					switch(Event.Control.DataAttributeGet("type")) {
+						case "PublishTitle": {
+							SendCustomEvent("PublishTitle", []);
+						}
+						case "PublishMaps": {
+							
+						}
+						case "WaitingForApprove": {
+							
+						}
+					}
 				}
 			}
 		}
@@ -27,6 +58,7 @@ foreach(Event,PendingEvents) {
 					declare Description = Event.CustomEventData[2];
 					declare InfoUrl = Event.CustomEventData[3];
 					declare DownloadUrl = Event.CustomEventData[4];
+					declare Logo = Event.CustomEventData[5];
 
 					(Page.GetFirstChild("LABEL_TITLEID") as CMlLabel).Value = TitleId;
 					(Page.GetFirstChild("ENTRY_DISPLAYNAME") as CMlEntry).Value = DisplayName;
@@ -34,9 +66,49 @@ foreach(Event,PendingEvents) {
 					(Page.GetFirstChild("ENTRY_INFOURL") as CMlEntry).Value = InfoUrl;
 					(Page.GetFirstChild("ENTRY_DOWNLOADURL") as CMlEntry).Value = DownloadUrl;
 				}
+				case "UpdatePublish": {
+					declare STitle Title for Page;
+					
+					if(Title.Exists) {
+						if(Title.Approved) {
+							Label_Button_Publish.Value = " {{{{PUBLISH_MAPS}}}}";
+							Quad_Button_Publish.ModulateColor = <0.,.4,.0>;
+							Quad_Button_Publish.DataAttributeSet("type", "PublishMaps");
+						}
+						else {
+							Label_Button_Publish.Value = " {{{{WAITING_FOR_APPROVE}}}}...";
+							Quad_Button_Publish.ModulateColor = <.6,.4,.0>;
+							Quad_Button_Publish.DataAttributeSet("type", "WaitingForApprove");
+						}
+					}
+					else {
+						Label_Button_Publish.Value = " {{{{PUBLISH_TITLE}}}}";
+						Quad_Button_Publish.ModulateColor = <0.,.4,.0>;
+						Quad_Button_Publish.DataAttributeSet("type", "PublishTitle");
+					}
+				}
+				case "Show": {
+					End = -1;
+					Page.GetFirstChild("FRAME_WINDOW_EDITTITLE").RelativePosition_V3.X = 230.;
+					AnimMgr.Add(Page.GetFirstChild("FRAME_WINDOW_EDITTITLE"), "<frame pos=\"95 80\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+				}
+				case "Hide": {
+					End = Now;
+					AnimMgr.Add(Page.GetFirstChild("FRAME_WINDOW_EDITTITLE"), "<frame pos=\"230 80\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+				}
 			}
 		}
 	}
 	
+	if(PreviousDescription != (Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value) {
+		UpdateTitle();
+		PreviousDescription = (Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value;
+	}
+
+	if(End != -1) {
+		if(Now - End > 500) {
+			SendCustomEvent("Hide_Response", []);
+		}
+	}
 }
 ***

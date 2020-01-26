@@ -1,3 +1,8 @@
+***Start***
+***
+declare End = -1;
+***
+
 ***Loop***
 ***
 foreach(Event,PendingEvents) {
@@ -45,9 +50,23 @@ foreach(Event,PendingEvents) {
 				case "UpdateCampaignStats": {
 					(Page.GetFirstChild("LABEL_CAMPAIGN_COUNT") as CMlLabel).SetText(Event.CustomEventData[0] ^ " CAMPAIGNS");
 				}
+				case "Show": {
+					End = -1;
+					Page.GetFirstChild("FRAME_WINDOW_MANAGETITLE").RelativePosition_V3.X = -230.;
+					AnimMgr.Add(Page.GetFirstChild("FRAME_WINDOW_MANAGETITLE"), "<frame pos=\"-110 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+				}
+				case "Hide": {
+					End = Now;
+					AnimMgr.Add(Page.GetFirstChild("FRAME_WINDOW_MANAGETITLE"), "<frame pos=\"-230 0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+				}
 			}
 		}
 	}
-	
+
+	if(End != -1) {
+		if(Now - End > 500) {
+			SendCustomEvent("Hide_Response", []);
+		}
+	}
 }
 ***

@@ -1,6 +1,7 @@
 #Include "MathLib" as MathLib
 #Include "TextLib" as TextLib
 
+#Include "Libs/BigBang1112/Http.Script.txt" as Http
 #Include "Libs/BigBang1112/Layers.Script.txt" as Layers
 #Include "Libs/BigBang1112/Manialink.Script.txt" as Manialink
 #Include "Libs/BigBang1112/Settings.Script.txt" as Settings
@@ -10,18 +11,33 @@
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 #Include "Libs/Challenge/Vehicle.Script.txt" as Vehicle
 
+#Include "Libs/Challenge/Service/Status.Script.txt" as Service_Status
+
+#Struct STitle {
+	Real Time;
+	Boolean Exists;
+	Boolean Approved;
+	Text BanReason;
+}
+
+#Struct SPublishTitleParams {
+	Text TitleId;
+	Text UserToken;
+	Text Description;
+}
+
 Void Init() {
 	Layers::Create("EditTitle", Manialink::FromFile("Media/Manialinks/Maker/EditTitle", True, ["Audio"], Settings::Get().Theme));
 	Layers::Create("ManageTitle", Manialink::FromFile("Media/Manialinks/Maker/ManageTitle", True, ["Audio"], Settings::Get().Theme));
 	
 	declare Title <=> TitleEdition.EditedTitleInfo;
 	Layers::SendEvent("EditTitle", "Change", [Title.TitleId^"", Title.DisplayName, Title.Description,
-		Title.InfoUrl, Title.DownloadUrl]);
+		Title.InfoUrl, Title.DownloadUrl, Title.Packaging_ImageFileName]);
 }
 
 Void Start() {
-	Layers::Show("EditTitle",True);
-	Layers::Show("ManageTitle",True);
+	Layers::Show("EditTitle", True);
+	Layers::Show("ManageTitle", True);
 	
 	declare Boolean StartBuildTitle for This;
 	StartBuildTitle = False;
@@ -49,18 +65,18 @@ Void Event(CManiaAppEvent _Event) {
 					}
 					case "Builder": {
 						Layers::Show("Builder", True);
-						Layers::Hide("EditTitle", False);
-						Layers::Hide("ManageTitle", False);
+						Layers::Hide("EditTitle", True);
+						Layers::Hide("ManageTitle", True);
 					}
 					case "Modifier": {
 						Layers::Show("Modifier", True);
-						Layers::Hide("EditTitle", False);
-						Layers::Hide("ManageTitle", False);
+						Layers::Hide("EditTitle", True);
+						Layers::Hide("ManageTitle", True);
 					}
 					case "Preview": {
 						Layers::Show("Campaign", True);
-						Layers::Hide("EditTitle", False);
-						Layers::Hide("ManageTitle", False);
+						Layers::Hide("EditTitle", True);
+						Layers::Hide("ManageTitle", True);
 					}
 				}
 			}
@@ -84,6 +100,16 @@ Void Event(CManiaAppEvent _Event) {
 						declare Boolean StartBuildTitle for This;
 						StartBuildTitle = True;
 					}
+					case "PublishTitle": {
+						declare Text CHALLENGE_TOKEN for LocalUser;
+						
+						declare SPublishTitleParams Params;
+						Params.UserToken = CHALLENGE_TOKEN;
+						Params.TitleId = TitleEdition.EditedTitleId;
+						Params.Description = TitleEdition.EditedTitleInfo.Description;
+						
+						declare Success = Http::AsyncPOST("PUBLISHTITLE", Service_Status::LastStatus(LocalUser).Global.Service^"/ingame/publishtitle.php", Params.tojson());
+					}
 				}
 			}
 		}
@@ -91,7 +117,13 @@ Void Event(CManiaAppEvent _Event) {
 }
 
 Void Async() {
-	
+	if(Http::IsCompleted("TITLE")) {
+		if(Http::IsSuccessful("TITLE")) {
+			declare STitle Title for Layers::Page("EditTitle");
+			declare Success = Title.fromjson(Http::GetResult("TITLE"));
+			Layers::SendEvent("EditTitle", "UpdatePublish");
+		}
+	}
 }
 
 Void BuildPackage() {
@@ -103,22 +135,6 @@ Void BuildPackage() {
 	
 	declare Vehicles = Vehicle::FromFile("Media/Vehicle.json");
 	declare Counter = 0;
-	/*for(I,0,Campaigns.count-1) {
-		for(J,0, Challenges.count-1) {
-			declare MakerBase::SScriptInfo[] Chs;
-			foreach(Ch,Challenges)
-				foreach(C,Ch) Chs.add(MakerBase::SChallengeToSScriptInfo(C));
-				
-			declare Text[] Chalangs;
-			foreach(C, Chs)
-				Chalangs.add(C.Metadata.Name);
-			log(Campaigns[I].Folder^"/"^TextLib::Join("+", Chalangs));
-			for(K,0,Vehicles.count-1) {
-				TitleEdition.SetTitleCampaign(Counter, Vehicles[K].Name, Campaigns[I].Folder^"/"^TextLib::Join("+", Chalangs), True, True);
-				Counter += 1;
-			}
-		}
-	}*/
 	for(I,0,Vehicles.count-1)
 		TitleEdition.SetTitleCampaign(I, Vehicles[I].Name, "Maps/Campaigns/", True, True);
 	

@@ -28,13 +28,18 @@ Void UpdateCampaignType() {
 	else if(CampaignType == "Custom") {
 		(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
 		(Page.GetFirstChild("QUAD_BUTTON_NADEOCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
-		(Page.GetFirstChild("QUAD_BLOCK_CAMPAIGNINFO") as CMlQuad).Hide();
+		if((Page.GetFirstChild("FRAME_CAMPAIGNS") as CMlFrame).Controls.count > 0)
+			Page.GetFirstChild("QUAD_BLOCK_CAMPAIGNINFO").Hide();
+		else
+			Page.GetFirstChild("QUAD_BLOCK_CAMPAIGNINFO").Show();
 		(Page.GetFirstChild("QUAD_BLOCK_ADDCAMPAIGN") as CMlQuad).Hide();
 	}
 }
 
 ***Start***
 ***
+Page.GetClassChildren("LOADING", Page.MainFrame, True);
+
 declare Frame_Campaigns = (Page.GetFirstChild("FRAME_CAMPAIGNS") as CMlFrame);
 declare Frame_Campaign_Menu = (Page.GetFirstChild("FRAME_CAMPAIGN_MENU") as CMlFrame);
 declare Quad_Block_CampaignInfo = (Page.GetFirstChild("QUAD_BLOCK_CAMPAIGNINFO") as CMlQuad);
@@ -189,6 +194,12 @@ foreach(Event,PendingEvents) {
 					HoldScrollbar = True;
 					HoldScrollbarPos = MouseY-Quad_Scrollbar.RelativePosition_V3.Y;
 				}
+				case "QUAD_BUTTON_FOLDER": {
+					SendCustomEvent("OpenMapsFolder", [CurrentCampaign^""]);
+				}
+				case "QUAD_BUTTON_REFRESH": {
+					SendCustomEvent("Refresh", [Frame_Campaign_Menu.ScrollOffset.Y^""]);
+				}
 			}
 		}
 		case CMlScriptEvent::Type::MouseOver: {
@@ -217,7 +228,10 @@ foreach(Event,PendingEvents) {
 					//(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.2,.2,.2>;
 				}
 				case "CustomCampaign": {
-					Quad_Block_CampaignInfo.Hide();
+					if(Frame_Campaigns.Controls.count > 0)
+						Quad_Block_CampaignInfo.Hide();
+					else
+						Quad_Block_CampaignInfo.Show();
 					Quad_Block_AddCampaign.Hide();
 					Frame_Campaigns.RelativePosition_V3.X = 0.;
 					//(Page.GetFirstChild("QUAD_BUTTON_CUSTOMCAMPAIGN") as CMlQuad).Colorize = <.0,.2,.4>;
@@ -225,6 +239,13 @@ foreach(Event,PendingEvents) {
 				}
 				case "Show": {
 					UpdateCampaignType();
+
+					/*declare Frame_Main_Campaign = (Page.GetFirstChild("FRAME_MAIN_CAMPAIGN") as CMlFrame);
+					declare Frame_Main_Panel = (Page.GetFirstChild("FRAME_MAIN_PANEL") as CMlFrame);
+					Frame_Main_Campaign.RelativePosition_V3 = <85., 80.>;
+					Frame_Main_Panel.RelativePosition_V3 = <52.5, 80.>;
+					AnimMgr.Add(Frame_Main_Campaign, "<frame pos=\"-150 80\" hidden=\"0\"/>", 1000, CAnimManager::EAnimManagerEasing::QuadOut);
+					AnimMgr.Add(Frame_Main_Panel, "<frame pos=\"117.5 80\" hidden=\"0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);*/
 				}
 				case "CampaignChanged": {
 					declare Text[] Data;
@@ -279,5 +300,9 @@ else {
 	}
 
 	HoldScrollbar = False;
+}
+
+foreach(Control in Page.GetClassChildren_Result) {
+	Control.RelativeRotation += Period / 5.0;
 }
 ***

@@ -356,7 +356,8 @@ Void PreloadTheThumbnails() {
 						}
 					}
 				}
-				(Page.GetFirstChild("GAUGE_LOADING_THUMBNAILS") as CMlGauge).Ratio = MathLib::ToReal(CurrentMap)/TotalMaps;
+				if(TotalMaps > 0)
+					(Page.GetFirstChild("GAUGE_LOADING_THUMBNAILS") as CMlGauge).Ratio = MathLib::ToReal(CurrentMap)/TotalMaps;
 				yield;
 			}
 		}

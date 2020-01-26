@@ -1,4 +1,4 @@
-<frame pos="-110">
+<frame pos="-110" id="FRAME_WINDOW_MANAGETITLE">
 	<frame z-index="-1">
 		<quad z-index="0" size="80 160" valign="center" halign="center" style="Bgs1" substyle="BgCardList"/>
 		<quad z-index="0" size="80 160" valign="center" halign="center" style="Bgs1" substyle="BgCardList"/>
