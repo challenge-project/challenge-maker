@@ -19,7 +19,7 @@
 		</frame>
 		<quad pos="0 -26.5" z-index="0" size="72.5 41" halign="center" style="Bgs1" substyle="BgCardList" valign="center"/>
 	</frame>
-	<frame class="BUTTON" pos="0 -11">
+	<frame class="BUTTON" pos="0 -11" hidden="1">
 		<quad z-index="0" size="72.5 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="D90" id="QUAD_BUTTON_UPDATE" class="opacity" pos="0 0" valign="center"/>
 		<label z-index="1" size="72.5 10" text=" {{{{UPDATE_CORE_FILES}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.4" textsize="3"/>
 	</frame>

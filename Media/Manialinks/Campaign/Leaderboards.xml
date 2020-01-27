@@ -1,5 +1,5 @@
 <frame>
-	<frame>
+	<frame id="FRAME_BOTTOM">
 		<frame id="FRAME_BACKGROUND" pos="0 -61">
 			<quad z-index="-2" size="300 19" halign="center" valign="top" style="Bgs1" substyle="BgCardList"/>
 			<quad z-index="-2" size="300 19" halign="center" valign="top" style="Bgs1" substyle="BgCardList"/>
@@ -267,12 +267,12 @@
 			</frame>
 		</frame>
 	</frame>
-	<frame>
+	<frame id="FRAME_OTHER_LEADERBOARDS">
 		<frame pos="150 80" id="FRAME_SCROLL">
-			<quad z-index="0" size="2.5 140" style="Bgs1" substyle="BgMetalBar" modulatecolor="222" opacity=".5" halign="right"/>
-			<quad z-index="1" size="2.5 60" style="Bgs1" substyle="BgWindow4" id="QUAD_SCROLL" hidden="0" scriptevents="1" halign="right"	/>
+			<quad z-index="0" size="2.5 140" style="Bgs1" substyle="BgMetalBar" id="QUAD_SCROLL_MAJOR_BG" modulatecolor="222" opacity=".5" halign="right"/>
+			<quad z-index="1" size="2.5 60" style="Bgs1" substyle="BgWindow4" id="QUAD_SCROLL_MAJOR" hidden="0" scriptevents="1" halign="right"/>
 		</frame>
-		<frame clip="True" clipposn="80 10.1" clipsizen="135 139.75" scroll="True" scrollmax="0 263" scrollgrid="5 5">
+		<frame clip="True" clipposn="80 10.1" clipsizen="135 139.75" scroll="True" scrollmax="0 263" scrollgrid="5 5" id="FRAME_OTHER_LEADERBOARDS_CLIP">
 			<quad pos="12.5 80" z-index="-1" size="135 470" scriptevents="1"/>
 			<frame pos="47 80" id="FRAME_MOST_VALIDATIONS" scale=".825">
 				<frame id="FRAME_BACKGROUND" z-index="-1">

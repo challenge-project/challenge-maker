@@ -27,7 +27,7 @@ Void Init() {
 	declare MakerBase::SCampaign[] Campaigns for This;
 	declare MakerBase::SChallenge[][] Challenges for This;
 
-	declare MakerBase::SScriptInfo[][] Scripts;
+	declare MakerBase::SScriptInfo[][] Scripts for This;
 	foreach(Challenge,Challenges) {
 		declare MakerBase::SScriptInfo[] ScriptSet;
 		foreach(Ch,Challenge)
@@ -70,9 +70,11 @@ Void Init() {
 	}
 
 	PreCampaignML ^= "</frame>";
+	declare ScrollSize = 0.;
+	if(Campaigns.count > 0) ScrollSize = 290./(Campaigns.count*80)*290;
 	PreCampaignML ^= """<frame pos="-145 -62.5" id="FRAME_SCROLL">
 			<quad z-index="0" size="290 2.5" style="Bgs1" substyle="BgMetalBar" modulatecolor="222" opacity=".5" valign="center"/>
-			<quad z-index="1" size="{{{290./(Campaigns.count*80)*290}}} 2.5" style="Bgs1" substyle="BgWindow4" id="QUAD_SCROLL" valign="center" hidden="0" scriptevents="1"/>
+			<quad z-index="1" size="{{{ScrollSize}}} 2.5" style="Bgs1" substyle="BgWindow4" id="QUAD_SCROLL" valign="center" hidden="0" scriptevents="1"/>
 		</frame>""";
 	PreCampaignML ^= """<frame pos="-160">
 		<quad pos="0 0" z-index="0" size="15 120" valign="center" scriptevents="1" id="QUAD_SCROLL_LEFT"/>

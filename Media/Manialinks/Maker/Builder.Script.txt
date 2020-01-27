@@ -47,9 +47,14 @@ declare Quad_Block_AddCampaign = (Page.GetFirstChild("QUAD_BLOCK_ADDCAMPAIGN") a
 declare Frame_Loading_CampaignInfo = (Page.GetFirstChild("FRAME_LOADING_CAMPAIGNINFO") as CMlFrame);
 declare Frame_Loading_AddCampaign = (Page.GetFirstChild("FRAME_LOADING_ADDCAMPAIGN") as CMlFrame);
 
+declare Frame_Main_Campaign = (Page.GetFirstChild("FRAME_MAIN_CAMPAIGN") as CMlFrame);
+declare Frame_Main_Panel = (Page.GetFirstChild("FRAME_MAIN_PANEL") as CMlFrame);
+
 declare HoldItSteady = False;
 declare HoldItSteadyLoc = 0.;
 declare HoldItSteadyMouse = 0.;
+
+declare End = -1;
 
 declare CampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
 declare LastCampaignPosition = Frame_Campaigns.RelativePosition_V3.X / 45. * 225.;
@@ -240,12 +245,22 @@ foreach(Event,PendingEvents) {
 				case "Show": {
 					UpdateCampaignType();
 
-					/*declare Frame_Main_Campaign = (Page.GetFirstChild("FRAME_MAIN_CAMPAIGN") as CMlFrame);
+					End = -1;
+
+					declare Frame_Main_Campaign = (Page.GetFirstChild("FRAME_MAIN_CAMPAIGN") as CMlFrame);
 					declare Frame_Main_Panel = (Page.GetFirstChild("FRAME_MAIN_PANEL") as CMlFrame);
 					Frame_Main_Campaign.RelativePosition_V3 = <85., 80.>;
 					Frame_Main_Panel.RelativePosition_V3 = <52.5, 80.>;
 					AnimMgr.Add(Frame_Main_Campaign, "<frame pos=\"-150 80\" hidden=\"0\"/>", 1000, CAnimManager::EAnimManagerEasing::QuadOut);
-					AnimMgr.Add(Frame_Main_Panel, "<frame pos=\"117.5 80\" hidden=\"0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);*/
+					AnimMgr.Add(Frame_Main_Panel, "<frame pos=\"117.5 80\" hidden=\"0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+				}
+				case "Hide": {
+					End = Now;
+
+					AnimMgr.Flush(Frame_Main_Campaign);
+					AnimMgr.Flush(Frame_Main_Panel);
+					AnimMgr.Add(Frame_Main_Campaign, "<frame pos=\"85 80\" hidden=\"1\"/>", 1000, CAnimManager::EAnimManagerEasing::QuadOut);
+					AnimMgr.Add(Frame_Main_Panel, "<frame pos=\"52.5 80\" hidden=\"1\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
 				}
 				case "CampaignChanged": {
 					declare Text[] Data;
@@ -300,6 +315,13 @@ else {
 	}
 
 	HoldScrollbar = False;
+}
+
+if(End != -1) {
+	if(Now - End > 1000) {
+		End = -1;
+		SendCustomEvent("Hide_Response", []);
+	}
 }
 
 foreach(Control in Page.GetClassChildren_Result) {

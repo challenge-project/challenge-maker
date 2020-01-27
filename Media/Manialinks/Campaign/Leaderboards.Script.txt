@@ -111,6 +111,12 @@ switch(LB) {
 ***
 Page.GetClassChildren("LOADING", Page.MainFrame, True);
 
+declare Frame_Other_Leaderboards_Clip = (Page.GetFirstChild("FRAME_OTHER_LEADERBOARDS_CLIP") as CMlFrame);
+declare Quad_Scroll_Major = (Page.GetFirstChild("QUAD_SCROLL_MAJOR") as CMlQuad);
+declare Quad_Scroll_Major_BG = (Page.GetFirstChild("QUAD_SCROLL_MAJOR_BG") as CMlQuad);
+
+Quad_Scroll_Major.Size.Y = Frame_Other_Leaderboards_Clip.ClipWindowSize.Y/(Frame_Other_Leaderboards_Clip.ClipWindowSize.Y+Frame_Other_Leaderboards_Clip.ScrollMax.Y)*Quad_Scroll_Major_BG.Size.Y;
+
 declare Zones = TextLib::Split("|", LocalUser.ZonePath);
 declare Cars = ["{{{{ALL_CARS}}}}", "CanyonCar", "StadiumCar", "ValleyCar", "LagoonCar", "DesertCar", "RallyCar", "SnowCar", "IslandCar", "BayCar", "CoastCar"];
 declare Campaigns = ["{{{{ALL_CAMPAIGNS}}}}"];
@@ -270,6 +276,8 @@ foreach(Event in PendingEvents) {
 		case CMlScriptEvent::Type::PluginCustomEvent: {
 			switch(Event.CustomEventType) {
 				case "Show": {
+					End = -1;
+
 					CurrentCampaign["FRAME_OVERALL_SKILLPOINT"] = 0;
 					CurrentChallenge["FRAME_OVERALL_SKILLPOINT"] = 0;
 					CurrentCar["FRAME_OVERALL_SKILLPOINT"] = 0;
@@ -345,9 +353,25 @@ foreach(Event in PendingEvents) {
 					(((Page.GetFirstChild("FRAME_MOST_QUALITY_COMBINATIONS") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
 					(((Page.GetFirstChild("FRAME_MOST_QUALITY_COMBINATIONS") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
 					(((Page.GetFirstChild("FRAME_MOST_QUALITY_COMBINATIONS") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
+				
+					Page.GetFirstChild("FRAME_BOTTOM").RelativePosition_V3.Y = -30.;
+					AnimMgr.Add(Page.GetFirstChild("FRAME_BOTTOM"), "<frame pos=\"0 0\" />", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					
+					Page.GetFirstChild("FRAME_OVERALL_SKILLPOINT").RelativePosition_V3.X = -281.;
+					AnimMgr.Add(Page.GetFirstChild("FRAME_OVERALL_SKILLPOINT"), "<frame pos=\"-110 80\" />", 1000, CAnimManager::EAnimManagerEasing::QuadOut);
+
+					Page.GetFirstChild("FRAME_OVERALL_ACTIVITY").RelativePosition_V3.X = -200.;
+					AnimMgr.Add(Page.GetFirstChild("FRAME_OVERALL_ACTIVITY"), "<frame pos=\"-29 80\" />", 800, CAnimManager::EAnimManagerEasing::QuadOut);
+					
+					Page.GetFirstChild("FRAME_OTHER_LEADERBOARDS").RelativePosition_V3.X = 150.;
+					AnimMgr.Add(Page.GetFirstChild("FRAME_OTHER_LEADERBOARDS"), "<frame pos=\"0 0\" />", 800, CAnimManager::EAnimManagerEasing::QuadOut);
 				}
 				case "Hide": {
 					End = Now;
+					AnimMgr.Add(Page.GetFirstChild("FRAME_BOTTOM"), "<frame pos=\"0 -30\" />", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					AnimMgr.Add(Page.GetFirstChild("FRAME_OVERALL_SKILLPOINT"), "<frame pos=\"-281 80\" />", 600, CAnimManager::EAnimManagerEasing::QuadOut);
+					AnimMgr.Add(Page.GetFirstChild("FRAME_OVERALL_ACTIVITY"), "<frame pos=\"-200 80\" />", 800, CAnimManager::EAnimManagerEasing::QuadOut);
+					AnimMgr.Add(Page.GetFirstChild("FRAME_OTHER_LEADERBOARDS"), "<frame pos=\"150 0\" />", 800, CAnimManager::EAnimManagerEasing::QuadOut);
 				}
 				case "UpdateFilters": {
 					Campaigns = ["{{{{ALL_CAMPAIGNS}}}}"];
@@ -567,16 +591,16 @@ foreach(Event in PendingEvents) {
 
 						}
 					}
-
-					
 				}
 			}
 		}
 	}
 }
 
+Quad_Scroll_Major.RelativePosition_V3.Y = -Frame_Other_Leaderboards_Clip.ScrollOffset.Y/Frame_Other_Leaderboards_Clip.ScrollMax.Y*(Quad_Scroll_Major_BG.Size.Y-Quad_Scroll_Major.Size.Y);
+
 if(End != -1) {
-	if(End < Now) {
+	if(Now - End > 1000) {
 		SendCustomEvent("Hide_Response", []);
 		End = -1;
 	}
