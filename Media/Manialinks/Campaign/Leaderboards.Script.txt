@@ -26,15 +26,138 @@
 	SLBMostAPUser[] Users;
 }
 
+#Struct SLBMostValidationsUser {
+	Text Login;
+	Text Nickname;
+	Text Zone;
+	Integer Count;
+	Integer Rank;
+}
+
+#Struct SLBMostValidations {
+	SLBMostValidationsUser[] Users;
+}
+
+#Struct SLBOldestWorldRecordsRecord {
+	Text MapUid;
+	Text OriginalName;
+	Text Challenge;
+	Text Car;
+	Integer Time;
+	Text Login;
+	Text Nickname;
+	Text Zone;
+	Integer Driven;
+	Integer Rank;
+}
+
+#Struct SLBOldestWorldRecords {
+	SLBOldestWorldRecordsRecord[] Records;
+}
+
+Text TimeToTextWithMilli(Integer _Time) {
+	return TextLib::TimeToText(_Time, True)^TextLib::SubText(""^_Time, TextLib::Length(""^_Time)-1, 1);
+}
+
+***RequestLeaderboard***
+***
+declare Zone = "";
+if(CurrentZone.existskey(LB)) {
+	declare Text[] Zns;
+	for(I, 0, CurrentZone[LB])
+		Zns.add(Zones[I]);
+	Zone = TextLib::Join("|", Zns);
+}
+
+declare Campaign = ""; if(CurrentCampaign[LB] > 0) Campaign = Campaigns[CurrentCampaign[LB]];
+declare Challenge = ""; if(CurrentChallenge[LB] > 0) Challenge = Challenges[CurrentChallenge[LB]];
+declare Car = ""; if(CurrentCar[LB] > 0) Car = Cars[CurrentCar[LB]];
+
+switch(LB) {
+	case "FRAME_OVERALL_SKILLPOINT": {
+		SendCustomEvent("RequestLeaderboard", ["MostSP", Campaign, Challenge, Car, Zone]);
+	}
+	case "FRAME_OVERALL_ACTIVITY": {
+		SendCustomEvent("RequestLeaderboard", ["MostAP", Campaign, Challenge, Car, Zone]);
+	}
+	case "FRAME_MOST_VALIDATIONS": {
+		SendCustomEvent("RequestLeaderboard", ["MostValidations", Campaign, Challenge, Car, Zone]);
+	}
+	case "FRAME_OLDEST_WORLD_RECORDS": {
+		SendCustomEvent("RequestLeaderboard", ["OldestWorldRecords", Campaign, Challenge, Car, Zone]);
+	}
+	case "FRAME_NEWEST_VALIDATIONS": {
+		SendCustomEvent("RequestLeaderboard", ["NewestValidations", Campaign, Challenge, Car, Zone]);
+	}
+	case "FRAME_MOST_RECORDS_DRIVEN": {
+		SendCustomEvent("RequestLeaderboard", ["MostRecordsDriven", Campaign, Challenge, Car, Zone]);
+	}
+	case "FRAME_YOUR_VALIDATIONS": {
+		SendCustomEvent("RequestLeaderboard", ["YourValidations", Campaign, Challenge, Car, Zone]);
+	}
+	case "FRAME_YOUR_WORLD_RECORDS": {
+		SendCustomEvent("RequestLeaderboard", ["YourWorldRecords", Campaign, Challenge, Car, Zone]);
+	}
+	case "FRAME_MOST_DIFFICULT_COMBINATIONS": {
+		SendCustomEvent("RequestLeaderboard", ["MostDifficult", Campaign, Challenge, Car, Zone]);
+	}
+	case "FRAME_MOST_QUALITY_COMBINATIONS": {
+		SendCustomEvent("RequestLeaderboard", ["MostQuality", Campaign, Challenge, Car, Zone]);		
+	}
+}
+***
+
 ***Start***
 ***
 Page.GetClassChildren("LOADING", Page.MainFrame, True);
 
 declare Zones = TextLib::Split("|", LocalUser.ZonePath);
-declare Cars = ["CanyonCar", "StadiumCar", "ValleyCar", "LagoonCar", "DesertCar", "RallyCar", "SnowCar", "IslandCar", "BayCar", "CoastCar"];
+declare Cars = ["{{{{ALL_CARS}}}}", "CanyonCar", "StadiumCar", "ValleyCar", "LagoonCar", "DesertCar", "RallyCar", "SnowCar", "IslandCar", "BayCar", "CoastCar"];
+declare Campaigns = ["{{{{ALL_CAMPAIGNS}}}}"];
+declare Challenges = ["{{{{ALL_CHALLENGES}}}}"];
 
-declare Integer[Text] CurrentZone;
-declare Integer[Text] CurrentCar;
+declare Integer[Text] CurrentCampaign = [
+	"FRAME_OVERALL_SKILLPOINT" => 0,
+	"FRAME_OVERALL_ACTIVITY" => 0,
+	"FRAME_MOST_VALIDATIONS" => 0,
+	"FRAME_OLDEST_WORLD_RECORDS" => 0,
+	"FRAME_NEWEST_VALIDATIONS" => 0,
+	"FRAME_MOST_RECORDS_DRIVEN" => 0,
+	"FRAME_YOUR_VALIDATIONS" => 0,
+	"FRAME_YOUR_WORLD_RECORDS" => 0,
+	"FRAME_MOST_DIFFICULT_COMBINATIONS" => 0,
+	"FRAME_MOST_QUALITY_COMBINATIONS" => 0
+];
+declare Integer[Text] CurrentChallenge = [
+	"FRAME_OVERALL_SKILLPOINT" => 0,
+	"FRAME_OVERALL_ACTIVITY" => 0,
+	"FRAME_MOST_VALIDATIONS" => 0,
+	"FRAME_OLDEST_WORLD_RECORDS" => 0,
+	"FRAME_NEWEST_VALIDATIONS" => 0,
+	"FRAME_MOST_RECORDS_DRIVEN" => 0,
+	"FRAME_YOUR_VALIDATIONS" => 0,
+	"FRAME_YOUR_WORLD_RECORDS" => 0,
+	"FRAME_MOST_DIFFICULT_COMBINATIONS" => 0,
+	"FRAME_MOST_QUALITY_COMBINATIONS" => 0
+];
+declare Integer[Text] CurrentCar = [
+	"FRAME_OVERALL_SKILLPOINT" => 0,
+	"FRAME_OVERALL_ACTIVITY" => 0,
+	"FRAME_MOST_VALIDATIONS" => 0,
+	"FRAME_OLDEST_WORLD_RECORDS" => 0,
+	"FRAME_NEWEST_VALIDATIONS" => 0,
+	"FRAME_MOST_RECORDS_DRIVEN" => 0,
+	"FRAME_YOUR_VALIDATIONS" => 0,
+	"FRAME_YOUR_WORLD_RECORDS" => 0,
+	"FRAME_MOST_DIFFICULT_COMBINATIONS" => 0,
+	"FRAME_MOST_QUALITY_COMBINATIONS" => 0
+];
+declare Integer[Text] CurrentZone = [
+	"FRAME_OVERALL_SKILLPOINT" => 0,
+	"FRAME_OVERALL_ACTIVITY" => 0,
+	"FRAME_NEWEST_VALIDATIONS" => 0,
+	"FRAME_MOST_RECORDS_DRIVEN" => 0
+];
 
 declare End = -1;
 ***
@@ -48,15 +171,196 @@ foreach(Event in PendingEvents) {
 				case "QUAD_BUTTON_EXIT": {
 					SendCustomEvent("Exit", []);
 				}
+				case "QUAD_NEXT": {
+					switch(Event.Control.Parent.ControlId) {
+						case "FRAME_CAMPAIGN": {
+							declare LB = Event.Control.Parent.Parent.ControlId;
+							if(CurrentCampaign[LB] < Campaigns.count-1) CurrentCampaign[LB] += 1;
+							else CurrentCampaign[LB] = 0;
+
+							(Event.Control.Parent.GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = Campaigns[CurrentCampaign[LB]];
+							Event.Control.Parent.Parent.GetFirstChild("QUAD_LOADING").Show();
+							Event.Control.Parent.Parent.GetFirstChild("FRAME_LEADERBOARD").Hide();
+							
+							+++RequestLeaderboard+++
+						}
+						case "FRAME_CHALLENGE": {
+							declare LB = Event.Control.Parent.Parent.ControlId;
+							if(CurrentChallenge[LB] < Challenges.count-1) CurrentChallenge[LB] += 1;
+							else CurrentChallenge[LB] = 0;
+
+							(Event.Control.Parent.GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = Challenges[CurrentChallenge[LB]];
+							Event.Control.Parent.Parent.GetFirstChild("QUAD_LOADING").Show();
+							Event.Control.Parent.Parent.GetFirstChild("FRAME_LEADERBOARD").Hide();
+							
+							+++RequestLeaderboard+++
+						}
+						case "FRAME_CAR": {
+							declare LB = Event.Control.Parent.Parent.ControlId;
+							if(CurrentCar[LB] < Cars.count-1) CurrentCar[LB] += 1;
+							else CurrentCar[LB] = 0;
+
+							(Event.Control.Parent.GetFirstChild("LABEL_CAR") as CMlLabel).Value = Cars[CurrentCar[LB]];
+							Event.Control.Parent.Parent.GetFirstChild("QUAD_LOADING").Show();
+							Event.Control.Parent.Parent.GetFirstChild("FRAME_LEADERBOARD").Hide();
+							
+							+++RequestLeaderboard+++
+						}
+						case "FRAME_ZONE": {
+							declare LB = Event.Control.Parent.Parent.ControlId;
+							if(CurrentZone[LB] < Zones.count-1) CurrentZone[LB] += 1;
+							else CurrentZone[LB] = 0;
+							(Event.Control.Parent.GetFirstChild("LABEL_ZONE") as CMlLabel).Value = Zones[CurrentZone[LB]];
+							Event.Control.Parent.Parent.GetFirstChild("QUAD_LOADING").Show();
+							Event.Control.Parent.Parent.GetFirstChild("FRAME_LEADERBOARD").Hide();
+							
+							+++RequestLeaderboard+++
+						}
+					}
+				}
+				case "QUAD_PREVIOUS": {
+					switch(Event.Control.Parent.ControlId) {
+						case "FRAME_CAMPAIGN": {
+							declare LB = Event.Control.Parent.Parent.ControlId;
+							if(CurrentCampaign[LB] > 0) CurrentCampaign[LB] -= 1;
+							else CurrentCampaign[LB] = Campaigns.count-1;
+
+							(Event.Control.Parent.GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = Campaigns[CurrentCampaign[LB]];
+							Event.Control.Parent.Parent.GetFirstChild("QUAD_LOADING").Show();
+							Event.Control.Parent.Parent.GetFirstChild("FRAME_LEADERBOARD").Hide();
+							
+							+++RequestLeaderboard+++
+						}
+						case "FRAME_CHALLENGE": {
+							declare LB = Event.Control.Parent.Parent.ControlId;
+							if(CurrentChallenge[LB] > 0) CurrentChallenge[LB] -= 1;
+							else CurrentChallenge[LB] = Challenges.count-1;
+
+							(Event.Control.Parent.GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = Challenges[CurrentChallenge[LB]];
+							Event.Control.Parent.Parent.GetFirstChild("QUAD_LOADING").Show();
+							Event.Control.Parent.Parent.GetFirstChild("FRAME_LEADERBOARD").Hide();
+
+							+++RequestLeaderboard+++
+						}
+						case "FRAME_CAR": {
+							declare LB = Event.Control.Parent.Parent.ControlId;
+							if(CurrentCar[LB] > 0) CurrentCar[LB] -= 1;
+							else CurrentCar[LB] = Cars.count-1;
+
+							(Event.Control.Parent.GetFirstChild("LABEL_CAR") as CMlLabel).Value = Cars[CurrentCar[LB]];
+							Event.Control.Parent.Parent.GetFirstChild("QUAD_LOADING").Show();
+							Event.Control.Parent.Parent.GetFirstChild("FRAME_LEADERBOARD").Hide();
+
+							+++RequestLeaderboard+++
+						}
+						case "FRAME_ZONE": {
+							declare LB = Event.Control.Parent.Parent.ControlId;
+							if(CurrentZone[LB] > 0) CurrentZone[LB] -= 1;
+							else CurrentZone[LB] = Zones.count-1;
+							(Event.Control.Parent.GetFirstChild("LABEL_ZONE") as CMlLabel).Value = Zones[CurrentZone[LB]];
+							Event.Control.Parent.Parent.GetFirstChild("QUAD_LOADING").Show();
+							Event.Control.Parent.Parent.GetFirstChild("FRAME_LEADERBOARD").Hide();
+
+							+++RequestLeaderboard+++
+						}
+					}
+				}
 			}
 		}
 		case CMlScriptEvent::Type::PluginCustomEvent: {
 			switch(Event.CustomEventType) {
 				case "Show": {
+					CurrentCampaign["FRAME_OVERALL_SKILLPOINT"] = 0;
+					CurrentChallenge["FRAME_OVERALL_SKILLPOINT"] = 0;
+					CurrentCar["FRAME_OVERALL_SKILLPOINT"] = 0;
+					CurrentZone["FRAME_OVERALL_SKILLPOINT"] = 0;
+					(((Page.GetFirstChild("FRAME_OVERALL_SKILLPOINT") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
+					(((Page.GetFirstChild("FRAME_OVERALL_SKILLPOINT") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
+					(((Page.GetFirstChild("FRAME_OVERALL_SKILLPOINT") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
+					(((Page.GetFirstChild("FRAME_OVERALL_SKILLPOINT") as CMlFrame).GetFirstChild("FRAME_ZONE") as CMlFrame).GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "World";
+
+					CurrentCampaign["FRAME_OVERALL_ACTIVITY"] = 0;
+					CurrentChallenge["FRAME_OVERALL_ACTIVITY"] = 0;
+					CurrentCar["FRAME_OVERALL_ACTIVITY"] = 0;
+					CurrentZone["FRAME_OVERALL_ACTIVITY"] = 0;
+					(((Page.GetFirstChild("FRAME_OVERALL_ACTIVITY") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
+					(((Page.GetFirstChild("FRAME_OVERALL_ACTIVITY") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
+					(((Page.GetFirstChild("FRAME_OVERALL_ACTIVITY") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
+					(((Page.GetFirstChild("FRAME_OVERALL_ACTIVITY") as CMlFrame).GetFirstChild("FRAME_ZONE") as CMlFrame).GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "World";
+
+					CurrentCampaign["FRAME_MOST_VALIDATIONS"] = 0;
+					CurrentChallenge["FRAME_MOST_VALIDATIONS"] = 0;
+					CurrentCar["FRAME_MOST_VALIDATIONS"] = 0;
+					(((Page.GetFirstChild("FRAME_MOST_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
+					(((Page.GetFirstChild("FRAME_MOST_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
+					(((Page.GetFirstChild("FRAME_MOST_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
 					
+					CurrentCampaign["FRAME_OLDEST_WORLD_RECORDS"] = 0;
+					CurrentChallenge["FRAME_OLDEST_WORLD_RECORDS"] = 0;
+					CurrentCar["FRAME_OLDEST_WORLD_RECORDS"] = 0;
+					(((Page.GetFirstChild("FRAME_OLDEST_WORLD_RECORDS") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
+					(((Page.GetFirstChild("FRAME_OLDEST_WORLD_RECORDS") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
+					(((Page.GetFirstChild("FRAME_OLDEST_WORLD_RECORDS") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
+
+					CurrentCampaign["FRAME_NEWEST_VALIDATIONS"] = 0;
+					CurrentChallenge["FRAME_NEWEST_VALIDATIONS"] = 0;
+					CurrentCar["FRAME_NEWEST_VALIDATIONS"] = 0;
+					(((Page.GetFirstChild("FRAME_NEWEST_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
+					(((Page.GetFirstChild("FRAME_NEWEST_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
+					(((Page.GetFirstChild("FRAME_NEWEST_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
+					(((Page.GetFirstChild("FRAME_NEWEST_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_ZONE") as CMlFrame).GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "World";
+					
+					CurrentCampaign["FRAME_MOST_RECORDS_DRIVEN"] = 0;
+					CurrentChallenge["FRAME_MOST_RECORDS_DRIVEN"] = 0;
+					CurrentCar["FRAME_MOST_RECORDS_DRIVEN"] = 0;
+					(((Page.GetFirstChild("FRAME_MOST_RECORDS_DRIVEN") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
+					(((Page.GetFirstChild("FRAME_MOST_RECORDS_DRIVEN") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
+					(((Page.GetFirstChild("FRAME_MOST_RECORDS_DRIVEN") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
+					(((Page.GetFirstChild("FRAME_MOST_RECORDS_DRIVEN") as CMlFrame).GetFirstChild("FRAME_ZONE") as CMlFrame).GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "World";
+					
+					CurrentCampaign["FRAME_YOUR_VALIDATIONS"] = 0;
+					CurrentChallenge["FRAME_YOUR_VALIDATIONS"] = 0;
+					CurrentCar["FRAME_YOUR_VALIDATIONS"] = 0;
+					(((Page.GetFirstChild("FRAME_YOUR_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
+					(((Page.GetFirstChild("FRAME_YOUR_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
+					(((Page.GetFirstChild("FRAME_YOUR_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
+					
+					CurrentCampaign["FRAME_YOUR_WORLD_RECORDS"] = 0;
+					CurrentChallenge["FRAME_YOUR_WORLD_RECORDS"] = 0;
+					CurrentCar["FRAME_YOUR_WORLD_RECORDS"] = 0;
+					(((Page.GetFirstChild("FRAME_YOUR_WORLD_RECORDS") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
+					(((Page.GetFirstChild("FRAME_YOUR_WORLD_RECORDS") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
+					(((Page.GetFirstChild("FRAME_YOUR_WORLD_RECORDS") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
+					
+					CurrentCampaign["FRAME_MOST_DIFFICULT_COMBINATIONS"] = 0;
+					CurrentChallenge["FRAME_MOST_DIFFICULT_COMBINATIONS"] = 0;
+					CurrentCar["FRAME_MOST_DIFFICULT_COMBINATIONS"] = 0;
+					(((Page.GetFirstChild("FRAME_MOST_DIFFICULT_COMBINATIONS") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
+					(((Page.GetFirstChild("FRAME_MOST_DIFFICULT_COMBINATIONS") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
+					(((Page.GetFirstChild("FRAME_MOST_DIFFICULT_COMBINATIONS") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
+					
+					CurrentCampaign["FRAME_MOST_QUALITY_COMBINATIONS"] = 0;
+					CurrentChallenge["FRAME_MOST_QUALITY_COMBINATIONS"] = 0;
+					CurrentCar["FRAME_MOST_QUALITY_COMBINATIONS"] = 0;
+					(((Page.GetFirstChild("FRAME_MOST_QUALITY_COMBINATIONS") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
+					(((Page.GetFirstChild("FRAME_MOST_QUALITY_COMBINATIONS") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
+					(((Page.GetFirstChild("FRAME_MOST_QUALITY_COMBINATIONS") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
 				}
 				case "Hide": {
 					End = Now;
+				}
+				case "UpdateFilters": {
+					Campaigns = ["{{{{ALL_CAMPAIGNS}}}}"];
+
+					declare Text[] CampaignNames for Page;
+					foreach(C in CampaignNames)
+						Campaigns.add(C);
+
+					Challenges = ["{{{{ALL_CHALLENGES}}}}"];
+
+					declare Text[] CampaignChallenges for Page;
+					foreach(C in CampaignChallenges)
+						Challenges.add(C);
 				}
 				case "UpdateLeaderboard": {
 					declare Type = Event.CustomEventData[0];
@@ -82,12 +386,34 @@ foreach(Event in PendingEvents) {
 								Frame_LB.Show();
 
 								for(I, 0, Frame_LB.Controls.count-1) {
-									if(Leaderboard.Users.count >= Frame_LB.Controls.count) {
-										declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+									declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+
+									if(Leaderboard.Users.count > I) {
 										declare User = Leaderboard.Users[I];
 										(Frame.GetFirstChild("LABEL_PLACE") as CMlLabel).Value = TextLib::FormatInteger(User.Rank, 2);
-										(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).Value = User.Nickname;
+										if(User.Nickname == "")
+											(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).Value = User.Login;
+										else
+											(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).Value = User.Nickname;
 										(Frame.GetFirstChild("LABEL_SCORE") as CMlLabel).Value = User.SP^"";
+
+										foreach(Control in Frame.Controls) {
+											switchtype(Control) {
+												case CMlLabel: {
+													(Control as CMlLabel).Opacity = 0.;
+												}
+												case CMlQuad: {
+													(Control as CMlQuad).Opacity = 0.;
+												}
+											}
+											AnimMgr.Flush(Control);
+											AnimMgr.Add(Control, "<quad opacity=\"1\" />", Now+I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+										}
+
+										Frame.Show();
+									}
+									else {
+										Frame.Hide();
 									}
 								}
 							}
@@ -109,12 +435,130 @@ foreach(Event in PendingEvents) {
 								Frame_LB.Show();
 
 								for(I, 0, Frame_LB.Controls.count-1) {
-									if(Leaderboard.Users.count >= Frame_LB.Controls.count) {
-										declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+									declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+
+									if(Leaderboard.Users.count > I) {
 										declare User = Leaderboard.Users[I];
 										(Frame.GetFirstChild("LABEL_PLACE") as CMlLabel).Value = TextLib::FormatInteger(User.Rank, 2);
-										(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).Value = User.Nickname;
+										if(User.Nickname == "")
+											(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).Value = User.Login;
+										else
+											(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).Value = User.Nickname;
 										(Frame.GetFirstChild("LABEL_SCORE") as CMlLabel).Value = User.AP^"";
+
+										foreach(Control in Frame.Controls) {
+											switchtype(Control) {
+												case CMlLabel: {
+													(Control as CMlLabel).Opacity = 0.;
+												}
+												case CMlQuad: {
+													(Control as CMlQuad).Opacity = 0.;
+												}
+											}
+											AnimMgr.Flush(Control);
+											AnimMgr.Add(Control, "<quad opacity=\"1\" />", Now+I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+										}
+
+										Frame.Show();
+									}
+									else {
+										Frame.Hide();
+									}
+								}
+							}
+						}
+						case "MostValidations": {
+							LeaderboardFrame = (Page.GetFirstChild("FRAME_MOST_VALIDATIONS") as CMlFrame);
+							declare Frame_LB = (LeaderboardFrame.GetFirstChild("FRAME_LEADERBOARD") as CMlFrame);
+							declare Quad_Loading = LeaderboardFrame.GetFirstChild("QUAD_LOADING");
+
+							if(Data == "") {
+								Frame_LB.Hide();
+								Quad_Loading.Show();
+							}
+							else {
+								declare SLBMostValidations Leaderboard;
+								declare Success = Leaderboard.fromjson(Data);
+
+								Quad_Loading.Hide();
+								Frame_LB.Show();
+
+								for(I, 0, Frame_LB.Controls.count-1) {
+									declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+
+									if(Leaderboard.Users.count > I) {
+										declare User = Leaderboard.Users[I];
+										(Frame.GetFirstChild("LABEL_PLACE") as CMlLabel).Value = TextLib::FormatInteger(User.Rank, 2);
+										if(User.Nickname == "")
+											(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).Value = User.Login;
+										else
+											(Frame.GetFirstChild("LABEL_NICKNAME") as CMlLabel).Value = User.Nickname;
+										(Frame.GetFirstChild("LABEL_SCORE") as CMlLabel).Value = User.Count^"";
+
+										foreach(Control in Frame.Controls) {
+											switchtype(Control) {
+												case CMlLabel: {
+													(Control as CMlLabel).Opacity = 0.;
+												}
+												case CMlQuad: {
+													(Control as CMlQuad).Opacity = 0.;
+												}
+											}
+											AnimMgr.Flush(Control);
+											AnimMgr.Add(Control, "<quad opacity=\"1\" />", Now+I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+										}
+
+										Frame.Show();
+									}
+									else {
+										Frame.Hide();
+									}
+								}
+							}
+						}
+						case "OldestWorldRecords": {
+							LeaderboardFrame = (Page.GetFirstChild("FRAME_OLDEST_WORLD_RECORDS") as CMlFrame);
+							declare Frame_LB = (LeaderboardFrame.GetFirstChild("FRAME_LEADERBOARD") as CMlFrame);
+							declare Quad_Loading = LeaderboardFrame.GetFirstChild("QUAD_LOADING");
+
+							if(Data == "") {
+								Frame_LB.Hide();
+								Quad_Loading.Show();
+							}
+							else {
+								declare SLBOldestWorldRecords Leaderboard;
+								declare Success = Leaderboard.fromjson(Data);
+
+								Quad_Loading.Hide();
+								Frame_LB.Show();
+
+								for(I, 0, Frame_LB.Controls.count-1) {
+									declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+
+									if(Leaderboard.Records.count > I) {
+										declare Record = Leaderboard.Records[I];
+										(Frame.GetFirstChild("LABEL_PLACE") as CMlLabel).Value = TextLib::FormatInteger(Record.Rank, 2);
+										(Frame.GetFirstChild("LABEL_MAP") as CMlLabel).Value = Record.OriginalName ^ " ("^Record.Challenge^") $o - " ^ Record.Car;
+										(Frame.GetFirstChild("LABEL_DRIVER") as CMlLabel).Value = TimeToTextWithMilli(Record.Time) ^ " by " ^ Record.Nickname;
+										(Frame.GetFirstChild("LABEL_SCORE") as CMlLabel).Value = TimeLib::FormatDate(Record.Driven^"", TimeLib::EDateFormats::DateShort);
+
+										foreach(Control in Frame.Controls) {
+											switchtype(Control) {
+												case CMlLabel: {
+													(Control as CMlLabel).Opacity = 0.;
+												}
+												case CMlQuad: {
+													(Control as CMlQuad).Opacity = 0.;
+												}
+											}
+											AnimMgr.Flush(Control);
+											AnimMgr.Add(Control, "<quad opacity=\"1\" />", Now+I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+										}
+
+										Frame.Show();
+									}
+									else {
+										Frame.Hide();
 									}
 								}
 							}
