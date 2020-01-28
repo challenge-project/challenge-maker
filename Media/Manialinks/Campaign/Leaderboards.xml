@@ -312,70 +312,70 @@
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -8" hidden="0">
 							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="02" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -16" hidden="0">
 							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="03" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -24" hidden="0">
 							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="04" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -32" hidden="0">
 							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="05" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -40" hidden="0">
 							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="06" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -48" hidden="0">
 							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="07" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -56" hidden="0">
 							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="08" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -64" hidden="0">
 							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="09" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -72" hidden="0">
 							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="10" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 					</frame>
 				</frame>
@@ -414,7 +414,10 @@
 				<frame pos="0 -38" id="FRAME_OUTER_LEADERBOARD">
 					<frame id="FRAME_LEADERBOARD" hidden="1">
 						<frame hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
@@ -422,7 +425,10 @@
 							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -8" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
@@ -430,7 +436,10 @@
 							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -16" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
@@ -438,7 +447,10 @@
 							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -24" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
@@ -446,7 +458,10 @@
 							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -32" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
@@ -454,7 +469,10 @@
 							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -40" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
@@ -462,7 +480,10 @@
 							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -48" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
@@ -470,7 +491,10 @@
 							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -56" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
@@ -478,7 +502,10 @@
 							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -64" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
@@ -486,7 +513,10 @@
 							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -72" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
 							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
@@ -536,74 +566,114 @@
 				<frame pos="0 -45.5" id="FRAME_OUTER_LEADERBOARD">
 					<frame id="FRAME_LEADERBOARD" hidden="1">
 						<frame hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -8" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="02" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -16" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="03" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -24" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="04" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -32" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="05" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -40" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="06" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -48" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="07" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -56" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="08" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -64" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="09" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 						<frame pos="0 -72" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="10" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.4" z-index="0" size="15 5" text="5800" textsize="3" textfont="Oswald" halign="right" id="LABEL_SCORE" valign="center2"/>
 						</frame>
 					</frame>
 				</frame>
@@ -648,74 +718,114 @@
 				<frame pos="0 -45.5" id="FRAME_OUTER_LEADERBOARD">
 					<frame id="FRAME_LEADERBOARD" hidden="1">
 						<frame hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FFF"/>
 						</frame>
 						<frame pos="0 -8" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="02" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FFF"/>
 						</frame>
 						<frame pos="0 -16" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="03" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FFF"/>
 						</frame>
 						<frame pos="0 -24" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="04" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FFF"/>
 						</frame>
 						<frame pos="0 -32" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="05" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FFF"/>
 						</frame>
 						<frame pos="0 -40" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="06" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FFF"/>
 						</frame>
 						<frame pos="0 -48" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="07" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FFF"/>
 						</frame>
 						<frame pos="0 -56" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="08" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FFF"/>
 						</frame>
 						<frame pos="0 -64" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="09" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FFF"/>
 						</frame>
 						<frame pos="0 -72" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="10" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FFF"/>
 						</frame>
 					</frame>
 				</frame>
@@ -754,74 +864,84 @@
 				<frame pos="0 -38" id="FRAME_OUTER_LEADERBOARD">
 					<frame id="FRAME_LEADERBOARD" hidden="1">
 						<frame hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
 						</frame>
 						<frame pos="0 -8" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="02" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
 						</frame>
 						<frame pos="0 -16" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="03" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
 						</frame>
 						<frame pos="0 -24" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="04" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
 						</frame>
 						<frame pos="0 -32" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="05" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
 						</frame>
 						<frame pos="0 -40" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="06" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
 						</frame>
 						<frame pos="0 -48" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="07" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
 						</frame>
 						<frame pos="0 -56" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="08" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
 						</frame>
 						<frame pos="0 -64" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="09" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
 						</frame>
 						<frame pos="0 -72" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="10" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
 						</frame>
 					</frame>
 				</frame>
@@ -860,74 +980,94 @@
 				<frame pos="0 -38" id="FRAME_OUTER_LEADERBOARD">
 					<frame id="FRAME_LEADERBOARD" hidden="1">
 						<frame hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF" hidden="1"/>
 						</frame>
 						<frame pos="0 -8" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="02" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF" hidden="1"/>
 						</frame>
 						<frame pos="0 -16" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="03" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF" hidden="1"/>
 						</frame>
 						<frame pos="0 -24" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="04" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF" hidden="1"/>
 						</frame>
 						<frame pos="0 -32" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="05" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF" hidden="1"/>
 						</frame>
 						<frame pos="0 -40" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="06" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF" hidden="1"/>
 						</frame>
 						<frame pos="0 -48" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="07" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF" hidden="1"/>
 						</frame>
 						<frame pos="0 -56" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="08" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF" hidden="1"/>
 						</frame>
 						<frame pos="0 -64" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="09" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF" hidden="1"/>
 						</frame>
 						<frame pos="0 -72" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
-							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
-							<label size="7 8" text="10" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
+							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_MAP"/>
+							<label size="57.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-35 -0.4" textfont="Oswald" id="LABEL_MAP"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF" hidden="1"/>
 						</frame>
 					</frame>
 				</frame>
@@ -966,74 +1106,114 @@
 				<frame pos="0 -38" id="FRAME_OUTER_LEADERBOARD">
 					<frame id="FRAME_LEADERBOARD" hidden="1">
 						<frame hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -8" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="02" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -16" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="03" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -24" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="04" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -32" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="05" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -40" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="06" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -48" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="07" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -56" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="08" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -64" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="09" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -72" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="10" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 					</frame>
 				</frame>
@@ -1072,74 +1252,114 @@
 				<frame pos="0 -38" id="FRAME_OUTER_LEADERBOARD">
 					<frame id="FRAME_LEADERBOARD" hidden="1">
 						<frame hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="01" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -8" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="02" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -16" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="03" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -24" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="04" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -32" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="05" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -40" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="06" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -48" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="07" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -56" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="08" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -64" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="09" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 						<frame pos="0 -72" hidden="0">
-							<quad pos="-1 0" z-index="-2" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<quad pos="-1 0" z-index="-3" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardList" opacity=".5"/>
+							<frame pos="-1 0" z-index="-2" clip="True" clipsizen="71 6">
+								<quad size="71 71" halign="center" valign="center" id="QUAD_THUMBNAIL" opacity=".5"/>
+							</frame>
 							<quad pos="-1 0" z-index="-1" size="73 8" halign="center" valign="center" style="Bgs1" substyle="BgCardInventoryItem" opacity=".5" colorize="036" scriptevents="1" id="QUAD_PLAYER"/>
 							<label size="7 8" text="10" valign="center2" pos="-36 -0.5" textfont="OswaldMono" id="LABEL_PLACE" textsize="5" textprefix="$o$n"/>
-							<label size="47.5 5" text="$o$i$nTESTBOI" valign="center2" pos="-29 -0.4" textfont="RajdhaniMono" id="LABEL_NICKNAME"/>
-							<label pos="33 -0.1" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="0FF"/>
+							<label size="45 5" text="A01 (Reverse + Checkpointless) $o- ValleyCar" valign="center2" pos="-29 1.2" textfont="Oswald" id="LABEL_MAP" textsize="0.9"/>
+							<label size="45 5" text="WR by Ronney" valign="center2" pos="-29 -1.7" textfont="RajdhaniMono" id="LABEL_DRIVER" textsize="1"/>
+							<label pos="33 -0.3" z-index="0" size="17.5 5" text="5800" textsize="3" textfont="RajdhaniMono" halign="right" id="LABEL_SCORE" valign="center2" textcolor="FF0"/>
 						</frame>
 					</frame>
 				</frame>

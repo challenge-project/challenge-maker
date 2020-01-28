@@ -79,6 +79,9 @@
 	Text OriginalName;
 	Text Challenge;
 	Text Car;
+	Text Login;
+	Text Nickname;
+	Text Zone;
 	Integer Driven;
 	Integer Rank;
 }
@@ -93,6 +96,9 @@
 	Text OriginalName;
 	Text Challenge;
 	Text Car;
+	Integer WR;
+	Text WRHolderLogin;
+	Text WRHolderNickname;
 	Integer Count;
 	Integer Rank;
 }
@@ -134,6 +140,9 @@
 	Text OriginalName;
 	Text Challenge;
 	Text Car;
+	Integer WR;
+	Text WRHolderLogin;
+	Text WRHolderNickname;
 	Real Difficulty;
 	Real Quality;
 	Integer Rank;
@@ -166,7 +175,7 @@ Void Start() {
 	declare SuccessMostValidations = Http::AsyncPOST("MOST_VALIDATIONS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=MostValidations""", CHALLENGE_TOKEN);
 	declare SuccessOldestWorldRecords = Http::AsyncPOST("OLDEST_WORLD_RECORDS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=OldestWR""", CHALLENGE_TOKEN);
 	declare SuccessNewestValidations = Http::AsyncPOST("NEWEST_VALIDATIONS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=NewestValidations""", CHALLENGE_TOKEN);
-	declare SuccessMostRecordsDriven = Http::AsyncPOST("MOST_RECORDS_DRIVEN", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=MostRecords""", CHALLENGE_TOKEN);
+	declare SuccessMostRecordsDriven = Http::AsyncPOST("MOST_RECORDS_DRIVEN", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=MostRecordsDriven""", CHALLENGE_TOKEN);
 	declare SuccessYourValidations = Http::AsyncPOST("YOUR_VALIDATIONS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=YourValidations""", CHALLENGE_TOKEN);
 	declare SuccessYourWorldRecords = Http::AsyncPOST("YOUR_WORLD_RECORDS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=YourWR""", CHALLENGE_TOKEN);
 	declare SuccessMostDifficult = Http::AsyncPOST("MOST_DIFFICULT", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=MostDifficult""", CHALLENGE_TOKEN);
@@ -252,7 +261,7 @@ Void Event(CManiaAppEvent _Event) {
 							}
 							case "MostRecordsDriven": {
 								Http::Destroy("MOST_RECORDS_DRIVEN");
-								declare Success = Http::AsyncPOST("MOST_RECORDS_DRIVEN", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=MostRecords{{{ForUrl("campaign", Campaign)}}}{{{ForUrl("challenge", Challenge)}}}{{{ForUrl("car", Car)}}}""", CHALLENGE_TOKEN);
+								declare Success = Http::AsyncPOST("MOST_RECORDS_DRIVEN", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=MostRecordsDriven{{{ForUrl("campaign", Campaign)}}}{{{ForUrl("challenge", Challenge)}}}{{{ForUrl("car", Car)}}}""", CHALLENGE_TOKEN);
 							}
 							case "YourValidations": {
 								Http::Destroy("YOUR_VALIDATIONS");
