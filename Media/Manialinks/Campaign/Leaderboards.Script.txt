@@ -35,6 +35,7 @@
 }
 
 #Struct SLBMostValidations {
+	Real Time;
 	SLBMostValidationsUser[] Users;
 }
 
@@ -52,7 +53,78 @@
 }
 
 #Struct SLBOldestWorldRecords {
+	Real Time;
 	SLBOldestWorldRecordsRecord[] Records;
+}
+
+#Struct SLBNewestValidationsValidation {
+	Text MapUid;
+	Text OriginalName;
+	Text Challenge;
+	Text Car;
+	Integer Driven;
+	Integer Rank;
+}
+
+#Struct SLBNewestValidations {
+	Real Time;
+	SLBNewestValidationsValidation[] Validations;
+}
+
+#Struct SLBMostRecordsDrivenRecord {
+	Text MapUid;
+	Text OriginalName;
+	Text Challenge;
+	Text Car;
+	Integer Count;
+	Integer Rank;
+}
+
+#Struct SLBMostRecordsDriven {
+	Real Time;
+	SLBMostRecordsDrivenRecord[] Combinations;
+}
+
+#Struct SLBYourValidationsValidation {
+	Text MapUid;
+	Text OriginalName;
+	Text Challenge;
+	Text Car;
+	Integer Driven;
+}
+
+#Struct SLBYourValidations {
+	Real Time;
+	SLBYourValidationsValidation[] Validations;
+}
+
+#Struct SLBYourWorldRecordsRecord {
+	Text MapUid;
+	Text OriginalName;
+	Text Challenge;
+	Text Car;
+	Integer Time;
+	Integer Driven;
+}
+
+#Struct SLBYourWorldRecords {
+	Real Time;
+	SLBYourWorldRecordsRecord[] Records;
+}
+
+#Struct SLBMostRatedCombination {
+	Text MapUid;
+	Text OriginalName;
+	Text Challenge;
+	Text Car;
+	Real Difficulty;
+	Real Quality;
+	Integer Rank;
+}
+
+#Struct SLBMostRated {
+	Real Time;
+	SLBMostRatedCombination[] Ratings;
 }
 
 Text TimeToTextWithMilli(Integer _Time) {
@@ -565,6 +637,288 @@ foreach(Event in PendingEvents) {
 										(Frame.GetFirstChild("LABEL_MAP") as CMlLabel).Value = Record.OriginalName ^ " ("^Record.Challenge^") $o - " ^ Record.Car;
 										(Frame.GetFirstChild("LABEL_DRIVER") as CMlLabel).Value = TimeToTextWithMilli(Record.Time) ^ " by " ^ Record.Nickname;
 										(Frame.GetFirstChild("LABEL_SCORE") as CMlLabel).Value = TimeLib::FormatDate(Record.Driven^"", TimeLib::EDateFormats::DateShort);
+
+										foreach(Control in Frame.Controls) {
+											switchtype(Control) {
+												case CMlLabel: {
+													(Control as CMlLabel).Opacity = 0.;
+												}
+												case CMlQuad: {
+													(Control as CMlQuad).Opacity = 0.;
+												}
+											}
+											AnimMgr.Flush(Control);
+											AnimMgr.Add(Control, "<quad opacity=\"1\" />", Now+I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+										}
+
+										Frame.Show();
+									}
+									else {
+										Frame.Hide();
+									}
+								}
+							}
+						}
+						case "NewestValidations": {
+							LeaderboardFrame = (Page.GetFirstChild("FRAME_NEWEST_VALIDATIONS") as CMlFrame);
+							declare Frame_LB = (LeaderboardFrame.GetFirstChild("FRAME_LEADERBOARD") as CMlFrame);
+							declare Quad_Loading = LeaderboardFrame.GetFirstChild("QUAD_LOADING");
+
+							if(Data == "") {
+								Frame_LB.Hide();
+								Quad_Loading.Show();
+							}
+							else {
+								declare SLBNewestValidations Leaderboard;
+								declare Success = Leaderboard.fromjson(Data);
+
+								Quad_Loading.Hide();
+								Frame_LB.Show();
+
+								for(I, 0, Frame_LB.Controls.count-1) {
+									declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+
+									if(Leaderboard.Validations.count > I) {
+										declare Validation = Leaderboard.Validations[I];
+										/*(Frame.GetFirstChild("LABEL_PLACE") as CMlLabel).Value = TextLib::FormatInteger(Validation.Rank, 2);
+										(Frame.GetFirstChild("LABEL_MAP") as CMlLabel).Value = Record.OriginalName ^ " ("^Validation.Challenge^") $o - " ^ Record.Car;
+										(Frame.GetFirstChild("LABEL_DRIVER") as CMlLabel).Value = TimeToTextWithMilli(Record.Time) ^ " by " ^ Record.Nickname;
+										(Frame.GetFirstChild("LABEL_SCORE") as CMlLabel).Value = TimeLib::FormatDate(Record.Driven^"", TimeLib::EDateFormats::DateShort);*/
+
+										foreach(Control in Frame.Controls) {
+											switchtype(Control) {
+												case CMlLabel: {
+													(Control as CMlLabel).Opacity = 0.;
+												}
+												case CMlQuad: {
+													(Control as CMlQuad).Opacity = 0.;
+												}
+											}
+											AnimMgr.Flush(Control);
+											AnimMgr.Add(Control, "<quad opacity=\"1\" />", Now+I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+										}
+
+										Frame.Show();
+									}
+									else {
+										Frame.Hide();
+									}
+								}
+							}
+						}
+						case "MostRecords": {
+							LeaderboardFrame = (Page.GetFirstChild("FRAME_MOST_RECORDS_DRIVEN") as CMlFrame);
+							declare Frame_LB = (LeaderboardFrame.GetFirstChild("FRAME_LEADERBOARD") as CMlFrame);
+							declare Quad_Loading = LeaderboardFrame.GetFirstChild("QUAD_LOADING");
+
+							if(Data == "") {
+								Frame_LB.Hide();
+								Quad_Loading.Show();
+							}
+							else {
+								declare SLBMostRecordsDriven Leaderboard;
+								declare Success = Leaderboard.fromjson(Data);
+
+								Quad_Loading.Hide();
+								Frame_LB.Show();
+
+								for(I, 0, Frame_LB.Controls.count-1) {
+									declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+
+									if(Leaderboard.Combinations.count > I) {
+										declare Combination = Leaderboard.Combinations[I];
+										/*(Frame.GetFirstChild("LABEL_PLACE") as CMlLabel).Value = TextLib::FormatInteger(Validation.Rank, 2);
+										(Frame.GetFirstChild("LABEL_MAP") as CMlLabel).Value = Record.OriginalName ^ " ("^Validation.Challenge^") $o - " ^ Record.Car;
+										(Frame.GetFirstChild("LABEL_DRIVER") as CMlLabel).Value = TimeToTextWithMilli(Record.Time) ^ " by " ^ Record.Nickname;
+										(Frame.GetFirstChild("LABEL_SCORE") as CMlLabel).Value = TimeLib::FormatDate(Record.Driven^"", TimeLib::EDateFormats::DateShort);*/
+
+										foreach(Control in Frame.Controls) {
+											switchtype(Control) {
+												case CMlLabel: {
+													(Control as CMlLabel).Opacity = 0.;
+												}
+												case CMlQuad: {
+													(Control as CMlQuad).Opacity = 0.;
+												}
+											}
+											AnimMgr.Flush(Control);
+											AnimMgr.Add(Control, "<quad opacity=\"1\" />", Now+I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+										}
+
+										Frame.Show();
+									}
+									else {
+										Frame.Hide();
+									}
+								}
+							}
+						}
+						case "YourValidations": {
+							LeaderboardFrame = (Page.GetFirstChild("FRAME_YOUR_VALIDATIONS") as CMlFrame);
+							declare Frame_LB = (LeaderboardFrame.GetFirstChild("FRAME_LEADERBOARD") as CMlFrame);
+							declare Quad_Loading = LeaderboardFrame.GetFirstChild("QUAD_LOADING");
+
+							if(Data == "") {
+								Frame_LB.Hide();
+								Quad_Loading.Show();
+							}
+							else {
+								declare SLBYourValidations Leaderboard;
+								declare Success = Leaderboard.fromjson(Data);
+
+								Quad_Loading.Hide();
+								Frame_LB.Show();
+
+								for(I, 0, Frame_LB.Controls.count-1) {
+									declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+
+									if(Leaderboard.Validations.count > I) {
+										declare Combination = Leaderboard.Validations[I];
+										/*(Frame.GetFirstChild("LABEL_PLACE") as CMlLabel).Value = TextLib::FormatInteger(Validation.Rank, 2);
+										(Frame.GetFirstChild("LABEL_MAP") as CMlLabel).Value = Record.OriginalName ^ " ("^Validation.Challenge^") $o - " ^ Record.Car;
+										(Frame.GetFirstChild("LABEL_DRIVER") as CMlLabel).Value = TimeToTextWithMilli(Record.Time) ^ " by " ^ Record.Nickname;
+										(Frame.GetFirstChild("LABEL_SCORE") as CMlLabel).Value = TimeLib::FormatDate(Record.Driven^"", TimeLib::EDateFormats::DateShort);*/
+
+										foreach(Control in Frame.Controls) {
+											switchtype(Control) {
+												case CMlLabel: {
+													(Control as CMlLabel).Opacity = 0.;
+												}
+												case CMlQuad: {
+													(Control as CMlQuad).Opacity = 0.;
+												}
+											}
+											AnimMgr.Flush(Control);
+											AnimMgr.Add(Control, "<quad opacity=\"1\" />", Now+I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+										}
+
+										Frame.Show();
+									}
+									else {
+										Frame.Hide();
+									}
+								}
+							}
+						}
+						case "YourWorldRecords": {
+							LeaderboardFrame = (Page.GetFirstChild("FRAME_YOUR_WORLD_RECORDS") as CMlFrame);
+							declare Frame_LB = (LeaderboardFrame.GetFirstChild("FRAME_LEADERBOARD") as CMlFrame);
+							declare Quad_Loading = LeaderboardFrame.GetFirstChild("QUAD_LOADING");
+
+							if(Data == "") {
+								Frame_LB.Hide();
+								Quad_Loading.Show();
+							}
+							else {
+								declare SLBYourWorldRecords Leaderboard;
+								declare Success = Leaderboard.fromjson(Data);
+
+								Quad_Loading.Hide();
+								Frame_LB.Show();
+
+								for(I, 0, Frame_LB.Controls.count-1) {
+									declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+
+									if(Leaderboard.Records.count > I) {
+										declare Combination = Leaderboard.Records[I];
+										/*(Frame.GetFirstChild("LABEL_PLACE") as CMlLabel).Value = TextLib::FormatInteger(Validation.Rank, 2);
+										(Frame.GetFirstChild("LABEL_MAP") as CMlLabel).Value = Record.OriginalName ^ " ("^Validation.Challenge^") $o - " ^ Record.Car;
+										(Frame.GetFirstChild("LABEL_DRIVER") as CMlLabel).Value = TimeToTextWithMilli(Record.Time) ^ " by " ^ Record.Nickname;
+										(Frame.GetFirstChild("LABEL_SCORE") as CMlLabel).Value = TimeLib::FormatDate(Record.Driven^"", TimeLib::EDateFormats::DateShort);*/
+
+										foreach(Control in Frame.Controls) {
+											switchtype(Control) {
+												case CMlLabel: {
+													(Control as CMlLabel).Opacity = 0.;
+												}
+												case CMlQuad: {
+													(Control as CMlQuad).Opacity = 0.;
+												}
+											}
+											AnimMgr.Flush(Control);
+											AnimMgr.Add(Control, "<quad opacity=\"1\" />", Now+I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+										}
+
+										Frame.Show();
+									}
+									else {
+										Frame.Hide();
+									}
+								}
+							}
+						}
+						case "MostDifficult": {
+							LeaderboardFrame = (Page.GetFirstChild("FRAME_MOST_DIFFICULT") as CMlFrame);
+							declare Frame_LB = (LeaderboardFrame.GetFirstChild("FRAME_LEADERBOARD") as CMlFrame);
+							declare Quad_Loading = LeaderboardFrame.GetFirstChild("QUAD_LOADING");
+
+							if(Data == "") {
+								Frame_LB.Hide();
+								Quad_Loading.Show();
+							}
+							else {
+								declare SLBMostRated Leaderboard;
+								declare Success = Leaderboard.fromjson(Data);
+
+								Quad_Loading.Hide();
+								Frame_LB.Show();
+
+								for(I, 0, Frame_LB.Controls.count-1) {
+									declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+
+									if(Leaderboard.Ratings.count > I) {
+										declare Combination = Leaderboard.Ratings[I];
+										/*(Frame.GetFirstChild("LABEL_PLACE") as CMlLabel).Value = TextLib::FormatInteger(Validation.Rank, 2);
+										(Frame.GetFirstChild("LABEL_MAP") as CMlLabel).Value = Record.OriginalName ^ " ("^Validation.Challenge^") $o - " ^ Record.Car;
+										(Frame.GetFirstChild("LABEL_DRIVER") as CMlLabel).Value = TimeToTextWithMilli(Record.Time) ^ " by " ^ Record.Nickname;
+										(Frame.GetFirstChild("LABEL_SCORE") as CMlLabel).Value = TimeLib::FormatDate(Record.Driven^"", TimeLib::EDateFormats::DateShort);*/
+
+										foreach(Control in Frame.Controls) {
+											switchtype(Control) {
+												case CMlLabel: {
+													(Control as CMlLabel).Opacity = 0.;
+												}
+												case CMlQuad: {
+													(Control as CMlQuad).Opacity = 0.;
+												}
+											}
+											AnimMgr.Flush(Control);
+											AnimMgr.Add(Control, "<quad opacity=\"1\" />", Now+I*50, 500, CAnimManager::EAnimManagerEasing::QuadOut);
+										}
+
+										Frame.Show();
+									}
+									else {
+										Frame.Hide();
+									}
+								}
+							}
+						}
+						case "MostQuality": {
+							LeaderboardFrame = (Page.GetFirstChild("FRAME_MOST_QUALITY") as CMlFrame);
+							declare Frame_LB = (LeaderboardFrame.GetFirstChild("FRAME_LEADERBOARD") as CMlFrame);
+							declare Quad_Loading = LeaderboardFrame.GetFirstChild("QUAD_LOADING");
+
+							if(Data == "") {
+								Frame_LB.Hide();
+								Quad_Loading.Show();
+							}
+							else {
+								declare SLBMostRated Leaderboard;
+								declare Success = Leaderboard.fromjson(Data);
+
+								Quad_Loading.Hide();
+								Frame_LB.Show();
+
+								for(I, 0, Frame_LB.Controls.count-1) {
+									declare Frame = (Frame_LB.Controls[I] as CMlFrame);
+
+									if(Leaderboard.Ratings.count > I) {
+										declare Combination = Leaderboard.Ratings[I];
+										/*(Frame.GetFirstChild("LABEL_PLACE") as CMlLabel).Value = TextLib::FormatInteger(Validation.Rank, 2);
+										(Frame.GetFirstChild("LABEL_MAP") as CMlLabel).Value = Record.OriginalName ^ " ("^Validation.Challenge^") $o - " ^ Record.Car;
+										(Frame.GetFirstChild("LABEL_DRIVER") as CMlLabel).Value = TimeToTextWithMilli(Record.Time) ^ " by " ^ Record.Nickname;
+										(Frame.GetFirstChild("LABEL_SCORE") as CMlLabel).Value = TimeLib::FormatDate(Record.Driven^"", TimeLib::EDateFormats::DateShort);*/
 
 										foreach(Control in Frame.Controls) {
 											switchtype(Control) {

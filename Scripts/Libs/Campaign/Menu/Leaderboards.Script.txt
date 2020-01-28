@@ -52,6 +52,7 @@
 }
 
 #Struct SLBMostValidations {
+	Real Time;
 	SLBMostValidationsUser[] Users;
 }
 
@@ -69,7 +70,78 @@
 }
 
 #Struct SLBOldestWorldRecords {
+	Real Time;
 	SLBOldestWorldRecordsRecord[] Records;
+}
+
+#Struct SLBNewestValidationsValidation {
+	Text MapUid;
+	Text OriginalName;
+	Text Challenge;
+	Text Car;
+	Integer Driven;
+	Integer Rank;
+}
+
+#Struct SLBNewestValidations {
+	Real Time;
+	SLBNewestValidationsValidation[] Validations;
+}
+
+#Struct SLBMostRecordsDrivenRecord {
+	Text MapUid;
+	Text OriginalName;
+	Text Challenge;
+	Text Car;
+	Integer Count;
+	Integer Rank;
+}
+
+#Struct SLBMostRecordsDriven {
+	Real Time;
+	SLBMostRecordsDrivenRecord[] Combinations;
+}
+
+#Struct SLBYourValidationsValidation {
+	Text MapUid;
+	Text OriginalName;
+	Text Challenge;
+	Text Car;
+	Integer Driven;
+}
+
+#Struct SLBYourValidations {
+	Real Time;
+	SLBYourValidationsValidation[] Validations;
+}
+
+#Struct SLBYourWorldRecordsRecord {
+	Text MapUid;
+	Text OriginalName;
+	Text Challenge;
+	Text Car;
+	Integer Time;
+	Integer Driven;
+}
+
+#Struct SLBYourWorldRecords {
+	Real Time;
+	SLBYourWorldRecordsRecord[] Records;
+}
+
+#Struct SLBMostRatedCombination {
+	Text MapUid;
+	Text OriginalName;
+	Text Challenge;
+	Text Car;
+	Real Difficulty;
+	Real Quality;
+	Integer Rank;
+}
+
+#Struct SLBMostRated {
+	Real Time;
+	SLBMostRatedCombination[] Ratings;
 }
 
 Text ForUrl(Text _Param, Text _Value) {
@@ -253,9 +325,9 @@ Void Async() {
 	}
 	if(Http::IsCompleted("NEWEST_VALIDATIONS")) {
 		if(Http::IsSuccessful("NEWEST_VALIDATIONS")) {
-			/*declare SLBOldestWorldRecords Leaderboard;
-			declare Success = Leaderboard.fromjson(Http::GetResult("OLDEST_WORLD_RECORDS"));
-			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["OldestWorldRecords", Leaderboard.tojson()]);*/
+			declare SLBNewestValidations Leaderboard;
+			declare Success = Leaderboard.fromjson(Http::GetResult("NEWEST_VALIDATIONS"));
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["NewestValidations", Leaderboard.tojson()]);
 		}
 		else {
 			
@@ -264,9 +336,9 @@ Void Async() {
 	}
 	if(Http::IsCompleted("MOST_RECORDS_DRIVEN")) {
 		if(Http::IsSuccessful("MOST_RECORDS_DRIVEN")) {
-			/*declare SLBOldestWorldRecords Leaderboard;
-			declare Success = Leaderboard.fromjson(Http::GetResult("OLDEST_WORLD_RECORDS"));
-			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["OldestWorldRecords", Leaderboard.tojson()]);*/
+			declare SLBMostRecordsDriven Leaderboard;
+			declare Success = Leaderboard.fromjson(Http::GetResult("MOST_RECORDS_DRIVEN"));
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostRecords", Leaderboard.tojson()]);
 		}
 		else {
 			
@@ -275,9 +347,9 @@ Void Async() {
 	}
 	if(Http::IsCompleted("YOUR_VALIDATIONS")) {
 		if(Http::IsSuccessful("YOUR_VALIDATIONS")) {
-			/*declare SLBOldestWorldRecords Leaderboard;
-			declare Success = Leaderboard.fromjson(Http::GetResult("OLDEST_WORLD_RECORDS"));
-			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["OldestWorldRecords", Leaderboard.tojson()]);*/
+			declare SLBYourValidations Leaderboard;
+			declare Success = Leaderboard.fromjson(Http::GetResult("YOUR_VALIDATIONS"));
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["YourValidations", Leaderboard.tojson()]);
 		}
 		else {
 			
@@ -286,9 +358,9 @@ Void Async() {
 	}
 	if(Http::IsCompleted("YOUR_WORLD_RECORDS")) {
 		if(Http::IsSuccessful("YOUR_WORLD_RECORDS")) {
-			/*declare SLBOldestWorldRecords Leaderboard;
-			declare Success = Leaderboard.fromjson(Http::GetResult("OLDEST_WORLD_RECORDS"));
-			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["OldestWorldRecords", Leaderboard.tojson()]);*/
+			declare SLBYourWorldRecords Leaderboard;
+			declare Success = Leaderboard.fromjson(Http::GetResult("YOUR_WORLD_RECORDS"));
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["YourWorldRecords", Leaderboard.tojson()]);
 		}
 		else {
 			
@@ -297,9 +369,9 @@ Void Async() {
 	}
 	if(Http::IsCompleted("MOST_DIFFICULT")) {
 		if(Http::IsSuccessful("MOST_DIFFICULT")) {
-			/*declare SLBOldestWorldRecords Leaderboard;
-			declare Success = Leaderboard.fromjson(Http::GetResult("OLDEST_WORLD_RECORDS"));
-			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["OldestWorldRecords", Leaderboard.tojson()]);*/
+			declare SLBMostRated Leaderboard;
+			declare Success = Leaderboard.fromjson(Http::GetResult("MOST_DIFFICULT"));
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostDifficult", Leaderboard.tojson()]);
 		}
 		else {
 			
@@ -308,9 +380,9 @@ Void Async() {
 	}
 	if(Http::IsCompleted("MOST_QUALITY")) {
 		if(Http::IsSuccessful("MOST_QUALITY")) {
-			/*declare SLBOldestWorldRecords Leaderboard;
-			declare Success = Leaderboard.fromjson(Http::GetResult("OLDEST_WORLD_RECORDS"));
-			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["OldestWorldRecords", Leaderboard.tojson()]);*/
+			declare SLBMostRated Leaderboard;
+			declare Success = Leaderboard.fromjson(Http::GetResult("MOST_QUALITY"));
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostQuality", Leaderboard.tojson()]);
 		}
 		else {
 			
