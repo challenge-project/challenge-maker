@@ -7,6 +7,8 @@
 #Include "Libs/BigBang1112/Settings.Script.txt" as Settings
 #Include "Libs/BigBang1112/File.Script.txt" as File
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
+#Include "Libs/BigBang1112/Task.Script.txt" as Task
+#Include "Libs/BigBang1112/Map.Script.txt" as Map
 
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 #Include "Libs/Challenge/Vehicle.Script.txt" as Vehicle
@@ -24,6 +26,26 @@
 	Text TitleId;
 	Text UserToken;
 	Text Description;
+}
+
+#Struct SPublishTitleResponse {
+	Boolean Added;
+	Boolean Updated;
+	Boolean Occupied;
+}
+
+#Struct SPublicMapInfo {
+	Text MapUid;
+	Text Name;
+	Text Author;
+	Text OriginalUid;
+	Text OriginalName;
+	Text OriginalAuthor;
+	Text Environment;
+	Integer Laps;
+	Text Campaign;
+	Text TitleId;
+	Text Challenge;
 }
 
 Void Init() {
@@ -102,13 +124,22 @@ Void Event(CManiaAppEvent _Event) {
 					}
 					case "PublishTitle": {
 						declare Text CHALLENGE_TOKEN for LocalUser;
-						
-						declare SPublishTitleParams Params;
-						Params.UserToken = CHALLENGE_TOKEN;
-						Params.TitleId = TitleEdition.EditedTitleId;
-						Params.Description = TitleEdition.EditedTitleInfo.Description;
-						
-						declare Success = Http::AsyncPOST("PUBLISHTITLE", Service_Status::LastStatus(LocalUser).Global.Service^"/ingame/publishtitle.php", Params.tojson());
+
+						declare Description = TitleEdition.EditedTitleInfo.Description;
+						if(Description == "") {
+							Dialog_Message("Please provide an attractive title description of your Challenge project for approval.");
+						}
+						else {
+							declare SPublishTitleParams Params;
+							Params.UserToken = CHALLENGE_TOKEN;
+							Params.TitleId = TitleEdition.EditedTitleId;
+							Params.Description = TitleEdition.EditedTitleInfo.Description;
+							
+							declare Success = Http::AsyncPOST("PUBLISHTITLE", Service_Status::LastStatus(LocalUser).Global.Service^"/ingame/publishtitle.php", Params.tojson());
+						}
+					}
+					case "RequestPublication": {
+						Task::Async_DataFileMgr("ALL_CAMPAIGN_MAPS", DataFileMgr.Map_GetGameList("Campaigns", True));
 					}
 				}
 			}
@@ -122,6 +153,82 @@ Void Async() {
 			declare STitle Title for Layers::Page("EditTitle");
 			declare Success = Title.fromjson(Http::GetResult("TITLE"));
 			Layers::SendEvent("EditTitle", "UpdatePublish");
+		}
+	}
+	if(Http::IsCompleted("PUBLISHTITLE")) {
+		if(Http::IsSuccessful("PUBLISHTITLE")) {
+			declare Text CHALLENGE_TOKEN for LocalUser;
+			declare SPublishTitleResponse Response;
+			declare Success = Response.fromjson(Http::GetResult("PUBLISHTITLE"));
+			if(Response.Added) {
+				Dialog_Message("Your title has been successfully submitted for approval.\nTo speedup the approval time, don't worry to contact $h[bigbang1112]BigBang1112$h on Discord about your submission.");
+			}
+			else if(Response.Updated) {
+				Dialog_Message("You have successfully updated your title metadata.");
+			}
+			else if(Response.Occupied) {
+				Dialog_Message("Your title hasn't been submitted, most likely due to its ID already existing.\nConsider choosing a different title pack ID/name.");
+			}
+			
+			if(TitleEdition == Null)
+				declare Success = Http::AsyncPOST("TITLE", Service_Status::LastStatus(LocalUser).Global.Service^"/title.php?"^LoadedTitle.TitleId, CHALLENGE_TOKEN); // change this to LoadedTitle.TitleId
+			else
+				declare Success = Http::AsyncPOST("TITLE", Service_Status::LastStatus(LocalUser).Global.Service^"/title.php?"^TitleEdition.EditedTitleId, CHALLENGE_TOKEN);
+			Http::Destroy("PUBLISHTITLE");
+		}
+	}
+	
+	if(Task::IsCompleted("ALL_CAMPAIGN_MAPS")) {
+		if(Task::IsSuccessful("ALL_CAMPAIGN_MAPS")) {
+			declare Maps = Task::ToMapList(Task::Get("ALL_CAMPAIGN_MAPS"));
+			
+			declare SPublicMapInfo[] PublishableMaps for Layers::Page("EditTitle");
+			PublishableMaps.clear();
+			
+			declare MakerBase::SProgress Progress for This;
+			
+			foreach(OriginalMap => ModifiedMaps in Progress.Maps) {
+				foreach(ModifiedMap => Info in ModifiedMaps) {
+					foreach(MapInfo in Maps.MapInfos) {
+						if(MapInfo.MapUid == ModifiedMap) {
+							declare Folders = TextLib::Split("/", TextLib::Replace(MapInfo.FileName, "\\", "/"));
+							declare Campaign = Folders[Folders.count-4];
+							
+							declare CMapInfo OriginalMapInfo;
+							declare Text[] OriginalLocation;
+							foreach(Fold in Folders) OriginalLocation.add(Fold);
+							OriginalLocation[OriginalLocation.count-3] = "Default";
+							foreach(AnotherMapInfo in Maps.MapInfos) {
+								if(AnotherMapInfo.FileName == TextLib::Join("/", OriginalLocation)
+								|| AnotherMapInfo.FileName == TextLib::Join("\\", OriginalLocation)) {
+									OriginalMapInfo <=> AnotherMapInfo;
+									break;
+								}
+							}
+							
+							declare SPublicMapInfo M;
+							M.MapUid = MapInfo.MapUid;
+							M.Name = MapInfo.Name;
+							M.Author = MapInfo.AuthorNickName;
+							M.OriginalUid = OriginalMapInfo.MapUid;
+							M.OriginalName = OriginalMapInfo.Name;
+							M.OriginalAuthor = OriginalMapInfo.AuthorNickName;
+							M.Environment = MapInfo.CollectionName;
+							M.Laps = MapInfo.TMObjective_NbLaps;
+							M.Campaign = Campaign;
+							M.TitleId = TitleEdition.EditedTitleId;
+							M.Challenge = MapInfo.MapStyle;
+							PublishableMaps.add(M);
+							
+							break;
+						}
+					}
+				}
+			}
+			
+			Layers::SendEvent("EditTitle", "UpdatePublishableMaps");
+			
+			Task::Destroy_DataFileMgr("ALL_CAMPAIGN_MAPS");
 		}
 	}
 }

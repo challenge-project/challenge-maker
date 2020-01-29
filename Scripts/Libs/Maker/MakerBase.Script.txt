@@ -8,8 +8,23 @@
 #Include "Libs/BigBang1112/Dictionary.Script.txt" as Dictionary
 #Include "Libs/BigBang1112/File.Script.txt" as File
 
+#Struct SMapProgress {
+	Boolean Modified;
+	Boolean Computed;
+	Integer Possible; // -1 - impossible, 0 - unknown, 1 - possible, 2 - solvable
+	Integer Time;
+}
+
+#Struct SProgress {
+	SMapProgress[Text][Text] Maps;
+}
+
 #Struct SChallengeTitleSettings {
 	Text Type;
+}
+
+#Struct SChMetadataCompatibility {
+	Text[] Collections;
 }
 
 #Struct SMetadata {
@@ -18,6 +33,7 @@
 	Text AuthorNickname;
 	Text Description;
 	Text CompatibleCollections;
+	SChMetadataCompatibility Compatibility;
 }
 
 #Struct SScriptInfo {

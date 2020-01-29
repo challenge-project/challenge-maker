@@ -18,12 +18,17 @@
 
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 
+#Struct SChMetadataCompatibility {
+	Text[] Collections;
+}
+
 #Struct SMetadata {
 	Text Name;
 	Text AuthorLogin;
 	Text AuthorNickname;
 	Text Description;
 	Text CompatibleCollections;
+	SChMetadataCompatibility Compatibility;
 }
 
 #Struct SScriptInfo {

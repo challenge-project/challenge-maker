@@ -5,6 +5,20 @@
 	Text BanReason;
 }
 
+#Struct SPublicMapInfo {
+	Text MapUid;
+	Text Name;
+	Text Author;
+	Text OriginalUid;
+	Text OriginalName;
+	Text OriginalAuthor;
+	Text Environment;
+	Integer Laps;
+	Text Campaign;
+	Text TitleId;
+	Text Challenge;
+}
+
 Void UpdateTitle() {
 	SendCustomEvent("UpdateTitle", [(Page.GetFirstChild("LABEL_TITLEID") as CMlLabel).Value,
 		(Page.GetFirstChild("ENTRY_DISPLAYNAME") as CMlEntry).Value,
@@ -13,14 +27,53 @@ Void UpdateTitle() {
 		(Page.GetFirstChild("ENTRY_DOWNLOADURL") as CMlEntry).Value]);
 }
 
+Void UpdatePublishableMaps(Integer _Offset) {
+	declare SPublicMapInfo[] PublishableMaps for Page;
+	
+	declare Frame_Outer_Publishable_Maps = (Page.GetFirstChild("FRAME_PUBLISHABLE_MAPS") as CMlFrame);
+	declare Frame_Publishable_Maps = (Page.GetFirstChild("FRAME_PUBLISHABLE_MAPS") as CMlFrame);
+	declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_SCROLLBAR") as CMlQuad);
+	declare Quad_Scrollbar_Background = (Page.GetFirstChild("QUAD_SCROLLBAR_BACKGROUND") as CMlQuad);
+	
+	Frame_Outer_Publishable_Maps.ScrollActive = True;
+	Frame_Outer_Publishable_Maps.ScrollMax.Y = MathLib::Max(0, PublishableMaps.count-Frame_Publishable_Maps.Controls.count)*8.;
+	Frame_Outer_Publishable_Maps.ScrollGrid.Y = 8.;
+
+	if(Frame_Outer_Publishable_Maps.ScrollMax.Y > 0) {
+		Quad_Scrollbar.Show();
+		Quad_Scrollbar.Size.Y = (Frame_Publishable_Maps.Controls.count/MathLib::ToReal(PublishableMaps.count))*Quad_Scrollbar_Background.Size.Y;
+	}
+	else {
+		Quad_Scrollbar.Hide();
+	}
+
+	for(I, 0, Frame_Publishable_Maps.Controls.count-1) {
+		declare Frame = (Frame_Publishable_Maps.Controls[I] as CMlFrame);
+		if(PublishableMaps.existskey(I+_Offset)) {
+			declare Map = PublishableMaps[I+_Offset];
+			(Frame.GetFirstChild("LABEL_MAPNAME") as CMlLabel).Value = Map.OriginalName ^ " (" ^ Map.Challenge ^ ")";
+			(Frame.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Map.MapUid);
+			Frame.Show();
+		}
+		else {
+			Frame.Hide();
+		}
+	}
+}
+
 ***Start***
 ***
+
+declare Frame_Outer_Publishable_Maps = (Page.GetFirstChild("FRAME_OUTER_PUBLISHABLE_MAPS") as CMlFrame);
+declare Frame_Publishable_Maps = (Page.GetFirstChild("FRAME_PUBLISHABLE_MAPS") as CMlFrame);
 declare Quad_Button_Publish = (Page.GetFirstChild("QUAD_BUTTON_PUBLISH") as CMlQuad);
 declare Label_Button_Publish = (Page.GetFirstChild("LABEL_BUTTON_PUBLISH") as CMlLabel);
 
 declare PreviousDescription = (Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value;
 
 declare End = -1;
+
+declare PreviousScroll = Frame_Outer_Publishable_Maps.ScrollOffset;
 ***
 
 ***Loop***
@@ -40,13 +93,17 @@ foreach(Event,PendingEvents) {
 						case "PublishTitle": {
 							SendCustomEvent("PublishTitle", []);
 						}
-						case "PublishMaps": {
-							
+						case "PublishContent": {
+							Page.GetFirstChild("FRAME_PUBLISH_TOOLS").Show();
+							SendCustomEvent("RequestPublication", []);
 						}
 						case "WaitingForApprove": {
-							
+							SendCustomEvent("PublishTitle", []);
 						}
 					}
+				}
+				case "QUAD_PUBLISHTOOLS_EXIT": {
+					Page.GetFirstChild("FRAME_PUBLISH_TOOLS").Hide();
 				}
 			}
 		}
@@ -71,9 +128,9 @@ foreach(Event,PendingEvents) {
 					
 					if(Title.Exists) {
 						if(Title.Approved) {
-							Label_Button_Publish.Value = " {{{{PUBLISH_MAPS}}}}";
+							Label_Button_Publish.Value = " {{{{PUBLISH_CONTENT}}}}";
 							Quad_Button_Publish.ModulateColor = <0.,.4,.0>;
-							Quad_Button_Publish.DataAttributeSet("type", "PublishMaps");
+							Quad_Button_Publish.DataAttributeSet("type", "PublishContent");
 						}
 						else {
 							Label_Button_Publish.Value = " {{{{WAITING_FOR_APPROVE}}}}...";
@@ -96,19 +153,34 @@ foreach(Event,PendingEvents) {
 					End = Now;
 					AnimMgr.Add(Page.GetFirstChild("FRAME_WINDOW_EDITTITLE"), "<frame pos=\"230 80\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
 				}
+				case "UpdatePublishableMaps": {
+					UpdatePublishableMaps(MathLib::NearestInteger(Frame_Outer_Publishable_Maps.ScrollOffset.Y/8));
+				}
 			}
 		}
 	}
-	
-	if(PreviousDescription != (Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value) {
-		UpdateTitle();
-		PreviousDescription = (Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value;
-	}
+}
 
-	if(End != -1) {
-		if(Now - End > 500) {
-			SendCustomEvent("Hide_Response", []);
-		}
+if(PreviousDescription != (Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value) {
+	UpdateTitle();
+	PreviousDescription = (Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value;
+}
+
+if(End != -1) {
+	if(Now - End > 500) {
+		SendCustomEvent("Hide_Response", []);
 	}
+}
+
+if(Frame_Outer_Publishable_Maps.ScrollOffset != PreviousScroll) {
+	Frame_Publishable_Maps.RelativePosition_V3.Y = -Frame_Outer_Publishable_Maps.ScrollOffset.Y;
+	UpdatePublishableMaps(MathLib::NearestInteger(Frame_Outer_Publishable_Maps.ScrollOffset.Y/8));
+
+	/*declare ScrollRatio = 0.;
+	if(Frame_List.ScrollMax.Y != 0)
+		ScrollRatio = MathLib::NearestInteger(Frame_List.ScrollOffset.Y/10)*10 / Frame_List.ScrollMax.Y;
+	Quad_Scrollbar.RelativePosition_V3.Y = -ScrollRatio*(Window_Size.Y-20-Quad_Scrollbar.Size.Y);*/
+
+	PreviousScroll = Frame_Outer_Publishable_Maps.ScrollOffset;
 }
 ***

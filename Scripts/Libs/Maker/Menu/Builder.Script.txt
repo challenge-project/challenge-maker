@@ -218,8 +218,8 @@ Void Event(CManiaAppEvent _Event) {
 								declare Success2 = OpenFileInExplorer("WorkTitles\\"^TitleEdition.EditedTitleId^"\\Maps\\Campaigns\\"^Campaign.Name^"\\");
 							}
 						}
-						
-						declare Success = OpenFileInExplorer("WorkTitles\\"^TitleEdition.EditedTitleId^"\\Maps\\Campaigns\\");
+						else
+							declare Success = OpenFileInExplorer("WorkTitles\\"^TitleEdition.EditedTitleId^"\\Maps\\Campaigns\\");
 					}
 					case "Refresh": {
 						declare Scroll = TextLib::ToInteger(Event.CustomEventData[0]);

@@ -14,22 +14,11 @@
 
 #Include "Libs/Maker/MakerBase.Script.txt" as MakerBase
 
-#Struct SMapProgress {
-	Boolean Modified;
-	Boolean Computed;
-	Integer Possible; // -1 - impossible, 0 - unknown, 1 - possible, 2 - solvable
-	Integer Time;
-}
-
-#Struct SProgress {
-	SMapProgress[Text][Text] Maps;
-}
-
 #Struct SChallengeMapInfo {
 	Map::SMapInfo OriginalMap;
 	Map::SMapInfo ModifiedMap;
 	Integer Challenge;
-	SMapProgress Progress;
+	MakerBase::SMapProgress Progress;
 }
 
 Text ToDifferentChallengeMapName(Text _MapFileName, Text[] _Challenge) {
@@ -57,7 +46,7 @@ Void UpdateChallenges() {
 }
 
 Void UpdateTimings(Integer _TotalMapCount) {
-	declare SProgress Progress for This;
+	declare MakerBase::SProgress Progress for This;
 	
 	declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
 	
@@ -104,7 +93,7 @@ Void UpdateTimings(Integer _TotalMapCount) {
 Void UpdateProgress() {
 	declare MakerBase::SChallenge[][] Challenges for This; // JSON-defined picked challenges
 	declare CMapInfo[] CampaignMaps for This;
-	declare SProgress Progress for This;
+	declare MakerBase::SProgress Progress for This;
 	
 	Layers::SendEvent("Modifier", "LoadingProgress", "0");
 	
@@ -201,7 +190,7 @@ Void Init() {
 	declare MakerBase::SChallengeTitleSettings Settings for This;
 	declare MakerBase::SCampaign[] Campaigns for This;
 	
-	declare SProgress Progress for This;
+	declare MakerBase::SProgress Progress for This;
 	declare JsonProgress = Progress.fromjson(TitleEdition.File_ReadText("Media/Progress.json"));
 	
 	declare Boolean IsReloaded for This;
@@ -422,7 +411,7 @@ Void Loop() {
 		ChallengeMaps[ModifId] = ChallengeMap;
 		
 		// set some progress.json
-		declare SProgress Progress for This;
+		declare MakerBase::SProgress Progress for This;
 		if(!Progress.Maps.existskey(ChallengeMap.OriginalMap.MapUid)) Progress.Maps[ChallengeMap.OriginalMap.MapUid] = [];
 		else declare Removed = Progress.Maps[ChallengeMap.OriginalMap.MapUid].removekey(OldMapUid);
 		Progress.Maps[ChallengeMap.OriginalMap.MapUid][ChallengeMap.ModifiedMap.MapUid] = ChallengeMap.Progress;
@@ -480,7 +469,7 @@ Void Loop() {
 		ChallengeMaps[RepairMap_Id] = Map;
 		
 		// set some progress.json
-		declare SProgress Progress for This;
+		declare MakerBase::SProgress Progress for This;
 		if(!Progress.Maps.existskey(Map.OriginalMap.MapUid)) Progress.Maps[Map.OriginalMap.MapUid] = [];
 		else declare Removed = Progress.Maps[Map.OriginalMap.MapUid].removekey(OldMapUid);
 		Progress.Maps[Map.OriginalMap.MapUid][Map.ModifiedMap.MapUid] = Map.Progress;
@@ -524,7 +513,7 @@ Void Loop() {
 		ChallengeMaps[CompId] = ChallengeMap;
 		
 		// set some progress.json
-		declare SProgress Progress for This;
+		declare MakerBase::SProgress Progress for This;
 		Progress.Maps[ChallengeMap.OriginalMap.MapUid][ChallengeMap.ModifiedMap.MapUid] = ChallengeMap.Progress;
 		TitleEdition.File_WriteText("Media/Progress.json",Progress.tojson());
 		

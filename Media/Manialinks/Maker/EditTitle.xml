@@ -33,3 +33,234 @@
 		<label z-index="1" size="100 10" text="" valign="center2" textfont="RajdhaniMono" halign="center" id="LABEL_BUTTON_PUBLISH" pos="0 -0.4" textsize="3"/>
 	</frame>
 </frame>
+<frame z-index="10" id="FRAME_PUBLISH_TOOLS" hidden="1">
+	<quad pos="0 0" z-index="-2" size="320 180" bgcolor="222A" halign="center" valign="center" id="QUAD_BACKGROUND" scriptevents="1"/>
+	<frame id="FRAME_BACKGROUND" z-index="-1">
+		<quad z-index="-2" size="160 120" halign="center" valign="center" style="Bgs1" substyle="BgCardList"/>
+		<quad z-index="-1" size="160 120" halign="center" valign="center" style="Bgs1" substyle="BgCardList"/>
+		<quad z-index="-1" size="160 120" halign="center" valign="center" style="Bgs1" substyle="BgCardList"/>
+		<quad z-index="0" size="160 120" halign="center" valign="center" style="Bgs1" substyle="BgGradV"/>
+	</frame>
+	<frame pos="-77.5 57.5">
+		<quad z-index="-1" size="92.5 98" style="Bgs1" substyle="BgCardList"/>
+		<frame id="FRAME_OUTER_PUBLISHABLE_MAPS" clip="True" clipsizen="90 95" clipposn="46 -49" scroll="True">
+			<quad z-index="0" size="92.5 98" style="Bgs1" substyle="BgEmpty" scriptevents="1"/>
+			<frame z-index="1" pos="1" id="FRAME_PUBLISHABLE_MAPS">
+				<frame pos="0 -5">
+					<quad z-index="-2" size="90.5 8" style="Bgs1" substyle="BgCardList" valign="center"/>
+					<frame clip="True" clipsizen="80 6.5" clipposn="41 0">
+						<quad z-index="-1" size="80 80" valign="center" bgcolor="FFF" pos="0.75" opacity=".25" id="QUAD_THUMBNAIL"/>
+					</frame>
+					<label pos="3 -.3" z-index="0" size="77 5" text="A01 (Reverse+Checkpointless)" valign="center2" textfont="Oswald" id="LABEL_MAPNAME"/>
+					<frame pos="86 0">
+						<quad z-index="0" size="7 7" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="333" id="QUAD_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+						<label z-index="1" size="7 7" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2"/>
+					</frame>
+				</frame>
+				<frame pos="0 -13">
+					<quad z-index="-2" size="90.5 8" style="Bgs1" substyle="BgCardList" valign="center"/>
+					<frame clip="True" clipsizen="80 6.5" clipposn="41 0">
+						<quad z-index="-1" size="80 80" valign="center" bgcolor="FFF" pos="0.75" opacity=".25" id="QUAD_THUMBNAIL"/>
+					</frame>
+					<label pos="3 -.3" z-index="0" size="77 5" text="A01 (Reverse+Checkpointless)" valign="center2" textfont="Oswald" id="LABEL_MAPNAME"/>
+					<frame pos="86 0">
+						<quad z-index="0" size="7 7" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="333" id="QUAD_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+						<label z-index="1" size="7 7" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2"/>
+					</frame>
+				</frame>
+				<frame pos="0 -21">
+					<quad z-index="-2" size="90.5 8" style="Bgs1" substyle="BgCardList" valign="center"/>
+					<frame clip="True" clipsizen="80 6.5" clipposn="41 0">
+						<quad z-index="-1" size="80 80" valign="center" bgcolor="FFF" pos="0.75" opacity=".25" id="QUAD_THUMBNAIL"/>
+					</frame>
+					<label pos="3 -.3" z-index="0" size="77 5" text="A01 (Reverse+Checkpointless)" valign="center2" textfont="Oswald" id="LABEL_MAPNAME"/>
+					<frame pos="86 0">
+						<quad z-index="0" size="7 7" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="333" id="QUAD_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+						<label z-index="1" size="7 7" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2"/>
+					</frame>
+				</frame>
+				<frame pos="0 -29">
+					<quad z-index="-2" size="90.5 8" style="Bgs1" substyle="BgCardList" valign="center"/>
+					<frame clip="True" clipsizen="80 6.5" clipposn="41 0">
+						<quad z-index="-1" size="80 80" valign="center" bgcolor="FFF" pos="0.75" opacity=".25" id="QUAD_THUMBNAIL"/>
+					</frame>
+					<label pos="3 -.3" z-index="0" size="77 5" text="A01 (Reverse+Checkpointless)" valign="center2" textfont="Oswald" id="LABEL_MAPNAME"/>
+					<frame pos="86 0">
+						<quad z-index="0" size="7 7" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="333" id="QUAD_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+						<label z-index="1" size="7 7" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2"/>
+					</frame>
+				</frame>
+				<frame pos="0 -37">
+					<quad z-index="-2" size="90.5 8" style="Bgs1" substyle="BgCardList" valign="center"/>
+					<frame clip="True" clipsizen="80 6.5" clipposn="41 0">
+						<quad z-index="-1" size="80 80" valign="center" bgcolor="FFF" pos="0.75" opacity=".25" id="QUAD_THUMBNAIL"/>
+					</frame>
+					<label pos="3 -.3" z-index="0" size="77 5" text="A01 (Reverse+Checkpointless)" valign="center2" textfont="Oswald" id="LABEL_MAPNAME"/>
+					<frame pos="86 0">
+						<quad z-index="0" size="7 7" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="333" id="QUAD_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+						<label z-index="1" size="7 7" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2"/>
+					</frame>
+				</frame>
+				<frame pos="0 -45">
+					<quad z-index="-2" size="90.5 8" style="Bgs1" substyle="BgCardList" valign="center"/>
+					<frame clip="True" clipsizen="80 6.5" clipposn="41 0">
+						<quad z-index="-1" size="80 80" valign="center" bgcolor="FFF" pos="0.75" opacity=".25" id="QUAD_THUMBNAIL"/>
+					</frame>
+					<label pos="3 -.3" z-index="0" size="77 5" text="A01 (Reverse+Checkpointless)" valign="center2" textfont="Oswald" id="LABEL_MAPNAME"/>
+					<frame pos="86 0">
+						<quad z-index="0" size="7 7" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="333" id="QUAD_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+						<label z-index="1" size="7 7" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2"/>
+					</frame>
+				</frame>
+				<frame pos="0 -53">
+					<quad z-index="-2" size="90.5 8" style="Bgs1" substyle="BgCardList" valign="center"/>
+					<frame clip="True" clipsizen="80 6.5" clipposn="41 0">
+						<quad z-index="-1" size="80 80" valign="center" bgcolor="FFF" pos="0.75" opacity=".25" id="QUAD_THUMBNAIL"/>
+					</frame>
+					<label pos="3 -.3" z-index="0" size="77 5" text="A01 (Reverse+Checkpointless)" valign="center2" textfont="Oswald" id="LABEL_MAPNAME"/>
+					<frame pos="86 0">
+						<quad z-index="0" size="7 7" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="333" id="QUAD_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+						<label z-index="1" size="7 7" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2"/>
+					</frame>
+				</frame>
+				<frame pos="0 -61">
+					<quad z-index="-2" size="90.5 8" style="Bgs1" substyle="BgCardList" valign="center"/>
+					<frame clip="True" clipsizen="80 6.5" clipposn="41 0">
+						<quad z-index="-1" size="80 80" valign="center" bgcolor="FFF" pos="0.75" opacity=".25" id="QUAD_THUMBNAIL"/>
+					</frame>
+					<label pos="3 -.3" z-index="0" size="77 5" text="A01 (Reverse+Checkpointless)" valign="center2" textfont="Oswald" id="LABEL_MAPNAME"/>
+					<frame pos="86 0">
+						<quad z-index="0" size="7 7" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="333" id="QUAD_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+						<label z-index="1" size="7 7" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2"/>
+					</frame>
+				</frame>
+				<frame pos="0 -69">
+					<quad z-index="-2" size="90.5 8" style="Bgs1" substyle="BgCardList" valign="center"/>
+					<frame clip="True" clipsizen="80 6.5" clipposn="41 0">
+						<quad z-index="-1" size="80 80" valign="center" bgcolor="FFF" pos="0.75" opacity=".25" id="QUAD_THUMBNAIL"/>
+					</frame>
+					<label pos="3 -.3" z-index="0" size="77 5" text="A01 (Reverse+Checkpointless)" valign="center2" textfont="Oswald" id="LABEL_MAPNAME"/>
+					<frame pos="86 0">
+						<quad z-index="0" size="7 7" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="333" id="QUAD_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+						<label z-index="1" size="7 7" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2"/>
+					</frame>
+				</frame>
+				<frame pos="0 -77">
+					<quad z-index="-2" size="90.5 8" style="Bgs1" substyle="BgCardList" valign="center"/>
+					<frame clip="True" clipsizen="80 6.5" clipposn="41 0">
+						<quad z-index="-1" size="80 80" valign="center" bgcolor="FFF" pos="0.75" opacity=".25" id="QUAD_THUMBNAIL"/>
+					</frame>
+					<label pos="3 -.3" z-index="0" size="77 5" text="A01 (Reverse+Checkpointless)" valign="center2" textfont="Oswald" id="LABEL_MAPNAME"/>
+					<frame pos="86 0">
+						<quad z-index="0" size="7 7" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="333" id="QUAD_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+						<label z-index="1" size="7 7" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2"/>
+					</frame>
+				</frame>
+				<frame pos="0 -85">
+					<quad z-index="-2" size="90.5 8" style="Bgs1" substyle="BgCardList" valign="center"/>
+					<frame clip="True" clipsizen="80 6.5" clipposn="41 0">
+						<quad z-index="-1" size="80 80" valign="center" bgcolor="FFF" pos="0.75" opacity=".25" id="QUAD_THUMBNAIL"/>
+					</frame>
+					<label pos="3 -.3" z-index="0" size="77 5" text="A01 (Reverse+Checkpointless)" valign="center2" textfont="Oswald" id="LABEL_MAPNAME"/>
+					<frame pos="86 0">
+						<quad z-index="0" size="7 7" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="333" id="QUAD_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+						<label z-index="1" size="7 7" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2"/>
+					</frame>
+				</frame>
+				<frame pos="0 -93">
+					<quad z-index="-2" size="90.5 8" style="Bgs1" substyle="BgCardList" valign="center"/>
+					<frame clip="True" clipsizen="80 6.5" clipposn="41 0">
+						<quad z-index="-1" size="80 80" valign="center" bgcolor="FFF" pos="0.75" opacity=".25" id="QUAD_THUMBNAIL"/>
+					</frame>
+					<label pos="3 -.3" z-index="0" size="77 5" text="A01 (Reverse+Checkpointless)" valign="center2" textfont="Oswald" id="LABEL_MAPNAME"/>
+					<frame pos="86 0">
+						<quad z-index="0" size="7 7" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="333" id="QUAD_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+						<label z-index="1" size="7 7" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2"/>
+					</frame>
+				</frame>
+			</frame>
+		</frame>
+	</frame>
+	<frame pos="15 57.5">
+		<quad z-index="-1" size="2 98" style="Bgs1" substyle="BgCardList" id="QUAD_SCROLLBAR"/>
+		<quad size="2 30" style="Bgs1" substyle="BgWindow4" id="QUAD_SCROLLBAR_BACKGROUND"/>
+	</frame>
+	<frame pos="-77.5 -43">
+		<quad z-index="-1" size="94.5 14.5" style="Bgs1" substyle="BgCardList"/>
+		<frame pos="7.5 -7">
+			<quad z-index="0" size="10 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="600" id="QUAD_PUBLISHTOOLS_EXIT" class="opacity" pos="0 0" valign="center"/>
+			<label z-index="1" size="10 10" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.7"/>
+		</frame>
+		<frame pos="65 -7">
+			<quad z-index="0" size="55 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="060" id="QUAD_BUTTON_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+			<label z-index="1" size="55 10" text=" {{{{PUBLISH_ALL_MAPS}}}}" valign="center2" textfont="RajdhaniMono" halign="center" id="LABEL_BUTTON_PUBLISH" pos="0 -0.3" textsize="1.5"/>
+		</frame>
+	</frame>
+	<frame pos="47.5 57.5">
+		<quad z-index="-1" size="60 115" style="Bgs1" substyle="BgCardList" halign="center"/>
+		<label z-index="0" size="55 10" text="{{{{METADATA}}}}" halign="center" textfont="Oswald" valign="center2" pos="0 -7.5" textsize="5" textprefix="$o"/>
+		<frame pos="-1">
+			<label pos="-25 -15" z-index="0" size="35 4" text="{{{{RELEASE_DATE}}}}:" textsize="2" textfont="Oswald"/>
+			<frame pos="20 -16.75" class="BUTTON">
+				<quad z-index="0" size="17.5 4" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="F00" id="QUAD_RELEASEDATE_ENABLE" class="opacity" pos="0 0" valign="center"/>
+				<label z-index="1" size="17 4" text="{{{{DISABLED}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.2" textsize="0.5"/>
+			</frame>
+			<label pos="-25 -20" z-index="0" size="10 4" text="{{{{DAY}}}}" textsize="1" textfont="RajdhaniMono"/>
+			<label pos="-15 -20" z-index="0" size="12.5 4" text="{{{{MONTH}}}}" textsize="1" textfont="RajdhaniMono"/>
+			<label pos="-2.5 -20" z-index="0" size="14 4" text="{{{{YEAR}}}}" textsize="1" textfont="RajdhaniMono"/>
+			<label pos="12.5 -20" z-index="0" size="16 4" text="{{{{TIME}}}}" textsize="1" textfont="RajdhaniMono"/>
+			<entry pos="-25 -25.5" z-index="0" size="9 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_DAY"/>
+			<entry pos="-15 -25.5" z-index="0" size="12 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_MONTH"/>
+			<entry pos="-2.5 -25.5" z-index="0" size="14 4" default="2021" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_YEAR"/>
+			<entry pos="12.5 -25.5" z-index="0" size="4 4" default="20" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_HOUR"/>
+			<label pos="17.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
+			<entry pos="18.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_MINUTE"/>
+			<label pos="23.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
+			<entry pos="24.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_SECOND"/>
+		</frame>
+		<frame pos="-1 -17.5">
+			<label pos="-25 -15" z-index="0" size="35 4" text="{{{{ENVIMIX_DATE}}}}:" textsize="2" textfont="Oswald"/>
+			<frame pos="20 -16.75" class="BUTTON">
+				<quad z-index="0" size="17.5 4" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="F00" id="QUAD_ENVIMIXDATE_ENABLE" class="opacity" pos="0 0" valign="center"/>
+				<label z-index="1" size="17 4" text="{{{{DISABLED}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.2" textsize="0.5"/>
+			</frame>
+			<label pos="-25 -20" z-index="0" size="10 4" text="{{{{DAY}}}}" textsize="1" textfont="RajdhaniMono"/>
+			<label pos="-15 -20" z-index="0" size="12.5 4" text="{{{{MONTH}}}}" textsize="1" textfont="RajdhaniMono"/>
+			<label pos="-2.5 -20" z-index="0" size="14 4" text="{{{{YEAR}}}}" textsize="1" textfont="RajdhaniMono"/>
+			<label pos="12.5 -20" z-index="0" size="16 4" text="{{{{TIME}}}}" textsize="1" textfont="RajdhaniMono"/>
+			<entry pos="-25 -25.5" z-index="0" size="9 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_DAY"/>
+			<entry pos="-15 -25.5" z-index="0" size="12 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_MONTH"/>
+			<entry pos="-2.5 -25.5" z-index="0" size="14 4" default="2021" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_YEAR"/>
+			<entry pos="12.5 -25.5" z-index="0" size="4 4" default="20" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_HOUR"/>
+			<label pos="17.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
+			<entry pos="18.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_MINUTE"/>
+			<label pos="23.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
+			<entry pos="24.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_SECOND"/>
+			<label pos="1.25 -29" z-index="0" size="52.5 5" text="To enable envimix right from the start, enable the feature and set the date to the same date or older date than the release date." textsize=".5" textfont="Oswald" autonewline="1" halign="center"/>
+		</frame>
+		<frame pos="-1 -40">
+			<label pos="-25 -15" z-index="0" size="35 4" text="{{{{UNITED_ENVIMIX_DATE}}}}:" textsize="2" textfont="Oswald"/>
+			<frame pos="20 -16.75" class="BUTTON">
+				<quad z-index="0" size="17.5 4" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="F00" id="QUAD_ENVIMIXDATE_ENABLE" class="opacity" pos="0 0" valign="center"/>
+				<label z-index="1" size="17 4" text="{{{{DISABLED}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.2" textsize="0.5"/>
+			</frame>
+			<label pos="-25 -20" z-index="0" size="10 4" text="{{{{DAY}}}}" textsize="1" textfont="RajdhaniMono"/>
+			<label pos="-15 -20" z-index="0" size="12.5 4" text="{{{{MONTH}}}}" textsize="1" textfont="RajdhaniMono"/>
+			<label pos="-2.5 -20" z-index="0" size="14 4" text="{{{{YEAR}}}}" textsize="1" textfont="RajdhaniMono"/>
+			<label pos="12.5 -20" z-index="0" size="16 4" text="{{{{TIME}}}}" textsize="1" textfont="RajdhaniMono"/>
+			<entry pos="-25 -25.5" z-index="0" size="9 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_DAY"/>
+			<entry pos="-15 -25.5" z-index="0" size="12 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_MONTH"/>
+			<entry pos="-2.5 -25.5" z-index="0" size="14 4" default="2021" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_YEAR"/>
+			<entry pos="12.5 -25.5" z-index="0" size="4 4" default="20" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_HOUR"/>
+			<label pos="17.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
+			<entry pos="18.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_MINUTE"/>
+			<label pos="23.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
+			<entry pos="24.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_SECOND"/>
+			<label pos="1.25 -29" z-index="0" size="52.5 5" text="To enable envimix right from the start, enable the feature and set the date to the same date or older date than the release date." textsize=".5" textfont="Oswald" autonewline="1" halign="center"/>
+		</frame>
+		<frame pos="0 -107.5">
+			<quad z-index="0" size="55 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="060" id="QUAD_BUTTON_PUBLISH" class="opacity" pos="0 0" valign="center"/>
+			<label z-index="1" size="55 10" text=" {{{{PUBLISH_METADATA}}}}" valign="center2" textfont="RajdhaniMono" halign="center" id="LABEL_BUTTON_PUBLISH" pos="0 -0.3" textsize="2.5"/>
+		</frame>
+	</frame>
+</frame>
