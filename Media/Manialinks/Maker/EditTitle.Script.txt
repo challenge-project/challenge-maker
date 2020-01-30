@@ -63,7 +63,9 @@ Void UpdatePublishableMaps(Integer _Offset) {
 			(Frame.GetFirstChild("LABEL_MAPNAME") as CMlLabel).Value = Map.OriginalName ^ "$z (" ^ Map.Challenge ^ ")";
 			(Frame.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Map.MapUid);
 
-			if(PublishedMaps.existskey(Map.MapUid) && PublishedMaps[Map.MapUid].OriginalUid == Map.OriginalUid) {
+			if(PublishedMaps.existskey(Map.MapUid)
+			&& PublishedMaps[Map.MapUid].OriginalUid == Map.OriginalUid
+			&& PublishedMaps[Map.MapUid].Laps == Map.Laps) {
 				(Frame.GetFirstChild("QUAD_PUBLISH") as CMlQuad).ModulateColor = <.2,.2,.2>;
 				Frame.DataAttributeSet("published", "True");
 			}
@@ -232,7 +234,9 @@ foreach(Event,PendingEvents) {
 					declare SPublicMapInfo[Text] PublishedMaps for Page;
 
 					foreach(Map in PublishableMaps) {
-						if(!PublishedMaps.existskey(Map.MapUid) || PublishedMaps[Map.MapUid].OriginalUid != Map.OriginalUid) {
+						if(!PublishedMaps.existskey(Map.MapUid)
+						|| PublishedMaps[Map.MapUid].OriginalUid != Map.OriginalUid
+						|| PublishedMaps[Map.MapUid].Laps != Map.Laps) {
 							Maps.add(Map);
 						}
 					}
