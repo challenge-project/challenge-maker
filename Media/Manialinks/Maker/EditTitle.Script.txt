@@ -3,6 +3,9 @@
 	Boolean Exists;
 	Boolean Approved;
 	Text BanReason;
+	Integer[] ReleaseDate;
+	Integer[] EnvimixDate;
+	Integer[] UnitedEnvimixDate;
 }
 
 #Struct SPublicMapInfo {
@@ -29,14 +32,20 @@ Void UpdateTitle() {
 
 Void UpdatePublishableMaps(Integer _Offset) {
 	declare SPublicMapInfo[] PublishableMaps for Page;
+	declare SPublicMapInfo[Text] PublishedMaps for Page;
 	
-	declare Frame_Outer_Publishable_Maps = (Page.GetFirstChild("FRAME_PUBLISHABLE_MAPS") as CMlFrame);
+	declare Frame_Outer_Publishable_Maps = (Page.GetFirstChild("FRAME_OUTER_PUBLISHABLE_MAPS") as CMlFrame);
 	declare Frame_Publishable_Maps = (Page.GetFirstChild("FRAME_PUBLISHABLE_MAPS") as CMlFrame);
 	declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_SCROLLBAR") as CMlQuad);
 	declare Quad_Scrollbar_Background = (Page.GetFirstChild("QUAD_SCROLLBAR_BACKGROUND") as CMlQuad);
+	declare Quad_Scrollable = (Page.GetFirstChild("QUAD_SCROLLABLE") as CMlQuad);
+
+	Frame_Publishable_Maps.Show();
+	Page.GetFirstChild("QUAD_PUBLISHABLE_MAPS_LOADING").Hide();
 	
 	Frame_Outer_Publishable_Maps.ScrollActive = True;
 	Frame_Outer_Publishable_Maps.ScrollMax.Y = MathLib::Max(0, PublishableMaps.count-Frame_Publishable_Maps.Controls.count)*8.;
+	Quad_Scrollable.Size.Y = PublishableMaps.count*8.;
 	Frame_Outer_Publishable_Maps.ScrollGrid.Y = 8.;
 
 	if(Frame_Outer_Publishable_Maps.ScrollMax.Y > 0) {
@@ -51,8 +60,20 @@ Void UpdatePublishableMaps(Integer _Offset) {
 		declare Frame = (Frame_Publishable_Maps.Controls[I] as CMlFrame);
 		if(PublishableMaps.existskey(I+_Offset)) {
 			declare Map = PublishableMaps[I+_Offset];
-			(Frame.GetFirstChild("LABEL_MAPNAME") as CMlLabel).Value = Map.OriginalName ^ " (" ^ Map.Challenge ^ ")";
+			(Frame.GetFirstChild("LABEL_MAPNAME") as CMlLabel).Value = Map.OriginalName ^ "$z (" ^ Map.Challenge ^ ")";
 			(Frame.GetFirstChild("QUAD_THUMBNAIL") as CMlQuad).ChangeImageUrl("file://Thumbnails/MapUid/"^Map.MapUid);
+
+			if(PublishedMaps.existskey(Map.MapUid) && PublishedMaps[Map.MapUid].OriginalUid == Map.OriginalUid) {
+				(Frame.GetFirstChild("QUAD_PUBLISH") as CMlQuad).ModulateColor = <.2,.2,.2>;
+				Frame.DataAttributeSet("published", "True");
+			}
+			else {
+				(Frame.GetFirstChild("QUAD_PUBLISH") as CMlQuad).ModulateColor = <.0,.4,.0>;
+				Frame.DataAttributeSet("published", "False");
+			}
+
+			Frame.DataAttributeSet("publicmap", Map.tojson());
+
 			Frame.Show();
 		}
 		else {
@@ -68,8 +89,13 @@ declare Frame_Outer_Publishable_Maps = (Page.GetFirstChild("FRAME_OUTER_PUBLISHA
 declare Frame_Publishable_Maps = (Page.GetFirstChild("FRAME_PUBLISHABLE_MAPS") as CMlFrame);
 declare Quad_Button_Publish = (Page.GetFirstChild("QUAD_BUTTON_PUBLISH") as CMlQuad);
 declare Label_Button_Publish = (Page.GetFirstChild("LABEL_BUTTON_PUBLISH") as CMlLabel);
+declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_SCROLLBAR") as CMlQuad);
+declare Quad_Scrollbar_Background = (Page.GetFirstChild("QUAD_SCROLLBAR_BACKGROUND") as CMlQuad);
+declare Quad_Scrollable = (Page.GetFirstChild("QUAD_SCROLLABLE") as CMlQuad);
 
 declare PreviousDescription = (Page.GetFirstChild("TEXTEDIT_DESCRIPTION") as CMlTextEdit).Value;
+
+Page.GetClassChildren("LOADING", Page.MainFrame, True);
 
 declare End = -1;
 
@@ -82,6 +108,33 @@ foreach(Event,PendingEvents) {
 	switch(Event.Type) {
 		case CMlScriptEvent::Type::EntrySubmit: {
 			UpdateTitle();
+
+			if(Event.ControlId == "ENTRY_RELEASEDATE_DAY"
+			|| Event.ControlId == "ENTRY_RELEASEDATE_MONTH"
+			|| Event.ControlId == "ENTRY_RELEASEDATE_YEAR"
+			|| Event.ControlId == "ENTRY_RELEASEDATE_HOUR"
+			|| Event.ControlId == "ENTRY_RELEASEDATE_MINUTE"
+			|| Event.ControlId == "ENTRY_RELEASEDATE_SECOND"
+			|| Event.ControlId == "ENTRY_ENVIMIXDATE_DAY"
+			|| Event.ControlId == "ENTRY_ENVIMIXDATE_MONTH"
+			|| Event.ControlId == "ENTRY_ENVIMIXDATE_YEAR"
+			|| Event.ControlId == "ENTRY_ENVIMIXDATE_HOUR"
+			|| Event.ControlId == "ENTRY_ENVIMIXDATE_MINUTE"
+			|| Event.ControlId == "ENTRY_ENVIMIXDATE_SECOND"
+			|| Event.ControlId == "ENTRY_UNITEDENVIMIXDATE_DAY"
+			|| Event.ControlId == "ENTRY_UNITEDENVIMIXDATE_MONTH"
+			|| Event.ControlId == "ENTRY_UNITEDENVIMIXDATE_YEAR"
+			|| Event.ControlId == "ENTRY_UNITEDENVIMIXDATE_HOUR"
+			|| Event.ControlId == "ENTRY_UNITEDENVIMIXDATE_MINUTE"
+			|| Event.ControlId == "ENTRY_UNITEDENVIMIXDATE_SECOND") {
+				declare Entry = (Event.Control as CMlEntry);
+				declare Value = TextLib::ToInteger(Entry.Value);
+				if(Value < 0)
+					Entry.Value = "";
+				else if(Event.ControlId != "ENTRY_RELEASEDATE_YEAR"
+					|| Event.ControlId != "ENTRY_ENVIMIXDATE_YEAR"
+					|| Event.ControlId != "ENTRY_UNITEDENVIMIXDATE_YEAR") Entry.Value = TextLib::FormatInteger(Value, 2);
+			}
 		}
 		case CMlScriptEvent::Type::MouseClick: {
 			switch(Event.ControlId) {
@@ -104,6 +157,87 @@ foreach(Event,PendingEvents) {
 				}
 				case "QUAD_PUBLISHTOOLS_EXIT": {
 					Page.GetFirstChild("FRAME_PUBLISH_TOOLS").Hide();
+				}
+				case "QUAD_RELEASEDATE_ENABLE": {
+					declare Label = (Page.GetFirstChild("LABEL_RELEASEDATE_ENABLE") as CMlLabel);
+					if(Label.Value == "{{{{ENABLED}}}}") {
+						Label.Value = "{{{{DISABLED}}}}";
+						(Event.Control as CMlQuad).ModulateColor = <1.,.0,.0>;
+					}
+					else if(Label.Value == "{{{{DISABLED}}}}") {
+						Label.Value = "{{{{ENABLED}}}}";
+						(Event.Control as CMlQuad).ModulateColor = <.0,.4,.0>;
+					}
+				}
+				case "QUAD_ENVIMIXDATE_ENABLE": {
+					declare Label = (Page.GetFirstChild("LABEL_ENVIMIXDATE_ENABLE") as CMlLabel);
+					if(Label.Value == "{{{{ENABLED}}}}") {
+						Label.Value = "{{{{DISABLED}}}}";
+						(Event.Control as CMlQuad).ModulateColor = <1.,.0,.0>;
+					}
+					else if(Label.Value == "{{{{DISABLED}}}}") {
+						Label.Value = "{{{{ENABLED}}}}";
+						(Event.Control as CMlQuad).ModulateColor = <.0,.4,.0>;
+					}
+				}
+				case "QUAD_UNITEDENVIMIXDATE_ENABLE": {
+					declare Label = (Page.GetFirstChild("LABEL_UNITEDENVIMIXDATE_ENABLE") as CMlLabel);
+					if(Label.Value == "{{{{ENABLED}}}}") {
+						Label.Value = "{{{{DISABLED}}}}";
+						(Event.Control as CMlQuad).ModulateColor = <1.,.0,.0>;
+					}
+					else if(Label.Value == "{{{{DISABLED}}}}") {
+						Label.Value = "{{{{ENABLED}}}}";
+						(Event.Control as CMlQuad).ModulateColor = <.0,.4,.0>;
+					}
+				}
+				case "QUAD_PUBLISHMETADATA": {
+					declare ReleaseDate = "";
+					if((Page.GetFirstChild("LABEL_RELEASEDATE_ENABLE") as CMlLabel).Value == "{{{{ENABLED}}}}")
+						ReleaseDate = (Page.GetFirstChild("ENTRY_RELEASEDATE_YEAR") as CMlEntry).Value
+						^ "-" ^ (Page.GetFirstChild("ENTRY_RELEASEDATE_MONTH") as CMlEntry).Value
+						^ "-" ^ (Page.GetFirstChild("ENTRY_RELEASEDATE_DAY") as CMlEntry).Value
+						^ " " ^ (Page.GetFirstChild("ENTRY_RELEASEDATE_HOUR") as CMlEntry).Value
+						^ ":" ^ (Page.GetFirstChild("ENTRY_RELEASEDATE_MINUTE") as CMlEntry).Value
+						^ ":" ^ (Page.GetFirstChild("ENTRY_RELEASEDATE_SECOND") as CMlEntry).Value;
+
+					declare EnvimixDate = "";
+					if((Page.GetFirstChild("LABEL_ENVIMIXDATE_ENABLE") as CMlLabel).Value == "{{{{ENABLED}}}}")
+						EnvimixDate = (Page.GetFirstChild("ENTRY_ENVIMIXDATE_YEAR") as CMlEntry).Value
+						^ "-" ^ (Page.GetFirstChild("ENTRY_ENVIMIXDATE_MONTH") as CMlEntry).Value
+						^ "-" ^ (Page.GetFirstChild("ENTRY_ENVIMIXDATE_DAY") as CMlEntry).Value
+						^ " " ^ (Page.GetFirstChild("ENTRY_ENVIMIXDATE_HOUR") as CMlEntry).Value
+						^ ":" ^ (Page.GetFirstChild("ENTRY_ENVIMIXDATE_MINUTE") as CMlEntry).Value
+						^ ":" ^ (Page.GetFirstChild("ENTRY_ENVIMIXDATE_SECOND") as CMlEntry).Value;
+
+					declare UnitedEnvimixDate = "";
+					if((Page.GetFirstChild("LABEL_UNITEDENVIMIXDATE_ENABLE") as CMlLabel).Value == "{{{{ENABLED}}}}")
+						UnitedEnvimixDate = (Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_YEAR") as CMlEntry).Value
+						^ "-" ^ (Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_MONTH") as CMlEntry).Value
+						^ "-" ^ (Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_DAY") as CMlEntry).Value
+						^ " " ^ (Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_HOUR") as CMlEntry).Value
+						^ ":" ^ (Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_MINUTE") as CMlEntry).Value
+						^ ":" ^ (Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_SECOND") as CMlEntry).Value;
+					
+					SendCustomEvent("PublishMetadata", [ReleaseDate, EnvimixDate, UnitedEnvimixDate]);
+				}
+				case "QUAD_PUBLISH": {
+					if(Event.Control.Parent.Parent.DataAttributeGet("published") == "False")
+						SendCustomEvent("PublishMap", [Event.Control.Parent.Parent.DataAttributeGet("publicmap")]);
+				}
+				case "QUAD_PUBLISHALLMAPS": {
+					declare SPublicMapInfo[] Maps;
+
+					declare SPublicMapInfo[] PublishableMaps for Page;
+					declare SPublicMapInfo[Text] PublishedMaps for Page;
+
+					foreach(Map in PublishableMaps) {
+						if(!PublishedMaps.existskey(Map.MapUid) || PublishedMaps[Map.MapUid].OriginalUid != Map.OriginalUid) {
+							Maps.add(Map);
+						}
+					}
+
+					SendCustomEvent("PublishAllMaps", [Maps.tojson()]);
 				}
 			}
 		}
@@ -143,11 +277,86 @@ foreach(Event,PendingEvents) {
 						Quad_Button_Publish.ModulateColor = <0.,.4,.0>;
 						Quad_Button_Publish.DataAttributeSet("type", "PublishTitle");
 					}
+
+					Page.GetFirstChild("QUAD_PUBLISHABLE_METADATA_LOADING").Hide();
+					Page.GetFirstChild("FRAME_PUBLISHABLE_METADATA").Show();
+
+					if(Title.ReleaseDate.count > 0) {
+						(Page.GetFirstChild("ENTRY_RELEASEDATE_DAY") as CMlEntry).Value = TextLib::FormatInteger(Title.ReleaseDate[0], 2);
+						(Page.GetFirstChild("ENTRY_RELEASEDATE_MONTH") as CMlEntry).Value = TextLib::FormatInteger(Title.ReleaseDate[1], 2);
+						(Page.GetFirstChild("ENTRY_RELEASEDATE_YEAR") as CMlEntry).Value = Title.ReleaseDate[2]^"";
+						(Page.GetFirstChild("ENTRY_RELEASEDATE_HOUR") as CMlEntry).Value = TextLib::FormatInteger(Title.ReleaseDate[3], 2);
+						(Page.GetFirstChild("ENTRY_RELEASEDATE_MINUTE") as CMlEntry).Value = TextLib::FormatInteger(Title.ReleaseDate[4], 2);
+						(Page.GetFirstChild("ENTRY_RELEASEDATE_SECOND") as CMlEntry).Value = TextLib::FormatInteger(Title.ReleaseDate[5], 2);
+
+						(Page.GetFirstChild("QUAD_RELEASEDATE_ENABLE") as CMlQuad).ModulateColor = <0.,.4,0.>;
+						(Page.GetFirstChild("LABEL_RELEASEDATE_ENABLE") as CMlLabel).Value = "{{{{ENABLED}}}}";
+					}
+					else {
+						(Page.GetFirstChild("ENTRY_RELEASEDATE_DAY") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_RELEASEDATE_MONTH") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_RELEASEDATE_YEAR") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_RELEASEDATE_HOUR") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_RELEASEDATE_MINUTE") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_RELEASEDATE_SECOND") as CMlEntry).Value = "";
+
+						(Page.GetFirstChild("QUAD_RELEASEDATE_ENABLE") as CMlQuad).ModulateColor = <1.,0.,0.>;
+						(Page.GetFirstChild("LABEL_RELEASEDATE_ENABLE") as CMlLabel).Value = "{{{{DISABLED}}}}";
+					}
+
+					if(Title.EnvimixDate.count > 0) {
+						(Page.GetFirstChild("ENTRY_ENVIMIXDATE_DAY") as CMlEntry).Value = TextLib::FormatInteger(Title.EnvimixDate[0], 2);
+						(Page.GetFirstChild("ENTRY_ENVIMIXDATE_MONTH") as CMlEntry).Value = TextLib::FormatInteger(Title.EnvimixDate[1], 2);
+						(Page.GetFirstChild("ENTRY_ENVIMIXDATE_YEAR") as CMlEntry).Value = Title.EnvimixDate[2]^"";
+						(Page.GetFirstChild("ENTRY_ENVIMIXDATE_HOUR") as CMlEntry).Value = TextLib::FormatInteger(Title.EnvimixDate[3], 2);
+						(Page.GetFirstChild("ENTRY_ENVIMIXDATE_MINUTE") as CMlEntry).Value = TextLib::FormatInteger(Title.EnvimixDate[4], 2);
+						(Page.GetFirstChild("ENTRY_ENVIMIXDATE_SECOND") as CMlEntry).Value = TextLib::FormatInteger(Title.EnvimixDate[5], 2);
+
+						(Page.GetFirstChild("QUAD_ENVIMIXDATE_ENABLE") as CMlQuad).ModulateColor = <0.,.4,0.>;
+						(Page.GetFirstChild("LABEL_ENVIMIXDATE_ENABLE") as CMlLabel).Value = "{{{{ENABLED}}}}";
+					}
+					else {
+						(Page.GetFirstChild("ENTRY_ENVIMIXDATE_DAY") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_ENVIMIXDATE_MONTH") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_ENVIMIXDATE_YEAR") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_ENVIMIXDATE_HOUR") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_ENVIMIXDATE_MINUTE") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_ENVIMIXDATE_SECOND") as CMlEntry).Value = "";
+
+						(Page.GetFirstChild("QUAD_ENVIMIXDATE_ENABLE") as CMlQuad).ModulateColor = <1.,0.,0.>;
+						(Page.GetFirstChild("LABEL_ENVIMIXDATE_ENABLE") as CMlLabel).Value = "{{{{DISABLED}}}}";
+					}
+
+					if(Title.UnitedEnvimixDate.count > 0) {
+						(Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_DAY") as CMlEntry).Value = TextLib::FormatInteger(Title.UnitedEnvimixDate[0], 2);
+						(Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_MONTH") as CMlEntry).Value = TextLib::FormatInteger(Title.UnitedEnvimixDate[1], 2);
+						(Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_YEAR") as CMlEntry).Value = Title.UnitedEnvimixDate[2]^"";
+						(Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_HOUR") as CMlEntry).Value = TextLib::FormatInteger(Title.UnitedEnvimixDate[3], 2);
+						(Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_MINUTE") as CMlEntry).Value = TextLib::FormatInteger(Title.UnitedEnvimixDate[4], 2);
+						(Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_SECOND") as CMlEntry).Value = TextLib::FormatInteger(Title.UnitedEnvimixDate[5], 2);
+
+						(Page.GetFirstChild("QUAD_UNITEDENVIMIXDATE_ENABLE") as CMlQuad).ModulateColor = <0.,.4,0.>;
+						(Page.GetFirstChild("LABEL_UNITEDENVIMIXDATE_ENABLE") as CMlLabel).Value = "{{{{ENABLED}}}}";
+					}
+					else {
+						(Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_DAY") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_MONTH") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_YEAR") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_HOUR") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_MINUTE") as CMlEntry).Value = "";
+						(Page.GetFirstChild("ENTRY_UNITEDENVIMIXDATE_SECOND") as CMlEntry).Value = "";
+
+						(Page.GetFirstChild("QUAD_UNITEDENVIMIXDATE_ENABLE") as CMlQuad).ModulateColor = <1.,0.,0.>;
+						(Page.GetFirstChild("LABEL_UNITEDENVIMIXDATE_ENABLE") as CMlLabel).Value = "{{{{DISABLED}}}}";
+					}
 				}
 				case "Show": {
 					End = -1;
 					Page.GetFirstChild("FRAME_WINDOW_EDITTITLE").RelativePosition_V3.X = 230.;
 					AnimMgr.Add(Page.GetFirstChild("FRAME_WINDOW_EDITTITLE"), "<frame pos=\"95 80\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+
+					Page.GetFirstChild("QUAD_PUBLISHABLE_MAPS_LOADING").Show();
+					Page.GetFirstChild("FRAME_PUBLISHABLE_MAPS").Hide();
 				}
 				case "Hide": {
 					End = Now;
@@ -173,14 +382,18 @@ if(End != -1) {
 }
 
 if(Frame_Outer_Publishable_Maps.ScrollOffset != PreviousScroll) {
+	Quad_Scrollable.RelativePosition_V3.Y = -Frame_Outer_Publishable_Maps.ScrollOffset.Y;
 	Frame_Publishable_Maps.RelativePosition_V3.Y = -Frame_Outer_Publishable_Maps.ScrollOffset.Y;
 	UpdatePublishableMaps(MathLib::NearestInteger(Frame_Outer_Publishable_Maps.ScrollOffset.Y/8));
 
-	/*declare ScrollRatio = 0.;
-	if(Frame_List.ScrollMax.Y != 0)
-		ScrollRatio = MathLib::NearestInteger(Frame_List.ScrollOffset.Y/10)*10 / Frame_List.ScrollMax.Y;
-	Quad_Scrollbar.RelativePosition_V3.Y = -ScrollRatio*(Window_Size.Y-20-Quad_Scrollbar.Size.Y);*/
+	declare ScrollRatio = 0.;
+	if(Frame_Outer_Publishable_Maps.ScrollMax.Y != 0)
+		ScrollRatio = MathLib::NearestInteger(Frame_Outer_Publishable_Maps.ScrollOffset.Y/8)*8 / Frame_Outer_Publishable_Maps.ScrollMax.Y;
+	Quad_Scrollbar.RelativePosition_V3.Y = -ScrollRatio*(Quad_Scrollbar_Background.Size.Y-Quad_Scrollbar.Size.Y);
 
 	PreviousScroll = Frame_Outer_Publishable_Maps.ScrollOffset;
 }
+
+foreach(Control in Page.GetClassChildren_Result)
+	Control.RelativeRotation += Period / 5.0;
 ***

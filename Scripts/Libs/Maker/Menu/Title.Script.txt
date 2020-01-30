@@ -14,18 +14,25 @@
 #Include "Libs/Challenge/Vehicle.Script.txt" as Vehicle
 
 #Include "Libs/Challenge/Service/Status.Script.txt" as Service_Status
+#Include "Libs/Challenge/Service/Map.Script.txt" as Service_Map
 
 #Struct STitle {
 	Real Time;
 	Boolean Exists;
 	Boolean Approved;
 	Text BanReason;
+	Integer[] ReleaseDate;
+	Integer[] EnvimixDate;
+	Integer[] UnitedEnvimixDate;
 }
 
 #Struct SPublishTitleParams {
 	Text TitleId;
 	Text UserToken;
 	Text Description;
+	Text ReleaseDate;
+	Text EnvimixDate;
+	Text UnitedEnvimixDate;
 }
 
 #Struct SPublishTitleResponse {
@@ -46,6 +53,20 @@
 	Text Campaign;
 	Text TitleId;
 	Text Challenge;
+}
+
+#Struct SPublishAllParams {
+	Text UserToken;
+	Text TitleId;
+	SPublicMapInfo[] Maps;
+}
+
+Void RequestTitleInfo() {
+	declare Text CHALLENGE_TOKEN for LocalUser;
+	if(TitleEdition == Null)
+		declare Success = Http::AsyncPOST("TITLE", Service_Status::LastStatus(LocalUser).Global.Service^"/title.php?"^LoadedTitle.TitleId, CHALLENGE_TOKEN); // change this to LoadedTitle.TitleId
+	else
+		declare Success = Http::AsyncPOST("TITLE", Service_Status::LastStatus(LocalUser).Global.Service^"/title.php?"^TitleEdition.EditedTitleId, CHALLENGE_TOKEN);
 }
 
 Void Init() {
@@ -137,9 +158,56 @@ Void Event(CManiaAppEvent _Event) {
 							
 							declare Success = Http::AsyncPOST("PUBLISHTITLE", Service_Status::LastStatus(LocalUser).Global.Service^"/ingame/publishtitle.php", Params.tojson());
 						}
+						
+						RequestTitleInfo();
+					}
+					case "PublishMetadata": {
+						declare Text CHALLENGE_TOKEN for LocalUser;
+						
+						declare SPublishTitleParams Params;
+						Params.UserToken = CHALLENGE_TOKEN;
+						Params.TitleId = TitleEdition.EditedTitleId;
+						Params.Description = TitleEdition.EditedTitleInfo.Description;
+						Params.ReleaseDate = Event.CustomEventData[0];
+						Params.EnvimixDate = Event.CustomEventData[1];
+						Params.UnitedEnvimixDate = Event.CustomEventData[2];
+						
+						declare Success = Http::AsyncPOST("PUBLISHTITLE", Service_Status::LastStatus(LocalUser).Global.Service^"/ingame/publishtitle.php", Params.tojson());
 					}
 					case "RequestPublication": {
+						RequestTitleInfo();
 						Task::Async_DataFileMgr("ALL_CAMPAIGN_MAPS", DataFileMgr.Map_GetGameList("Campaigns", True));
+					}
+					case "PublishMap": {
+						declare SPublicMapInfo Map;
+						declare Json = Map.fromjson(Event.CustomEventData[0]);
+						
+						declare Text CHALLENGE_TOKEN for LocalUser;
+						
+						declare Service_Map::SPublishParams Params;
+						Params.UserToken = CHALLENGE_TOKEN;
+						Params.MapUid = Map.MapUid;
+						Params.MapName = Map.Name;
+						Params.MapAuthor = Map.Author;
+						Params.OriginalMapUid = Map.OriginalUid;
+						Params.OriginalMapName = Map.OriginalName;
+						Params.OriginalMapAuthor = Map.OriginalAuthor;
+						Params.TitleId = Map.TitleId;
+						Params.Environment = Map.Environment;
+						Params.Campaign = Map.Campaign;
+						foreach(Modifier in TextLib::Split("+", Map.Challenge))
+							Params.Modifiers.add(Modifier);
+						
+						declare Success = Service_Map::AsyncPublish("PUBLISHMAP", LocalUser, Params);
+					}
+					case "PublishAllMaps": {
+						declare Text CHALLENGE_TOKEN for LocalUser;
+						declare SPublishAllParams Params;
+						Params.UserToken = CHALLENGE_TOKEN;
+						Params.TitleId = TitleEdition.EditedTitleId;
+						declare Json = Params.Maps.fromjson(Event.CustomEventData[0]);
+						
+						declare Success = Http::AsyncPOST("PUBLISHALLMAPS", Service_Status::LastStatus(LocalUser).Global.Service^"/ingame/publishmaps.php", Params.tojson());
 					}
 				}
 			}
@@ -170,12 +238,32 @@ Void Async() {
 				Dialog_Message("Your title hasn't been submitted, most likely due to its ID already existing.\nConsider choosing a different title pack ID/name.");
 			}
 			
-			if(TitleEdition == Null)
-				declare Success = Http::AsyncPOST("TITLE", Service_Status::LastStatus(LocalUser).Global.Service^"/title.php?"^LoadedTitle.TitleId, CHALLENGE_TOKEN); // change this to LoadedTitle.TitleId
-			else
-				declare Success = Http::AsyncPOST("TITLE", Service_Status::LastStatus(LocalUser).Global.Service^"/title.php?"^TitleEdition.EditedTitleId, CHALLENGE_TOKEN);
+			RequestTitleInfo();
 			Http::Destroy("PUBLISHTITLE");
 		}
+	}
+	if(Http::IsCompleted("MAPS")) {
+		if(Http::IsSuccessful("MAPS")) {
+			declare SPublicMapInfo[Text] PublishedMaps for Layers::Page("EditTitle");
+			declare Success = PublishedMaps.fromjson(Http::GetResult("MAPS"));
+			
+			Layers::SendEvent("EditTitle", "UpdatePublishableMaps");
+			
+			Http::Destroy("MAPS");
+		}
+	}
+	if(Http::IsCompleted("PUBLISHMAP")) {
+		if(Http::IsSuccessful("PUBLISHMAP")) {
+			declare Map = Service_Map::GetAsyncPublishResult("PUBLISHMAP");
+			declare Success = Http::AsyncGET("MAPS", Service_Status::LastStatus(LocalUser).Global.Service^"/maps.php?title="^TitleEdition.EditedTitleId);
+		}
+	}
+	if(Http::IsCompleted("PUBLISHALLMAPS")) {
+		if(Http::IsSuccessful("PUBLISHALLMAPS")) {
+			log(Http::GetResult("PUBLISHALLMAPS"));
+			declare Success = Http::AsyncGET("MAPS", Service_Status::LastStatus(LocalUser).Global.Service^"/maps.php?title="^TitleEdition.EditedTitleId);
+		}
+		Http::Destroy("PUBLISHALLMAPS");
 	}
 	
 	if(Task::IsCompleted("ALL_CAMPAIGN_MAPS")) {
@@ -187,10 +275,11 @@ Void Async() {
 			
 			declare MakerBase::SProgress Progress for This;
 			
+			declare Yielder = 0;
 			foreach(OriginalMap => ModifiedMaps in Progress.Maps) {
 				foreach(ModifiedMap => Info in ModifiedMaps) {
 					foreach(MapInfo in Maps.MapInfos) {
-						if(MapInfo.MapUid == ModifiedMap) {
+						if(MapInfo.MapUid == ModifiedMap && MapInfo.IsPlayable) {
 							declare Folders = TextLib::Split("/", TextLib::Replace(MapInfo.FileName, "\\", "/"));
 							declare Campaign = Folders[Folders.count-4];
 							
@@ -224,9 +313,16 @@ Void Async() {
 						}
 					}
 				}
+				Yielder += 1;
+				if(Yielder > 20) {
+					yield;
+					Yielder = 0;
+				}
 			}
 			
 			Layers::SendEvent("EditTitle", "UpdatePublishableMaps");
+			
+			declare Success = Http::AsyncGET("MAPS", Service_Status::LastStatus(LocalUser).Global.Service^"/maps.php?title="^TitleEdition.EditedTitleId);
 			
 			Task::Destroy_DataFileMgr("ALL_CAMPAIGN_MAPS");
 		}

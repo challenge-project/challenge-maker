@@ -43,6 +43,7 @@
 }
 
 #Struct STitleProgress {
+	Text BanReason;
 	Integer Records;
 	Integer SP;
 	Integer AP;

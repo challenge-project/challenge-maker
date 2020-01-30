@@ -77,6 +77,7 @@
 }
 
 #Struct STitleProgress {
+	Text BanReason;
 	Integer Records;
 	Integer SP;
 	Integer AP;
@@ -297,6 +298,14 @@ Void Async() {
 	if(Http::IsCompleted("TITLE")) {
 		if(Http::IsSuccessful("TITLE")) {
 			declare STitleProgress TitleProgress for Layers::Page("Campaign");
+			
+			if(TitleProgress.BanReason != "") {
+				while(True) {
+					Menu_Quit();
+					yield;
+				}
+			}
+			
 			declare Success = TitleProgress.fromjson(Http::GetResult("TITLE"));
 			Layers::SendEvent("Campaign", "Scores");
 		}
@@ -377,9 +386,11 @@ Void Loop() {
 		}
 	}
 	
-	if(!Time::Stamp_CreateOnce("TITLE_REFRESH", 60*1000)) {
-		if(Time::Stamp_Reached("TITLE_REFRESH")) {
-			declare Success = RequestTitleProgress();
+	if(TitleEdition == Null) {
+		if(!Time::Stamp_CreateOnce("TITLE_REFRESH", 60*1000)) {
+			if(Time::Stamp_Reached("TITLE_REFRESH")) {
+				declare Success = RequestTitleProgress();
+			}
 		}
 	}
 }

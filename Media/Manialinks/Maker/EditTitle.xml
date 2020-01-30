@@ -43,9 +43,10 @@
 	</frame>
 	<frame pos="-77.5 57.5">
 		<quad z-index="-1" size="92.5 98" style="Bgs1" substyle="BgCardList"/>
-		<frame id="FRAME_OUTER_PUBLISHABLE_MAPS" clip="True" clipsizen="90 95" clipposn="46 -49" scroll="True">
-			<quad z-index="0" size="92.5 98" style="Bgs1" substyle="BgEmpty" scriptevents="1"/>
-			<frame z-index="1" pos="1" id="FRAME_PUBLISHABLE_MAPS">
+		<quad pos="46.25 -49" z-index="0" size="20 20" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer" class="LOADING" id="QUAD_PUBLISHABLE_MAPS_LOADING" hidden="1"/>
+		<frame id="FRAME_OUTER_PUBLISHABLE_MAPS" clip="True" clipsizen="90 95" clipposn="46 -49" scroll="True" hidden="0">
+			<quad z-index="0" size="92.5 98" style="Bgs1" substyle="BgEmpty" scriptevents="1" id="QUAD_SCROLLABLE"/>
+			<frame z-index="1" pos="1" id="FRAME_PUBLISHABLE_MAPS" hidden="1">
 				<frame pos="0 -5">
 					<quad z-index="-2" size="90.5 8" style="Bgs1" substyle="BgCardList" valign="center"/>
 					<frame clip="True" clipsizen="80 6.5" clipposn="41 0">
@@ -182,8 +183,8 @@
 		</frame>
 	</frame>
 	<frame pos="15 57.5">
-		<quad z-index="-1" size="2 98" style="Bgs1" substyle="BgCardList" id="QUAD_SCROLLBAR"/>
-		<quad size="2 30" style="Bgs1" substyle="BgWindow4" id="QUAD_SCROLLBAR_BACKGROUND"/>
+		<quad z-index="-1" size="2 98" style="Bgs1" substyle="BgCardList" id="QUAD_SCROLLBAR_BACKGROUND"/>
+		<quad size="2 30" style="Bgs1" substyle="BgWindow4" id="QUAD_SCROLLBAR" hidden="1"/>
 	</frame>
 	<frame pos="-77.5 -43">
 		<quad z-index="-1" size="94.5 14.5" style="Bgs1" substyle="BgCardList"/>
@@ -191,76 +192,80 @@
 			<quad z-index="0" size="10 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="600" id="QUAD_PUBLISHTOOLS_EXIT" class="opacity" pos="0 0" valign="center"/>
 			<label z-index="1" size="10 10" text="" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.7"/>
 		</frame>
-		<frame pos="65 -7">
-			<quad z-index="0" size="55 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="060" id="QUAD_BUTTON_PUBLISH" class="opacity" pos="0 0" valign="center"/>
-			<label z-index="1" size="55 10" text=" {{{{PUBLISH_ALL_MAPS}}}}" valign="center2" textfont="RajdhaniMono" halign="center" id="LABEL_BUTTON_PUBLISH" pos="0 -0.3" textsize="1.5"/>
+		<frame pos="57.5 -7">
+			<quad z-index="0" size="70 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="060" id="QUAD_PUBLISHALLMAPS" class="opacity" pos="0 0" valign="center"/>
+			<label z-index="1" size="70 10" text=" {{{{PUBLISH_ALL_MAPS}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2.5"/>
 		</frame>
 	</frame>
 	<frame pos="47.5 57.5">
 		<quad z-index="-1" size="60 115" style="Bgs1" substyle="BgCardList" halign="center"/>
 		<label z-index="0" size="55 10" text="{{{{METADATA}}}}" halign="center" textfont="Oswald" valign="center2" pos="0 -7.5" textsize="5" textprefix="$o"/>
-		<frame pos="-1">
-			<label pos="-25 -15" z-index="0" size="35 4" text="{{{{RELEASE_DATE}}}}:" textsize="2" textfont="Oswald"/>
-			<frame pos="20 -16.75" class="BUTTON">
-				<quad z-index="0" size="17.5 4" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="F00" id="QUAD_RELEASEDATE_ENABLE" class="opacity" pos="0 0" valign="center"/>
-				<label z-index="1" size="17 4" text="{{{{DISABLED}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.2" textsize="0.5"/>
+		<quad pos="0 -59" z-index="0" size="20 20" halign="center" valign="center" style="BgRaceScore2" substyle="SandTimer" class="LOADING" id="QUAD_PUBLISHABLE_METADATA_LOADING"/>
+		<frame id="FRAME_PUBLISHABLE_METADATA" hidden="1">
+			<frame pos="-1">
+				<label pos="-25 -15" z-index="0" size="35 4" text="{{{{RELEASE_DATE}}}}:" textsize="2" textfont="Oswald"/>
+				<frame pos="20 -16.75" class="BUTTON">
+					<quad z-index="0" size="17.5 4" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="F00" id="QUAD_RELEASEDATE_ENABLE" pos="0 0" valign="center"/>
+					<label z-index="1" size="17 4" text="{{{{DISABLED}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.2" textsize="0.5" id="LABEL_RELEASEDATE_ENABLE"/>
+				</frame>
+				<label pos="-25 -20" z-index="0" size="10 4" text="{{{{DAY}}}}" textsize="1" textfont="RajdhaniMono"/>
+				<label pos="-15 -20" z-index="0" size="12.5 4" text="{{{{MONTH}}}}" textsize="1" textfont="RajdhaniMono"/>
+				<label pos="-2.5 -20" z-index="0" size="14 4" text="{{{{YEAR}}}}" textsize="1" textfont="RajdhaniMono"/>
+				<label pos="12.5 -20" z-index="0" size="16 4" text="{{{{TIME}}}}" textsize="1" textfont="RajdhaniMono"/>
+				<entry pos="-25 -25.5" z-index="0" size="9 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_DAY" selecttext="1"/>
+				<entry pos="-15 -25.5" z-index="0" size="12 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_MONTH" selecttext="1"/>
+				<entry pos="-2.5 -25.5" z-index="0" size="14 4" default="2021" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_YEAR" selecttext="1"/>
+				<entry pos="12.5 -25.5" z-index="0" size="4 4" default="20" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_HOUR" selecttext="1"/>
+				<label pos="17.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
+				<entry pos="18.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_MINUTE" selecttext="1"/>
+				<label pos="23.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
+				<entry pos="24.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_SECOND" selecttext="1"/>
 			</frame>
-			<label pos="-25 -20" z-index="0" size="10 4" text="{{{{DAY}}}}" textsize="1" textfont="RajdhaniMono"/>
-			<label pos="-15 -20" z-index="0" size="12.5 4" text="{{{{MONTH}}}}" textsize="1" textfont="RajdhaniMono"/>
-			<label pos="-2.5 -20" z-index="0" size="14 4" text="{{{{YEAR}}}}" textsize="1" textfont="RajdhaniMono"/>
-			<label pos="12.5 -20" z-index="0" size="16 4" text="{{{{TIME}}}}" textsize="1" textfont="RajdhaniMono"/>
-			<entry pos="-25 -25.5" z-index="0" size="9 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_DAY"/>
-			<entry pos="-15 -25.5" z-index="0" size="12 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_MONTH"/>
-			<entry pos="-2.5 -25.5" z-index="0" size="14 4" default="2021" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_YEAR"/>
-			<entry pos="12.5 -25.5" z-index="0" size="4 4" default="20" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_HOUR"/>
-			<label pos="17.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
-			<entry pos="18.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_MINUTE"/>
-			<label pos="23.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
-			<entry pos="24.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_RELEASEDATE_SECOND"/>
-		</frame>
-		<frame pos="-1 -17.5">
-			<label pos="-25 -15" z-index="0" size="35 4" text="{{{{ENVIMIX_DATE}}}}:" textsize="2" textfont="Oswald"/>
-			<frame pos="20 -16.75" class="BUTTON">
-				<quad z-index="0" size="17.5 4" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="F00" id="QUAD_ENVIMIXDATE_ENABLE" class="opacity" pos="0 0" valign="center"/>
-				<label z-index="1" size="17 4" text="{{{{DISABLED}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.2" textsize="0.5"/>
+			<frame pos="-1 -17.5">
+				<label pos="-25 -15" z-index="0" size="35 4" text="{{{{ENVIMIX_DATE}}}}:" textsize="2" textfont="Oswald"/>
+				<frame pos="20 -16.75" class="BUTTON">
+					<quad z-index="0" size="17.5 4" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="F00" id="QUAD_ENVIMIXDATE_ENABLE" pos="0 0" valign="center"/>
+					<label z-index="1" size="17 4" text="{{{{DISABLED}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.2" textsize="0.5" id="LABEL_ENVIMIXDATE_ENABLE"/>
+				</frame>
+				<label pos="-25 -20" z-index="0" size="10 4" text="{{{{DAY}}}}" textsize="1" textfont="RajdhaniMono"/>
+				<label pos="-15 -20" z-index="0" size="12.5 4" text="{{{{MONTH}}}}" textsize="1" textfont="RajdhaniMono"/>
+				<label pos="-2.5 -20" z-index="0" size="14 4" text="{{{{YEAR}}}}" textsize="1" textfont="RajdhaniMono"/>
+				<label pos="12.5 -20" z-index="0" size="16 4" text="{{{{TIME}}}}" textsize="1" textfont="RajdhaniMono"/>
+				<entry pos="-25 -25.5" z-index="0" size="9 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_DAY" selecttext="1"/>
+				<entry pos="-15 -25.5" z-index="0" size="12 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_MONTH" selecttext="1"/>
+				<entry pos="-2.5 -25.5" z-index="0" size="14 4" default="2021" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_YEAR" selecttext="1"/>
+				<entry pos="12.5 -25.5" z-index="0" size="4 4" default="20" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_HOUR" selecttext="1"/>
+				<label pos="17.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
+				<entry pos="18.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_MINUTE" selecttext="1"/>
+				<label pos="23.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
+				<entry pos="24.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_SECOND" selecttext="1"/>
+				<label pos="1.25 -29" z-index="0" size="52.5 5" text="To enable envimix right from the start, enable the feature and set the date to the same date or older date than the release date." textsize=".5" textfont="Oswald" autonewline="1" halign="center"/>
 			</frame>
-			<label pos="-25 -20" z-index="0" size="10 4" text="{{{{DAY}}}}" textsize="1" textfont="RajdhaniMono"/>
-			<label pos="-15 -20" z-index="0" size="12.5 4" text="{{{{MONTH}}}}" textsize="1" textfont="RajdhaniMono"/>
-			<label pos="-2.5 -20" z-index="0" size="14 4" text="{{{{YEAR}}}}" textsize="1" textfont="RajdhaniMono"/>
-			<label pos="12.5 -20" z-index="0" size="16 4" text="{{{{TIME}}}}" textsize="1" textfont="RajdhaniMono"/>
-			<entry pos="-25 -25.5" z-index="0" size="9 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_DAY"/>
-			<entry pos="-15 -25.5" z-index="0" size="12 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_MONTH"/>
-			<entry pos="-2.5 -25.5" z-index="0" size="14 4" default="2021" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_YEAR"/>
-			<entry pos="12.5 -25.5" z-index="0" size="4 4" default="20" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_HOUR"/>
-			<label pos="17.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
-			<entry pos="18.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_MINUTE"/>
-			<label pos="23.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
-			<entry pos="24.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_SECOND"/>
-			<label pos="1.25 -29" z-index="0" size="52.5 5" text="To enable envimix right from the start, enable the feature and set the date to the same date or older date than the release date." textsize=".5" textfont="Oswald" autonewline="1" halign="center"/>
-		</frame>
-		<frame pos="-1 -40">
-			<label pos="-25 -15" z-index="0" size="35 4" text="{{{{UNITED_ENVIMIX_DATE}}}}:" textsize="2" textfont="Oswald"/>
-			<frame pos="20 -16.75" class="BUTTON">
-				<quad z-index="0" size="17.5 4" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="F00" id="QUAD_ENVIMIXDATE_ENABLE" class="opacity" pos="0 0" valign="center"/>
-				<label z-index="1" size="17 4" text="{{{{DISABLED}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.2" textsize="0.5"/>
+			<frame pos="-1 -40">
+				<label pos="-25 -15" z-index="0" size="35 4" text="{{{{UNITED_ENVIMIX_DATE}}}}:" textsize="2" textfont="Oswald"/>
+				<frame pos="20 -16.75" class="BUTTON">
+					<quad z-index="0" size="17.5 4" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="F00" id="QUAD_UNITEDENVIMIXDATE_ENABLE" pos="0 0" valign="center"/>
+					<label z-index="1" size="17 4" text="{{{{DISABLED}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.2" textsize="0.5" id="LABEL_UNITEDENVIMIXDATE_ENABLE"/>
+				</frame>
+				<label pos="-25 -20" z-index="0" size="10 4" text="{{{{DAY}}}}" textsize="1" textfont="RajdhaniMono"/>
+				<label pos="-15 -20" z-index="0" size="12.5 4" text="{{{{MONTH}}}}" textsize="1" textfont="RajdhaniMono"/>
+				<label pos="-2.5 -20" z-index="0" size="14 4" text="{{{{YEAR}}}}" textsize="1" textfont="RajdhaniMono"/>
+				<label pos="12.5 -20" z-index="0" size="16 4" text="{{{{TIME}}}}" textsize="1" textfont="RajdhaniMono"/>
+				<entry pos="-25 -25.5" z-index="0" size="9 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_UNITEDENVIMIXDATE_DAY" selecttext="1"/>
+				<entry pos="-15 -25.5" z-index="0" size="12 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_UNITEDENVIMIXDATE_MONTH" selecttext="1"/>
+				<entry pos="-2.5 -25.5" z-index="0" size="14 4" default="2021" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_UNITEDENVIMIXDATE_YEAR" selecttext="1"/>
+				<entry pos="12.5 -25.5" z-index="0" size="4 4" default="20" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_UNITEDENVIMIXDATE_HOUR" selecttext="1"/>
+				<label pos="17.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
+				<entry pos="18.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_UNITEDENVIMIXDATE_MINUTE" selecttext="1"/>
+				<label pos="23.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
+				<entry pos="24.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_UNITEDENVIMIXDATE_SECOND" selecttext="1"/>
+				<label pos="1.25 -29" z-index="0" size="52.5 5" text="To enable envimix right from the start, enable the feature and set the date to the same date or older date than the release date." textsize=".5" textfont="Oswald" autonewline="1" halign="center"/>
 			</frame>
-			<label pos="-25 -20" z-index="0" size="10 4" text="{{{{DAY}}}}" textsize="1" textfont="RajdhaniMono"/>
-			<label pos="-15 -20" z-index="0" size="12.5 4" text="{{{{MONTH}}}}" textsize="1" textfont="RajdhaniMono"/>
-			<label pos="-2.5 -20" z-index="0" size="14 4" text="{{{{YEAR}}}}" textsize="1" textfont="RajdhaniMono"/>
-			<label pos="12.5 -20" z-index="0" size="16 4" text="{{{{TIME}}}}" textsize="1" textfont="RajdhaniMono"/>
-			<entry pos="-25 -25.5" z-index="0" size="9 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_DAY"/>
-			<entry pos="-15 -25.5" z-index="0" size="12 4" default="1" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_MONTH"/>
-			<entry pos="-2.5 -25.5" z-index="0" size="14 4" default="2021" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_YEAR"/>
-			<entry pos="12.5 -25.5" z-index="0" size="4 4" default="20" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_HOUR"/>
-			<label pos="17.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
-			<entry pos="18.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_MINUTE"/>
-			<label pos="23.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
-			<entry pos="24.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_SECOND"/>
-			<label pos="1.25 -29" z-index="0" size="52.5 5" text="To enable envimix right from the start, enable the feature and set the date to the same date or older date than the release date." textsize=".5" textfont="Oswald" autonewline="1" halign="center"/>
+			<frame pos="0 -107.5">
+				<quad z-index="0" size="55 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="060" id="QUAD_PUBLISHMETADATA" class="opacity" pos="0 0" valign="center"/>
+				<label z-index="1" size="55 10" text=" {{{{PUBLISH_METADATA}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2.5"/>
+			</frame>
 		</frame>
-		<frame pos="0 -107.5">
-			<quad z-index="0" size="55 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="060" id="QUAD_BUTTON_PUBLISH" class="opacity" pos="0 0" valign="center"/>
-			<label z-index="1" size="55 10" text=" {{{{PUBLISH_METADATA}}}}" valign="center2" textfont="RajdhaniMono" halign="center" id="LABEL_BUTTON_PUBLISH" pos="0 -0.3" textsize="2.5"/>
-		</frame>
+		<label pos="0 -85" z-index="0" size="50 5" text=" THE MAPS NEED TO HAVE COMPUTED SHADOWS BEFORE PUBLISHING" halign="center" textcolor="FA0" autonewline="1" textsize="1"/>
 	</frame>
 </frame>
