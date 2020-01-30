@@ -53,7 +53,7 @@
 		
 		<frame pos="0 -130">
 			<quad pos="0 0" z-index="0" size="60 7.5" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="036" id="QUAD_BUTTON_COMPUTE"/>
-			<label pos="0 -0.4" z-index="1" size="50 7.5" text="COMPUTE SHADOWS" halign="center" textfont="RajdhaniMono" valign="center2" textsize="2"/>
+			<label pos="0 -0.4" z-index="1" size="50 7.5" text="{{{{COMPUTE_SHADOWS}}}}" halign="center" textfont="RajdhaniMono" valign="center2" textsize="2"/>
 		</frame>
 		<frame pos="0 -140">
 			<quad pos="0 0" z-index="0" size="60 12.5" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="222" id="QUAD_BUTTON_START"/>

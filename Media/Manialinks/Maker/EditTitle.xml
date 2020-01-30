@@ -239,7 +239,7 @@
 				<entry pos="18.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_MINUTE" selecttext="1"/>
 				<label pos="23.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
 				<entry pos="24.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_ENVIMIXDATE_SECOND" selecttext="1"/>
-				<label pos="1.25 -29" z-index="0" size="52.5 5" text="To enable envimix right from the start, enable the feature and set the date to the same date or older date than the release date." textsize=".5" textfont="Oswald" autonewline="1" halign="center"/>
+				<label pos="1.25 -29" z-index="0" size="52.5 5" text="{{{{TO_ENABLE_ENVIMIX}}}}" textsize=".5" textfont="Oswald" autonewline="1" halign="center"/>
 			</frame>
 			<frame pos="-1 -40">
 				<label pos="-25 -15" z-index="0" size="35 4" text="{{{{UNITED_ENVIMIX_DATE}}}}:" textsize="2" textfont="Oswald"/>
@@ -259,13 +259,13 @@
 				<entry pos="18.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_UNITEDENVIMIXDATE_MINUTE" selecttext="1"/>
 				<label pos="23.25 -25.75" z-index="0" size="2 4" text=":" textsize="1" textfont="RajdhaniMono" valign="center2"/>
 				<entry pos="24.5 -25.5" z-index="0" size="4 4" default="00" textsize="2" textfont="OswaldMono" valign="center" id="ENTRY_UNITEDENVIMIXDATE_SECOND" selecttext="1"/>
-				<label pos="1.25 -29" z-index="0" size="52.5 5" text="To enable envimix right from the start, enable the feature and set the date to the same date or older date than the release date." textsize=".5" textfont="Oswald" autonewline="1" halign="center"/>
+				<label pos="1.25 -29" z-index="0" size="52.5 5" text="{{{{TO_ENABLE_ENVIMIX}}}}" textsize=".5" textfont="Oswald" autonewline="1" halign="center"/>
 			</frame>
 			<frame pos="0 -107.5">
 				<quad z-index="0" size="55 10" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" modulatecolor="060" id="QUAD_PUBLISHMETADATA" class="opacity" pos="0 0" valign="center"/>
 				<label z-index="1" size="55 10" text=" {{{{PUBLISH_METADATA}}}}" valign="center2" textfont="RajdhaniMono" halign="center" pos="0 -0.3" textsize="2.5"/>
 			</frame>
 		</frame>
-		<label pos="0 -85" z-index="0" size="50 5" text=" THE MAPS NEED TO HAVE COMPUTED SHADOWS BEFORE PUBLISHING" halign="center" textcolor="FA0" autonewline="1" textsize="1"/>
+		<label pos="0 -85" z-index="0" size="50 5" text=" {{{{NEED_COMPUTED_SHADOWS}}}}" halign="center" textcolor="FA0" autonewline="1" textsize="1"/>
 	</frame>
 </frame>
