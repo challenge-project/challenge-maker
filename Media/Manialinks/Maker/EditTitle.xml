@@ -184,7 +184,7 @@
 	</frame>
 	<frame pos="15 57.5">
 		<quad z-index="-1" size="2 98" style="Bgs1" substyle="BgCardList" id="QUAD_SCROLLBAR_BACKGROUND"/>
-		<quad size="2 30" style="Bgs1" substyle="BgWindow4" id="QUAD_SCROLLBAR" hidden="1"/>
+		<quad size="2 30" style="Bgs1" substyle="BgWindow4" id="QUAD_SCROLLBAR" hidden="1" scriptevents="1"/>
 	</frame>
 	<frame pos="-77.5 -43">
 		<quad z-index="-1" size="94.5 14.5" style="Bgs1" substyle="BgCardList"/>

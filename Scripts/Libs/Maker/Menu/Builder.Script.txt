@@ -94,6 +94,7 @@ Void Event(CManiaAppEvent _Event) {
 						if(Settings.Type == "Nadeo") return;
 						
 						declare Scroll = TextLib::ToInteger(Event.CustomEventData[0]);
+						Dialog_Message("Currently, you can't add maps through ingame tools due to my lacking Maker API experience of doing so.\nYou have to add original maps into this folder:\n\nMaps/Campaigns/[CAMPAIGN]/Default/[GROUP_NUMBER]\n\n[CAMPAIGN] is the campaign name you defined in the Builder. [GROUP_NUMBER] is a group index which starts from 0. Your group folders have to be called just '0', '1', '2' and so on in this case. You add the original maps into this folder.\n\nUnlike in Nadeo makers, you're not limited to any amount of maps, groups and campaigns in Challenge Maker.\n\nFor more info visit $l[https://challenge.bigbang1112.eu/docs/#/starting-with-maker]the documentation$l.");
 						// some map file add to add here
 						
 						//LastScroll = Scroll;

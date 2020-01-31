@@ -1,0 +1,50 @@
+***Loop***
+***
+foreach(Event,PendingEvents) {
+	switch(Event.Type) {
+		case CMlScriptEvent::Type::EntrySubmit: {
+			switch(Event.ControlId) {
+				case "ENTRY_AMOUNT": {
+					declare Integer RedoCount for Page;
+					declare Integer MaxCount for Page;
+					declare Integer UserRedoCount for Page;
+					declare Real AverageLength for Page;
+
+					declare Back = UserRedoCount;
+					UserRedoCount = TextLib::ToInteger((Page.GetFirstChild("ENTRY_AMOUNT") as CMlEntry).Value);
+
+					if(UserRedoCount < 1) UserRedoCount = Back;
+					if(UserRedoCount > RedoCount) UserRedoCount = RedoCount;
+
+					(Page.GetFirstChild("ENTRY_AMOUNT") as CMlEntry).SetText(UserRedoCount^"", False);
+					(Page.GetFirstChild("LABEL_AMOUNT") as CMlLabel).SetText(UserRedoCount^"");
+					/*if(AverageLength == -1)
+						(Page.GetFirstChild("LABEL_APPROX") as CMlLabel).SetText("???");
+					else
+						(Page.GetFirstChild("LABEL_APPROX") as CMlLabel).SetText(TextLib::TimeToText(MathLib::NearestInteger(AverageLength*UserComplCount*1000), True));*/
+				}
+			}
+		}
+		case CMlScriptEvent::Type::MouseClick: {
+			switch(Event.ControlId) {
+				case "QUAD_BUTTON_EXIT": {
+					SendCustomEvent("Exit", []);
+				}
+				case "QUAD_BUTTON_START": {
+					declare Integer UserRedoCount for Page;
+					SendCustomEvent("Start", [UserRedoCount^""]);
+				}
+			}
+		}
+		case CMlScriptEvent::Type::PluginCustomEvent: {
+			switch(Event.CustomEventType) {
+				case "Show": {
+					declare Integer UserRedoCount for Page;
+					declare Real AverageLength for Page;
+					(Page.GetFirstChild("ENTRY_AMOUNT") as CMlEntry).SetText(UserRedoCount^"", True);
+				}
+			}
+		}
+	}
+}
+***

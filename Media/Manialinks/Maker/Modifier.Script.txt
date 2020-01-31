@@ -178,6 +178,10 @@ Void UpdateList(SChallengeMapInfo[] ChallengeMaps, SScriptInfo[][] _Scripts) {
 declare Frame_ChallengeList = (Page.GetFirstChild("FRAME_CHALLENGELIST") as CMlFrame);
 declare Frame_Inner_ChallengeList = (Page.GetFirstChild("FRAME_INNER_CHALLENGELIST") as CMlFrame);
 declare Quad_Scrollbar = (Page.GetFirstChild("QUAD_LIST_SCROLLBAR") as CMlQuad);
+declare Frame_Modification_Table = (Page.GetFirstChild("FRAME_MODIFICATION_TABLE") as CMlFrame);
+declare Frame_Modification_Panel = (Page.GetFirstChild("FRAME_MODIFICATION_PANEL") as CMlFrame);
+declare Frame_Bulk_Buttons = (Page.GetFirstChild("FRAME_BULK_BUTTONS") as CMlFrame);
+declare Frame_Single_Map_Tools = (Page.GetFirstChild("FRAME_SINGLE_MAP_TOOLS") as CMlFrame);
 
 Frame_ChallengeList.ScrollActive = True;
 Frame_ChallengeList.ScrollGrid = <10.,10.>;
@@ -192,6 +196,13 @@ declare HoldScrollbar = False;
 declare HoldScrollbarPos = 0.;
 
 declare Mode = "";
+
+declare End = -1;
+
+declare PreviousMouseRight = MouseRightButton;
+declare OpenToolsMenu = -1;
+
+declare CMlControl HoveredControl;
 ***
 
 ***Loop***
@@ -199,6 +210,7 @@ declare Mode = "";
 foreach(Event,PendingEvents) {
 	switch(Event.Type) {
 		case CMlScriptEvent::Type::MouseClick: {
+			OpenToolsMenu = -1;
 			switch(Event.ControlId) {
 				case "QUAD_BUTTON_EXIT": {
 					SendCustomEvent("Exit", []);
@@ -222,7 +234,28 @@ foreach(Event,PendingEvents) {
 				case "QUAD_BUTTON_COMPUTE": {
 					SendCustomEvent("ModifyAll", ["Compute"]);
 				}
+				case "QUAD_BUTTON_REDOTHUMBNAILS": {
+					SendCustomEvent("ModifyAll", ["RedoThumbnails"]);
+				}
+				case "QUAD_TOOLS_TEST_MAP": {
+					SendCustomEvent("SpecificTestMap", [Frame_Single_Map_Tools.DataAttributeGet("id")]);
+				}
+				case "QUAD_TOOLS_REMODIFY_MAP": {
+					SendCustomEvent("SpecificRemodifyMap", [Frame_Single_Map_Tools.DataAttributeGet("id")]);
+				}
+				case "QUAD_TOOLS_COMPUTE_SHADOWS": {
+					SendCustomEvent("SpecificComputeShadows", [Frame_Single_Map_Tools.DataAttributeGet("id")]);
+				}
+				case "QUAD_TOOLS_REDO_THUMBNAIL": {
+					SendCustomEvent("SpecificRedoThumbnail", [Frame_Single_Map_Tools.DataAttributeGet("id")]);
+				}
 			}
+		}
+		case CMlScriptEvent::Type::MouseOver: {
+			HoveredControl = Event.Control;
+		}
+		case CMlScriptEvent::Type::MouseOut: {
+			HoveredControl = Null;
 		}
 		case CMlScriptEvent::Type::PluginCustomEvent: {
 			switch(Event.CustomEventType) {
@@ -244,9 +277,6 @@ foreach(Event,PendingEvents) {
 				case "UpdateAmountLeft": {
 					(Page.GetFirstChild("LABEL_AMOUNT_LEFT") as CMlLabel).SetText(Event.CustomEventData[0]);
 				}
-				case "Show": {
-					SendCustomEvent("Show", []);
-				}
 				case "RefreshList": {
 					UpdateList(ChallengeMaps, Scripts);
 					Page.GetFirstChild("FRAME_LOADING").Hide();
@@ -256,19 +286,38 @@ foreach(Event,PendingEvents) {
 					(Page.GetFirstChild("GAUGE_LOADING") as CMlGauge).SetRatio(TextLib::ToReal(Event.CustomEventData[0]));
 				}
 				case "ModifyMode": {
+					Frame_Bulk_Buttons.Show();
 					(Page.GetFirstChild("QUAD_BUTTON_START") as CMlQuad).Colorize = <0.,.4,0.>;
 					(Page.GetFirstChild("LABEL_BUTTON_START") as CMlLabel).SetText("{{{{MODIFY}}}}");
 					Mode = "Modify";
 				}
 				case "SolveMode": {
+					Frame_Bulk_Buttons.Show();
 					(Page.GetFirstChild("QUAD_BUTTON_START") as CMlQuad).Colorize = <.6,.4,0.>;
 					(Page.GetFirstChild("LABEL_BUTTON_START") as CMlLabel).SetText("{{{{SOLVE}}}}");
 					Mode = "Solve";
 				}
 				case "ComputeMode": {
+					Frame_Bulk_Buttons.Show();
 					(Page.GetFirstChild("QUAD_BUTTON_START") as CMlQuad).Colorize = <0.,.2,.4>;
 					(Page.GetFirstChild("LABEL_BUTTON_START") as CMlLabel).SetText("{{{{COMPUTE}}}}");
 					Mode = "Compute";
+				}
+				case "NoMode": {
+					Frame_Bulk_Buttons.Hide();
+				}
+				case "Show": {
+					End = -1;
+					Frame_Modification_Table.RelativePosition_V3 = <-320., 80.>;
+					Frame_Modification_Panel.RelativePosition_V3 = <-52.5, 80.>;
+					AnimMgr.Add(Frame_Modification_Table, "<frame pos=\"-85 80\" hidden=\"0\"/>", 1000, CAnimManager::EAnimManagerEasing::QuadOut);
+					AnimMgr.Add(Frame_Modification_Panel, "<frame pos=\"-117.5 80\" hidden=\"0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
+					SendCustomEvent("Show", []);
+				}
+				case "Hide": {
+					End = Now;
+					AnimMgr.Add(Frame_Modification_Table, "<frame pos=\"-320 80\" hidden=\"0\"/>", 1000, CAnimManager::EAnimManagerEasing::QuadOut);
+					AnimMgr.Add(Frame_Modification_Panel, "<frame pos=\"-52.5 80\" hidden=\"0\"/>", 500, CAnimManager::EAnimManagerEasing::QuadOut);
 				}
 			}
 		}
@@ -284,6 +333,8 @@ if(HoldScrollbar && MouseLeftButton) {
 }
 else {
 	if(Frame_ChallengeList.ScrollOffset != OldScrollOffset) {
+		OpenToolsMenu = -1;
+		
 		OldScrollOffset = Frame_ChallengeList.ScrollOffset;
 		Frame_Inner_ChallengeList.RelativePosition_V3 = -Frame_ChallengeList.ScrollOffset;
 		UpdateList(ChallengeMaps, Scripts);
@@ -295,5 +346,35 @@ else {
 	}
 
 	HoldScrollbar = False;
+}
+
+if(PreviousMouseRight != MouseRightButton) {
+	if(MouseRightButton) {
+		if(HoveredControl != Null && HoveredControl.ControlId == "QUAD_SELECTOR") {
+			declare Id = HoveredControl.Parent.DataAttributeGet("id");
+			OpenToolsMenu = Now;
+			Frame_Single_Map_Tools.RelativePosition_V3 = <MouseX, MouseY>;
+			Frame_Single_Map_Tools.DataAttributeSet("id", Id);
+		}
+		else OpenToolsMenu = -1;
+	}
+	PreviousMouseRight = MouseRightButton;
+}
+
+if(End != -1) {
+	if(Now - End > 1000) {
+		SendCustomEvent("Hide_Response", []);
+	}
+}
+else {
+
+}
+
+if(OpenToolsMenu != -1) {
+	Frame_Single_Map_Tools.Visible = True;
+	Frame_Single_Map_Tools.ClipWindowRelativePosition.Y = 18-AnimLib::EaseOutQuad(Now-OpenToolsMenu, 0., 1., 500)*36;
+}
+else {
+	Frame_Single_Map_Tools.Visible = False;
 }
 ***

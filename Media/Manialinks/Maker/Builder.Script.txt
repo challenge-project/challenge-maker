@@ -101,6 +101,25 @@ CampaignChanged([Frame_Campaign_Menu.DataAttributeGet("startcampaignname"),
 
 declare HoldScrollbar = False;
 declare HoldScrollbarPos = 0.;
+
+declare CMlFrame[] MapBoxes;
+foreach(Control, Frame_Campaign_Menu.Controls) {
+	if(Control.ControlId == "FRAME_CAMPAIGN") {
+		declare Frame_Campaign = (Control as CMlFrame);
+		foreach(Control2, Frame_Campaign.Controls) {
+			declare Frame_Group = (Control2 as CMlFrame);
+			foreach(Control3, Frame_Group.Controls) {
+				if(Control3.ControlId == "FRAME_MAP") {
+					declare Frame_Map = (Control3 as CMlFrame);
+					declare Label_Name = (Frame_Map.GetFirstChild("LABEL_NAME") as CMlLabel);
+					while(Label_Name.ComputeWidth(Label_Name.Value) > Label_Name.Size.X)
+						Label_Name.TextSizeReal -= .25;
+					MapBoxes.add(Frame_Map);
+				}
+			}
+		}
+	}
+}
 ***
 
 ***Loop***

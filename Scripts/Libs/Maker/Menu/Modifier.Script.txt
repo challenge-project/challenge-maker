@@ -161,8 +161,12 @@ Void UpdateProgress() {
 	Layers::SendEvent("Modifier", "UpdateAmountLeft", AmountLeft["Modified"]^"/"^AmountLeft["Possible"]);
 	Layers::SendEvent("Modifier", "RefreshList");
 	
-	if(AmountLeft["Possible"] == 0)
-		Layers::SendEvent("Modifier", "ComputeMode");
+	if(AmountLeft["Possible"] == 0) {
+		if(ChallengeMaps.count > 0)
+			Layers::SendEvent("Modifier", "ComputeMode");
+		else
+			Layers::SendEvent("Modifier", "NoMode");
+	}
 	else if(AmountLeft["Modified"] == 0)
 		Layers::SendEvent("Modifier", "SolveMode");
 	else
@@ -184,6 +188,7 @@ Void Init() {
 	Layers::Create("Modifier", Manialink::FromFile("Media/Manialinks/Maker/Modifier", True, ["Audio"], Settings::Get().Theme));
 	Layers::Create("StartModifier", Manialink::FromFile("Media/Manialinks/Maker/StartModifier", True, ["Audio"], Settings::Get().Theme));
 	Layers::Create("StartCompute", Manialink::FromFile("Media/Manialinks/Maker/StartCompute", True, ["Audio"], Settings::Get().Theme));
+	Layers::Create("StartRedoThumbnails", Manialink::FromFile("Media/Manialinks/Maker/StartRedoThumbnails", True, ["Audio"], Settings::Get().Theme));
 	
 	UpdateFromFiles();
 	
@@ -199,8 +204,22 @@ Void Init() {
 	UpdateChallenges();
 }
 
-Void Start() {
+Void FixCalculatedMaps() {
+	declare MakerBase::SProgress Progress for This;
+	foreach(OriginalMap => ModifiedMaps in Progress.Maps) {
+		foreach(ModifiedMap => Info in ModifiedMaps) {
+			declare Map = Map::FromUid(ModifiedMap);
+			if(!Map.IsPlayable && Info.Computed) {
+				LoadMap::Edit(Map, "Shadow.Script.txt", """<settings>
+			<setting name="S_Enable" type="boolean" value="True"/>
+		</settings>""");
+			}
+		}
+	}
+}
 
+Void Start() {
+	
 }
 
 Void Event(CManiaAppEvent _Event) {
@@ -214,7 +233,7 @@ Void Event(CManiaAppEvent _Event) {
 			case Layers::Get("Modifier"): {
 				switch(Event.CustomEventType) {
 					case "Exit": {
-						Layers::Hide("Modifier", False);
+						Layers::Hide("Modifier", True);
 						Layers::Show("EditTitle", True);
 						Layers::Show("ManageTitle", True);
 					}
@@ -238,7 +257,8 @@ Void Event(CManiaAppEvent _Event) {
 									ModificationIds.add(MapId);
 								}
 								case 1: {
-									// play
+									declare Map::SMapInfo PlayThisMap for This;
+									PlayThisMap = Map.ModifiedMap;
 								}
 								case 2: {
 									declare Boolean RepairMap for This;
@@ -303,7 +323,35 @@ Void Event(CManiaAppEvent _Event) {
 								UserComputCount = ComputCount;
 								Layers::Show("StartCompute", True);
 							}
+							case "RedoThumbnails": {
+								declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
+								
+								declare Integer RedoThumbnailCount for This;
+								declare Integer RedoCount for Layers::Page("StartRedoThumbnails");
+								declare Integer UserRedoCount for Layers::Page("StartRedoThumbnails");
+								
+								RedoCount = ChallengeMaps.count;
+								UserRedoCount = ChallengeMaps.count;
+								Layers::Show("StartRedoThumbnails", True);
+							}
 						}
+					}
+					case "SpecificTestMap": {
+						declare Map::SMapInfo PlayThisMap for This;
+						declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
+						PlayThisMap = ChallengeMaps[TextLib::ToInteger(Event.CustomEventData[0])].ModifiedMap;
+					}
+					case "SpecificRemodifyMap": {
+						declare Integer[] ModificationIds for This;
+						ModificationIds.add(TextLib::ToInteger(Event.CustomEventData[0]));
+					}
+					case "SpecificComputeShadows": {
+						declare Integer[] ComputationIds for This;
+						ComputationIds.add(TextLib::ToInteger(Event.CustomEventData[0]));
+					}
+					case "SpecificRedoThumbnail": {
+						declare Integer[] RedoThumbnailIds for This;
+						RedoThumbnailIds.add(TextLib::ToInteger(Event.CustomEventData[0]));
 					}
 				}
 			}
@@ -353,6 +401,26 @@ Void Event(CManiaAppEvent _Event) {
 					}
 				}
 			}
+			case Layers::Get("StartRedoThumbnails"): {
+				switch(Event.CustomEventType) {
+					case "Exit": {
+						Layers::Hide("StartRedoThumbnails", False);
+					}
+					case "Start": {
+						declare Count = TextLib::ToInteger(Event.CustomEventData[0]);
+						
+						declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
+						
+						declare Integer[] RedoThumbnailIds for This;
+						
+						declare Counter = 0;
+						for(I,0,ChallengeMaps.count-1) {
+							if(Counter == Count) break;
+							RedoThumbnailIds.add(I);
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -373,7 +441,7 @@ Void Loop() {
 		declare Time_ModificationStart = TimeLib::GetCurrent();
 		
 		declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
-		if(!ChallengeMaps.existskey(ModifId)) { continue; log(":thinking:"); }
+		if(!ChallengeMaps.existskey(ModifId)) { log("Bruh the ID " ^ ModifId ^ "doesn't even exist"); continue; }
 		declare ChallengeMap = ChallengeMaps[ModifId];
 		
 		declare Map::SMapInfo OriginalMapInfo for LocalUser;
@@ -389,13 +457,25 @@ Void Loop() {
 		
 		declare ChallengeMapName = ToDifferentChallengeMapName(ChallengeMap.OriginalMap.FileName, Challenges);
 		
+		if(Map::Exists(ChallengeMapName)) {
+			declare Deconst = TextLib::Split("\\", ChallengeMapName);
+			declare Removed = Deconst.removekey(Deconst.count-1);
+			TitleEdition.File_Move("Maps\\"^ChallengeMapName, "Maps\\"^TextLib::Join("\\", Deconst)^"\\Old\\"^TimeLib::GetCurrent()^"\\", False);
+			wait(!Map::Exists(ChallengeMapName));
+			
+			ChallengeMap.Progress.Modified = False;
+			ChallengeMap.Progress.Computed = False;
+			ChallengeMap.Progress.Possible = 0;
+			ChallengeMap.Progress.Time = 0;
+		}
+		
 		LoadMap::EditFromBase(ChallengeMap.OriginalMap, "Challenge.Script.txt", "Modifier.Script.txt", """<settings>
-	<setting name="S_Build" type="boolean" value="True"/>
-	<setting name="S_FastMode" type="boolean" value="True"/>
-	<setting name="S_FastMode_MapSave" type="text" value="{{{ChallengeMapName}}}"/>
-</settings>""");
-
+		<setting name="S_Build" type="boolean" value="True"/>
+		<setting name="S_FastMode" type="boolean" value="True"/>
+		<setting name="S_FastMode_MapSave" type="text" value="{{{ChallengeMapName}}}"/>
+	</settings>""");
 		wait(Map::Exists(ChallengeMapName));
+		
 		ChallengeMap.ModifiedMap = Map::FromFileName(ChallengeMapName);
 		
 		declare Time_ModificationEnd = TimeLib::GetCurrent();
@@ -489,16 +569,15 @@ Void Loop() {
 	}
 	
 	declare Integer[] ComputationIds for This;
-	
 	declare ComputationCounter = 0;
 	foreach(CompId, ComputationIds) {
-		if(ModificationCounter == 0)
+		if(ComputationCounter == 0)
 			Layers::Hide("StartCompute", False); // When modification starts
 	
 		declare Time_ModificationStart = TimeLib::GetCurrent();
 		
 		declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
-		if(!ChallengeMaps.existskey(CompId)) { continue; log(":thinking:"); }
+		if(!ChallengeMaps.existskey(CompId)) { log("Bruh the ID " ^ CompId ^ "doesn't even exist"); continue; }
 		declare ChallengeMap = ChallengeMaps[CompId];
 		
 		LoadMap::Edit(ChallengeMap.ModifiedMap, "Shadow.Script.txt", """<settings>
@@ -533,4 +612,42 @@ Void Loop() {
 		}
 	}
 	if(ComputationIds.count > 0) ComputationIds.clear();
+	
+	declare Integer[] RedoThumbnailIds for This;
+	declare RedoThumbnailsCounter = 0;
+	foreach(RedoThumbnailId, RedoThumbnailIds) {
+		if(RedoThumbnailsCounter == 0)
+			Layers::Hide("StartRedoThumbnails", False); // When modification starts
+	
+		declare Time_ModificationStart = TimeLib::GetCurrent();
+		
+		declare SChallengeMapInfo[] ChallengeMaps for Layers::Page("Modifier");
+		if(!ChallengeMaps.existskey(RedoThumbnailId)) { log("Bruh the ID " ^ RedoThumbnailId ^ " doesn't even exist"); continue; }
+		declare ChallengeMap = ChallengeMaps[RedoThumbnailId];
+		
+		LoadMap::Edit(ChallengeMap.ModifiedMap, "Rethumbnail.Script.txt", """<settings>
+			<setting name="S_Enable" type="boolean" value="True"/>
+		</settings>""");
+		
+		declare Time_ModificationEnd = TimeLib::GetCurrent();
+		declare Delta = TimeLib::GetDelta(Time_ModificationEnd, Time_ModificationStart);
+		
+		ChallengeMaps[RedoThumbnailId] = ChallengeMap;
+		
+		// Refresh the look of the list
+		Layers::SendEvent("Modifier", "RefreshList");
+			
+		RedoThumbnailsCounter += 1;
+		
+		if(RedoThumbnailsCounter == RedoThumbnailIds.count) {
+			// when modification ends
+		}
+	}
+	if(RedoThumbnailIds.count > 0) RedoThumbnailIds.clear();
+
+	declare Map::SMapInfo PlayThisMap for This;
+	if(PlayThisMap.MapUid != "") {
+		LoadMap::Play(PlayThisMap);
+		PlayThisMap.MapUid = "";
+	}
 }

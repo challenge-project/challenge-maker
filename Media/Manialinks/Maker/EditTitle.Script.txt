@@ -101,6 +101,9 @@ Page.GetClassChildren("LOADING", Page.MainFrame, True);
 
 declare End = -1;
 
+declare HoldScrollbar = False;
+declare HoldScrollbarPos = 0.;
+
 declare PreviousScroll = Frame_Outer_Publishable_Maps.ScrollOffset;
 ***
 
@@ -242,6 +245,10 @@ foreach(Event,PendingEvents) {
 					}
 
 					SendCustomEvent("PublishAllMaps", [Maps.tojson()]);
+				}
+				case "QUAD_SCROLLBAR": {
+					HoldScrollbar = True;
+					HoldScrollbarPos = MouseY-Quad_Scrollbar.RelativePosition_V3.Y;
 				}
 			}
 		}
@@ -385,7 +392,13 @@ if(End != -1) {
 	}
 }
 
-if(Frame_Outer_Publishable_Maps.ScrollOffset != PreviousScroll) {
+if(HoldScrollbar && MouseLeftButton) {
+	Quad_Scrollbar.RelativePosition_V3.Y = MathLib::Clamp(MouseY-HoldScrollbarPos, -Quad_Scrollbar_Background.Size.Y+Quad_Scrollbar.Size.Y, 0.);
+	Frame_Outer_Publishable_Maps.ScrollOffset.Y = Quad_Scrollbar.RelativePosition_V3.Y/(Quad_Scrollbar_Background.Size.Y-Quad_Scrollbar.Size.Y)*-Frame_Outer_Publishable_Maps.ScrollMax.Y;
+	Frame_Publishable_Maps.RelativePosition_V3.Y = -Frame_Outer_Publishable_Maps.ScrollOffset.Y;
+	UpdatePublishableMaps(MathLib::NearestInteger(Frame_Outer_Publishable_Maps.ScrollOffset.Y/8));
+}
+else if(Frame_Outer_Publishable_Maps.ScrollOffset != PreviousScroll) {
 	Quad_Scrollable.RelativePosition_V3.Y = -Frame_Outer_Publishable_Maps.ScrollOffset.Y;
 	Frame_Publishable_Maps.RelativePosition_V3.Y = -Frame_Outer_Publishable_Maps.ScrollOffset.Y;
 	UpdatePublishableMaps(MathLib::NearestInteger(Frame_Outer_Publishable_Maps.ScrollOffset.Y/8));
