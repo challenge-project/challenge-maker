@@ -211,7 +211,7 @@ Void Async() {
 	if(Http::IsCompleted("MAKER")) {
 		if(Http::IsSuccessful("MAKER")) {
 			declare Title = Web::GetAsyncTitleResult("MAKER");
-			Layers::SendEvent("Bottom", "Maker", [Title.Name, "https://www.maniaplanet.com/titles/"^LoadedTitle.TitleId]);
+			Layers::SendEvent("Bottom", "Maker", [Title.Name, "https://www.maniaplanet.com/titles/"^LoadedTitle.MakerTitleId]);
 		}
 		Http::Destroy("MAKER");
 	}
