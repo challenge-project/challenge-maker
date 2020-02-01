@@ -153,6 +153,20 @@
 	SLBMostRatedCombination[] Ratings;
 }
 
+#Struct SLBAll {
+	Real Time;
+	SLBMostSP MostSP;
+	SLBMostAP MostAP;
+	SLBMostValidations MostValidations;
+	SLBOldestWorldRecords OldestWR;
+	SLBNewestValidations NewestValidations;
+	SLBMostRecordsDriven MostRecordsDriven;
+	SLBYourValidations YourValidations;
+	SLBYourWorldRecords YourWR;
+	SLBMostRated MostDifficult;
+	SLBMostRated MostQuality;
+}
+
 Text ForUrl(Text _Param, Text _Value) {
 	if(_Value == "") return "";
 	return "&"^_Param^"="^TextLib::URLEncode(_Value);
@@ -167,9 +181,13 @@ declare Text Title;
 Void Start() {
 	Layers::Show("Leaderboards", True);
 	
-	Title = LoadedTitle.TitleId;
+	Title = "Challenge_Campaign@bigbang1112";//LoadedTitle.TitleId;
 	
 	declare Text CHALLENGE_TOKEN for LocalUser;
+	declare Success = Http::AsyncPOST("ALL_LEADERBOARDS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=All""", CHALLENGE_TOKEN);
+	
+	/* OLD METHOD
+	
 	declare SuccessMostSP = Http::AsyncPOST("MOST_SKILLPOINTS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=SP""", CHALLENGE_TOKEN);
 	declare SuccessMostAP = Http::AsyncPOST("MOST_ACTIVITY_POINTS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=AP""", CHALLENGE_TOKEN);
 	declare SuccessMostValidations = Http::AsyncPOST("MOST_VALIDATIONS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=MostValidations""", CHALLENGE_TOKEN);
@@ -180,6 +198,8 @@ Void Start() {
 	declare SuccessYourWorldRecords = Http::AsyncPOST("YOUR_WORLD_RECORDS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=YourWR""", CHALLENGE_TOKEN);
 	declare SuccessMostDifficult = Http::AsyncPOST("MOST_DIFFICULT", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=MostDifficult""", CHALLENGE_TOKEN);
 	declare SuccessMostQuality = Http::AsyncPOST("MOST_QUALITY", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=MostQuality""", CHALLENGE_TOKEN);
+	
+	*/
 	
 	Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostSP", ""]);
 	Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostAP", ""]);
@@ -397,6 +417,27 @@ Void Async() {
 			
 		}
 		Http::Destroy("MOST_QUALITY");
+	}
+	if(Http::IsCompleted("ALL_LEADERBOARDS")) {
+		if(Http::IsSuccessful("ALL_LEADERBOARDS")) {
+			declare SLBAll All;
+			declare Success = All.fromjson(Http::GetResult("ALL_LEADERBOARDS"));
+			
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostSP", All.MostSP.tojson()]);
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostAP", All.MostAP.tojson()]);
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostValidations", All.MostValidations.tojson()]);
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["OldestWorldRecords", All.OldestWR.tojson()]);
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["NewestValidations", All.NewestValidations.tojson()]);
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostRecords", All.MostRecordsDriven.tojson()]);
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["YourValidations", All.YourValidations.tojson()]);
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["YourWorldRecords", All.YourWR.tojson()]);
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostDifficult", All.MostDifficult.tojson()]);
+			Layers::SendEvent("Leaderboards", "UpdateLeaderboard", ["MostQuality", All.MostQuality.tojson()]);
+		}
+		else {
+			
+		}
+		Http::Destroy("ALL_LEADERBOARDS");
 	}
 }
 
