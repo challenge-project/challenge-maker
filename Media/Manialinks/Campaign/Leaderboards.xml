@@ -5,6 +5,10 @@
 			<quad z-index="-2" size="300 19" halign="center" valign="top" style="Bgs1" substyle="BgCardList"/>
 			<quad z-index="-1" size="300 19" halign="center" valign="top" style="Bgs1" substyle="BgGradV"/>
 			<label pos="-142.5 -10" size="200 10" text="{{{{RECORDS_AND_LEADERBOARDS}}}}" valign="center2" textfont="RajdhaniMono" textsize="6"/>
+			<frame pos="5 -9.5">
+				<quad pos="0 0" z-index="0" size="80 15" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="036" id="QUAD_BUTTON_VALIDATIONS"/>
+				<label pos="0 -0.7" z-index="1" size="80 15" text="VALIDATIONS" halign="center" textfont="RajdhaniMono" valign="center2" textsize="6"/>
+			</frame>
 			<frame pos="85 -9.5">
 				<quad pos="0 0" z-index="0" size="80 15" valign="center" halign="center" style="Bgs1InRace" substyle="BgCard" scriptevents="1" colorize="333" id="QUAD_BUTTON_GRAPHS"/>
 				<label pos="0 -0.7" z-index="1" size="80 15" text="VARIOUS GRAPHS" halign="center" textfont="RajdhaniMono" valign="center2" textsize="6"/>

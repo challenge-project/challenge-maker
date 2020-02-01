@@ -255,6 +255,9 @@ foreach(Event in PendingEvents) {
 	switch(Event.Type) {
 		case CMlScriptEvent::Type::MouseClick: {
 			switch(Event.ControlId) {
+				case "QUAD_BUTTON_VALIDATIONS": {
+					OpenLink("https://challenge.bigbang1112.eu/validations.php?title="^LoadedTitle.TitleId, ::LinkType::ExternalBrowser);
+				}
 				case "QUAD_BUTTON_EXIT": {
 					SendCustomEvent("Exit", []);
 				}
