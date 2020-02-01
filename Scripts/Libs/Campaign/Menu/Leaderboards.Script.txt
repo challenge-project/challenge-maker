@@ -181,7 +181,7 @@ declare Text Title;
 Void Start() {
 	Layers::Show("Leaderboards", True);
 	
-	Title = "Challenge_Campaign@bigbang1112";//LoadedTitle.TitleId;
+	Title = LoadedTitle.TitleId;
 	
 	declare Text CHALLENGE_TOKEN for LocalUser;
 	declare Success = Http::AsyncPOST("ALL_LEADERBOARDS", """{{{Service_Status::LastStatus(LocalUser).Global.Service}}}/leaderboards.php?title={{{Title}}}&type=All""", CHALLENGE_TOKEN);
