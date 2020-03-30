@@ -151,7 +151,7 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 	
 	declare IncludeAdds = _IsEditMode;
 	
-	declare CampaignListBuild = """<frame id="FRAME_CAMPAIGN_MENU" data-startscroll="{{{_Scroll}}}" data-startcampaign="{{{_Campaign}}}" data-type="{{{Settings.Type}}}" """;
+	declare CampaignListBuild = """<frame id="FRAME_CAMPAIGN_MENU" data-startscroll="{{{_Scroll}}}" data-startcampaign="{{{_Campaign}}}" data-type="{{{Settings.Type}}}" """; // fix """>"""
 	if(Campaigns.existskey(_Campaign))
 		CampaignListBuild ^= """data-startcampaignname="{{{Campaigns[_Campaign].Name}}}" data-startcampaignfolder="{{{Campaigns[_Campaign].Folder}}}" data-startcampaignimage="{{{Campaigns[_Campaign].Image}}}" """;
 	CampaignListBuild ^= ">";
@@ -205,14 +205,16 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 		// Should be called only in campaign
 		declare CMapInfo[Text][Text] ChallangMaps;
 		ChallangMaps.clear();
-		foreach(Ch => Task,ChallengeMapLists) {
+		foreach(Ch => Task in ChallengeMapLists) {
 			declare CMapInfo[Text] InnerMaps;
 			InnerMaps.clear();
 			wait(!Task.IsProcessing);
-			foreach(Map,Task.MapInfos) {
-				declare File = TextLib::Split("\\", Map.FileName);
-				//log("("^Map.CollectionName^") "^Ch^": "^File[File.count-1] ^ " " ^ Map.MapUid);
-				InnerMaps[File[File.count-1]] <=> Map;
+			foreach(Map in Task.MapInfos) {
+				if(TextLib::RegexFind(".*?\\\\.*?\\\\.*?\\\\.*?\\\\Old\\\\", Map.FileName, "i").count == 0) {
+					declare File = TextLib::Split("\\", Map.FileName);
+					//log("("^Map.CollectionName^") "^Ch^": "^File[File.count-1] ^ " " ^ Map.MapUid);
+					InnerMaps[File[File.count-1]] <=> Map;
+				}
 			}
 			ChallangMaps[Ch] = InnerMaps;
 		}
@@ -263,7 +265,7 @@ Void UpdateBuilder(Text _LayerName, Text _ManialinkFile, Integer _Scroll, Intege
 						
 						// Should be called only in campaign
 						foreach(Ch => MapSet, ChallangMaps) {
-							CampaignListBuild ^= """<frame id="FRAME_CHALLENGE_INFO" data-challenge="{{{Ch}}}" """;
+							CampaignListBuild ^= """<frame id="FRAME_CHALLENGE_INFO" data-challenge="{{{Ch}}}" """; // fix: """>"""
 							if(MapSet.existskey(File[File.count-1])) {
 								declare DatChallMap <=> MapSet[File[File.count-1]];
 								CampaignListBuild ^= """data-uid="{{{DatChallMap.MapUid}}}" data-filename="{{{DatChallMap.FileName}}}" data-valid="{{{DatChallMap.IsPlayable}}}" """;
