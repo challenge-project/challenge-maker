@@ -222,7 +222,7 @@ foreach(Event,PendingEvents) {
 					
 					Frame_Records.Hide();
 					AnimateLoading(True);
-					(Page.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(Zones[CurrentZone]);
+					(Page.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText("|Zone|"^Zones[CurrentZone]);
 					SendCustomEvent("ChangeZone",[TextLib::Join("|", ZonesToJoin), Uid]);
 				}
 				case "QUAD_ZONE_PREVIOUS": {
@@ -237,7 +237,7 @@ foreach(Event,PendingEvents) {
 					
 					Frame_Records.Hide();
 					AnimateLoading(True);
-					(Page.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(Zones[CurrentZone]);
+					(Page.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText("|Zone|"^Zones[CurrentZone]);
 					SendCustomEvent("ChangeZone",[TextLib::Join("|", ZonesToJoin), Uid]);
 				}
 				case "QUAD_CAR_NEXT": {
@@ -288,7 +288,7 @@ foreach(Event,PendingEvents) {
 					SlideText_Set(Label_Challenge, Label_Challenge2, Style, LabelDistance);
 
 					CurrentZone = 0;
-					(Page.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(Zones[CurrentZone]);
+					(Page.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText("|Zone|"^Zones[CurrentZone]);
 
 					declare OfficialEnvs = ["Canyon", "Stadium", "Valley", "Lagoon", "Storm"];
 

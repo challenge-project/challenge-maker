@@ -164,7 +164,7 @@
 		</frame>
 		<frame id="FRAME_ZONE" z-index="2">
 			<quad pos="15 -15" size="10 10" image="file://ZoneFlags/Path/World" halign="center" valign="center" opacity=".9" id="QUAD_FLAG"/>
-			<label pos="9 -19" z-index="1" size="10 4" text="WORLD" textsize="0.2" textfont="Oswald" autonewline="1" opacity=".75" halign="right" valign="bottom" id="LABEL_ZONE"/>
+			<label pos="9 -19" z-index="1" size="10 4" text="World" textsize="0.2" textfont="Oswald" autonewline="1" opacity=".75" halign="right" valign="bottom" id="LABEL_ZONE" translate="1"/>
 		</frame>
 		<quad pos="-27.5 0" z-index="-2" size="105 55" style="Bgs1" substyle="BgGradV" valign="center" hidden="0"/>
 		<quad pos="-27.5 0" z-index="-3" size="105 55" style="Bgs1" substyle="BgCardList" valign="center" hidden="0"/>

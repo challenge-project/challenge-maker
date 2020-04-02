@@ -557,7 +557,7 @@ foreach(Event,PendingEvents) {
 				declare DisplayedZone = TextLib::ToUpperCase(Zone);
 				if(TextLib::Length(DisplayedZone) > 10) DisplayedZone ^= " ";
 				(Frame_QuickMapInfo.GetFirstChild("QUAD_FLAG") as CMlQuad).ChangeImageUrl("file://ZoneFlags/Path/"^SplittedZones[ZoneCounter]);
-				(Frame_QuickMapInfo.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(DisplayedZone);
+				(Frame_QuickMapInfo.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText("|Zone|"^DisplayedZone);
 				Frame_QuickMapInfo.Hide();
 			}
 		}
@@ -820,7 +820,7 @@ else {
 		declare DisplayedZone = TextLib::ToUpperCase(Zone);
 		if(TextLib::Length(DisplayedZone) > 10) DisplayedZone ^= " ";
 		(Frame_QuickMapInfo.GetFirstChild("QUAD_FLAG") as CMlQuad).ChangeImageUrl("file://ZoneFlags/Path/"^SplittedZones[ZoneCounter]);
-		(Frame_QuickMapInfo.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText(DisplayedZone);
+		(Frame_QuickMapInfo.GetFirstChild("LABEL_ZONE") as CMlLabel).SetText("|Zone|"^DisplayedZone);
 
 		declare Label_RankCount = (Frame_QuickMapInfo.GetFirstChild("LABEL_RANK") as CMlLabel);
 		declare ContentRank = Label_RankCount.DataAttributeGet("rank-"^SplittedZones[ZoneCounter]);

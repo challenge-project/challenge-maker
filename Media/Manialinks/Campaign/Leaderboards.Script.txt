@@ -300,7 +300,7 @@ foreach(Event in PendingEvents) {
 							declare LB = Event.Control.Parent.Parent.ControlId;
 							if(CurrentZone[LB] < Zones.count-1) CurrentZone[LB] += 1;
 							else CurrentZone[LB] = 0;
-							(Event.Control.Parent.GetFirstChild("LABEL_ZONE") as CMlLabel).Value = Zones[CurrentZone[LB]];
+							(Event.Control.Parent.GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "|Zone|"^Zones[CurrentZone[LB]];
 							Event.Control.Parent.Parent.GetFirstChild("QUAD_LOADING").Show();
 							Event.Control.Parent.Parent.GetFirstChild("FRAME_LEADERBOARD").Hide();
 							
@@ -347,7 +347,7 @@ foreach(Event in PendingEvents) {
 							declare LB = Event.Control.Parent.Parent.ControlId;
 							if(CurrentZone[LB] > 0) CurrentZone[LB] -= 1;
 							else CurrentZone[LB] = Zones.count-1;
-							(Event.Control.Parent.GetFirstChild("LABEL_ZONE") as CMlLabel).Value = Zones[CurrentZone[LB]];
+							(Event.Control.Parent.GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "|Zone|"^Zones[CurrentZone[LB]];
 							Event.Control.Parent.Parent.GetFirstChild("QUAD_LOADING").Show();
 							Event.Control.Parent.Parent.GetFirstChild("FRAME_LEADERBOARD").Hide();
 
@@ -369,7 +369,7 @@ foreach(Event in PendingEvents) {
 					(((Page.GetFirstChild("FRAME_OVERALL_SKILLPOINT") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
 					(((Page.GetFirstChild("FRAME_OVERALL_SKILLPOINT") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
 					(((Page.GetFirstChild("FRAME_OVERALL_SKILLPOINT") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
-					(((Page.GetFirstChild("FRAME_OVERALL_SKILLPOINT") as CMlFrame).GetFirstChild("FRAME_ZONE") as CMlFrame).GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "World";
+					(((Page.GetFirstChild("FRAME_OVERALL_SKILLPOINT") as CMlFrame).GetFirstChild("FRAME_ZONE") as CMlFrame).GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "|Zone|World";
 
 					CurrentCampaign["FRAME_OVERALL_ACTIVITY"] = 0;
 					CurrentChallenge["FRAME_OVERALL_ACTIVITY"] = 0;
@@ -378,7 +378,7 @@ foreach(Event in PendingEvents) {
 					(((Page.GetFirstChild("FRAME_OVERALL_ACTIVITY") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
 					(((Page.GetFirstChild("FRAME_OVERALL_ACTIVITY") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
 					(((Page.GetFirstChild("FRAME_OVERALL_ACTIVITY") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
-					(((Page.GetFirstChild("FRAME_OVERALL_ACTIVITY") as CMlFrame).GetFirstChild("FRAME_ZONE") as CMlFrame).GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "World";
+					(((Page.GetFirstChild("FRAME_OVERALL_ACTIVITY") as CMlFrame).GetFirstChild("FRAME_ZONE") as CMlFrame).GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "|Zone|World";
 
 					CurrentCampaign["FRAME_MOST_VALIDATIONS"] = 0;
 					CurrentChallenge["FRAME_MOST_VALIDATIONS"] = 0;
@@ -400,7 +400,7 @@ foreach(Event in PendingEvents) {
 					(((Page.GetFirstChild("FRAME_NEWEST_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
 					(((Page.GetFirstChild("FRAME_NEWEST_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
 					(((Page.GetFirstChild("FRAME_NEWEST_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
-					(((Page.GetFirstChild("FRAME_NEWEST_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_ZONE") as CMlFrame).GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "World";
+					(((Page.GetFirstChild("FRAME_NEWEST_VALIDATIONS") as CMlFrame).GetFirstChild("FRAME_ZONE") as CMlFrame).GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "|Zone|World";
 					
 					CurrentCampaign["FRAME_MOST_RECORDS_DRIVEN"] = 0;
 					CurrentChallenge["FRAME_MOST_RECORDS_DRIVEN"] = 0;
@@ -408,7 +408,7 @@ foreach(Event in PendingEvents) {
 					(((Page.GetFirstChild("FRAME_MOST_RECORDS_DRIVEN") as CMlFrame).GetFirstChild("FRAME_CAMPAIGN") as CMlFrame).GetFirstChild("LABEL_CAMPAIGN") as CMlLabel).Value = "{{{{ALL_CAMPAIGNS}}}}";
 					(((Page.GetFirstChild("FRAME_MOST_RECORDS_DRIVEN") as CMlFrame).GetFirstChild("FRAME_CHALLENGE") as CMlFrame).GetFirstChild("LABEL_CHALLENGE") as CMlLabel).Value = "{{{{ALL_CHALLENGES}}}}";
 					(((Page.GetFirstChild("FRAME_MOST_RECORDS_DRIVEN") as CMlFrame).GetFirstChild("FRAME_CAR") as CMlFrame).GetFirstChild("LABEL_CAR") as CMlLabel).Value = "{{{{ALL_CARS}}}}";
-					(((Page.GetFirstChild("FRAME_MOST_RECORDS_DRIVEN") as CMlFrame).GetFirstChild("FRAME_ZONE") as CMlFrame).GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "World";
+					(((Page.GetFirstChild("FRAME_MOST_RECORDS_DRIVEN") as CMlFrame).GetFirstChild("FRAME_ZONE") as CMlFrame).GetFirstChild("LABEL_ZONE") as CMlLabel).Value = "|Zone|World";
 					
 					CurrentCampaign["FRAME_YOUR_VALIDATIONS"] = 0;
 					CurrentChallenge["FRAME_YOUR_VALIDATIONS"] = 0;
