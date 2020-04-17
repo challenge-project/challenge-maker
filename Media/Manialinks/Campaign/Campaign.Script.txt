@@ -431,6 +431,11 @@ declare HoldScrollbarPos = 0.;
 
 declare Text[] Challenges for Page;
 
+if(Challenges.count <= 1) {
+	(Page.GetFirstChild("FRAME_CHALLENGE_CONTROL") as CMlFrame).GetFirstChild("FRAME_BACK").Hide();
+	(Page.GetFirstChild("FRAME_CHALLENGE_CONTROL") as CMlFrame).GetFirstChild("FRAME_NEXT").Hide();
+}
+
 foreach(Control in Frame_Challenges.Controls) {
 	Challenges.add(Control.DataAttributeGet("challenge"));
 
