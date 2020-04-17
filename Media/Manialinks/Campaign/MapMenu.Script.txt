@@ -85,7 +85,8 @@ Void Update(Text _Uid, Integer _CurrentCar, Boolean _NoAnim) {
 	
 	declare RankOffset = 0;
 
-	if(Records.existskey(Cars[_CurrentCar])) {
+	declare Boolean RecordsReceived for Page;
+	if(Records.existskey(Cars[_CurrentCar]) || RecordsReceived == True) {
 		Page.GetFirstChild("FRAME_RECORDS").Show();
 		AnimateLoading(False);
 	}
