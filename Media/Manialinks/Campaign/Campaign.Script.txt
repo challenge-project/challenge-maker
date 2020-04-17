@@ -423,7 +423,7 @@ declare ZoneSwitchTime = -1;
 
 declare CurrentCampaign = 0;
 declare LastCampaign = 0;
-declare Integer CurrentChallenge for This;
+declare Integer CurrentChallenge for This = -1;
 declare LastChallenge = CurrentChallenge;
 
 declare HoldScrollbar = False;
