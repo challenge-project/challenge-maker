@@ -65,7 +65,9 @@ Void UpdatePublishableMaps(Integer _Offset) {
 
 			if(PublishedMaps.existskey(Map.MapUid)
 			&& PublishedMaps[Map.MapUid].OriginalUid == Map.OriginalUid
-			&& PublishedMaps[Map.MapUid].Laps == Map.Laps) {
+			&& PublishedMaps[Map.MapUid].Laps == Map.Laps
+			&& PublishedMaps[Map.MapUid].OriginalName == Map.OriginalName
+			&& PublishedMaps[Map.MapUid].OriginalAuthor == Map.OriginalAuthor) {
 				(Frame.GetFirstChild("QUAD_PUBLISH") as CMlQuad).ModulateColor = <.2,.2,.2>;
 				Frame.DataAttributeSet("published", "True");
 			}
@@ -239,7 +241,9 @@ foreach(Event,PendingEvents) {
 					foreach(Map in PublishableMaps) {
 						if(!PublishedMaps.existskey(Map.MapUid)
 						|| PublishedMaps[Map.MapUid].OriginalUid != Map.OriginalUid
-						|| PublishedMaps[Map.MapUid].Laps != Map.Laps) {
+						|| PublishedMaps[Map.MapUid].Laps != Map.Laps
+						|| PublishedMaps[Map.MapUid].OriginalName != Map.OriginalName
+						|| PublishedMaps[Map.MapUid].OriginalAuthor != Map.OriginalAuthor) {
 							Maps.add(Map);
 						}
 					}
