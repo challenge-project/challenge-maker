@@ -120,6 +120,7 @@ main() {
 			wait(Menu_Release::Loop());
 		}
 		
+		EnableMenuNavigationInputs = True;
 		yield;
 		
 		Layers::Create("Preload", Manialink::FromFile("Media/Manialinks/Preload", False, [], Settings::Get().Theme), True);
