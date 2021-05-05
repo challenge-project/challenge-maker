@@ -653,7 +653,10 @@ else if(HoldItSteady) {
 CurrentChallenge = MathLib::NearestInteger(Frame_Challenges.RelativePosition_V3.X / -45.);
 if(CurrentChallenge != LastChallenge) {
 	LastChallenge = CurrentChallenge;
-	UpdateMapThumbnails(Challenges[CurrentChallenge]);
+
+	if (Challenges.count > 0)
+		UpdateMapThumbnails(Challenges[CurrentChallenge]);
+
 	if(TitleProgress.Maps.count > 0) {
 		UpdateScoreProgress = 0;
 		UpdateScores = Now;
