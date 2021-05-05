@@ -108,6 +108,7 @@ SScriptInfo SChallengeToSScriptInfo(SChallenge _Challenge) {
 	Script.Name = _Challenge.Name;
 	Script.Type = _Challenge.Type;
 	if(_Challenge.Type == "Official") ScriptContent = File::Read("Media/Challenges/"^_Challenge.Name);
+	else log("\nERROR: Challenge type \""^_Challenge.Type^"\" of " ^ _Challenge.Name ^ " is unknown. Check the Challenges.json");
 				
 	declare LayerAPI = UILayerCreate();
 	LayerAPI.ManialinkPage = Manialink::Construct("",File::Read("Media/Base/API_Base.Script.txt")^"""
