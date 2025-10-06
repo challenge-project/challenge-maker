@@ -219,7 +219,32 @@ Void FixCalculatedMaps() {
 }
 
 Void Start() {
-	
+	if (!TitleEdition.File_Exists("Media/Challenges.json", CTitleEdition::EDrive::Title)) {
+		TitleEdition.File_WriteText("Media/Challenges.json", """[
+	[
+		{
+			"Name": "Reverse.Script.txt",
+			"Type": "Official"
+		}
+	],
+	[
+		{
+			"Name": "Checkpointless.Script.txt",
+			"Type": "Official"
+		}
+	],
+	[
+		{
+			"Name": "Reverse.Script.txt",
+			"Type": "Official"
+		},
+		{
+			"Name": "Checkpointless.Script.txt",
+			"Type": "Official"
+		}
+	]
+]""");
+	}
 }
 
 Void Event(CManiaAppEvent _Event) {
